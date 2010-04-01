@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("The Keepers")]
 [assembly: AssemblyProduct("ScrewTurn")]
-[assembly: AssemblyCopyright("Copyright © Christian Hollerup Mikkelsen 2010")]
+[assembly: AssemblyCopyright("Copyright © Christian Hollerup Mikkelsen - 2010")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
