@@ -19,7 +19,6 @@ namespace Keeper.Garrett.ScrewTurn.CategoryListFormatter
 
         public override void Init(IHostV30 _host, string _config)
         {
-
             base.Init(_host, _config, 55, Help.HelpPages);
 
             LogEntry("CategoryListFormatter - Init success", LogEntryType.General);
