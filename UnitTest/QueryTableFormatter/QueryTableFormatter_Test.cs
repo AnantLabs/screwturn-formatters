@@ -17,7 +17,7 @@ namespace UnitTest
         private const string Oralce = "{MyLink=Oracle,User Id=wiki;Password=myretuefest;Data Source=SERVER;}";
         private const string MsSql = "{MyLink=MsSql,Data Source=Server\\SQLEXPRESS;Initial Catalog=test;User ID=test;Password=myretuefest;}";
         private const string MySql = "{MyLink=MySql,Database=wiki;Data Source=192.168.1.100;User Id=wiki;Password=myretuefest;}";
-        private const string SqLite = "{MyLink=SqLite,Data Source=\\\\Server\\SQLite\\Wiki.sqlite;Version=3;}";
+        private const string SqLite = "{MyLink=SqLite,Data Source=\\\\192.168.1.100\\SQLite\\Wiki.sqlite;Version=3;}";
 
         #region Helper methods
 
