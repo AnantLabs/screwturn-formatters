@@ -77,14 +77,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CategoryListFormatter\EventLogFormatter_Test.cs" />
-    <Compile Include="EventLogFormatter\CategoryListFormatter_Test.cs" />
+    <Compile Include="BlogFormatter\BlogFormatter_Test.cs" />
+    <Compile Include="EventLogFormatter\EventLogFormatter_Test.cs" />
+    <Compile Include="CategoryListFormatter\CategoryListFormatter_Test.cs" />
     <Compile Include="QueryTableFormatter\QueryTableFormatter_Configuration_Test.cs" />
     <Compile Include="QueryTableFormatter\QueryTableFormatter_Test.cs" />
     <Compile Include="DataDictionaryFormatter\DataDictionaryFormatterTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BlogFormatter\BlogFormatter.csproj">
+      <Project>{1B80E0E9-EBC8-4705-8C66-98D08BCD1095}</Project>
+      <Name>BlogFormatter</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CategoryListFormatter\CategoryListFormatter.csproj">
       <Project>{23B4A741-3302-43B0-B7FA-4ACB6A036B9E}</Project>
       <Name>CategoryListFormatter</Name>
@@ -119,9 +124,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="BlogFormatter\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

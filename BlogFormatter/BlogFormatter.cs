@@ -10,15 +10,15 @@ using System.Drawing;
 
 namespace Keeper.Garrett.ScrewTurn.BlogFormatter
 {
-    public class BlogPostFormatter : FormatterBase
+    public class BlogFormatter : FormatterBase
     {
         public override bool PerformPhase1 { get { return true; } }
         public override bool PerformPhase2 { get { return false; } }
         public override bool PerformPhase3 { get { return false; } }
 
         //Tag format {BlogPosts(Category)}
-        // Category,noPosts,useLastMod,style  
-        private static readonly Regex TagRegex = new Regex(@"\{BlogPosts\((?<blog>(.*?)),(?<noOfPostsToShow>(.*?)),(?<useLastModified>(.*?)),((?<showCloud>(.*?)))?,((?<showArchive>(.*?)))?,('(?<aboutPage>(.*?))')?,('(?<bottomPage>(.*?))')?,((?<stylesheet>(.*?)))?\)\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
+        // Category,noPosts,useLastMod,showCloud,showArchive,about,bottom,style  
+        private static readonly Regex TagRegex = new Regex(@"\{Blog\((?<blog>(.*?)),(?<noOfPostsToShow>(.*?)),(?<useLastModified>(.*?)),((?<showCloud>(.*?)))?,((?<showArchive>(.*?)))?,('(?<aboutPage>(.*?))')?,('(?<bottomPage>(.*?))')?,((?<stylesheet>(.*?)))?\)\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
 
         private static Random m_Random = new Random();
 
@@ -182,8 +182,7 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
             string list = string.Empty;
 
             //Generate Posts
-            list = GeneratePost(_blog, _pages, _noOfPostsToShow, _stylesheet);
-
+            list = GeneratePosts(_blog, _pages, _noOfPostsToShow, _stylesheet);
 
             list = string.Format("{0} \n <div id=\"blogsidebar\">",list);
 
@@ -211,13 +210,12 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
                 list = string.Format("{0} \n {1} <br/><br/><br/>", list, GenerateBottom(_bottomPage, _stylesheet));
             }
 
-
             list = string.Format("{0}</div>\n", list);
 
             return list;
         }
 
-        private string GeneratePost(string _blog, SortedDictionary<DateTime, BlogPostInfo> _posts, int _noOfPostsToShow, string _stylesheet)
+        private string GeneratePosts(string _blog, SortedDictionary<DateTime, BlogPostInfo> _posts, int _noOfPostsToShow, string _stylesheet)
         {
             var retval = string.Empty;
 
