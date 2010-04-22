@@ -84,6 +84,13 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
                                         }
                                     }
 
+                                    //Check additional pages are not the parent
+                                    if (    context.Page.FullName == about
+                                        ||  context.Page.FullName == bottom)
+                                    {
+                                        abortToAvoidSelfReferencing = true;
+                                    }
+
                                     //Get posts
                                     var dict = new SortedDictionary<DateTime, BlogPostInfo>();
 
@@ -120,15 +127,16 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
                                             }
                                         }
                                     }
+
                                     //Get about if specified
-                                    if (string.IsNullOrEmpty(about) == false)
+                                    if (string.IsNullOrEmpty(about) == false && abortToAvoidSelfReferencing == false)
                                     {
                                         var pInfo = provider.GetPage(about);
                                         aboutPage = m_Host.GetPageContent(pInfo);
                                     }
 
                                     //Get bottom if specified
-                                    if (string.IsNullOrEmpty(bottom) == false)
+                                    if (string.IsNullOrEmpty(bottom) == false && abortToAvoidSelfReferencing == false)
                                     {
                                         var pInfo = provider.GetPage(bottom);
                                         bottomPage = m_Host.GetPageContent(pInfo);
@@ -182,25 +190,25 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
             //Generate About
             if (_aboutPage != null)
             {
-                list = string.Format("{0} \n {1}", list, GenerateAbout(_aboutPage,_stylesheet));
+                list = string.Format("{0} \n {1} <br/><br/><br/>", list, GenerateAbout(_aboutPage, _stylesheet));
             }
 
             //Generate Keyword Cloud
             if (_showCloud == true)
             {
-                list = string.Format("{0} \n {1}", list, GenerateCloud(_pages, _blog, _stylesheet));
+                list = string.Format("{0} \n {1} <br/><br/><br/>", list, GenerateCloud(_pages, _blog, _stylesheet));
             }
 
             //Generate Archive
             if (_showArchive == true)
             {
-                //                list = string.Format("{0}\n{1}", list, GenerateArchive(_pages, _stylesheet));
+                list = string.Format("{0} \n {1} <br/><br/><br/>", list, GenerateArchive(_blog, _pages, _stylesheet));
             }
 
             //Generate bottom
             if (_bottomPage != null)
             {
-                list = string.Format("{0} \n {1}", list, GenerateBottom(_aboutPage, _stylesheet));
+                list = string.Format("{0} \n {1} <br/><br/><br/>", list, GenerateBottom(_bottomPage, _stylesheet));
             }
 
 
@@ -251,7 +259,7 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
                 retval = string.Format("<div class=\"blogpost\">\n"
                                 + "<h1 class=\"blogtitle\">No posts yet!</h1>\n"
                                 + "<p class=\"blogbyline\"><small>Posted on {0} by System | <a href=\"#\">Edit</a></small></p>\n"
-                                + "<div class=\"blogentry\">\nNo blog entries/pages was found for blog '{1}' or this page is also assigned as part of the blog, via categories.\n\n Consult the [BlogFormatterHelp|help pages for more information].\n\n\n</div>\n"
+                                + "<div class=\"blogentry\">\nNo blog entries/pages was found for blog '{1}' or one of the pages (this,about,footer) also has the category '{1}' or they refer directly to this page.\nAvoid self referencing.\n\n Consult the [BlogFormatterHelp|help pages for more information].\n\n\n</div>\n"
                                 + "<p class=\"blogmeta\"><a href=\"BlogFormatterHelp.ashx\" class=\"blogmore\">Read More</a></p>\n"
                                 + "</div>\n", DateTime.Now.ToString("MMMM dd, yyyy"), _blog);
             }
@@ -340,11 +348,33 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
             return string.Format("<a href=\"Search.aspx?Query={0}&SearchUncategorized=0&Categories={1},&Mode=1&FilesAndAttachments=1\" style=\"font-size: {2}px;\">{3}</a>", _keyword, _blog, m_Random.Next(8, 30), _keyword);
         }
 
-        private string GenerateArchive(SortedDictionary<DateTime, BlogPostInfo> _pages, string _stylesheet)
+        private string GenerateArchive(string _blog, SortedDictionary<DateTime, BlogPostInfo> _pages, string _stylesheet)
         {
-            var stylesheet = string.Format("<link type=\"text/css\" rel=\"stylesheet\" href=\"/Themes/Blog/{0}\"></link> ", _stylesheet);
+            string pageLinks = string.Empty;
+            int noOfPosts = 0;
+            foreach (var entry in _pages)
+            {
+                pageLinks = string.Format("{0} \n <p>&nbsp;&nbsp;&nbsp; <a href=\"{1}.ashx\">{2}</a></p>", pageLinks, entry.Value.Content.PageInfo.FullName, entry.Value.Content.Title);
+                noOfPosts++;
 
-            var retval = string.Format("");
+                if (noOfPosts >= 11)
+                {
+                    break;
+                }
+            }
+
+            //Generate HTML
+            var retval = string.Format("{0}\n"
+                                + "<div id=\"blogarchivecontent\">\n"
+                                    + "<h1 class=\"blogarchivetitle\"><a href=\"AllPages.aspx?SortBy=Creation&Reverse=1&Cat={1}&Page=0\">archive</a></h1>\n"
+                                    + "<div class=\"blogarchive\"><h2><small>Most recent posts</small></h2>\n"
+                                    + "{2}\n"
+                                    + "</div>\n"
+                                + "</div>\n"
+                                , _stylesheet
+                                , _blog
+                                , pageLinks
+                           );
 
             return retval;
         }
