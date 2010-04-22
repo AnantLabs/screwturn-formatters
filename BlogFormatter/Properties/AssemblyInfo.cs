@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Keeper.Garrett.ScrewTurn.QueryTableFormatter")]
+[assembly: AssemblyTitle("Keeper.Garrett.ScrewTurn.BlogFormatter")]
 [assembly: AssemblyDescription("Plugin for ScrewTurn Wiki. http://www.screwturn.eu/")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("The Keepers")]
-[assembly: AssemblyProduct("ScrewTurn.QueryTableFormatter")]
+[assembly: AssemblyProduct("ScrewTurn.BlogFormatter")]
 [assembly: AssemblyCopyright("Copyright © Christian Hollerup Mikkelsen 2010")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("aee25c80-944e-4e6d-832c-a752508c2d6d")]
+[assembly: Guid("feee0ae9-2bc2-492b-aa89-ff918dd06b8d")]
 
 // Version information for an assembly consists of the following four values:
 //
