@@ -45,7 +45,7 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
                             {
                                 //Get current provider
                                 var provider = context.Page.Provider;
-
+                                
                                 //Foreach blog 
                                 foreach (Match match in matches)
                                 {
@@ -108,7 +108,7 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
                                                 if (pageInfo != null)
                                                 {
                                                     var content = m_Host.GetPageContent(pageInfo);
-
+                                                    
                                                     //Build dict
                                                     if (content != null)
                                                     {
@@ -240,7 +240,7 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
                                                                                     + "<p class=\"blogmeta\"><a href=\"{5}.ashx\" class=\"blogmore\">Go to page</a> &nbsp;&nbsp;&nbsp; <a href=\"{6}.ashx?Discuss=1\" class=\"blogcomments\">Comments ({7})</a></p>\n"
                                                                                 + "</div>\n"
                                                                             , entry.Value.Content.Title                         //Title
-                                                                            , entry.Key.ToString("MMMM dd, yyyy")               //Date
+                                                                            , entry.Key.ToString("dd MMMM, yyyy")               //Date
                                                                             , entry.Value.Content.User                          //User
                                                                             , entry.Value.Content.PageInfo.FullName             //Edit link
                                                                             , entry.Value.Content.Content                       //Content

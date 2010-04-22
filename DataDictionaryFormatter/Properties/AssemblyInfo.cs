@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Keeper.Garrett.ScrewTurn.DataDictionary")]
-[assembly: AssemblyDescription("Plugin for ScrewTurn Wiki. http://www.screwturn.eu/")]
+[assembly: AssemblyDescription("Plugin for the ScrewTurn Wiki http://www.screwturn.eu/. Plugin can be obtained from http://keeper.endoftheinternet.org.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("The Keepers")]
 [assembly: AssemblyProduct("ScrewTurn.DataDictionary")]

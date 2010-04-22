@@ -56,7 +56,7 @@ namespace Keeper.Garrett.ScrewTurn.Core
 
         public virtual ComponentInformation Information
         {
-            get { return new ComponentInformation(this.GetType().Name, "Christian Hollerup Mikkelsen", string.Format("{0}", this.GetType().Assembly.GetName().Version ), "http://blog.endoftheinternet.org/Blog/", null); }
+            get { return new ComponentInformation(this.GetType().Name, "Christian Hollerup Mikkelsen", string.Format("{0}", this.GetType().Assembly.GetName().Version ), "http://keeper.endoftheinternet.org/", null); }
         }
 
         public virtual void Init(IHostV30 host, string config)

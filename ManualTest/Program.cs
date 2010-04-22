@@ -24,6 +24,16 @@ namespace ManualTest
 //                EventLog[] logs = EventLog.GetEventLogs("savannah");
 
 
+                System.Console.WriteLine(DateTime.Now.ToUniversalTime());
+                System.Console.WriteLine(DateTime.Now.ToShortTimeString());
+                System.Console.WriteLine(DateTime.Now.ToShortDateString());
+                System.Console.WriteLine(DateTime.Now.ToLongTimeString());
+                System.Console.WriteLine(DateTime.Now.ToLongDateString());
+                System.Console.WriteLine(DateTime.Now.ToLocalTime());
+                System.Console.WriteLine(DateTime.Now.ToFileTimeUtc());
+                System.Console.WriteLine(DateTime.Now.ToFileTime());
+                System.Console.WriteLine(DateTime.Now.ToBinary());
+
                 Trace.WriteLine("Number of logs on computer: " + logs.Length);
 
                 foreach (EventLog log in logs)
