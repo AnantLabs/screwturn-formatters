@@ -37,6 +37,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -46,6 +47,9 @@
     </Compile>
     <Compile Include="..\Core\Page.cs">
       <Link>Shared\Page.cs</Link>
+    </Compile>
+    <Compile Include="..\Utility\ReverseDateComparer.cs">
+      <Link>Shared\ReverseDateComparer.cs</Link>
     </Compile>
     <Compile Include="BlogFormatter.cs" />
     <Compile Include="BlogPostInfo.cs" />
@@ -58,7 +62,6 @@
     <None Include="Theme\Images\BlogPostReadMore.gif" />
     <None Include="Theme\BlogDefault.css" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

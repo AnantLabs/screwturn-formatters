@@ -10,5 +10,7 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
     {
         public PageContent Content { get; set; }
         public int NoOfComments { get; set; }
+        public string UserName { get; set; }
+        public string UserDisplayName { get; set; }
     }
 }

@@ -4,6 +4,8 @@ using System.Text;
 using Keeper.Garrett.ScrewTurn.QueryTableFormatter;
 using System.Diagnostics;
 using Keeper.Garrett.ScrewTurn.EventLogFormatter;
+using System.Linq;
+using System.Collections;
 
 namespace ManualTest
 {
@@ -18,7 +20,19 @@ namespace ManualTest
                 db.Connect();
                 var result = db.Query("select * from wiki.schedule");*/
 
+                var dict = new SortedList<DateTime, string>(new ReverseDateComparer());
 
+                dict.Add(new DateTime(2010, 1, 1), "1");
+                dict.Add(new DateTime(2010, 2, 1), "2");
+                dict.Add(new DateTime(2010, 3, 1), "3");
+                dict.Add(new DateTime(2010, 4, 1), "4");
+
+                //Sort to have latest first
+
+//                var d = dict.Reverse().Cast<SortedList<DateTime, string>>().;
+
+                var r = dict.Reverse().ToDictionary(x => x.Key, x => x.Value);
+//                dict = dict.Reverse().ToDictionary;
 
                 EventLog[] logs = EventLog.GetEventLogs(System.Environment.MachineName);
 //                EventLog[] logs = EventLog.GetEventLogs("savannah");
@@ -52,6 +66,14 @@ namespace ManualTest
                 Trace.WriteLine("Error: {0}", e.Message);
             }
 
+        }
+
+        public class ReverseDateComparer : IComparer<DateTime>
+        {
+            public int Compare(DateTime x, DateTime y)
+            {
+                return -1 * DateTime.Compare(x, y);
+            }
         }
     }
 }

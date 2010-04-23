@@ -7,6 +7,8 @@ using ScrewTurn.Wiki.PluginFramework;
 using System.IO;
 using System.Reflection;
 using System.Drawing;
+using System.Linq;
+using Keeper.Garrett.ScrewTurn.Utility;
 
 namespace Keeper.Garrett.ScrewTurn.BlogFormatter
 {
@@ -18,7 +20,7 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
 
         //Tag format {BlogPosts(Category)}
         // Category,noPosts,useLastMod,showCloud,showArchive,about,bottom,style  
-        private static readonly Regex TagRegex = new Regex(@"\{Blog\((?<blog>(.*?)),(?<noOfPostsToShow>(.*?)),(?<useLastModified>(.*?)),((?<showCloud>(.*?)))?,((?<showArchive>(.*?)))?,('(?<aboutPage>(.*?))')?,('(?<bottomPage>(.*?))')?,((?<stylesheet>(.*?)))?\)\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
+        private static readonly Regex TagRegex = new Regex(@"\{Blog\((?<blog>(.*?)),(?<noOfPostsToShow>(.*?)),(?<noOfRecentPostsToShow>(.*?)),(?<useLastModified>(.*?)),((?<showCloud>(.*?)))?,((?<showArchive>(.*?)))?,('(?<aboutPage>(.*?))')?,('(?<bottomPage>(.*?))')?,((?<stylesheet>(.*?)))?\)\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
 
         private static Random m_Random = new Random();
 
@@ -26,7 +28,7 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
         {
             base.Init(_host, _config, 55, Help.HelpPages);
 
-            LogEntry("BlogPostFormatter - Init success", LogEntryType.General);
+            LogEntry("BlogFormatter - Init success", LogEntryType.General);
         }
 
         public override string Format(string raw, ContextInformation context, FormattingPhase phase)
@@ -50,7 +52,8 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
                                 foreach (Match match in matches)
                                 {
                                     string blog = string.Empty;
-                                    int noOfPosts = 7;
+                                    int noOfPostsToShow = 7;
+                                    int noOfRecentPostsToShow = 15;
                                     bool useLastModified = false;
                                     bool showCloud = true;
                                     bool showArchive = true;
@@ -62,7 +65,8 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
 
                                     //Get params
                                     blog = (string.IsNullOrEmpty(match.Groups["blog"].Value) == true ? "" : match.Groups["blog"].Value);
-                                    int.TryParse(match.Groups["noOfPostsToShow"].Value, out noOfPosts);
+                                    int.TryParse(match.Groups["noOfPostsToShow"].Value, out noOfPostsToShow);
+                                    int.TryParse(match.Groups["noOfRecentPostsToShow"].Value, out noOfRecentPostsToShow);
                                     bool.TryParse(match.Groups["useLastModified"].Value, out useLastModified);
                                     bool.TryParse(match.Groups["showCloud"].Value, out showCloud);
                                     bool.TryParse(match.Groups["showArchive"].Value, out showArchive);
@@ -92,14 +96,13 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
                                     }
 
                                     //Get posts
-                                    var dict = new SortedDictionary<DateTime, BlogPostInfo>();
+                                    var sortedPosts = new SortedList<DateTime, BlogPostInfo>(new ReverseDateComparer());
 
                                     if (string.IsNullOrEmpty(blog) == false 
                                         && provider != null 
                                         && abortToAvoidSelfReferencing == false)
                                     {
                                         var catInfo = provider.GetCategory(blog);
-
                                         if (catInfo != null)
                                         {
                                             foreach (var page in catInfo.Pages)
@@ -112,15 +115,22 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
                                                     //Build dict
                                                     if (content != null)
                                                     {
-                                                        var info = new BlogPostInfo() { Content = content, NoOfComments = provider.GetMessageCount(pageInfo) };
+                                                        var info = new BlogPostInfo() 
+                                                        { 
+                                                            Content = content, 
+                                                            NoOfComments = provider.GetMessageCount(pageInfo),
+                                                            UserName = content.User,
+                                                            UserDisplayName = m_Host.FindUser(content.User).DisplayName
+                                                        };
+
                                                         //Sort method
                                                         if (useLastModified == false)
                                                         {
-                                                            dict.Add(content.PageInfo.CreationDateTime, info);
+                                                            sortedPosts.Add(content.PageInfo.CreationDateTime, info);
                                                         }
                                                         else
                                                         {
-                                                            dict.Add(content.LastModified, info);
+                                                            sortedPosts.Add(content.LastModified, info);
                                                         }
                                                     }
                                                 }
@@ -144,7 +154,7 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
 
                                     
                                     //Create output
-                                    var pageContent = GeneratePage(blog, dict, noOfPosts, showCloud, showArchive, aboutPage, bottomPage, stylesheet);
+                                    var pageContent = GeneratePage(blog, sortedPosts, noOfPostsToShow, noOfRecentPostsToShow, showCloud, showArchive, aboutPage, bottomPage, stylesheet);
 
                                     //Add a final newline
                                     pageContent = string.Format("{0} \n", pageContent);
@@ -170,13 +180,13 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
             }
             catch (Exception e)
             {
-                LogEntry(string.Format("BlogPostFormatter error: {0} {1}", e.Message, e.StackTrace), LogEntryType.Error);
+                LogEntry(string.Format("BlogFormatter error: {0} {1}", e.Message, e.StackTrace), LogEntryType.Error);
             }
 
             return raw;
         }
-
-        private string GeneratePage(string _blog, SortedDictionary<DateTime, BlogPostInfo> _pages, int _noOfPostsToShow, bool _showCloud, bool _showArchive, PageContent _aboutPage, PageContent _bottomPage, string _stylesheet)
+        
+        private string GeneratePage(string _blog, SortedList<DateTime, BlogPostInfo> _pages, int _noOfPostsToShow, int _noOfRecentPostsToShow, bool _showCloud, bool _showArchive, PageContent _aboutPage, PageContent _bottomPage, string _stylesheet)
         {
             //Create output
             string list = string.Empty;
@@ -201,7 +211,7 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
             //Generate Archive
             if (_showArchive == true)
             {
-                list = string.Format("{0} \n {1} <br/><br/><br/>", list, GenerateArchive(_blog, _pages, _stylesheet));
+                list = string.Format("{0} \n {1} <br/><br/><br/>", list, GenerateArchive(_blog, _pages, _noOfRecentPostsToShow, _stylesheet));
             }
 
             //Generate bottom
@@ -215,7 +225,7 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
             return list;
         }
 
-        private string GeneratePosts(string _blog, SortedDictionary<DateTime, BlogPostInfo> _posts, int _noOfPostsToShow, string _stylesheet)
+        private string GeneratePosts(string _blog, SortedList<DateTime, BlogPostInfo> _posts, int _noOfPostsToShow, string _stylesheet)
         {
             var retval = string.Empty;
 
@@ -230,16 +240,18 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
                     }
 
                     retval = string.Format("{0} \n {1} ", retval, string.Format("<div class=\"blogpost\">\n"
-                                                                                    + "<h1 class=\"blogtitle\">{0}</h1>\n"
-                                                                                    + "<p class=\"blogbyline\"><small>Posted on {1} by {2} | <a href=\"Edit.aspx?Page={3}\">Edit</a></small></p>\n"
+                                                                                    + "<h1 class=\"blogtitle\"><a href=\"{0}.ashx\">{1}</a></h1>\n"
+                                                                                    + "<p class=\"blogbyline\"><small>Posted on {2} by <a href=\"User.aspx?Username={3}\">{4}</a> | <a href=\"Edit.aspx?Page={5}\">Edit</a></small></p>\n"
                                                                                     + "<div class=\"blogentry\">\n"
-                                                                                    + "{4}\n"
+                                                                                    + "{6}\n"
                                                                                     + "</div>\n"
-                                                                                    + "<p class=\"blogmeta\"><a href=\"{5}.ashx\" class=\"blogmore\">Go to page</a> &nbsp;&nbsp;&nbsp; <a href=\"{6}.ashx?Discuss=1\" class=\"blogcomments\">Comments ({7})</a></p>\n"
+                                                                                    + "<p class=\"blogmeta\"><a href=\"{7}.ashx\" class=\"blogmore\">Go to page</a> &nbsp;&nbsp;&nbsp; <a href=\"{8}.ashx?Discuss=1\" class=\"blogcomments\">Comments ({9})</a></p>\n"
                                                                                 + "</div>\n"
+                                                                            , entry.Value.Content.PageInfo.FullName             //Titlelink
                                                                             , entry.Value.Content.Title                         //Title
                                                                             , entry.Key.ToString("dd MMMM, yyyy")               //Date
-                                                                            , entry.Value.Content.User                          //User
+                                                                            , entry.Value.UserName                              //UserName
+                                                                            , entry.Value.UserDisplayName                       //UserDisplayname
                                                                             , entry.Value.Content.PageInfo.FullName             //Edit link
                                                                             , entry.Value.Content.Content                       //Content
                                                                             , entry.Value.Content.PageInfo.FullName             //Go to page
@@ -256,7 +268,7 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
             {
                 retval = string.Format("<div class=\"blogpost\">\n"
                                 + "<h1 class=\"blogtitle\">No posts yet!</h1>\n"
-                                + "<p class=\"blogbyline\"><small>Posted on {0} by System | <a href=\"#\">Edit</a></small></p>\n"
+                                + "<p class=\"blogbyline\"><small>Posted on {0} by System</small></p>\n"
                                 + "<div class=\"blogentry\">\nNo blog entries/pages was found for blog '{1}' or one of the pages (this,about,footer) also has the category '{1}' or they refer directly to this page.\nAvoid self referencing.\n\n Consult the [BlogFormatterHelp|help pages for more information].\n\n\n</div>\n"
                                 + "<p class=\"blogmeta\"><a href=\"BlogFormatterHelp.ashx\" class=\"blogmore\">Read More</a></p>\n"
                                 + "</div>\n", DateTime.Now.ToString("MMMM dd, yyyy"), _blog);
@@ -294,7 +306,7 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
         /// <param name="_pages"></param>
         /// <param name="_stylesheet"></param>
         /// <returns></returns>
-        private string GenerateCloud(SortedDictionary<DateTime, BlogPostInfo> _pages, string _blog, string _stylesheet)
+        private string GenerateCloud(SortedList<DateTime, BlogPostInfo> _pages, string _blog, string _stylesheet)
         {
             //Create dict of unique keywords + ass. search url string
             var keywordsDict = new SortedDictionary<string, string>();
@@ -346,7 +358,7 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
             return string.Format("<a href=\"Search.aspx?Query={0}&SearchUncategorized=0&Categories={1},&Mode=1&FilesAndAttachments=1\" style=\"font-size: {2}px;\">{3}</a>", _keyword, _blog, m_Random.Next(8, 30), _keyword);
         }
 
-        private string GenerateArchive(string _blog, SortedDictionary<DateTime, BlogPostInfo> _pages, string _stylesheet)
+        private string GenerateArchive(string _blog, SortedList<DateTime, BlogPostInfo> _pages, int _noOfRecentPostsToShow, string _stylesheet)
         {
             string pageLinks = string.Empty;
             int noOfPosts = 0;
@@ -355,7 +367,7 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
                 pageLinks = string.Format("{0} \n <p>&nbsp;&nbsp;&nbsp; <a href=\"{1}.ashx\">{2}</a></p>", pageLinks, entry.Value.Content.PageInfo.FullName, entry.Value.Content.Title);
                 noOfPosts++;
 
-                if (noOfPosts >= 11)
+                if (noOfPosts >= _noOfRecentPostsToShow)
                 {
                     break;
                 }
