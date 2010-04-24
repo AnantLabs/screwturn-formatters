@@ -53,6 +53,23 @@ namespace UnitTest
         #region Configuration
 
         [Test]
+        public void VerifyPhaseSetup()
+        {
+            //Arrange
+            var formatter = new QueryTableFormatter();
+
+            //Act
+            var phase1 = formatter.PerformPhase1;
+            var phase2 = formatter.PerformPhase2;
+            var phase3 = formatter.PerformPhase3;
+
+            //Assert
+            Assert.AreEqual(true, phase1);
+            Assert.AreEqual(false, phase2);
+            Assert.AreEqual(false, phase3);
+        }
+
+        [Test]
         public void Configuration_No_DBLinkEntries()
         {
             //Arrange
