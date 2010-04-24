@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Drawing;
 using System.Linq;
 using Keeper.Garrett.ScrewTurn.Utility;
+using ScrewTurn.Wiki;
 
 namespace Keeper.Garrett.ScrewTurn.BlogFormatter
 {
@@ -23,6 +24,7 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
         private static readonly Regex TagRegex = new Regex(@"\{Blog\((?<blog>(.*?)),(?<noOfPostsToShow>(.*?)),(?<noOfRecentPostsToShow>(.*?)),(?<useLastModified>(.*?)),(?<showGravatar>(.*?)),(?<showCloud>(.*?)),(?<showArchive>(.*?)),('(?<aboutPage>(.*?))')?,('(?<bottomPage>(.*?))')?,('(?<stylesheet>(.*?))')?\)\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
 
         private static Random m_Random = new Random();
+        private static string m_DateTimeFormat = "";
 
         public override void Init(IHostV30 _host, string _config)
         {
@@ -80,6 +82,7 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
                                     bool.TryParse(match.Groups["showGravatar"].Value, out showGravatar);
                                     gravatarsEnabled = (m_Host.GetSettingsStorageProvider().GetSetting("DisplayGravatars").ToLower() == "yes" ? true : false);
                                     showGravatar = (gravatarsEnabled == true && showGravatar == true ? true : false);
+                                    m_DateTimeFormat = m_Host.GetSettingValue(SettingName.DateTimeFormat); //Update datetime format
 
                                     about = (string.IsNullOrEmpty(match.Groups["aboutPage"].Value) == true ? null : match.Groups["aboutPage"].Value);
                                     bottom = (string.IsNullOrEmpty(match.Groups["bottomPage"].Value) == true ? null : match.Groups["bottomPage"].Value);
@@ -116,6 +119,7 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
                                         var catInfo = provider.GetCategory(blog);
                                         if (catInfo != null)
                                         {
+
                                             foreach (var page in catInfo.Pages)
                                             {
                                                 var pageInfo = m_Host.FindPage(page);
@@ -279,7 +283,7 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
                                                                                     + "<p class=\"blogmeta\"><a href=\"{6}.ashx\" class=\"blogmore\">Go to page</a> &nbsp;&nbsp;&nbsp; <a href=\"{6}.ashx?Discuss=1\" class=\"blogcomments\">Comments ({8})</a></p>\n"
                                                                                 + "</div>\n"
                                                                             , title                                             //Gravatar + title + titlelink
-                                                                            , entry.Key.ToString("dd MMMM, yyyy")               //Date
+                                                                            , entry.Key.ToString(m_DateTimeFormat)              //Date
                                                                             , entry.Value.UserName                              //UserName
                                                                             , entry.Value.UserDisplayName                       //UserDisplayname
                                                                             , entry.Value.Content.PageInfo.FullName             //Edit link
