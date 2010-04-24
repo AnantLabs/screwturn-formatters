@@ -277,7 +277,7 @@ This file contains all the nessasary div's tags etc to create your own style."
             Content = @"== Page for testing and verifying the BlogtFormatter ==
 You may need to adjust the category for the test to get a view of the entire blog, as there is no default blog category supplied with the formatter.{BR}
 {BR}
-== Max 3 posts, max 3 recent, use create date, show gravatar, show cloud, show archive, show about, show bottom, no cusom stylesheet==
+== Max 3 posts, max 3 recent, use create date, show gravatars, show cloud, show archive, show about, show bottom, no custom stylesheet==
 {Blog(MyBlog,3,3,false,true,true,true,'About','Bottom',)}
 ",
             Description = "BlogFormatter Test",
