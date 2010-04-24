@@ -82,11 +82,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlogFormatter\BlogFormatter_Test.cs" />
+    <Compile Include="Core\FormatterBase_Test.cs" />
     <Compile Include="EventLogFormatter\EventLogFormatter_Test.cs" />
     <Compile Include="CategoryListFormatter\CategoryListFormatter_Test.cs" />
     <Compile Include="QueryTableFormatter\QueryTableFormatter_Configuration_Test.cs" />
     <Compile Include="QueryTableFormatter\QueryTableFormatter_Test.cs" />
-    <Compile Include="DataDictionaryFormatter\DataDictionaryFormatterTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -97,10 +97,6 @@
     <ProjectReference Include="..\CategoryListFormatter\CategoryListFormatter.csproj">
       <Project>{23B4A741-3302-43B0-B7FA-4ACB6A036B9E}</Project>
       <Name>CategoryListFormatter</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DataDictionaryFormatter\DataDictionaryFormatter.csproj">
-      <Project>{E87E1A46-0B9F-4C33-A5A6-B06034749A79}</Project>
-      <Name>DataDictionaryFormatter</Name>
     </ProjectReference>
     <ProjectReference Include="..\EventLogFormatter\EventLogFormatter.csproj">
       <Project>{A2728443-6C37-4CB2-A569-38D7F0649F9C}</Project>
