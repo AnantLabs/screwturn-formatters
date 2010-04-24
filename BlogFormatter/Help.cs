@@ -160,6 +160,23 @@ A typical Blog would have the following setup:
 )))
 {BR}
 
+===== Show Gravatars =====
+(((
+'''Markup:'''{BR}{BR}
+'''{Blog(MyBlogCategory,,,,true,,,,,) }''' {BR}{BR}
+'''Result:'''{BR}{BR}
+* At most 7 posts displayed
+* No recent posts displayed
+* Posts are displayed and ordered using create date
+* '''Gravatars are shown'''
+* No Cloud
+* No Archive 
+* No About
+* No Bottom
+* No custom stylesheet
+)))
+{BR}
+
 ===== Show Keyword Cloud =====
 (((
 '''Markup:'''{BR}{BR}
