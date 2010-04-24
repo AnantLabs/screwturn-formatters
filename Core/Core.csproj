@@ -66,6 +66,7 @@
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="FormatterBase.cs" />
+    <Compile Include="NoCoverage.cs" />
     <Compile Include="Page.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -74,6 +74,9 @@
     <Compile Include="..\Core\FormatterBase.cs">
       <Link>Shared\FormatterBase.cs</Link>
     </Compile>
+    <Compile Include="..\Core\NoCoverage.cs">
+      <Link>Shared\NoCoverage.cs</Link>
+    </Compile>
     <Compile Include="..\Core\Page.cs">
       <Link>Shared\Page.cs</Link>
     </Compile>

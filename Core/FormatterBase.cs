@@ -7,6 +7,7 @@ using System.IO;
 
 namespace Keeper.Garrett.ScrewTurn.Core
 {
+    [NoCoverage]
     public abstract class FormatterBase : IFormatterProviderV30
     {
         protected IHostV30 m_Host;
