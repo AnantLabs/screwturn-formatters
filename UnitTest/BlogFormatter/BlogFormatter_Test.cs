@@ -7,6 +7,7 @@ using ScrewTurn.Wiki.PluginFramework;
 using System.Web;
 using Keeper.Garrett.ScrewTurn;
 using Keeper.Garrett.ScrewTurn.BlogFormatter;
+using ScrewTurn.Wiki;
 
 namespace UnitTest
 {
@@ -25,6 +26,7 @@ namespace UnitTest
             //Arrange
             var formatter = new BlogFormatter();
             var host = MockRepository.GenerateStub<IHostV30>();
+            var settings = MockRepository.GenerateStub<ISettingsStorageProviderV30>();
             var provider = MockRepository.GenerateStub<IPagesStorageProviderV30>();
             var currentPageInfo = new PageInfo("MyPage", provider, DateTime.Now);
             var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });
@@ -37,9 +39,11 @@ namespace UnitTest
             provider.Expect(x => x.GetPage(null)).IgnoreArguments().Return(null);
 
             host.Expect(x => x.GetPageContent(null)).IgnoreArguments().Return(null);
+            host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
+            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("true");
 
             // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
-            string input = "bla bla bla {Blog(MyBlog,3,3,false,false,false,'About',,)} bla bla bla";
+            string input = "bla bla bla {Blog(MyBlog,3,3,false,false,false,false,'About',,)} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -56,6 +60,7 @@ namespace UnitTest
             //Arrange
             var formatter = new BlogFormatter();
             var host = MockRepository.GenerateStub<IHostV30>();
+            var settings = MockRepository.GenerateStub<ISettingsStorageProviderV30>();
             var provider = MockRepository.GenerateStub<IPagesStorageProviderV30>();
             var currentPageInfo = new PageInfo("MyPage", provider, DateTime.Now);
             var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });
@@ -71,9 +76,11 @@ namespace UnitTest
             provider.Expect(x => x.GetPage("About")).Return(aboutPage);
 
             host.Expect(x => x.GetPageContent(aboutPage)).Return(aboutContent);
+            host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
+            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("true");
 
             // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
-            string input = "bla bla bla {Blog(MyBlog,3,3,false,false,false,'About',,)} bla bla bla";
+            string input = "bla bla bla {Blog(MyBlog,3,3,false,false,false,false,'About',,)} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -90,6 +97,7 @@ namespace UnitTest
             //Arrange
             var formatter = new BlogFormatter();
             var host = MockRepository.GenerateStub<IHostV30>();
+            var settings = MockRepository.GenerateStub<ISettingsStorageProviderV30>();
             var provider = MockRepository.GenerateStub<IPagesStorageProviderV30>();
             var currentPageInfo = new PageInfo("MyPage", provider, DateTime.Now);
             var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });
@@ -105,9 +113,11 @@ namespace UnitTest
             provider.Expect(x => x.GetPage("AboutPage")).Return(aboutPage);
 
             host.Expect(x => x.GetPageContent(aboutPage)).Return(aboutContent);
+            host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
+            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("true");
 
             // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
-            string input = "bla bla bla {Blog(MyBlog,3,3,false,false,false,'MyPage',,)} bla bla bla";
+            string input = "bla bla bla {Blog(MyBlog,3,3,false,false,false,false,'MyPage',,)} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -126,6 +136,7 @@ namespace UnitTest
             //Arrange
             var formatter = new BlogFormatter();
             var host = MockRepository.GenerateStub<IHostV30>();
+            var settings = MockRepository.GenerateStub<ISettingsStorageProviderV30>();
             var provider = MockRepository.GenerateStub<IPagesStorageProviderV30>();
             var currentPageInfo = new PageInfo("BlogPage", provider, DateTime.Now);
             var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });
@@ -155,8 +166,11 @@ namespace UnitTest
             host.Expect(x => x.GetPageContent(pageInfo3)).Return(pageContent3);
             host.Expect(x => x.GetPageContent(pageInfo4)).Return(pageContent4);
 
+            host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
+            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("true");
+
             // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
-            string input = "bla bla bla {Blog(MyBlog,3,3,false,false,false,,,)} bla bla bla";
+            string input = "bla bla bla {Blog(MyBlog,3,3,false,false,false,false,,,)} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -173,6 +187,7 @@ namespace UnitTest
             //Arrange
             var formatter = new BlogFormatter();
             var host = MockRepository.GenerateStub<IHostV30>();
+            var settings = MockRepository.GenerateStub<ISettingsStorageProviderV30>();
             var provider = MockRepository.GenerateStub<IPagesStorageProviderV30>();
             var currentPageInfo = new PageInfo("BlogPage", provider, DateTime.Now);
             var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });
@@ -198,10 +213,12 @@ namespace UnitTest
             host.Expect(x => x.GetPageContent(pageInfo2)).Return(pageContent2);
             host.Expect(x => x.GetPageContent(pageInfo3)).Return(pageContent3);
 
+            host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
+            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("true");
             host.Expect(x => x.FindUser("User")).Repeat.Any().Return(new UserInfo("User", "Garrett", "", true, DateTime.Now, null));
 
             // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
-            string input = "bla bla bla {Blog(MyBlog,3,3,false,false,false,,,)} bla bla bla";
+            string input = "bla bla bla {Blog(MyBlog,3,3,false,false,false,false,,,)} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -219,6 +236,7 @@ namespace UnitTest
             //Arrange
             var formatter = new BlogFormatter();
             var host = MockRepository.GenerateStub<IHostV30>();
+            var settings = MockRepository.GenerateStub<ISettingsStorageProviderV30>();
             var provider = MockRepository.GenerateStub<IPagesStorageProviderV30>();
             var currentPageInfo = new PageInfo("BlogPage", provider, DateTime.Now);
             var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });
@@ -244,10 +262,12 @@ namespace UnitTest
             host.Expect(x => x.GetPageContent(pageInfo2)).Return(pageContent2);
             host.Expect(x => x.GetPageContent(pageInfo3)).Return(pageContent3);
 
+            host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
+            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("true");
             host.Expect(x => x.FindUser("User")).Repeat.Any().Return(new UserInfo("User", "Garrett", "", true, DateTime.Now, null));
 
             // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
-            string input = "bla bla bla {Blog(MyBlog,2,3,false,false,false,,,)} bla bla bla";
+            string input = "bla bla bla {Blog(MyBlog,2,3,false,false,false,false,,,)} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -267,6 +287,7 @@ namespace UnitTest
             //Arrange
             var formatter = new BlogFormatter();
             var host = MockRepository.GenerateStub<IHostV30>();
+            var settings = MockRepository.GenerateStub<ISettingsStorageProviderV30>();
             var provider = MockRepository.GenerateStub<IPagesStorageProviderV30>();
             var currentPageInfo = new PageInfo("MyPage", provider, DateTime.Now);
             var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });
@@ -279,9 +300,11 @@ namespace UnitTest
             provider.Expect(x => x.GetPage(null)).IgnoreArguments().Return(null);
 
             host.Expect(x => x.GetPageContent(null)).IgnoreArguments().Return(null);
+            host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
+            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("true");
 
             // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
-            string input = "bla bla bla {Blog(MyBlog,3,3,false,false,true,,,)} bla bla bla";
+            string input = "bla bla bla {Blog(MyBlog,3,3,false,false,false,true,,,)} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -298,6 +321,7 @@ namespace UnitTest
             //Arrange
             var formatter = new BlogFormatter();
             var host = MockRepository.GenerateStub<IHostV30>();
+            var settings = MockRepository.GenerateStub<ISettingsStorageProviderV30>();
             var provider = MockRepository.GenerateStub<IPagesStorageProviderV30>();
             var currentPageInfo = new PageInfo("BlogPage", provider, DateTime.Now);
             var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });
@@ -315,10 +339,12 @@ namespace UnitTest
             host.Expect(x => x.FindPage("MyPage1")).Return(pageInfo1);
             host.Expect(x => x.GetPageContent(pageInfo1)).Return(pageContent1);
 
+            host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
+            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("true");
             host.Expect(x => x.FindUser("User")).Repeat.Any().Return(new UserInfo("User", "Garrett", "", true, DateTime.Now, null));
 
             // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
-            string input = "bla bla bla {Blog(MyBlog,3,3,false,false,true,,,)} bla bla bla";
+            string input = "bla bla bla {Blog(MyBlog,3,3,false,false,false,true,,,)} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -335,6 +361,7 @@ namespace UnitTest
             //Arrange
             var formatter = new BlogFormatter();
             var host = MockRepository.GenerateStub<IHostV30>();
+            var settings = MockRepository.GenerateStub<ISettingsStorageProviderV30>();
             var provider = MockRepository.GenerateStub<IPagesStorageProviderV30>();
             var currentPageInfo = new PageInfo("BlogPage", provider, DateTime.Now);
             var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });
@@ -360,10 +387,12 @@ namespace UnitTest
             host.Expect(x => x.GetPageContent(pageInfo2)).Return(pageContent2);
             host.Expect(x => x.GetPageContent(pageInfo3)).Return(pageContent3);
 
+            host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
+            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("true");
             host.Expect(x => x.FindUser("User")).Repeat.Any().Return(new UserInfo("User", "Garrett", "", true, DateTime.Now, null));
 
             // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
-            string input = "bla bla bla {Blog(MyBlog,3,2,false,false,true,,,)} bla bla bla";
+            string input = "bla bla bla {Blog(MyBlog,3,2,false,false,false,true,,,)} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -383,6 +412,7 @@ namespace UnitTest
             //Arrange
             var formatter = new BlogFormatter();
             var host = MockRepository.GenerateStub<IHostV30>();
+            var settings = MockRepository.GenerateStub<ISettingsStorageProviderV30>();
             var provider = MockRepository.GenerateStub<IPagesStorageProviderV30>();
             var currentPageInfo = new PageInfo("MyPage", provider, DateTime.Now);
             var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });
@@ -395,9 +425,11 @@ namespace UnitTest
             provider.Expect(x => x.GetPage(null)).IgnoreArguments().Return(null);
 
             host.Expect(x => x.GetPageContent(null)).IgnoreArguments().Return(null);
+            host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
+            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("true");
 
             // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
-            string input = "bla bla bla {Blog(MyBlog,3,3,false,false,false,,'Bottom',)} bla bla bla";
+            string input = "bla bla bla {Blog(MyBlog,3,3,false,false,false,false,,'Bottom',)} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -414,6 +446,7 @@ namespace UnitTest
             //Arrange
             var formatter = new BlogFormatter();
             var host = MockRepository.GenerateStub<IHostV30>();
+            var settings = MockRepository.GenerateStub<ISettingsStorageProviderV30>();
             var provider = MockRepository.GenerateStub<IPagesStorageProviderV30>();
             var currentPageInfo = new PageInfo("MyPage", provider, DateTime.Now);
             var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });
@@ -429,9 +462,11 @@ namespace UnitTest
             provider.Expect(x => x.GetPage("Bottom")).Return(aboutPage);
 
             host.Expect(x => x.GetPageContent(aboutPage)).Return(aboutContent);
+            host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
+            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("true");
 
             // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
-            string input = "bla bla bla {Blog(MyBlog,3,3,false,false,false,'Bottom',,)} bla bla bla";
+            string input = "bla bla bla {Blog(MyBlog,3,3,false,false,false,false,'Bottom',,)} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -447,6 +482,7 @@ namespace UnitTest
             //Arrange
             var formatter = new BlogFormatter();
             var host = MockRepository.GenerateStub<IHostV30>();
+            var settings = MockRepository.GenerateStub<ISettingsStorageProviderV30>();
             var provider = MockRepository.GenerateStub<IPagesStorageProviderV30>();
             var currentPageInfo = new PageInfo("MyPage", provider, DateTime.Now);
             var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });
@@ -462,9 +498,11 @@ namespace UnitTest
             provider.Expect(x => x.GetPage("BottomPage")).Return(aboutPage);
 
             host.Expect(x => x.GetPageContent(aboutPage)).Return(aboutContent);
+            host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
+            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("true");
 
             // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
-            string input = "bla bla bla {Blog(MyBlog,3,3,false,false,false,,'MyPage',)} bla bla bla";
+            string input = "bla bla bla {Blog(MyBlog,3,3,false,false,false,false,,'MyPage',)} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -485,6 +523,7 @@ namespace UnitTest
             //Arrange
             var formatter = new BlogFormatter();
             var host = MockRepository.GenerateStub<IHostV30>();
+            var settings = MockRepository.GenerateStub<ISettingsStorageProviderV30>();
             var provider = MockRepository.GenerateStub<IPagesStorageProviderV30>();
             var currentPageInfo = new PageInfo("MyPage", provider, DateTime.Now);
             var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });
@@ -497,9 +536,11 @@ namespace UnitTest
             provider.Expect(x => x.GetPage(null)).IgnoreArguments().Return(null);
 
             host.Expect(x => x.GetPageContent(null)).IgnoreArguments().Return(null);
+            host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
+            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("true");
 
             // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
-            string input = "bla bla bla {Blog(MyBlog,3,3,false,true,false,,,)} bla bla bla";
+            string input = "bla bla bla {Blog(MyBlog,3,3,false,false,true,false,,,)} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -516,6 +557,7 @@ namespace UnitTest
             //Arrange
             var formatter = new BlogFormatter();
             var host = MockRepository.GenerateStub<IHostV30>();
+            var settings = MockRepository.GenerateStub<ISettingsStorageProviderV30>();
             var provider = MockRepository.GenerateStub<IPagesStorageProviderV30>();
             var currentPageInfo = new PageInfo("MyPage", provider, DateTime.Now);
             var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });
@@ -541,10 +583,12 @@ namespace UnitTest
             host.Expect(x => x.GetPageContent(pageInfo2)).Return(pageContent2);
             host.Expect(x => x.GetPageContent(pageInfo3)).Return(pageContent3);
 
+            host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
+            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("true");
             host.Expect(x => x.FindUser("User")).Repeat.Any().Return(new UserInfo("User", "Garrett", "", true, DateTime.Now, null));
 
             // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
-            string input = "bla bla bla {Blog(MyBlog,3,3,false,true,false,,,)} bla bla bla";
+            string input = "bla bla bla {Blog(MyBlog,3,3,false,false,true,false,,,)} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -561,6 +605,7 @@ namespace UnitTest
             //Arrange
             var formatter = new BlogFormatter();
             var host = MockRepository.GenerateStub<IHostV30>();
+            var settings = MockRepository.GenerateStub<ISettingsStorageProviderV30>();
             var provider = MockRepository.GenerateStub<IPagesStorageProviderV30>();
             var currentPageInfo = new PageInfo("MyPage", provider, DateTime.Now);
             var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });
@@ -578,10 +623,12 @@ namespace UnitTest
             host.Expect(x => x.FindPage("MyPage1")).Return(pageInfo1);
             host.Expect(x => x.GetPageContent(pageInfo1)).Return(pageContent1);
 
+            host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
+            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("true");
             host.Expect(x => x.FindUser("User")).Repeat.Any().Return(new UserInfo("User", "Garrett", "", true, DateTime.Now, null));
 
             // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
-            string input = "bla bla bla {Blog(MyBlog,3,3,false,true,false,,,)} bla bla bla";
+            string input = "bla bla bla {Blog(MyBlog,3,3,false,false,true,false,,,)} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -600,6 +647,7 @@ namespace UnitTest
             //Arrange
             var formatter = new BlogFormatter();
             var host = MockRepository.GenerateStub<IHostV30>();
+            var settings = MockRepository.GenerateStub<ISettingsStorageProviderV30>();
             var provider = MockRepository.GenerateStub<IPagesStorageProviderV30>();
             var currentPageInfo = new PageInfo("MyPage", provider, DateTime.Now);
             var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });
@@ -621,10 +669,12 @@ namespace UnitTest
             host.Expect(x => x.GetPageContent(pageInfo1)).Return(pageContent1);
             host.Expect(x => x.GetPageContent(pageInfo2)).Return(pageContent2);
 
+            host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
+            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("true");
             host.Expect(x => x.FindUser("User")).Repeat.Any().Return(new UserInfo("User", "Garrett", "", true, DateTime.Now, null));
 
             // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
-            string input = "bla bla bla {Blog(MyBlog,3,3,false,true,false,,,)} bla bla bla";
+            string input = "bla bla bla {Blog(MyBlog,3,3,false,false,true,false,,,)} bla bla bla";
 
             //Act
             formatter.Init(host, "");

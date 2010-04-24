@@ -12,299 +12,256 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
             new Page() {
             Fullname = "BlogFormatterHelp",
             Title = "Blog Help",
-            Content = @"=='''Blog Lists'''==
-Autogenerates a list/table of pages which are members of a category chosen by the user.{BR}
-You can verify that the formatter is working by [CategoryListFormatterTest|opening this test page (be patient, it may be slow)].{BR}
+            Content = @"=='''Blog'''==
+Autogenerates a blog consisting of pages with a specific category.{BR}
+You can that the formatter is working by [BlogFormatterTest|opening this test page].{BR}
 {TOC}
 {BR}
 === Administrators ===
-No special actions required.{BR}{BR}
-=== Markup Usage ===
-'''What can you do?'''{BR}
-* Generate a list/table of pages that match a certain category
-* Use numbered/unnumbered lists (# or *)
-* Choose wether to include a summary of the pages in the list items
-* Use tables instead of lists
-** Add a table heading
-** Override column headers and make them more ''user friendly'' 
-** Change table style
-** Change columns header style
-** Change row style
-** Use one of 3 predefined styles '''bw,bg,gb'''
-** Combine several of the above options
+'''Installation'''
+* Unzip the BlogFormatter.zip
+* Place the folder 'Blog' in the '...\Themes\' folder.
+* Load the plugin into the wiki using the Administrator interface as with most other plugins.
 {BR}
 
-(((
+=== Markup Usage ===
+'''What can you do?'''{BR}
+* Generate a blog with posts for a certain category
+* Set the number of posts to display
+* Choose wether to use create date or last modified for post order
+* Choose to display an about section
+* Choose to display a cloud based on page keywords
+* Choose to display an archive section
+** Choose how many recent posts to list
+* Choose to display a bottom section
+* Choose custom layout using stylesheet and images
+* 1 predefined stylesupplied in ...Themes\Blog\BlogDefault.css
+{BR}
+
+'''How does it work?'''{BR}
+* Create a new page called ex. MyBlog. 
+** '''Do not makes this page, the about page or the bottom page, a member of the MyBlogCategory, if you do you will create a self refering loop, which the BlogFormatter will detect, display a warning and deny blog generation.'''{BR}
+* Insert the Blog tag {Blog(MyBlogCategory,,,,)} and all posts shown in the blog will be pages marked with the category MyBlogCategory.{BR}
+* The keyword cloud is generated based on the ''keywords'' attached to each wiki page.{BR}
+That's it! :).{BR}
+The rest is purely customization of the look.
+{BR}
+
 '''Usage:'''{BR}{BR}
-'''{CategoryList(Category,output,showSummary,TblHeading,Headers,TblStyle,HeadStyle,RowStyle)}'''{BR}{BR}
+(((
+'''{Blog(Category,noOfPosts,noOfRecent,useLastModified,showGravatars,showCloud,showArchive,'aboutPage','bottomPage','stylesheet')}'''{BR}{BR}
 '''Where:''' {BR}
 * ''Required:''
-** '''Category''' - Name of a valid category
-** '''output''' - Ca be 1 of 3, '''*,# or nothing'''
-*** '''""*""'''- Means unnumbered list
-*** '''""#""'''- Means numbered list
-*** '''""""''' - Means use table instead of list
-** '''showSummary''' - Will add a page summary to each item in the output (if present). Must be ""true"" or ""false""
+** '''Category''' - Name of a valid category, to generate Blog from
 * ''Optional (applies only for tables as output):''
-** '''TblHeading''' - Heading of the table, must be encapsulated in ' ' '''ex. 'My Heading' '''
-** '''Headers''' - Columnheaders will override default naming, '''must be encapsulated in ' ' ex. 'Head1,Head2' '''
-** '''TblStyle''' - Style format, '''must be encapsulated in ' ' ex. 'align=""center"" style=""color: #000000;""' '''
-** '''HeadFStyle''' - Style format, '''must be encapsulated in ' ' ex. 'align=""center"" style=""color: #000000;""' '''
-** '''RowStyle''' - Style format,'''must be encapsulated in ' ' ex. 'align=""center"" style=""color: #000000;""' '''
+** '''noOfPosts''' - No of posts to show, default 7
+** '''noOfRecent'''- No of most recent posts to show, default 15
+** '''useLastModified'''- Use last modified date instead of create date as post ordering, default false
+** '''showGravatars''' - Show gravatars for post creator, only works when DisplayGravatars have been enabled in the wiki configuration, default false
+*** This feature only really make any meaning when used with Blogs where multiple users can create posts
+** '''showCloud''' - Show keyword cloud, default false
+** '''showArchive''' - Show archive (most recent blogs), default false
+** '''aboutPage''' - Name of page to include and display as the about section, must be encapsulated in ' ' '''ex. 'MyBlogAboutMe' '''
+*** If the about page is not being shown it is most likelly because you did not supply the correct, case-sentive page name in ' '
+** '''bottomPage''' - Name of page to include and display as the bottom section, must be encapsulated in ' ' '''ex. 'MyBlogBottom' '''
+*** If the bottom page is not being shown it is most likelly because you did not supply the correct, case-sentive page name in ' '
+** '''stylesheet''' - Name of stylesheet to use other than the default, must be encapsulated in ' ' '''ex. 'MyBlogCustomStylesheet.css' '''
+*** The stylesheet must be placed in at the ...Themes\Blog\ folder.
 {BR}
 * All ""''','''"" '''must''' always be included in the tag, at all times, even if the content is blank.
 )))
 {BR}
 
-==== Minimum ====
-The combinations of lists.{BR}
+==== Examples ====
+Any of the following examples can be combined to generate your desired look. {BR}
+A typical Blog would have the following setup:
+
+===== Standard =====
 (((
 '''Markup:'''{BR}{BR}
-'''{CategoryList(MyCat,*,false,,,,,) }''' {BR}{BR}
-'''Result:'''{BR}{BR}
-* [Page1|Page Link1]
-* [Page2|Page Link2]
-* [Page3|Page Link3]
+'''{Blog(MyBlogCat,7,15,false,false,true,true,'MyAboutPage','MyBottomPage',) }''' {BR}{BR}
+'''Which will yeild:'''{BR}{BR}
+* At most 7 posts displayed
+* At most 15 recent posts displayed
+* Posts are displayed and ordered using create date
+* No Gravatars
+* Cloud shown
+* Archive shown
+* About shown
+* Bottom shown
+* No custom stylesheet
 )))
-{BR}
+
+===== Default =====
 (((
 '''Markup:'''{BR}{BR}
-'''{CategoryList(MyCat,#,false,,,,,) }''' {BR}{BR}
+'''{Blog(MyBlogCategory,,,,,,,,,) }''' {BR}{BR}
 '''Result:'''{BR}{BR}
-1. [Page1|Page Link1]
-2. [Page2|Page Link2]
-3. [Page3|Page Link3]
-)))
-{BR}
-(((
-'''Markup:'''{BR}{BR}
-'''{CategoryList(MyCat,*,true,,,,,) }''' {BR}{BR}
-'''Result:'''{BR}{BR}
-* [Page1|Page Link1] - Page Summary/Description 1
-* [Page2|Page Link2] - Page Summary/Description 2
-* [Page3|Page Link3] - Page Summary/Description 3
-)))
-{BR}
-(((
-'''Markup:'''{BR}{BR}
-'''{CategoryList(MyCat,#,true,,,,,) }''' {BR}{BR}
-'''Result:'''{BR}{BR}
-1. [Page1|Page Link1] - Page Summary/Description 1
-2. [Page2|Page Link2] - Page Summary/Description 2
-3. [Page3|Page Link3] - Page Summary/Description 3
+* At most 7 posts displayed
+* No recent posts displayed
+* Posts are displayed and ordered using create date
+* No Gravatars
+* No Cloud
+* No Archive
+* No About
+* No Bottom
+* No custom stylesheet
 )))
 {BR}
 
-==== Tables and Styling ====
-'''Default style'''{BR}
-Depends on your chosen theme. {BR}
+===== Max No Of Posts To Show =====
 (((
 '''Markup:'''{BR}{BR}
-'''{CategoryList(MyCat,,true,,,,,) }''' {BR}{BR}
+'''{Blog(MyBlogCategory,3,,,,,,,,) }''' {BR}{BR}
 '''Result:'''{BR}{BR}
-{|  
-|+  
-! Page name !! Description
-|-  
-| [Page1|Page Link1] || Page Summary/Description 1
-|-  
-| [Page2|Page Link2] || Page Summary/Description 2
-|-  
-| [Page3|Page Link3] || Page Summary/Description 3
-|}
+* '''At most 3 posts displayed'''
+* No recent posts displayed
+* Posts are displayed and ordered using create date
+* No Gravatars
+* No Cloud
+* No Archive
+* No About
+* No Bottom
+* No custom stylesheet
 )))
 {BR}
 
-'''Predefined style: ''Black and White'' '''{BR}
+===== Max No Of Most Recent Posts To Show =====
 (((
 '''Markup:'''{BR}{BR}
-'''{CategoryList(MyCat,,true,,,'bw','bw','bw') }''' {BR}{BR}
+'''{Blog(MyBlogCategory,,3,,,,true,,,) }''' {BR}{BR}
 '''Result:'''{BR}{BR}
-{| border=""0"" cellpadding=""2"" cellspacing=""0"" align=""center"" style=""background-color: #EEEEEE;""
-|- align=""center"" style=""background-color: #000000; color: #FFFFFF; font-weight: bold;""  
-| Page name || Description
-|- align=""center"" style=""color: #000000;""
-| [Page1|Page Link1] || Page Summary/Description 1
-|- align=""center"" style=""color: #000000;""
-| [Page2|Page Link2] || Page Summary/Description 2
-|- align=""center"" style=""color: #000000;""
-| [Page3|Page Link3] || Page Summary/Description 3
-|}
+* At most 7 posts displayed
+* '''At most 3 posts displayed'''
+* Posts are displayed and ordered using create date
+* No Gravatars
+* No Cloud
+* '''Archive shown'''
+* No About
+* No Bottom
+* No custom stylesheet
 )))
 {BR}
 
-'''Predefined style: ''Black and Grey'' '''{BR}
+===== Use Modified Data To Display And Order Posts =====
 (((
 '''Markup:'''{BR}{BR}
-'''{CategoryList(MyCat,,true,,,'bg','bg','bg') }''' {BR}{BR}
+'''{Blog(MyBlogCategory,,,true,,,,,,) }''' {BR}{BR}
 '''Result:'''{BR}{BR}
-{| border=""0"" cellpadding=""2"" cellspacing=""0"" align=""center"" style=""background-color: #EEEEEE;""
-|- align=""center"" style=""background-color: #000000; color: #CCCCCC; font-weight: bold;""  
-| Page name || Description
-|- align=""center"" 
-| [Page1|Page Link1] || Page Summary/Description 1
-|- align=""center"" 
-| [Page2|Page Link2] || Page Summary/Description 2
-|- align=""center"" 
-| [Page3|Page Link3] || Page Summary/Description 3
-|}
+* At most 7 posts displayed
+* No recent posts displayed
+* '''Posts are displayed and ordered using modified date'''
+* No Gravatars
+* No Cloud
+* No Archive 
+* No About
+* No Bottom
+* No custom stylesheet
 )))
 {BR}
 
-'''Predefined style: ''Green and Black''' ''{BR}
+===== Show Keyword Cloud =====
 (((
 '''Markup:'''{BR}{BR}
-'''{CategoryList(MyCat,,true,,,'gb','gb','gb') }''' {BR}{BR}
+'''{Blog(MyBlogCategory,,,,true,,,,,) }''' {BR}{BR}
 '''Result:'''{BR}{BR}
-{| border=""0"" cellpadding=""2"" cellspacing=""0"" align=""center"" style=""background-color: #EEEEEE;""
-|- align=""center"" style=""background-color: #88CC33; color: #000000; font-weight: bold;""   
-| Page name || Description
-|- align=""center"" style=""color: #000000;""
-| [Page1|Page Link1] || Page Summary/Description 1
-|- align=""center"" style=""color: #000000;""
-| [Page2|Page Link2] || Page Summary/Description 2
-|- align=""center"" style=""color: #000000;""
-| [Page3|Page Link3] || Page Summary/Description 3
-|}
+* At most 7 posts displayed
+* No recent posts displayed
+* Posts are displayed and ordered  using create date
+* No Gravatars
+* '''Cloud shown'''
+* No Archive
+* No About
+* No Bottom
+* No custom stylesheet
 )))
 {BR}
 
-'''Custom style:'''{BR}
+===== Show Archive =====
 (((
 '''Markup:'''{BR}{BR}
-'''{CategoryList(MyCat,,true,,,'cellspacing=""10"" style=""background-color: #88CC33; color: #000000;""','style=""color: #00AAAA;""','style=""color: #BBBB00;""') }''' {BR}{BR}
+'''{Blog(MyBlogCategory,,,,,,true,,,) }''' {BR}{BR}
 '''Result:'''{BR}{BR}
-{| cellspacing=""10"" style=""background-color: #88CC33; color: #000000;""
-|- style=""color: #00AAAA;""   
-| Page name || Description
-|- style=""color: #BBBB00;""
-| [Page1|Page Link1] || Page Summary/Description 1
-|- style=""color: #BBBB00;""
-| [Page2|Page Link2] || Page Summary/Description 2
-|- style=""color: #BBBB00;""
-| [Page3|Page Link3] || Page Summary/Description 3
-|}
+* At most 7 posts displayed
+* '''At most 15 posts displayed'''
+* Posts are displayed and ordered using create date
+* No Gravatars
+* No Cloud
+* '''Archive shown'''
+* No About
+* No Bottom
+* No custom stylesheet
 )))
 {BR}
 
-'''Custom heading + headers:'''{BR}
+===== Show About Section =====
 (((
 '''Markup:'''{BR}{BR}
-'''{CategoryList(MyCat,,true,'My heading','Head1,Head2',,,) }''' {BR}{BR}
+'''{Blog(MyBlogCategory,,,,,,,'AboutPage',,) }''' {BR}{BR}
 '''Result:'''{BR}{BR}
-{|  
-|+ My heading  
-! Head1 !! Head2
-|-  
-| [Page1|Page Link1] || Page Summary/Description 1
-|-  
-| [Page2|Page Link2] || Page Summary/Description 2
-|-  
-| [Page3|Page Link3] || Page Summary/Description 3
-|}
+* At most 7 posts displayed
+* No recent posts displayed
+* Posts are displayed and ordered  using create date
+* No Gravatars
+* No Cloud
+* No Archive
+* '''About shown using the wiki page 'AboutPage' '''
+* No Bottom
+* No custom stylesheet
 )))
 {BR}
-",
+
+===== Show Bottom Section =====
+(((
+'''Markup:'''{BR}{BR}
+'''{Blog(MyBlogCategory,,,,,,,,'BottomPage',) }''' {BR}{BR}
+'''Result:'''{BR}{BR}
+* At most 7 posts displayed
+* No recent posts displayed
+* Posts are displayed and ordered  using create date
+* No Gravatars
+* No Cloud
+* No Archive
+* No About
+* '''Bottom shown using the wiki page 'BottomPage' '''
+* No custom stylesheet
+)))
+{BR}
+
+===== Use Custom Stylesheet =====
+(((
+'''Markup:'''{BR}{BR}
+'''{Blog(MyBlogCategory,,,,,,,,,'MyStyleSheet.css') }''' {BR}{BR}
+'''Result:'''{BR}{BR}
+* At most 7 posts displayed
+* No recent posts displayed
+* Posts are displayed and ordered  using create date
+* No Gravatars
+* No Cloud
+* No Archive
+* No About
+* No Bottom
+* '''Custom stylesheet 'MyStyleSheet.css' placed in .../Themes/Blog is used for layout and design of the blog'''
+)))
+{BR}
+
+==== About styling ====
+To create a custom stylesheet examine the supplied BlogDefault.css stylesheet placed in .../Themes/Blog.
+This file contains all the nessasary div's tags etc to create your own style."
+,
             Description = "BlogFormatter Help",
-            Keywords = new string[] { "BlogFormatter", "Help", "Formatting", "Markup", "Category", "List", "Table" }
+            Keywords = new string[] { "BlogFormatter", "Help", "Formatting", "Markup", "Blog", "Posts", "Archive" }
         },
 
         new Page()
         {
             Fullname = "BlogFormatterTest",
             Title = "Blog Test",
-            Content = @"== Page for testing and verifying the CategoryListFormatter ==
-You may need to adjust the category for each test, to match an existing category on your wiki.{BR}
-{TOC}
+            Content = @"== Page for testing and verifying the BlogtFormatter ==
+You may need to adjust the category for the test to get a view of the entire blog, as there is no default blog category supplied with the formatter.{BR}
 {BR}
-== Primitive Lists ==
-
-===Primitive Unnumbered No Summary===
-{BR}
-{CategoryList(Help,*,false,,,,,)}
-{BR}
-
-===Primitive Unnumbered  Summary===
-{BR}
-{CategoryList(Help,*,true,,,,,)}
-{BR}
-
-===Primitive Numbered No Summary===
-{BR}
-{CategoryList(Help,#,true,,,,,)}
-{BR}
-
-===Primitive Numbered  Summary===
-{BR}
-{CategoryList(Help,#,true,,,,,)}
-{BR}
-
-===Primitive Default When Bad Param No Summary===
-{BR}
-{CategoryList(Help,X,false,,,,,)}
-{BR}
-
-===Primitive Default When Bad Param Summary===
-{BR}
-{CategoryList(Help,X,true,,,,,)}
-{BR}
-{BR}
-== Tables ==
-
-===Table No Summary===
-{BR}
-{CategoryList(Help,,false,,,,,)}
-{BR}
-
-===Table Summary===
-{BR}
-{CategoryList(Help,,true,,,,,)}
-{BR}
-
-===Table No Summary - Style BW===
-{BR}
-{CategoryList(Help,,false,,,'bw','bw','bw')}
-{BR}
-
-===Table Summary - Style BW===
-{BR}
-{CategoryList(Help,,true,,,'bw','bw','bw')}
-{BR}
-
-===Table No Summary - Style BG===
-{BR}
-{CategoryList(Help,,false,,,'bg','bg','bg')}
-{BR}
-
-===Table Summary - Style BG===
-{BR}
-{CategoryList(Help,,true,,,'bg','bg','bg')}
-{BR}
-
-===Table No Summary - Style GB===
-{BR}
-{CategoryList(Help,,false,,,'gb','gb','gb')}
-{BR}
-
-===Table Summary - Style GB===
-{BR}
-{CategoryList(Help,,true,,,'gb','gb','gb')}
-{BR}
-
-===Table Summary - Heading + 1 Header===
-{BR}
-{CategoryList(Help,,true,'My Table','MyHead',,,)}
-{BR}
-
-===Table Summary - Heading + 2 Headers===
-{BR}
-{CategoryList(Help,,true,'My Table','Head1,Head2',,,)}
-{BR}
-
-===Table Summary - Custom Style===
-{BR}
-{CategoryList(Help,,true,'My Table','Head1,Head2','cellspacing=""10"" style=""background-color: #88CC33; color: #000000;""','align=""center"" style=""color: #0000AA;""','align=""center"" style=""color: #BBBBBB;""')}
-{BR}
+== Max 3 posts, max 3 recent, use create date, show gravatar, show cloud, show archive, show about, show bottom, no cusom stylesheet==
+{Blog(MyBlog,3,3,false,true,true,true,'About','Bottom',)}
 ",
             Description = "BlogFormatter Test",
             Keywords = new string[] { "BlogFormatter", "Test" }

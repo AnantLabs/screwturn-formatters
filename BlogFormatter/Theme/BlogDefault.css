@@ -103,6 +103,24 @@
 	color: #484848;
 }
 
+.blogavatar a
+{
+}
+
+.blogavatar a img
+{
+    float: left;
+    margin-right: 10px;
+}
+
+.blogavatartitle
+{
+	margin: 0;
+	border-bottom: 2px solid #484848;
+	color: #484848;    
+	margin-top: 44px;
+}
+
 .blogbyline {
 	margin: 0;
 	color: #D79B00;

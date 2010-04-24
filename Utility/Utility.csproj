@@ -54,11 +54,15 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ScrewTurn.Wiki.Core">
+      <HintPath>..\Common\ScrewTurn 3.0.2.509\ScrewTurn.Wiki.Core.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Gravatar.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReverseDateComparer.cs" />
     <Compile Include="TableGenerator.cs" />

@@ -61,6 +61,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Common\RhinoMocks 3.6\Rhino.Mocks.dll</HintPath>
     </Reference>
+    <Reference Include="ScrewTurn.Wiki.Core, Version=3.0.2.509, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Common\ScrewTurn 3.0.2.509\ScrewTurn.Wiki.Core.dll</HintPath>
+    </Reference>
     <Reference Include="ScrewTurn.Wiki.PluginFramework, Version=3.0.2.500, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Common\ScrewTurn 3.0.2.509\ScrewTurn.Wiki.PluginFramework.dll</HintPath>

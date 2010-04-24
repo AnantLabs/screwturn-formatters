@@ -20,7 +20,7 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
 
         //Tag format {BlogPosts(Category)}
         // Category,noPosts,useLastMod,showCloud,showArchive,about,bottom,style  
-        private static readonly Regex TagRegex = new Regex(@"\{Blog\((?<blog>(.*?)),(?<noOfPostsToShow>(.*?)),(?<noOfRecentPostsToShow>(.*?)),(?<useLastModified>(.*?)),((?<showCloud>(.*?)))?,((?<showArchive>(.*?)))?,('(?<aboutPage>(.*?))')?,('(?<bottomPage>(.*?))')?,((?<stylesheet>(.*?)))?\)\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
+        private static readonly Regex TagRegex = new Regex(@"\{Blog\((?<blog>(.*?)),(?<noOfPostsToShow>(.*?)),(?<noOfRecentPostsToShow>(.*?)),(?<useLastModified>(.*?)),(?<showGravatar>(.*?)),(?<showCloud>(.*?)),(?<showArchive>(.*?)),('(?<aboutPage>(.*?))')?,('(?<bottomPage>(.*?))')?,('(?<stylesheet>(.*?))')?\)\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
 
         private static Random m_Random = new Random();
 
@@ -47,7 +47,7 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
                             {
                                 //Get current provider
                                 var provider = context.Page.Provider;
-                                
+                                                                
                                 //Foreach blog 
                                 foreach (Match match in matches)
                                 {
@@ -55,21 +55,32 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
                                     int noOfPostsToShow = 7;
                                     int noOfRecentPostsToShow = 15;
                                     bool useLastModified = false;
-                                    bool showCloud = true;
-                                    bool showArchive = true;
+                                    bool showGravatar = false;
+                                    bool gravatarsEnabled = false;
+                                    bool showCloud = false;
+                                    bool showArchive = false;
                                     string stylesheet = string.Empty;
                                     string about = string.Empty;
                                     string bottom = string.Empty;
                                     PageContent aboutPage = null;
                                     PageContent bottomPage = null;
 
-                                    //Get params
+                                    //Get params 
                                     blog = (string.IsNullOrEmpty(match.Groups["blog"].Value) == true ? "" : match.Groups["blog"].Value);
+
                                     int.TryParse(match.Groups["noOfPostsToShow"].Value, out noOfPostsToShow);
+                                    noOfPostsToShow = (noOfPostsToShow <= 0 ? 7 : noOfPostsToShow);
+
                                     int.TryParse(match.Groups["noOfRecentPostsToShow"].Value, out noOfRecentPostsToShow);
+                                    noOfRecentPostsToShow = (noOfRecentPostsToShow <= 0 ? 15 : noOfRecentPostsToShow);
+
                                     bool.TryParse(match.Groups["useLastModified"].Value, out useLastModified);
                                     bool.TryParse(match.Groups["showCloud"].Value, out showCloud);
                                     bool.TryParse(match.Groups["showArchive"].Value, out showArchive);
+                                    bool.TryParse(match.Groups["showGravatar"].Value, out showGravatar);
+                                    gravatarsEnabled = (m_Host.GetSettingsStorageProvider().GetSetting("DisplayGravatars").ToLower() == "yes" ? true : false);
+                                    showGravatar = (gravatarsEnabled == true && showGravatar == true ? true : false);
+
                                     about = (string.IsNullOrEmpty(match.Groups["aboutPage"].Value) == true ? null : match.Groups["aboutPage"].Value);
                                     bottom = (string.IsNullOrEmpty(match.Groups["bottomPage"].Value) == true ? null : match.Groups["bottomPage"].Value);
 
@@ -115,14 +126,16 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
                                                     //Build dict
                                                     if (content != null)
                                                     {
+                                                        var postAuthor = m_Host.FindUser(content.User);
                                                         var info = new BlogPostInfo() 
                                                         { 
                                                             Content = content, 
                                                             NoOfComments = provider.GetMessageCount(pageInfo),
                                                             UserName = content.User,
-                                                            UserDisplayName = m_Host.FindUser(content.User).DisplayName
+                                                            UserDisplayName = postAuthor.DisplayName,
+                                                            UserGravatar = Gravatar.GenerateGravatarLink(postAuthor.Email)
                                                         };
-
+                                                        
                                                         //Sort method
                                                         if (useLastModified == false)
                                                         {
@@ -142,22 +155,28 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
                                     if (string.IsNullOrEmpty(about) == false && abortToAvoidSelfReferencing == false)
                                     {
                                         var pInfo = provider.GetPage(about);
-                                        aboutPage = m_Host.GetPageContent(pInfo);
+                                        if (pInfo != null)
+                                        {
+                                            aboutPage = m_Host.GetPageContent(pInfo);
+                                        }
                                     }
 
                                     //Get bottom if specified
                                     if (string.IsNullOrEmpty(bottom) == false && abortToAvoidSelfReferencing == false)
                                     {
                                         var pInfo = provider.GetPage(bottom);
-                                        bottomPage = m_Host.GetPageContent(pInfo);
+                                        if (pInfo != null)
+                                        {
+                                            bottomPage = m_Host.GetPageContent(pInfo);
+                                        }
                                     }
 
                                     
                                     //Create output
-                                    var pageContent = GeneratePage(blog, sortedPosts, noOfPostsToShow, noOfRecentPostsToShow, showCloud, showArchive, aboutPage, bottomPage, stylesheet);
+                                    var pageContent = GeneratePage(blog, sortedPosts, noOfPostsToShow, noOfRecentPostsToShow, showGravatar, showCloud, showArchive, aboutPage, bottomPage, stylesheet);
 
                                     //Add a final newline
-                                    pageContent = string.Format("{0} \n", pageContent);
+                                    pageContent = string.Format("{0} \n ", pageContent);
 
                                     //Insert list
                                     //Recall position as string may allready have been modified by other table match entry
@@ -185,14 +204,14 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
 
             return raw;
         }
-        
-        private string GeneratePage(string _blog, SortedList<DateTime, BlogPostInfo> _pages, int _noOfPostsToShow, int _noOfRecentPostsToShow, bool _showCloud, bool _showArchive, PageContent _aboutPage, PageContent _bottomPage, string _stylesheet)
+
+        private string GeneratePage(string _blog, SortedList<DateTime, BlogPostInfo> _pages, int _noOfPostsToShow, int _noOfRecentPostsToShow, bool _showGravatar, bool _showCloud, bool _showArchive, PageContent _aboutPage, PageContent _bottomPage, string _stylesheet)
         {
             //Create output
             string list = string.Empty;
 
             //Generate Posts
-            list = GeneratePosts(_blog, _pages, _noOfPostsToShow, _stylesheet);
+            list = GeneratePosts(_blog, _pages, _noOfPostsToShow, _showGravatar, _stylesheet);
 
             list = string.Format("{0} \n <div id=\"blogsidebar\">",list);
 
@@ -225,7 +244,7 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
             return list;
         }
 
-        private string GeneratePosts(string _blog, SortedList<DateTime, BlogPostInfo> _posts, int _noOfPostsToShow, string _stylesheet)
+        private string GeneratePosts(string _blog, SortedList<DateTime, BlogPostInfo> _posts, int _noOfPostsToShow, bool _showGravatar, string _stylesheet)
         {
             var retval = string.Empty;
 
@@ -239,16 +258,27 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
                         break;
                     }
 
+                    /*Generate title and gravatar*/
+                    string title = "";
+                    if (_showGravatar)
+                    {
+                        title = string.Format("<p class=\"blogavatar\"<a href=\"User.aspx?Username={0}\">{1}</a></p>\n", entry.Value.UserName, entry.Value.UserGravatar);
+                        title = string.Format("{0}<h1 class=\"blogavatartitle\"><a href=\"{1}.ashx\">{2}</a></h1>\n", title, entry.Value.Content.PageInfo.FullName, entry.Value.Content.Title);
+                    }
+                    else
+                    {
+                        title = string.Format("<h1 class=\"blogtitle\"><a href=\"{0}.ashx\">{1}</a></h1>\n", entry.Value.Content.PageInfo.FullName, entry.Value.Content.Title);
+                    }
+
                     retval = string.Format("{0} \n {1} ", retval, string.Format("<div class=\"blogpost\">\n"
-                                                                                    + "<h1 class=\"blogtitle\"><a href=\"{0}.ashx\">{1}</a></h1>\n"
-                                                                                    + "<p class=\"blogbyline\"><small>Posted on {2} by <a href=\"User.aspx?Username={3}\">{4}</a> | <a href=\"Edit.aspx?Page={5}\">Edit</a></small></p>\n"
+                                                                                    + "{0}"
+                                                                                    + "<p class=\"blogbyline\"><small>Posted on {1} by <a href=\"User.aspx?Username={2}\">{3}</a> | <a href=\"Edit.aspx?Page={4}\">Edit</a></small></p>\n"
                                                                                     + "<div class=\"blogentry\">\n"
-                                                                                    + "{6}\n"
+                                                                                    + "{5}\n"
                                                                                     + "</div>\n"
-                                                                                    + "<p class=\"blogmeta\"><a href=\"{7}.ashx\" class=\"blogmore\">Go to page</a> &nbsp;&nbsp;&nbsp; <a href=\"{8}.ashx?Discuss=1\" class=\"blogcomments\">Comments ({9})</a></p>\n"
+                                                                                    + "<p class=\"blogmeta\"><a href=\"{6}.ashx\" class=\"blogmore\">Go to page</a> &nbsp;&nbsp;&nbsp; <a href=\"{6}.ashx?Discuss=1\" class=\"blogcomments\">Comments ({8})</a></p>\n"
                                                                                 + "</div>\n"
-                                                                            , entry.Value.Content.PageInfo.FullName             //Titlelink
-                                                                            , entry.Value.Content.Title                         //Title
+                                                                            , title                                             //Gravatar + title + titlelink
                                                                             , entry.Key.ToString("dd MMMM, yyyy")               //Date
                                                                             , entry.Value.UserName                              //UserName
                                                                             , entry.Value.UserDisplayName                       //UserDisplayname

@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ScrewTurn.Wiki.Core">
+      <HintPath>..\Common\ScrewTurn 3.0.2.509\ScrewTurn.Wiki.Core.dll</HintPath>
+    </Reference>
     <Reference Include="ScrewTurn.Wiki.PluginFramework, Version=3.0.2.500, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Common\ScrewTurn 3.0.2.509\ScrewTurn.Wiki.PluginFramework.dll</HintPath>
@@ -47,6 +50,9 @@
     </Compile>
     <Compile Include="..\Core\Page.cs">
       <Link>Shared\Page.cs</Link>
+    </Compile>
+    <Compile Include="..\Utility\Gravatar.cs">
+      <Link>Shared\Gravatar.cs</Link>
     </Compile>
     <Compile Include="..\Utility\ReverseDateComparer.cs">
       <Link>Shared\ReverseDateComparer.cs</Link>
