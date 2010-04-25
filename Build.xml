@@ -5,8 +5,9 @@
   
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
-    <Version>$(BUILD_NUMBER)</Version>
+    <AssemblyVersion>$(BUILD_NUMBER)</AssemblyVersion>
     <ScrewTurnVersion>$(SCREWTURNVERSION)</ScrewTurnVersion>
+    <AgentTempDir>$(TEAMCITY_BUILD_TEMPDIR%)</AgentTempDir>
   </PropertyGroup>
 
   <Target Name="Version" BeforeTargets="Build">
@@ -15,11 +16,8 @@
       <AssemblyInfoFiles Include="**/Properties/**/AssemblyInfo.cs;" />
     </ItemGroup>
 
-    <FileUpdate Files="@(AssemblyInfoFiles)" Regex='AssemblyVersion\(".*"\)\]' ReplacementText='AssemblyVersion("$(ScrewTurnVersion)")]'></FileUpdate>
-    <FileUpdate Files="@(AssemblyInfoFiles)" Regex='AssemblyFileVersion\(".*"\)\]' ReplacementText='AssemblyFileVersion("$(ScrewTurnVersion)")]'></FileUpdate>
-
-    <!--<FileUpdate Files="@(AssemblyInfoFiles)" Regex='AssemblyVersion\(".*"\)\]' ReplacementText='AssemblyVersion("1.2.3.4")]'></FileUpdate>
-    <FileUpdate Files="@(AssemblyInfoFiles)" Regex='AssemblyFileVersion\(".*"\)\]' ReplacementText='AssemblyFileVersion("1.2.3.4")]'></FileUpdate>-->
+    <FileUpdate Files="@(AssemblyInfoFiles)" Regex='AssemblyVersion\(".*"\)\]' ReplacementText='AssemblyVersion("$(AssemblyVersion)")]'></FileUpdate>
+    <FileUpdate Files="@(AssemblyInfoFiles)" Regex='AssemblyFileVersion\(".*"\)\]' ReplacementText='AssemblyFileVersion("$(AssemblyVersion)")]'></FileUpdate>
   </Target>
   
   <Target Name="Build" AfterTargets="Version">
@@ -27,4 +25,10 @@
     <MSBuild Projects="ScrewTurn.sln" Targets="Rebuild" Properties="Configuration=$(Configuration)" />
   </Target>
 
+  <Target Name="CopyFiles">
+    <ItemGroup>
+      <NCoverReport Include="$(AgentTempDir)\..\index.html"></NCoverReport>
+    </ItemGroup>
+    <Copy SourceFiles="@(NCoverReport)" DestinationFiles="@(NCoverReport->'.\Coverage.html')"/>
+  </Target>
 </Project>
