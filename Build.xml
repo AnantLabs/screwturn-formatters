@@ -27,17 +27,17 @@
 
 
   <Target Name="CopyFiles" AfterTargets="Build">
-    <Message Text="#--------- Copying Files ---------#" />
+    <Message Text="#--------- Copying Files @(AgentTempDir)---------#" />
     <!--<Copy SourceFiles="D:\My Documents\Visual Studio 2010\Projects\MSBuildTest\MSBuildTest\bin\**\Release\MSBuildTest.dll" DestinationFiles=""D:\My Documents\Visual Studio 2010\Projects\MSBuildTest\MSBuildTest\%(Filename)"/>-->
 
     <ItemGroup>
-      <NCoverReport Include="$(AgentTempDir)\**\index.html" />
+      <NCoverReport Include="$(AgentTempDir)\NCover*\index.html" />
     </ItemGroup>
 
-    <Message Text="#--------- SrcFile @(MySourceFiles) ---------#" />
-    <Message Text="#--------- DstFile Coverage.html ---------#" />
+    <Message Text="#--------- SrcFile @(NCoverReport) ---------#" />
+    <Message Text="#--------- DstFile @(AgentTempDir) ---------#" />
 
-    <Copy SourceFiles="@(NCoverReport)" DestinationFiles="Coverage.html"/>
+    <Copy SourceFiles="@(NCoverReport)" DestinationFiles="$(AgentTempDir)\Coverage.html"/>
   </Target>
   
   
