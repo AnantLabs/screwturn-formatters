@@ -283,6 +283,6 @@ You may need to adjust the category for the test to get a view of the entire blo
             Description = "BlogFormatter Test",
             Keywords = new string[] { "BlogFormatter", "Test" }
         }
-        };
+        }; 
     }
 }
