@@ -31,13 +31,13 @@
     <!--<Copy SourceFiles="D:\My Documents\Visual Studio 2010\Projects\MSBuildTest\MSBuildTest\bin\**\Release\MSBuildTest.dll" DestinationFiles=""D:\My Documents\Visual Studio 2010\Projects\MSBuildTest\MSBuildTest\%(Filename)"/>-->
 
     <ItemGroup>
-      <NCoverReport Include="$(AgentTempDir)\NCover*\index.html" />
+      <NCoverReport Include="$(AgentTempDir)\**\index.html" />
     </ItemGroup>
 
     <Message Text="#--------- SrcFile @(MySourceFiles) ---------#" />
-    <Message Text="#--------- DstFile @(AgentTempDir)\Coverage.html ---------#" />
+    <Message Text="#--------- DstFile Coverage.html ---------#" />
 
-    <Copy SourceFiles="@(NCoverReport)" DestinationFiles="$(AgentTempDir)\Coverage.html"/>
+    <Copy SourceFiles="@(NCoverReport)" DestinationFiles="Coverage.html"/>
   </Target>
   
   
