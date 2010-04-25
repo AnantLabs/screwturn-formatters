@@ -6,6 +6,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
     <Version>$(BUILD_NUMBER)</Version>
+    <ScrewTurnVersion>$(SCREWTURNVERSION)</ScrewTurnVersion>
   </PropertyGroup>
 
   <Target Name="Version" BeforeTargets="Build">
@@ -14,8 +15,8 @@
       <AssemblyInfoFiles Include="**/Properties/**/AssemblyInfo.cs;" />
     </ItemGroup>
 
-    <FileUpdate Files="@(AssemblyInfoFiles)" Regex='AssemblyVersion\(".*"\)\]' ReplacementText='AssemblyVersion("$(Version)")]'></FileUpdate>
-    <FileUpdate Files="@(AssemblyInfoFiles)" Regex='AssemblyFileVersion\(".*"\)\]' ReplacementText='AssemblyFileVersion("$(Version)")]'></FileUpdate>
+    <FileUpdate Files="@(AssemblyInfoFiles)" Regex='AssemblyVersion\(".*"\)\]' ReplacementText='AssemblyVersion("$(ScrewTurnVersion)")]'></FileUpdate>
+    <FileUpdate Files="@(AssemblyInfoFiles)" Regex='AssemblyFileVersion\(".*"\)\]' ReplacementText='AssemblyFileVersion("$(ScrewTurnVersion)")]'></FileUpdate>
 
     <!--<FileUpdate Files="@(AssemblyInfoFiles)" Regex='AssemblyVersion\(".*"\)\]' ReplacementText='AssemblyVersion("1.2.3.4")]'></FileUpdate>
     <FileUpdate Files="@(AssemblyInfoFiles)" Regex='AssemblyFileVersion\(".*"\)\]' ReplacementText='AssemblyFileVersion("1.2.3.4")]'></FileUpdate>-->
