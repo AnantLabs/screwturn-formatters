@@ -18,9 +18,9 @@
     
     <!-- NCover -->
     <NCoverProjectName>"$(TEAMCITY_PROJECTNAME) :: $(TEAMCITY_BUILDCONFNAME)"</NCoverProjectName>
-    <NCoverPath>"C:\Program Files\NCover"</NCoverPath>
-    <NCoverExplorerPath>"C:\Program Files\NCover"</NCoverExplorerPath>
-    <NUnitPath>"C:\Program Files\NUnit 2.5.3\bin\net-2.0"</NUnitPath>
+    <NCoverPath>C:\Program Files\NCover</NCoverPath>
+    <NCoverExplorerPath>C:\Program Files\NCover</NCoverExplorerPath>
+    <NUnitPath>C:\Program Files\NUnit 2.5.3\bin\net-2.0</NUnitPath>
     <NCoverWorkingDir>"$(TEAMCITY_BUILD_WORKINGDIR)"</NCoverWorkingDir>
 
     <NoCoverage>"Namespace=$(NOCOVERAGENAMESPACES)"</NoCoverage>
