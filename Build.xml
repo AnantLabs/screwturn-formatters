@@ -29,9 +29,9 @@
     <CoverageAssemblies>$(COVERAGEASSEMBLIES)</CoverageAssemblies>
     <!--Which dll's should be covered-->
 
-    <CoverageXmlReport>$(TEAMCITY_BUILD_WORKINGDIR)\Coverage.xml</CoverageXmlReport>
-    <CoverageFullHtmlReport>$(TEAMCITY_BUILD_WORKINGDIR)\Coverage.html</CoverageFullHtmlReport>
-    <CoverageSummaryHtmlReport>$(TEAMCITY_BUILD_WORKINGDIR)\CoverageSummary.html</CoverageSummaryHtmlReport>
+    <CoverageXmlReport>"$(TEAMCITY_BUILD_WORKINGDIR)\Coverage.xml"</CoverageXmlReport>
+    <CoverageFullHtmlReport>"$(TEAMCITY_BUILD_WORKINGDIR)\Coverage.html"</CoverageFullHtmlReport>
+    <CoverageSummaryHtmlReport>"$(TEAMCITY_BUILD_WORKINGDIR)\CoverageSummary.html"</CoverageSummaryHtmlReport>
     
   </PropertyGroup>
 
