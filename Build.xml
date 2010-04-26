@@ -98,8 +98,8 @@
     <Message Text="##teamcity[progressStart 'Running NCover 1.5.8.']"/>
     <Message Text="##teamcity[progressFinish 'Running NCover 1.5.8.']"/>
     <NCover ToolPath="$(NCoverPath)"
-            CommandLineExe="$(NUnitPath)\nunit-console.exe /xml:$(NUnitReport)"
-            CommandLineArgs="$(TestAssemblies)"
+            CommandLineExe="$(NUnitPath)\nunit-console.exe"
+            CommandLineArgs=" /xml:$(NUnitReport) $(TestAssemblies)"
             CoverageFile="$(CoverageXmlReport)"
             LogFile="$(CoverageLog)"
             AssemblyList="$(CoverageAssemblies)" />
