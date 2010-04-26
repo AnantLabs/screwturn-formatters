@@ -19,6 +19,7 @@
     <!-- NCover -->
     <NCoverProjectName>$(TEAMCITY_PROJECTNAME) :: $(TEAMCITY_BUILDCONFNAME)</NCoverProjectName>
     <NCoverPath>C:\Program Files\NCover</NCoverPath>
+    <NCoverExplorerPath>C:\Program Files\NCover\NCoverExplorer</NCoverExplorerPath>
     <NUnitPath>C:\Program Files\NUnit 2.5.3\bin\net-2.0</NUnitPath>
     <NCoverWorkingDir>"$(TEAMCITY_BUILD_WORKINGDIR)"</NCoverWorkingDir>
 
@@ -85,7 +86,7 @@
     <!-- Generate HTML Reports -->
     <!-- Summary Page -->
     <Message Text="#--------- Summary Report ---------#" />
-    <NCoverExplorer ToolPath="$(NCoverPath)"
+    <NCoverExplorer ToolPath="$(NCoverExplorerPath)"
                       ProjectName="$(NCoverProjectName)"
                       OutputDir="$(NCoverWorkingDir)"
                       CoverageFiles="$(CoverageXmlReport)"
@@ -95,7 +96,7 @@
                       HtmlReportName="CoverageSummary.html" />
     <!-- Full HTML Report -->
     <Message Text="#--------- Full Report ---------#" />
-    <NCoverExplorer ToolPath="$(NCoverPath)"
+    <NCoverExplorer ToolPath="$(NCoverExplorerPath)"
                       ProjectName="$(NCoverProjectName)"
                       OutputDir="$(NCoverWorkingDir)"
                       CoverageFiles="$(CoverageXmlReport)"
