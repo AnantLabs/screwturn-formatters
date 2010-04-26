@@ -29,9 +29,9 @@
     <CoverageAssemblies>$(COVERAGEASSEMBLIES)</CoverageAssemblies>
     <!--Which dll's should be covered-->
 
-    <CoverageXmlReport>$(TEAMCITY_BUILD_WORKINGDIR)\Coverage.xml</CoverageXmlReport>
-    <CoverageFullHtmlReport>$(TEAMCITY_BUILD_WORKINGDIR)\Coverage.html</CoverageFullHtmlReport>
-    <CoverageSummaryHtmlReport>$(TEAMCITY_BUILD_WORKINGDIR)\CoverageSummary.html</CoverageSummaryHtmlReport>
+    <CoverageLog>$(TEAMCITY_BUILD_WORKINGDIR)\Reports\Coverage.log</CoverageLog>
+    <CoverageXmlReport>$(TEAMCITY_BUILD_WORKINGDIR)\Reports\Coverage.xml</CoverageXmlReport>
+    <CoverageReportDir>$(TEAMCITY_BUILD_WORKINGDIR)\Reports</CoverageReportDir>
     
   </PropertyGroup>
 
@@ -83,12 +83,27 @@
             CommandLineExe="$(NUnitPath)\nunit-console.exe"
             CommandLineArgs="$(TestAssemblies)"
             CoverageFile="$(CoverageXmlReport)"
-            LogFile="Coverage.log"
+            LogFile="$(CoverageLog)"
             AssemblyList="$(CoverageAssemblies)" />
       
-    <!-- Generate HTML Reports -->
-    <!-- Summary Page -->
-    <Message Text="#--------- Summary Report ---------#" />
+    <!-- Generate HTML Reports 
+    ModuleSummary	XML, HTML
+    ModuleNamespaceSummary	XML, HTML
+    ModuleClassSummary	XML, HTML
+    ModuleClassFunctionSummary	XML, HTML
+    -->
+
+    <Message Text="#--------- ModuleSummary Report ---------#" />
+    <NCoverExplorer ToolPath="$(NCoverExplorerPath)"
+                      ProjectName="$(NCoverProjectName)"
+                      OutputDir="$(NCoverWorkingDir)"
+                      CoverageFiles="$(CoverageXmlReport)"
+                      SatisfactoryCoverage="80"
+                      Exclusions="$(NoCoverage)"
+                      ReportType="ModuleSummary"
+                      HtmlReportName="$(CoverageReportDir)\CoverageModuleSummary.html" />
+
+    <Message Text="#--------- ModuleClassSummary Report ---------#" />
     <NCoverExplorer ToolPath="$(NCoverExplorerPath)"
                       ProjectName="$(NCoverProjectName)"
                       OutputDir="$(NCoverWorkingDir)"
@@ -96,17 +111,27 @@
                       SatisfactoryCoverage="80"
                       Exclusions="$(NoCoverage)"
                       ReportType="ModuleClassSummary"
-                      HtmlReportName="CoverageSummary.html" />
-    <!-- Full HTML Report -->
-    <Message Text="#--------- Full Report ---------#" />
+                      HtmlReportName="$(CoverageReportDir)\CoverageModuleClassSummary.html" />
+
+    <Message Text="#--------- ModuleNamespaceSummary Report ---------#" />
     <NCoverExplorer ToolPath="$(NCoverExplorerPath)"
                       ProjectName="$(NCoverProjectName)"
                       OutputDir="$(NCoverWorkingDir)"
                       CoverageFiles="$(CoverageXmlReport)"
                       SatisfactoryCoverage="80"
                       Exclusions="$(NoCoverage)"
-                      ReportType="FullCoverageReport"
-                      HtmlReportName="Coverage.html" />
+                      ReportType="ModuleNamespaceSummary"
+                      HtmlReportName="$(CoverageReportDir)\CoverageModuleNamespaceSummary.html" />
+
+    <Message Text="#--------- ModuleClassFunctionSummary Report ---------#" />
+    <NCoverExplorer ToolPath="$(NCoverExplorerPath)"
+                      ProjectName="$(NCoverProjectName)"
+                      OutputDir="$(NCoverWorkingDir)"
+                      CoverageFiles="$(CoverageXmlReport)"
+                      SatisfactoryCoverage="80"
+                      Exclusions="$(NoCoverage)"
+                      ReportType="ModuleClassFunctionSummary"
+                      HtmlReportName="$(CoverageReportDir)\CoverageModuleClassFunctionSummary.html" />
   </Target>
 
 </Project>
