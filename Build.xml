@@ -88,7 +88,7 @@
     <!-- Summary Page -->
     <Message Text="#--------- Summary Report ---------#" />
     <NCoverExplorer ToolPath="$(NCoverPath)"
-                      ProjectName="$(ProjectName)"
+                      ProjectName="$(NCoverProjectName)"
                       OutputDir="$(NCoverWorkingDir)"
                       CoverageFiles="$(CoverageXmlReport)"
                       SatisfactoryCoverage="80"
@@ -97,7 +97,7 @@
     <!-- Full HTML Report -->
     <Message Text="#--------- Full Report ---------#" />
     <NCoverExplorer ToolPath="$(NCoverPath)"
-                      ProjectName="$(ProjectName)"
+                      ProjectName="$(NCoverProjectName)"
                       OutputDir="$(NCoverWorkingDir)"
                       CoverageFiles="$(CoverageXmlReport)"
                       SatisfactoryCoverage="80"
