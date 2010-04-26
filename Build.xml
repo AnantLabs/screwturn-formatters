@@ -52,12 +52,12 @@
   <!-- What to do after bulid -->
   <Target Name="AfterBuild" AfterTargets="Build">
     <!-- Call NCover -->
-    <CallTarget Condition=" '$(Configuration)' == 'Release' " Targets="SummaryCoverage" ContinueOnError="false" />
+    <CallTarget Condition=" '$(Configuration)' == 'Release' " Targets="Coverage" ContinueOnError="false" />
   </Target>
 
 
   <!-- NCover Generation -->
-  <Target Name="FullCoverage">
+  <Target Name="Coverage">
     <Message Text="#--------- NCover Setup ---------#" />
 
     <Message Text="#--------- NCoverProjectName: $(NCoverProjectName) ---------#" />
