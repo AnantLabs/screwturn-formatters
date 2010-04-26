@@ -32,6 +32,12 @@
     <MSBuild Projects="ScrewTurn.sln" Targets="Rebuild" Properties="Configuration=$(Configuration)" />
   </Target>
 
+  <!-- What to do after bulid -->
+  <Target Name="AfterBuild">
+    <!-- Call NCover -->
+    <CallTarget Condition=" '$(Configuration)' == 'Release' " Targets="SummaryCoverage" ContinueOnError="false" />
+  </Target>
+
 
   <!-- NCover Generation -->
   <PropertyGroup>
@@ -49,7 +55,7 @@
     <CoverageSummaryHtmlReport>CoverageSummary.html</CoverageSummaryHtmlReport>
   </PropertyGroup>
 
-  <Target Name="FullCoverage"  >
+  <Target Name="FullCoverage">
     <Message Text="#--------- NCover Setup ---------#" />
 
     <Message Text="#--------- NCoverProjectName: $(NCoverProjectName) ---------#" />
