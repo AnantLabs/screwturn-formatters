@@ -38,19 +38,18 @@
 
     <Message Text="#--------- SrcFile @(NCoverReport1) ---------#" />
     <Message Text="#--------- SrcFile $(NCoverReport1) ---------#" />
-    <Message Text="#--------- SrcFile %(NCoverReport1) ---------#" />
 
     <Message Text="#--------- SrcFile @(NCoverReport2) ---------#" />
     <Message Text="#--------- SrcFile $(NCoverReport2) ---------#" />
-    <Message Text="#--------- SrcFile %(NCoverReport2) ---------#" />
 
     <Message Text="#--------- SrcFile @(NCoverReport3) ---------#" />
     <Message Text="#--------- SrcFile $(NCoverReport3) ---------#" />
-    <Message Text="#--------- SrcFile %(NCoverReport3) ---------#" />
 
     <Message Text="#--------- DstFile $(AgentTempDir) ---------#" />
 
-    <Copy SourceFiles="@(NCoverReport1)" DestinationFiles="Coverage.html"/>
+    <Copy SourceFiles="@(NCoverReport1)" DestinationFiles="Coverage1.html"/>
+    <Copy SourceFiles="@(NCoverReport2)" DestinationFiles="Coverage2.html"/>
+    <Copy SourceFiles="@(NCoverReport3)" DestinationFiles="Coverage3.html"/>
   </Target>
   
   
