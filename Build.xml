@@ -3,8 +3,8 @@
 
   <Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets"/>
 
-  <UsingTask TaskName="NCoverExplorer.MSBuildTasks.NCover" AssemblyFile="C:\Program Files\NCover\NCoverExplorer\NCoverExplorer.MSBuildTasks.dll" />
-  <UsingTask TaskName="NCoverExplorer.MSBuildTasks.NCoverExplorer" AssemblyFile="C:\Program Files\NCover\NCoverExplorer\NCoverExplorer.MSBuildTasks.dll" />
+  <UsingTask TaskName="NCoverExplorer.MSBuildTasks.NCover" AssemblyFile="C:\Program Files\NCover\NCoverExplorer.MSBuildTasks.dll" />
+  <UsingTask TaskName="NCoverExplorer.MSBuildTasks.NCoverExplorer" AssemblyFile="C:\Program Files\NCover\NCoverExplorer.MSBuildTasks.dll" />
   
   <PropertyGroup>
     <!-- Build -->
