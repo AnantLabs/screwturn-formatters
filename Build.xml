@@ -101,8 +101,15 @@
             CoverageFile="$(CoverageXmlReport)"
             LogFile="$(CoverageLog)"
             AssemblyList="$(CoverageAssemblies)" />
-      
- 
+
+    <!-- Report to TC, to add to statistics -->
+    <!--<Message Text="##teamcity[dotNetCoverage ncover_explorer_tool='$(CoverageXmlReport)']"/>
+    <Message Text="##teamcity[dotNetCoverage ncover_explorer_tool_args='$(CoverageXmlReport)']"/>
+    <Message Text="##teamcity[dotNetCoverage ncover_explorer_report_type='$(CoverageXmlReport)']"/>
+    <Message Text="##teamcity[dotNetCoverage ncover_explorer_report_order='$(CoverageXmlReport)']"/>-->
+    <Message Text="##teamcity[importData type='dotNetCoverage' tool='ncover' path='$(CoverageXmlReport)']"/>
+
+    <!-- Theese are for visual inspection in TC and Release package only -->
     <Message Text="#--------- Generating Reports ---------#" />
     <Message Text="#--------- ModuleSummary Report ---------#" />
     
