@@ -104,6 +104,17 @@
             LogFile="$(CoverageLog)"
             AssemblyList="$(CoverageAssemblies)" />
 
+
+    <!-- Report to TC, to add to statistics -->
+    <Message Text="##teamcity[dotNetCoverage ncover_explorer_tool='$(NCoverExplorerPath)']"/>
+    <Message Text="##teamcity[dotNetCoverage ncover_explorer_tool_args='']"/>
+    <Message Text="##teamcity[dotNetCoverage ncover_explorer_report_type='0']"/>
+    <Message Text="##teamcity[dotNetCoverage ncover_explorer_report_order='0']"/>
+    <!-- This will generate the standard summary if not remove from config -->
+    <Message Text="##teamcity[importData type='dotNetCoverage' tool='ncover' path='$(CoverageXmlReport)']"/>
+
+    
+    
     <!-- Theese are for visual inspection in TC and Release package only -->
     <Message Text="##teamcity[progressStart 'Generating NCover Reports']"/>
     
@@ -150,15 +161,6 @@
     
     <Message Text="##teamcity[progressFinish 'Generating NCover Reports']"/>
 
-
-    <!-- Report to TC, to add to statistics -->
-    <!--<Message Text="##teamcity[dotNetCoverage ncover_explorer_tool='$(CoverageXmlReport)']"/>-->
-    <Message Text="##teamcity[dotNetCoverage ncover_explorer_tool_args='']"/>
-    <Message Text="##teamcity[dotNetCoverage ncover_explorer_report_type='0']"/>
-    <Message Text="##teamcity[dotNetCoverage ncover_explorer_report_order='0']"/>
-    <!-- This will generate the standard summary if not remove from config -->
-    <Message Text="##teamcity[importData type='dotNetCoverage' tool='ncover' path='$(CoverageXmlReport)']"/>
-    
   </Target>
 
 </Project>
