@@ -79,38 +79,35 @@
 
     <Message Text="#--------- Executing NCover ---------#" />
 
-    <Exec Command="regsvr32 /s $(NCoverPath)\NCover\CoverLib.dll"/>
-
-    <NCover ToolPath="$(NCoverPath)"
-            CommandLineExe="$(NUnitPath)\nunit-console.exe"
-            CommandLineArgs="$(TestAssemblies)"
-            CoverageFile="$(CoverageXmlReport)"
-            LogFile="Coverage.log"
-            AssemblyList="$(CoverageAssemblies)" />
+    
+    <NCover ToolPath="C:\Program Files\NCover"
+            CommandLineExe="C:\Program Files\NUnit 2.5.3\bin\net-2.0\nunit-console.exe"
+            CommandLineArgs="D:\Data\TeamCity\Checkout\ScrewTurn - Formatters - Test\UnitTest\bin\Release\UnitTest.dll"
+            CoverageFile="D:\Data\TeamCity\Checkout\ScrewTurn - Formatters - Test\Coverage.xml"
+            LogFile="D:\Data\TeamCity\Checkout\ScrewTurn - Formatters - Test\Coverage.log"
+            AssemblyList="Keeper.Garrett.ScrewTurn.BlogFormatter;Keeper.Garrett.ScrewTurn.CategoryListFormatter;Keeper.Garrett.ScrewTurn.EventLogFormatter;Keeper.Garrett.ScrewTurn.QueryTableFormatter;" />
       
     <!-- Generate HTML Reports -->
     <!-- Summary Page -->
     <Message Text="#--------- Summary Report ---------#" />
-    <NCoverExplorer ToolPath="$(NCoverExplorerPath)"
-                      ProjectName="$(NCoverProjectName)"
-                      OutputDir="$(NCoverWorkingDir)"
-                      CoverageFiles="$(CoverageXmlReport)"
+    <NCoverExplorer ToolPath="C:\Program Files\NCover"
+                      ProjectName="Test"
+                      OutputDir="D:\Data\TeamCity\Checkout\ScrewTurn - Formatters - Test"
+                      CoverageFiles="D:\Data\TeamCity\Checkout\ScrewTurn - Formatters - Test\Coverage.xml"
                       SatisfactoryCoverage="80"
-                      Exclusions="$(NoCoverage)"
+                      Exclusions="Namespace=Keeper.Garrett.ScrewTurn.Core.NoCoverage"
                       ReportType="ModuleClassSummary"
                       HtmlReportName="CoverageSummary.html" />
     <!-- Full HTML Report -->
     <Message Text="#--------- Full Report ---------#" />
-    <NCoverExplorer ToolPath="$(NCoverExplorerPath)"
-                      ProjectName="$(NCoverProjectName)"
-                      OutputDir="$(NCoverWorkingDir)"
-                      CoverageFiles="$(CoverageXmlReport)"
+    <NCoverExplorer ToolPath="C:\Program Files\NCover"
+                      ProjectName="Test"
+                      OutputDir="D:\Data\TeamCity\Checkout\ScrewTurn - Formatters - Test"
+                      CoverageFiles="D:\Data\TeamCity\Checkout\ScrewTurn - Formatters - Test\Coverage.xml"
                       SatisfactoryCoverage="80"
-                      Exclusions="$(NoCoverage)"
+                      Exclusions="Namespace=Keeper.Garrett.ScrewTurn.Core.NoCoverage"
                       ReportType="FullCoverageReport"
                       HtmlReportName="Coverage.html" />
-    <Exec Command="regsvr32 /u /s  $(NCoverPath)\NCover\CoverLib.dll"/>
-
   </Target>
 
 </Project>
