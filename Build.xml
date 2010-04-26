@@ -35,7 +35,7 @@
     <ItemGroup>
       <NCoverReport1 Include="$(AgentTempDir)\**\index.html" />
       <NCoverReport2 Include="$(AgentTempDir)\NCo*\index.html" />
-      <NCoverReport3 Include="$(AgentTempDir)\index.html" />
+      <NCoverReport3 Include="$(AgentTempDir)\coverage.zip" />
     </ItemGroup>
 
     <Message Text="#--------- SrcFile @(NCoverReport1) ---------#" />
@@ -49,9 +49,9 @@
 
     <Message Text="#--------- DstFile $(AgentTempDir) ---------#" />
 
-    <Copy SourceFiles="@(NCoverReport1)" DestinationFiles="Coverage1.html"/>
-    <Copy SourceFiles="@(NCoverReport2)" DestinationFiles="Coverage2.html"/>
-    <Copy SourceFiles="@(NCoverReport3)" DestinationFiles="Coverage3.html"/>
+    <Copy SourceFiles="@(NCoverReport3)" DestinationFiles="Coverage1.html"/>
+    <Copy SourceFiles="@(NCoverReport3)\index.html" DestinationFiles="Coverage2.html"/>
+    <!--<Copy SourceFiles="@(NCoverReport3)" DestinationFiles="Coverage3.html"/>-->
   </Target>
   
   
