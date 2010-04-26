@@ -7,7 +7,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
     <AssemblyVersion>$(BUILD_NUMBER)</AssemblyVersion>
     <ScrewTurnVersion>$(SCREWTURNVERSION)</ScrewTurnVersion>
-    <AgentTempDir>$(TEAMCITY_BUILD_TEMPDIR%)</AgentTempDir>
+    <AgentTempDir>$(TEAMCITY_BUILD_TEMPDIR)</AgentTempDir>
   </PropertyGroup>
 
   <Target Name="Version" BeforeTargets="Build">
