@@ -60,9 +60,11 @@
       <TestAssemblies>"$(TEAMCITY_BUILD_WORKINGDIR)$(NUNITTESTASSEMBLIES)"</TestAssemblies>
       <CoverageAssemblies>$(COVERAGEASSEMBLIES)</CoverageAssemblies>
 
-      <CoverageLog>$(TEAMCITY_BUILD_WORKINGDIR)\Reports\Coverage.log</CoverageLog>
-      <CoverageXmlReport>$(TEAMCITY_BUILD_WORKINGDIR)\Reports\Coverage.xml</CoverageXmlReport>
-      <CoverageReportDir>$(TEAMCITY_BUILD_WORKINGDIR)\Reports</CoverageReportDir>
+      <ReportDir>$(TEAMCITY_BUILD_WORKINGDIR)\Reports</ReportDir>
+
+      <NUnitReport>$(TEAMCITY_BUILD_WORKINGDIR)\Reports\NUnitReport.xml</NUnitReport>
+      <CoverageLog>$(TEAMCITY_BUILD_WORKINGDIR)\Reports\NCover.log</CoverageLog>
+      <CoverageXmlReport>$(TEAMCITY_BUILD_WORKINGDIR)\Reports\NCover.xml</CoverageXmlReport>
     </PropertyGroup>
     
     
@@ -79,7 +81,7 @@
     <Message Text="# TestAssemblies: $(TestAssemblies) " />
     <Message Text="# CoverageAssemblies: $(CoverageAssemblies) " />
 
-    <Message Text="# CoverageReportDir: $(CoverageReportDir) " />
+    <Message Text="# ReportDir: $(ReportDir) " />
     <Message Text="# CoverageLog: $(CoverageLog) " />
     <Message Text="# CoverageXmlReport: $(CoverageXmlReport) " />
     <Message Text="###########################################################################" />
@@ -88,15 +90,15 @@
 
     <Message Text="##teamcity[progressStart 'Cleaning reports']"/>
     
-    <RemoveDir Directories="$(CoverageReportDir)" Condition="Exists('$(CoverageReportDir)')" />
-    <MakeDir Directories="$(CoverageReportDir)" Condition="!Exists('$(CoverageReportDir)')" />
+    <RemoveDir Directories="$(ReportDir)" Condition="Exists('$(ReportDir)')" />
+    <MakeDir Directories="$(ReportDir)" Condition="!Exists('$(ReportDir)')" />
     
     <Message Text="##teamcity[progressFinish 'Cleaning reports']"/>
 
     <Message Text="##teamcity[progressStart 'Running NCover 1.5.8.']"/>
     <Message Text="##teamcity[progressFinish 'Running NCover 1.5.8.']"/>
     <NCover ToolPath="$(NCoverPath)"
-            CommandLineExe="$(NUnitPath)\nunit-console.exe"
+            CommandLineExe="$(NUnitPath)\nunit-console.exe /xml:$(NUnitReport)"
             CommandLineArgs="$(TestAssemblies)"
             CoverageFile="$(CoverageXmlReport)"
             LogFile="$(CoverageLog)"
@@ -105,10 +107,10 @@
     <!-- Report to TC, to add to statistics -->
     <!--<Message Text="##teamcity[dotNetCoverage ncover_explorer_tool='$(CoverageXmlReport)']"/>
     <Message Text="##teamcity[dotNetCoverage ncover_explorer_tool_args='$(CoverageXmlReport)']"/>-->
-    <!--<Message Text="##teamcity[dotNetCoverage ncover_explorer_report_type='0']"/>
+    <Message Text="##teamcity[dotNetCoverage ncover_explorer_report_type='0']"/>
     <Message Text="##teamcity[dotNetCoverage ncover_explorer_report_order='0']"/>
-    --><!-- This will generate the standard summary if not remove from config --><!--
-    <Message Text="##teamcity[importData type='dotNetCoverage' tool='ncover' path='$(CoverageXmlReport)']"/>-->
+    <!-- This will generate the standard summary if not remove from config -->
+    <Message Text="##teamcity[importData type='dotNetCoverage' tool='ncover' path='$(CoverageXmlReport)']"/>
 
     <!-- Theese are for visual inspection in TC and Release package only -->
     <Message Text="##teamcity[progressStart 'Generating NCover Reports']"/>
@@ -122,7 +124,7 @@
                       SatisfactoryCoverage="95"
                       Exclusions="$(NoCoverage)"
                       ReportType="ModuleSummary"
-                      HtmlReportName="$(CoverageReportDir)\CoverageModuleSummary.html" />
+                      HtmlReportName="$(ReportDir)\NCoverModuleSummary.html" />
 
     <Message Text="#--------- ModuleClassSummary Report ---------#" />
     <NCoverExplorer ToolPath="$(NCoverExplorerPath)"
@@ -132,7 +134,7 @@
                       SatisfactoryCoverage="95"
                       Exclusions="$(NoCoverage)"
                       ReportType="ModuleClassSummary"
-                      HtmlReportName="$(CoverageReportDir)\CoverageModuleClassSummary.html" />
+                      HtmlReportName="$(ReportDir)\NCoverModuleClassSummary.html" />
 
     <Message Text="#--------- ModuleNamespaceSummary Report ---------#" />
     <NCoverExplorer ToolPath="$(NCoverExplorerPath)"
@@ -142,7 +144,7 @@
                       SatisfactoryCoverage="95"
                       Exclusions="$(NoCoverage)"
                       ReportType="ModuleNamespaceSummary"
-                      HtmlReportName="$(CoverageReportDir)\CoverageModuleNamespaceSummary.html" />
+                      HtmlReportName="$(ReportDir)\NCoverModuleNamespaceSummary.html" />
 
     <Message Text="#--------- ModuleClassFunctionSummary Report ---------#" />
     <NCoverExplorer ToolPath="$(NCoverExplorerPath)"
@@ -152,7 +154,7 @@
                       SatisfactoryCoverage="95"
                       Exclusions="$(NoCoverage)"
                       ReportType="ModuleClassFunctionSummary"
-                      HtmlReportName="$(CoverageReportDir)\CoverageModuleClassFunctionSummary.html" />
+                      HtmlReportName="$(ReportDir)\NCoverModuleClassFunctionSummary.html" />
     
     <Message Text="##teamcity[progressFinish 'Generating NCover Reports']"/>
 
