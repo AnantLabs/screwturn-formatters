@@ -23,7 +23,7 @@
     <NUnitPath>C:\Program Files\NUnit 2.5.3\bin\net-2.0</NUnitPath>
     <NCoverWorkingDir>"$(TEAMCITY_BUILD_WORKINGDIR)"</NCoverWorkingDir>
 
-    <NoCoverage>$(NOCOVERAGENAMESPACES)</NoCoverage>
+    <NoCoverage>Assembly=$(NOCOVERAGENAMESPACES)</NoCoverage>
     <TestAssemblies>"$(TEAMCITY_BUILD_WORKINGDIR)$(NUNITTESTASSEMBLIES)"</TestAssemblies>    <!--Which dll's contains the tests-->
     <CoverageAssemblies>$(COVERAGEASSEMBLIES)</CoverageAssemblies>    <!--Which dll's should be covered-->
 
