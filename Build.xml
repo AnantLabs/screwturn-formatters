@@ -88,7 +88,7 @@
 
     <Message Text="##teamcity[progressStart 'Running NCover 1.5.8.']"/>
     
-    <Message Text="##teamcity[importData type='dotNetCoverage' tool='ncover' path='CoverageModuleClassFunctionSummary.html'" />
+    <Message Text="##teamcity[importData type='dotNetCoverage' tool='ncover' path='$(CoverageReportDir)\CoverageModuleClassFunctionSummary.html'" />
 
     <RemoveDir Directories="$(CoverageReportDir)" Condition="Exists('$(CoverageReportDir)')" />
     <MakeDir Directories="$(CoverageReportDir)" Condition="!Exists('$(CoverageReportDir)')" />
