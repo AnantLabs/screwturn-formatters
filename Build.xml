@@ -78,7 +78,6 @@
             CommandLineExe="$(NUnitPath)\nunit-console.exe"
             CommandLineArgs="$(TestAssemblies)"
             WorkingDirectory="$(NCoverWorkingDir)"
-            Project="$(NCoverProjectName)"
             CoverageFile="$(CoverageXmlReport)"
             FileExclusionPatterns="$(NoCoverage)"
             LogFile="Coverage.log"
