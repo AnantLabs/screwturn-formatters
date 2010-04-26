@@ -21,17 +21,17 @@
     <NCoverPath>C:\Program Files\NCover</NCoverPath>
     <NCoverExplorerPath>C:\Program Files\NCover</NCoverExplorerPath>
     <NUnitPath>C:\Program Files\NUnit 2.5.3\bin\net-2.0</NUnitPath>
-    <NCoverWorkingDir>"$(TEAMCITY_BUILD_WORKINGDIR)"</NCoverWorkingDir>
+    <NCoverWorkingDir>$(TEAMCITY_BUILD_WORKINGDIR)</NCoverWorkingDir>
 
     <NoCoverage>Namespace=$(NOCOVERAGENAMESPACES)</NoCoverage>
-    <TestAssemblies>"$(TEAMCITY_BUILD_WORKINGDIR)$(NUNITTESTASSEMBLIES)"</TestAssemblies>
+    <TestAssemblies>$(TEAMCITY_BUILD_WORKINGDIR)$(NUNITTESTASSEMBLIES)</TestAssemblies>
     <!--Which dll's contains the tests-->
     <CoverageAssemblies>$(COVERAGEASSEMBLIES)</CoverageAssemblies>
     <!--Which dll's should be covered-->
 
-    <CoverageXmlReport>"$(TEAMCITY_BUILD_WORKINGDIR)\Coverage.xml"</CoverageXmlReport>
-    <CoverageFullHtmlReport>"$(TEAMCITY_BUILD_WORKINGDIR)\Coverage.html"</CoverageFullHtmlReport>
-    <CoverageSummaryHtmlReport>"$(TEAMCITY_BUILD_WORKINGDIR)\CoverageSummary.html"</CoverageSummaryHtmlReport>
+    <CoverageXmlReport>$(TEAMCITY_BUILD_WORKINGDIR)\Coverage.xml</CoverageXmlReport>
+    <CoverageFullHtmlReport>$(TEAMCITY_BUILD_WORKINGDIR)\Coverage.html</CoverageFullHtmlReport>
+    <CoverageSummaryHtmlReport>$(TEAMCITY_BUILD_WORKINGDIR)\CoverageSummary.html</CoverageSummaryHtmlReport>
     
   </PropertyGroup>
 
