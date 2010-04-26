@@ -24,12 +24,14 @@
     <NCoverWorkingDir>"$(TEAMCITY_BUILD_WORKINGDIR)"</NCoverWorkingDir>
 
     <NoCoverage>Namespace=$(NOCOVERAGENAMESPACES)</NoCoverage>
-    <TestAssemblies>"$(TEAMCITY_BUILD_WORKINGDIR)$(NUNITTESTASSEMBLIES)"</TestAssemblies>    <!--Which dll's contains the tests-->
-    <CoverageAssemblies>$(COVERAGEASSEMBLIES)</CoverageAssemblies>    <!--Which dll's should be covered-->
+    <TestAssemblies>"$(TEAMCITY_BUILD_WORKINGDIR)$(NUNITTESTASSEMBLIES)"</TestAssemblies>
+    <!--Which dll's contains the tests-->
+    <CoverageAssemblies>$(COVERAGEASSEMBLIES)</CoverageAssemblies>
+    <!--Which dll's should be covered-->
 
-    <CoverageXmlReport>Coverage.xml</CoverageXmlReport>
-    <CoverageFullHtmlReport>Coverage.html</CoverageFullHtmlReport>
-    <CoverageSummaryHtmlReport>CoverageSummary.html</CoverageSummaryHtmlReport>
+    <CoverageXmlReport>$(TEAMCITY_BUILD_WORKINGDIR)\Coverage.xml</CoverageXmlReport>
+    <CoverageFullHtmlReport>$(TEAMCITY_BUILD_WORKINGDIR)\Coverage.html</CoverageFullHtmlReport>
+    <CoverageSummaryHtmlReport>$(TEAMCITY_BUILD_WORKINGDIR)\CoverageSummary.html</CoverageSummaryHtmlReport>
     
   </PropertyGroup>
 
@@ -87,17 +89,21 @@
     <!-- Summary Page -->
     <Message Text="#--------- Summary Report ---------#" />
     <NCoverExplorer ToolPath="$(NCoverExplorerPath)"
+                      ProjectName="$(NCoverProjectName)"
                       OutputDir="$(NCoverWorkingDir)"
                       CoverageFiles="$(CoverageXmlReport)"
                       SatisfactoryCoverage="80"
+                      Exclusions="$(NoCoverage)"
                       ReportType="ModuleClassSummary"
                       HtmlReportName="CoverageSummary.html" />
     <!-- Full HTML Report -->
     <Message Text="#--------- Full Report ---------#" />
     <NCoverExplorer ToolPath="$(NCoverExplorerPath)"
+                      ProjectName="$(NCoverProjectName)"
                       OutputDir="$(NCoverWorkingDir)"
                       CoverageFiles="$(CoverageXmlReport)"
                       SatisfactoryCoverage="80"
+                      Exclusions="$(NoCoverage)"
                       ReportType="FullCoverageReport"
                       HtmlReportName="Coverage.html" />
   </Target>
