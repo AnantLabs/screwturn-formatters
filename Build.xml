@@ -92,7 +92,18 @@
     
     <RemoveDir Directories="$(ReportDir)" Condition="Exists('$(ReportDir)')" />
     <MakeDir Directories="$(ReportDir)" Condition="!Exists('$(ReportDir)')" />
+
+
+    <!-- Report to TC, to add to statistics -->
+    <!--<Message Text="##teamcity[dotNetCoverage ncover_explorer_tool='$(CoverageXmlReport)']"/>
+    <Message Text="##teamcity[dotNetCoverage ncover_explorer_tool_args='$(CoverageXmlReport)']"/>-->
+    <Message Text="##teamcity[dotNetCoverage ncover_explorer_report_type='0']"/>
+    <Message Text="##teamcity[dotNetCoverage ncover_explorer_report_order='0']"/>
+    <!-- This will generate the standard summary if not remove from config -->
+    <Message Text="##teamcity[importData type='dotNetCoverage' tool='ncover' path='$(CoverageXmlReport)']"/>
     
+    
+
     <Message Text="##teamcity[progressFinish 'Cleaning reports']"/>
 
     <Message Text="##teamcity[progressStart 'Running NCover 1.5.8.']"/>
@@ -103,14 +114,6 @@
             CoverageFile="$(CoverageXmlReport)"
             LogFile="$(CoverageLog)"
             AssemblyList="$(CoverageAssemblies)" />
-
-    <!-- Report to TC, to add to statistics -->
-    <!--<Message Text="##teamcity[dotNetCoverage ncover_explorer_tool='$(CoverageXmlReport)']"/>
-    <Message Text="##teamcity[dotNetCoverage ncover_explorer_tool_args='$(CoverageXmlReport)']"/>-->
-    <Message Text="##teamcity[dotNetCoverage ncover_explorer_report_type='0']"/>
-    <Message Text="##teamcity[dotNetCoverage ncover_explorer_report_order='0']"/>
-    <!-- This will generate the standard summary if not remove from config -->
-    <Message Text="##teamcity[importData type='dotNetCoverage' tool='ncover' path='$(CoverageXmlReport)']"/>
 
     <!-- Theese are for visual inspection in TC and Release package only -->
     <Message Text="##teamcity[progressStart 'Generating NCover Reports']"/>
