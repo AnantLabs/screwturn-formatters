@@ -52,7 +52,7 @@
   <!-- What to do after bulid -->
   <Target Name="AfterBuild" AfterTargets="Build">
     <!-- Call NCover -->
-    <CallTarget Condition=" '$(Configuration)' == 'Release' " Targets="Coverage" ContinueOnError="false" />
+    <CallTarget Condition=" '$(Configuration)' == 'Release' " Targets="Coverage" ContinueOnError="true" />
   </Target>
 
 
