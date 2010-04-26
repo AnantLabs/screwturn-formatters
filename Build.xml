@@ -90,7 +90,6 @@
                       OutputDir="$(NCoverWorkingDir)"
                       CoverageFiles="$(CoverageXmlReport)"
                       SatisfactoryCoverage="80"
-                      Exclusions="$(NoCoverage)"
                       ReportType="ModuleClassSummary"
                       HtmlReportName="CoverageSummary.html" />
     <!-- Full HTML Report -->
@@ -99,7 +98,6 @@
                       OutputDir="$(NCoverWorkingDir)"
                       CoverageFiles="$(CoverageXmlReport)"
                       SatisfactoryCoverage="80"
-                      Exclusions="$(NoCoverage)"
                       ReportType="FullCoverageReport"
                       HtmlReportName="Coverage.html" />
   </Target>
