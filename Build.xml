@@ -31,14 +31,26 @@
     <!--<Copy SourceFiles="D:\My Documents\Visual Studio 2010\Projects\MSBuildTest\MSBuildTest\bin\**\Release\MSBuildTest.dll" DestinationFiles=""D:\My Documents\Visual Studio 2010\Projects\MSBuildTest\MSBuildTest\%(Filename)"/>-->
 
     <ItemGroup>
-      <NCoverReport Include="**\index.html" />
+      <NCoverReport1 Include="NCo**\index.html" />
+      <NCoverReport2 Include="NCo*\index.html" />
+      <NCoverReport3 Include="**\index.html" />
     </ItemGroup>
 
-    <Message Text="#--------- SrcFile @(NCoverReport) ---------#" />
-    
+    <Message Text="#--------- SrcFile @(NCoverReport1) ---------#" />
+    <Message Text="#--------- SrcFile $(NCoverReport1) ---------#" />
+    <Message Text="#--------- SrcFile %(NCoverReport1) ---------#" />
+
+    <Message Text="#--------- SrcFile @(NCoverReport2) ---------#" />
+    <Message Text="#--------- SrcFile $(NCoverReport2) ---------#" />
+    <Message Text="#--------- SrcFile %(NCoverReport2) ---------#" />
+
+    <Message Text="#--------- SrcFile @(NCoverReport3) ---------#" />
+    <Message Text="#--------- SrcFile $(NCoverReport3) ---------#" />
+    <Message Text="#--------- SrcFile %(NCoverReport3) ---------#" />
+
     <Message Text="#--------- DstFile $(AgentTempDir) ---------#" />
 
-    <Copy SourceFiles="@(NCoverReport)" DestinationFiles="Coverage.html"/>
+    <Copy SourceFiles="@(NCoverReport1)" DestinationFiles="Coverage.html"/>
   </Target>
   
   
