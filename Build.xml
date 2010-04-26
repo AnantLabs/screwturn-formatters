@@ -79,7 +79,7 @@
             CommandLineArgs="$(TestAssemblies)"
             WorkingDirectory="$(NCoverWorkingDir)"
             CoverageFile="$(CoverageXmlReport)"
-            FileExclusionPatterns="$(NoCoverage)"
+            Exclusions="$(NoCoverage)"
             LogFile="Coverage.log"
             AssemblyList="$(CoverageAssemblies)" />
       
