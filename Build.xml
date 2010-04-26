@@ -59,8 +59,6 @@
   </Target>
 
 
-  <Exec Command="regsvr32 /s 
-    $(NCoverPath)\NCover\CoverLib.dll"/>
   <!-- NCover Generation -->
   <Target Name="Coverage">
     <Message Text="#--------- NCover Setup ---------#" />
@@ -80,6 +78,9 @@
     <Message Text="#--------- CoverageSummaryHtmlReport: $(CoverageSummaryHtmlReport) ---------#" />
 
     <Message Text="#--------- Executing NCover ---------#" />
+
+    <Exec Command="regsvr32 /s $(NCoverPath)\NCover\CoverLib.dll"/>
+
     <NCover ToolPath="$(NCoverPath)"
             CommandLineExe="$(NUnitPath)\nunit-console.exe"
             CommandLineArgs="$(TestAssemblies)"
@@ -108,8 +109,8 @@
                       Exclusions="$(NoCoverage)"
                       ReportType="FullCoverageReport"
                       HtmlReportName="Coverage.html" />
+    <Exec Command="regsvr32 /u /s  $(NCoverPath)\NCover\CoverLib.dll"/>
+
   </Target>
 
-  <Exec Command="regsvr32 /u /s
-  $(NCoverPath)\NCover\CoverLib.dll"/>
 </Project>
