@@ -94,6 +94,7 @@
     <Message Text="##teamcity[progressFinish 'Cleaning reports']"/>
 
     <Message Text="##teamcity[progressStart 'Running NCover 1.5.8.']"/>
+    <Message Text="##teamcity[progressFinish 'Running NCover 1.5.8.']"/>
     <NCover ToolPath="$(NCoverPath)"
             CommandLineExe="$(NUnitPath)\nunit-console.exe"
             CommandLineArgs="$(TestAssemblies)"
@@ -151,9 +152,6 @@
                       ReportType="ModuleClassFunctionSummary"
                       HtmlReportName="$(CoverageReportDir)\CoverageModuleClassFunctionSummary.html" />
     <Message Text="##teamcity[progressFinish 'Creating Class Function Summary']"/>
-
-
-    <Message Text="##teamcity[progressFinish 'Running NCover 1.5.8.']"/>
 
   </Target>
 
