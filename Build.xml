@@ -24,7 +24,7 @@
     <NCoverWorkingDir>$(TEAMCITY_BUILD_WORKINGDIR)</NCoverWorkingDir>
 
     <NoCoverage>Namespace=$(NOCOVERAGENAMESPACES)</NoCoverage>
-    <TestAssemblies>$(TEAMCITY_BUILD_WORKINGDIR)$(NUNITTESTASSEMBLIES)</TestAssemblies>
+    <TestAssemblies>"$(TEAMCITY_BUILD_WORKINGDIR)$(NUNITTESTASSEMBLIES)"</TestAssemblies>
     <!--Which dll's contains the tests-->
     <CoverageAssemblies>$(COVERAGEASSEMBLIES)</CoverageAssemblies>
     <!--Which dll's should be covered-->
