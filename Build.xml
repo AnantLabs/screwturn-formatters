@@ -8,6 +8,7 @@
     <AssemblyVersion>$(BUILD_NUMBER)</AssemblyVersion>
     <ScrewTurnVersion>$(SCREWTURNVERSION)</ScrewTurnVersion>
     <AgentTempDir>$(TEAMCITY_BUILD_TEMPDIR)</AgentTempDir>
+    <AgentCheckoutDir>$(TEAMCITY_BUILD_CHECKOUTDIR)</AgentCheckoutDir>
   </PropertyGroup>
 
   <Target Name="Version" BeforeTargets="Build">
@@ -27,13 +28,14 @@
 
 
   <Target Name="CopyFiles" AfterTargets="Build">
-    <Message Text="#--------- Copying Files $(AgentTempDir)---------#" />
+    <Message Text="#--------- Temp Dir $(AgentTempDir)---------#" />
+    <Message Text="#--------- Checkout Dir $(AgentCheckoutDir)---------#" />
     <!--<Copy SourceFiles="D:\My Documents\Visual Studio 2010\Projects\MSBuildTest\MSBuildTest\bin\**\Release\MSBuildTest.dll" DestinationFiles=""D:\My Documents\Visual Studio 2010\Projects\MSBuildTest\MSBuildTest\%(Filename)"/>-->
 
     <ItemGroup>
-      <NCoverReport1 Include="NCo**\index.html" />
-      <NCoverReport2 Include="NCo*\index.html" />
-      <NCoverReport3 Include="**\index.html" />
+      <NCoverReport1 Include="$(AgentTempDir)\**\index.html" />
+      <NCoverReport2 Include="$(AgentTempDir)\NCo*\index.html" />
+      <NCoverReport3 Include="$(AgentTempDir)\index.html" />
     </ItemGroup>
 
     <Message Text="#--------- SrcFile @(NCoverReport1) ---------#" />
