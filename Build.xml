@@ -111,10 +111,10 @@
     <Message Text="##teamcity[importData type='dotNetCoverage' tool='ncover' path='$(CoverageXmlReport)']"/>
 
     <!-- Theese are for visual inspection in TC and Release package only -->
+    <Message Text="##teamcity[progressStart 'Generating NCover Reports']"/>
+    
     <Message Text="#--------- Generating Reports ---------#" />
     <Message Text="#--------- ModuleSummary Report ---------#" />
-    
-    <Message Text="##teamcity[progressStart 'Creating Summary']"/>
     <NCoverExplorer ToolPath="$(NCoverExplorerPath)"
                       ProjectName="$(NCoverProjectName)"
                       OutputDir="$(NCoverWorkingDir)"
@@ -123,10 +123,8 @@
                       Exclusions="$(NoCoverage)"
                       ReportType="ModuleSummary"
                       HtmlReportName="$(CoverageReportDir)\CoverageModuleSummary.html" />
-    <Message Text="##teamcity[progressFinish 'Creating Summary']"/>
 
     <Message Text="#--------- ModuleClassSummary Report ---------#" />
-    <Message Text="##teamcity[progressStart 'Creating Class Summary']"/>
     <NCoverExplorer ToolPath="$(NCoverExplorerPath)"
                       ProjectName="$(NCoverProjectName)"
                       OutputDir="$(NCoverWorkingDir)"
@@ -135,10 +133,8 @@
                       Exclusions="$(NoCoverage)"
                       ReportType="ModuleClassSummary"
                       HtmlReportName="$(CoverageReportDir)\CoverageModuleClassSummary.html" />
-    <Message Text="##teamcity[progressFinish 'Creating Class Summary']"/>
 
     <Message Text="#--------- ModuleNamespaceSummary Report ---------#" />
-    <Message Text="##teamcity[progressStart 'Creating Namespace Summary']"/>
     <NCoverExplorer ToolPath="$(NCoverExplorerPath)"
                       ProjectName="$(NCoverProjectName)"
                       OutputDir="$(NCoverWorkingDir)"
@@ -147,10 +143,8 @@
                       Exclusions="$(NoCoverage)"
                       ReportType="ModuleNamespaceSummary"
                       HtmlReportName="$(CoverageReportDir)\CoverageModuleNamespaceSummary.html" />
-    <Message Text="##teamcity[progressFinish 'Creating Namespace Summary']"/>
 
     <Message Text="#--------- ModuleClassFunctionSummary Report ---------#" />
-    <Message Text="##teamcity[progressStart 'Creating Class Function Summary']"/>
     <NCoverExplorer ToolPath="$(NCoverExplorerPath)"
                       ProjectName="$(NCoverProjectName)"
                       OutputDir="$(NCoverWorkingDir)"
@@ -159,7 +153,8 @@
                       Exclusions="$(NoCoverage)"
                       ReportType="ModuleClassFunctionSummary"
                       HtmlReportName="$(CoverageReportDir)\CoverageModuleClassFunctionSummary.html" />
-    <Message Text="##teamcity[progressFinish 'Creating Class Function Summary']"/>
+    
+    <Message Text="##teamcity[progressFinish 'Generating NCover Reports']"/>
 
   </Target>
 
