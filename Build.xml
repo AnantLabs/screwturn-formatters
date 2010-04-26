@@ -63,8 +63,8 @@
       <ReportDir>$(TEAMCITY_BUILD_WORKINGDIR)\Reports</ReportDir>
 
       <NUnitReport>$(TEAMCITY_BUILD_WORKINGDIR)\Reports\NUnitReport.xml</NUnitReport>
-      <CoverageLog>$(TEAMCITY_BUILD_WORKINGDIR)\Reports\NCover.log</CoverageLog>
-      <CoverageXmlReport>$(TEAMCITY_BUILD_WORKINGDIR)\Reports\NCover.xml</CoverageXmlReport>
+      <CoverageLog>$(TEAMCITY_BUILD_WORKINGDIR)\Reports\NCoverLog.log</CoverageLog>
+      <CoverageXmlReport>$(TEAMCITY_BUILD_WORKINGDIR)\Reports\NCoverReport.xml</CoverageXmlReport>
     </PropertyGroup>
     
     
