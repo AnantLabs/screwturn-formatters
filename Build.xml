@@ -86,8 +86,7 @@
       
     <!-- Generate HTML Reports -->
     <!-- Summary Page -->
-    <Message Text="#--------- Summary Report ---------#" />
-    <NCoverExplorer ToolPath="$(NCoverExplorerPath)"
+    <!--<NCoverExplorer ToolPath="$(NCoverExplorerPath)"
                       ProjectName="$(NCoverProjectName)"
                       OutputDir="$(NCoverWorkingDir)"
                       CoverageFiles="$(CoverageXmlReport)"
@@ -95,8 +94,7 @@
                       Exclusions="$(NoCoverage)"
                       ReportType="ModuleClassSummary"
                       HtmlReportName="CoverageSummary.html" />
-    <!-- Full HTML Report -->
-    <Message Text="#--------- Full Report ---------#" />
+    --><!-- Full HTML Report --><!--
     <NCoverExplorer ToolPath="$(NCoverExplorerPath)"
                       ProjectName="$(NCoverProjectName)"
                       OutputDir="$(NCoverWorkingDir)"
@@ -104,6 +102,6 @@
                       SatisfactoryCoverage="80"
                       Exclusions="$(NoCoverage)"
                       ReportType="FullCoverageReport"
-                      HtmlReportName="Coverage.html" />
+                      HtmlReportName="Coverage.html" />-->
   </Target>
 </Project>
