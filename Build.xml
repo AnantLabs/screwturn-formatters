@@ -5,14 +5,31 @@
 
   <UsingTask TaskName="NCoverExplorer.MSBuildTasks.NCover" AssemblyFile="C:\Program Files\NCover\NCoverExplorer\NCoverExplorer.MSBuildTasks.dll" />
   <UsingTask TaskName="NCoverExplorer.MSBuildTasks.NCoverExplorer" AssemblyFile="C:\Program Files\NCover\NCoverExplorer\NCoverExplorer.MSBuildTasks.dll" />
-
   
   <PropertyGroup>
+    <!-- Build -->
     <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+    
+    <!-- Assembly Version -->
     <AssemblyVersion>$(BUILD_NUMBER)</AssemblyVersion>
     <ScrewTurnVersion>$(SCREWTURNVERSION)</ScrewTurnVersion>
     <AgentTempDir>$(TEAMCITY_BUILD_TEMPDIR)</AgentTempDir>
     <AgentCheckoutDir>$(TEAMCITY_BUILD_CHECKOUTDIR)</AgentCheckoutDir>
+    
+    <!-- NCover -->
+    <NCoverProjectName>$(TEAMCITY_PROJECTNAME) - $(TEAMCITY_BUILDCONFNAME)</NCoverProjectName>
+    <NCoverPath>C:\Program Files\NCover</NCoverPath>
+    <NUnitPath>C:\Program Files\NUnit 2.5.3\bin\net-2.0</NUnitPath>
+    <NCoverWorkingDir>$(TEAMCITY_BUILD_WORKINGDIR)</NCoverWorkingDir>
+
+    <NoCoverage>$(NOCOVERAGENAMESPACES)</NoCoverage>
+    <TestAssemblies>$(NUNITTESTASSEMBLIES)</TestAssemblies>    <!--Which dll's contains the tests-->
+    <CoverageAssemblies>$(COVERAGEASSEMBLIES)</CoverageAssemblies>    <!--Which dll's should be covered-->
+
+    <CoverageXmlReport>Coverage.xml</CoverageXmlReport>
+    <CoverageFullHtmlReport>Coverage.html</CoverageFullHtmlReport>
+    <CoverageSummaryHtmlReport>CoverageSummary.html</CoverageSummaryHtmlReport>
+    
   </PropertyGroup>
 
   <!-- Assign Assembly version numbers -->
@@ -33,28 +50,13 @@
   </Target>
 
   <!-- What to do after bulid -->
-  <Target Name="AfterBuild">
+  <Target Name="AfterBuild" AfterTargets="Build">
     <!-- Call NCover -->
     <CallTarget Condition=" '$(Configuration)' == 'Release' " Targets="SummaryCoverage" ContinueOnError="false" />
   </Target>
 
 
   <!-- NCover Generation -->
-  <PropertyGroup>
-    <NCoverProjectName>$(TEAMCITY_PROJECTNAME) - $(TEAMCITY_BUILDCONFNAME)</NCoverProjectName>
-    <NCoverPath>C:\Program Files\NCover</NCoverPath>
-    <NUnitPath>C:\Program Files\NUnit 2.5.3\bin\net-2.0</NUnitPath>
-    <NCoverWorkingDir>$(TEAMCITY_BUILD_WORKINGDIR)</NCoverWorkingDir>
-
-    <NoCoverage>$(NOCOVERAGENAMESPACES)</NoCoverage>
-    <TestAssemblies>$(NUNITTESTASSEMBLIES)</TestAssemblies>         <!--Which dll's contains the tests-->
-    <CoverageAssemblies>$(COVERAGEASSEMBLIES)</CoverageAssemblies> <!--Which dll's should be covered-->
-    
-    <CoverageXmlReport>Coverage.xml</CoverageXmlReport>
-    <CoverageFullHtmlReport>Coverage.html</CoverageFullHtmlReport>
-    <CoverageSummaryHtmlReport>CoverageSummary.html</CoverageSummaryHtmlReport>
-  </PropertyGroup>
-
   <Target Name="FullCoverage">
     <Message Text="#--------- NCover Setup ---------#" />
 
