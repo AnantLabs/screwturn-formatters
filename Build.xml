@@ -56,7 +56,7 @@
       <NUnitPath>C:\Program Files\NUnit 2.5.3\bin\net-2.0</NUnitPath>
       <NCoverWorkingDir>$(TEAMCITY_BUILD_WORKINGDIR)</NCoverWorkingDir>
 
-      <NoCoverage>Assembly=$(NOCOVERAGENAMESPACES);Namespace=$(NOCOVERAGENAMESPACES)</NoCoverage>
+      <NoCoverage>"Assembly=$(NOCOVERAGENAMESPACES);Namespace=$(NOCOVERAGENAMESPACES)"</NoCoverage>
       <TestAssemblies>"$(TEAMCITY_BUILD_WORKINGDIR)$(NUNITTESTASSEMBLIES)"</TestAssemblies>
       <CoverageAssemblies>$(COVERAGEASSEMBLIES)</CoverageAssemblies>
 
