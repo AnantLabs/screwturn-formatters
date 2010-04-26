@@ -59,6 +59,8 @@
   </Target>
 
 
+  <Exec Command="regsvr32 /s 
+    $(NCoverPath)\NCover\CoverLib.dll"/>
   <!-- NCover Generation -->
   <Target Name="Coverage">
     <Message Text="#--------- NCover Setup ---------#" />
@@ -93,6 +95,7 @@
                       OutputDir="$(NCoverWorkingDir)"
                       CoverageFiles="$(CoverageXmlReport)"
                       SatisfactoryCoverage="80"
+                      Exclusions="$(NoCoverage)"
                       ReportType="ModuleClassSummary"
                       HtmlReportName="CoverageSummary.html" />
     <!-- Full HTML Report -->
@@ -102,7 +105,11 @@
                       OutputDir="$(NCoverWorkingDir)"
                       CoverageFiles="$(CoverageXmlReport)"
                       SatisfactoryCoverage="80"
+                      Exclusions="$(NoCoverage)"
                       ReportType="FullCoverageReport"
                       HtmlReportName="Coverage.html" />
   </Target>
+
+  <Exec Command="regsvr32 /u /s
+  $(NCoverPath)\NCover\CoverLib.dll"/>
 </Project>
