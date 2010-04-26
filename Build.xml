@@ -12,10 +12,13 @@
   </PropertyGroup>
 
   <!-- Assign Assembly version numbers -->
+  <!--###########################################################################################################################################################-->
   <Target Name="Version" BeforeTargets="Build">
 
-    <!-- Assembly Version -->
-    <AssemblyVersion>$(BUILD_NUMBER)</AssemblyVersion>
+    <PropertyGroup>
+      <!-- Assembly Version -->
+      <AssemblyVersion>$(BUILD_NUMBER)</AssemblyVersion>
+    </PropertyGroup>
     
     <Message Text="#--------- Updating Versions to $(AssemblyVersion) ---------#" />
     <ItemGroup>
@@ -27,12 +30,14 @@
   </Target>
   
   <!-- The actual build -->
+  <!--###########################################################################################################################################################-->
   <Target Name="Build" AfterTargets="Version">
     <Message Text="#--------- Building ---------#" />
     <MSBuild Projects="ScrewTurn.sln" Targets="Rebuild" Properties="Configuration=$(Configuration)" />
   </Target>
 
   <!-- What to do after bulid -->
+  <!--###########################################################################################################################################################-->
   <Target Name="AfterBuild" AfterTargets="Build">
     <!-- Call NCover -->
     <CallTarget Condition=" '$(Configuration)' == 'Release' " Targets="Coverage" ContinueOnError="true" />
@@ -40,22 +45,25 @@
 
 
   <!-- NCover Generation -->
+  <!--###########################################################################################################################################################-->
   <Target Name="Coverage">
 
     <!-- NCover -->
-    <NCoverProjectName>$(TEAMCITY_PROJECTNAME) :: $(TEAMCITY_BUILDCONFNAME)</NCoverProjectName>
-    <NCoverPath>C:\Program Files\NCover</NCoverPath>
-    <NCoverExplorerPath>C:\Program Files\NCover</NCoverExplorerPath>
-    <NUnitPath>C:\Program Files\NUnit 2.5.3\bin\net-2.0</NUnitPath>
-    <NCoverWorkingDir>$(TEAMCITY_BUILD_WORKINGDIR)</NCoverWorkingDir>
+    <PropertyGroup>
+      <NCoverProjectName>$(TEAMCITY_PROJECTNAME) :: $(TEAMCITY_BUILDCONFNAME)</NCoverProjectName>
+      <NCoverPath>C:\Program Files\NCover</NCoverPath>
+      <NCoverExplorerPath>C:\Program Files\NCover</NCoverExplorerPath>
+      <NUnitPath>C:\Program Files\NUnit 2.5.3\bin\net-2.0</NUnitPath>
+      <NCoverWorkingDir>$(TEAMCITY_BUILD_WORKINGDIR)</NCoverWorkingDir>
 
-    <NoCoverage>Namespace=$(NOCOVERAGENAMESPACES)</NoCoverage>
-    <TestAssemblies>"$(TEAMCITY_BUILD_WORKINGDIR)$(NUNITTESTASSEMBLIES)"</TestAssemblies>
-    <CoverageAssemblies>$(COVERAGEASSEMBLIES)</CoverageAssemblies>
+      <NoCoverage>Namespace=$(NOCOVERAGENAMESPACES)</NoCoverage>
+      <TestAssemblies>"$(TEAMCITY_BUILD_WORKINGDIR)$(NUNITTESTASSEMBLIES)"</TestAssemblies>
+      <CoverageAssemblies>$(COVERAGEASSEMBLIES)</CoverageAssemblies>
 
-    <CoverageLog>$(TEAMCITY_BUILD_WORKINGDIR)\Reports\Coverage.log</CoverageLog>
-    <CoverageXmlReport>$(TEAMCITY_BUILD_WORKINGDIR)\Reports\Coverage.xml</CoverageXmlReport>
-    <CoverageReportDir>$(TEAMCITY_BUILD_WORKINGDIR)\Reports</CoverageReportDir>
+      <CoverageLog>$(TEAMCITY_BUILD_WORKINGDIR)\Reports\Coverage.log</CoverageLog>
+      <CoverageXmlReport>$(TEAMCITY_BUILD_WORKINGDIR)\Reports\Coverage.xml</CoverageXmlReport>
+      <CoverageReportDir>$(TEAMCITY_BUILD_WORKINGDIR)\Reports</CoverageReportDir>
+    </PropertyGroup>
     
     
     <Message Text="#--------- NCover Setup ---------#" />
