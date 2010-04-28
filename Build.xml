@@ -41,7 +41,7 @@
   <Target Name="AfterBuild" AfterTargets="Build">
     <!-- Call NCover -->
     <CallTarget Condition=" '$(Configuration)' == 'Release' " Targets="Coverage" ContinueOnError="true" />
-    <CallTarget Condition=" '$(Configuration)' == 'Release' " Targets="Deploy" ContinueOnError="false" />
+    <!--<CallTarget Condition=" '$(Configuration)' == 'Release' " Targets="Deploy" ContinueOnError="false" />-->
   </Target>
 
 
@@ -169,12 +169,18 @@
 
 
   <!-- Deployment -->
-  <Target Name="Deploy">
-    <!--<RemoveDir Directories="$(DeploymentFolder)" ContinueOnError="true" />-->
-    <ItemGroup>
-      <DeploymentFiles Include="$(TEAMCITY_BUILD_WORKINGDIR)\Reports\**\*.*" />
-    </ItemGroup>
+  <!--###########################################################################################################################################################-->
+  <!--<Target Name="Deploy">
+
+    <PropertyGroup>
+      <DeploymentDestination>$(DeploymentDestination)</DeploymentDestination>
+      <DeploymentSource>$(DeploymentSource)</DeploymentSource>
+    </PropertyGroup>
     
-    <Copy SourceFiles="@(DeploymentFiles)" DestinationFolder="\\GARRETT\DeploymentShare\%(RecursiveDir)" />
-  </Target>
+    <ItemGroup>
+      <DeploymentFiles Include="$(TEAMCITY_BUILD_WORKINGDIR)\$(DeploymentSource)" />
+    </ItemGroup>
+
+    <Copy SourceFiles="@(DeploymentFiles)" DestinationFolder="$(DeploymentDestination)\%(RecursiveDir)" />
+  </Target>-->
 </Project>
