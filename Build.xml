@@ -107,8 +107,8 @@
             AssemblyList="$(CoverageAssemblies)" />
 
     <!-- Report to TC, to add to statistics -->
-    <!--<Message Text="##teamcity[dotNetCoverage ncover_explorer_tool='$(NCoverExplorerPath)']"/>
-    <Message Text="##teamcity[dotNetCoverage ncover_explorer_tool_args='']"/>-->
+    <Message Text="##teamcity[dotNetCoverage ncover_explorer_tool='$(NCoverExplorerPath)']"/>
+    <!--<Message Text="##teamcity[dotNetCoverage ncover_explorer_tool_args='']"/>-->
     <Message Text="##teamcity[dotNetCoverage ncover_explorer_report_type='0']"/>
     <Message Text="##teamcity[dotNetCoverage ncover_explorer_report_order='0']"/>
     <!-- This will generate the standard summary if not remove from config -->
