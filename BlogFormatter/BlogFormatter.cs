@@ -130,6 +130,7 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
                                                     //Build dict
                                                     if (content != null)
                                                     {
+//                                                        CreateUser = provider.GetBackupContent(pageInfo,-1).User
                                                         var postAuthor = m_Host.FindUser(content.User);
                                                         var info = new BlogPostInfo() 
                                                         { 
@@ -137,7 +138,7 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
                                                             NoOfComments = provider.GetMessageCount(pageInfo),
                                                             UserName = content.User,
                                                             UserDisplayName = postAuthor.DisplayName,
-                                                            UserGravatar = Gravatar.GenerateGravatarLink(postAuthor.Email)
+                                                            UserGravatar = Gravatar.GenerateGravatarLink(postAuthor.Email),
                                                         };
                                                         
                                                         //Sort method
@@ -266,7 +267,7 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
                     string title = "";
                     if (_showGravatar)
                     {
-                        title = string.Format("<p class=\"blogavatar\"<a href=\"User.aspx?Username={0}\">{1}</a></p>\n", entry.Value.UserName, entry.Value.UserGravatar);
+                        title = string.Format("<p class=\"blogavatar\"><a href=\"User.aspx?Username={0}\">{1}</a></p>\n", entry.Value.UserName, entry.Value.UserGravatar);
                         title = string.Format("{0}<h1 class=\"blogavatartitle\"><a href=\"{1}.ashx\">{2}</a></h1>\n", title, entry.Value.Content.PageInfo.FullName, entry.Value.Content.Title);
                     }
                     else

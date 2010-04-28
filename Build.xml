@@ -41,6 +41,7 @@
   <Target Name="AfterBuild" AfterTargets="Build">
     <!-- Call NCover -->
     <CallTarget Condition=" '$(Configuration)' == 'Release' " Targets="Coverage" ContinueOnError="true" />
+    <CallTarget Condition=" '$(Configuration)' == 'Release' " Targets="Deploy" ContinueOnError="false" />
   </Target>
 
 
@@ -166,4 +167,14 @@
 
   </Target>
 
+
+  <!-- Deployment -->
+  <Target Name="Deploy">
+    <!--<RemoveDir Directories="$(DeploymentFolder)" ContinueOnError="true" />-->
+    <ItemGroup>
+      <DeploymentFiles Include="$(TEAMCITY_BUILD_WORKINGDIR)\Reports\**\*.*" />
+    </ItemGroup>
+    
+    <Copy SourceFiles="@(DeploymentFiles)" DestinationFolder="C:\TestDeployment\%(RecursiveDir)" />
+  </Target>
 </Project>
