@@ -58,7 +58,7 @@
       <NCoverWorkingDir>$(TEAMCITY_BUILD_WORKINGDIR)</NCoverWorkingDir>
 
       <NoCoverageAttributes>$(NOCOVERAGEATTRIBUTES)</NoCoverageAttributes>
-      <TestAssemblies>"$(TEAMCITY_BUILD_WORKINGDIR)$(NUNITTESTASSEMBLIES)"</TestAssemblies>
+      <TestAssemblies>"$(TEAMCITY_BUILD_WORKINGDIR)\$(NUNITTESTASSEMBLIES)"</TestAssemblies>
       <CoverageAssemblies>$(COVERAGEASSEMBLIES)</CoverageAssemblies>
 
       <ReportDir>$(TEAMCITY_BUILD_WORKINGDIR)\Reports</ReportDir>
