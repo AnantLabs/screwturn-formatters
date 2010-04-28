@@ -57,8 +57,7 @@
       <NUnitPath>C:\Program Files\NUnit 2.5.3\bin\net-2.0</NUnitPath>
       <NCoverWorkingDir>$(TEAMCITY_BUILD_WORKINGDIR)</NCoverWorkingDir>
 
-      <NoCoverageAssemblies>Assembly=$(NOCOVERAGENAMESPACES);Namespace=$(NOCOVERAGENAMESPACES)</NoCoverageAssemblies>
-      <NoCoverageAttribute>$(NOCOVERAGENAMESPACES)</NoCoverageAttribute>
+      <NoCoverageAttributes>$(NOCOVERAGEATTRIBUTES)</NoCoverageAttributes>
       <TestAssemblies>"$(TEAMCITY_BUILD_WORKINGDIR)$(NUNITTESTASSEMBLIES)"</TestAssemblies>
       <CoverageAssemblies>$(COVERAGEASSEMBLIES)</CoverageAssemblies>
 
@@ -79,7 +78,7 @@
     <Message Text="# NUnitPath: $(NUnitPath) " />
     <Message Text="# NCoverWorkingDir: $(NCoverWorkingDir) " />
 
-    <Message Text="# NoCoverage: $(NoCoverage) " />
+    <Message Text="# NoCoverageAttributes: $(NoCoverageAttributes) " />
     <Message Text="# TestAssemblies: $(TestAssemblies) " />
     <Message Text="# CoverageAssemblies: $(CoverageAssemblies) " />
 
@@ -104,7 +103,7 @@
             CommandLineArgs=" /xml:$(NUnitReport) $(TestAssemblies)"
             CoverageFile="$(CoverageXmlReport)"
             LogFile="$(CoverageLog)"
-            ExcludeAttributes="$(NoCoverageAttribute)"
+            ExcludeAttributes="$(NoCoverageAttributes)"
             AssemblyList="$(CoverageAssemblies)" />
 
     <!-- Report to TC, to add to statistics -->
