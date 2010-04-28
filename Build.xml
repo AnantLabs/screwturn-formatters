@@ -175,6 +175,6 @@
       <DeploymentFiles Include="$(TEAMCITY_BUILD_WORKINGDIR)\Reports\**\*.*" />
     </ItemGroup>
     
-    <Copy SourceFiles="@(DeploymentFiles)" DestinationFolder="C:\TestDeployment\%(RecursiveDir)" />
+    <Copy SourceFiles="@(DeploymentFiles)" DestinationFolder="\\GARRETT\DeploymentShare\%(RecursiveDir)" />
   </Target>
 </Project>
