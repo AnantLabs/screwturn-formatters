@@ -57,7 +57,7 @@ namespace UnitTest
 
             host.Expect(x => x.GetPageContent(null)).IgnoreArguments().Return(null);
             host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
-            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("true");
+            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("yes");
 
             // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
             string input = "bla bla bla {Blog(MyBlog,3,3,false,false,false,false,'About',,)} bla bla bla";
@@ -94,7 +94,7 @@ namespace UnitTest
 
             host.Expect(x => x.GetPageContent(aboutPage)).Return(aboutContent);
             host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
-            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("true");
+            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("yes");
 
             // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
             string input = "bla bla bla {Blog(MyBlog,3,3,false,false,false,false,'About',,)} bla bla bla";
@@ -131,7 +131,7 @@ namespace UnitTest
 
             host.Expect(x => x.GetPageContent(aboutPage)).Return(aboutContent);
             host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
-            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("true");
+            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("yes");
 
             // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
             string input = "bla bla bla {Blog(MyBlog,3,3,false,false,false,false,'MyPage',,)} bla bla bla";
@@ -184,7 +184,7 @@ namespace UnitTest
             host.Expect(x => x.GetPageContent(pageInfo4)).Return(pageContent4);
 
             host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
-            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("true");
+            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("yes");
 
             // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
             string input = "bla bla bla {Blog(MyBlog,3,3,false,false,false,false,,,)} bla bla bla";
@@ -231,7 +231,7 @@ namespace UnitTest
             host.Expect(x => x.GetPageContent(pageInfo3)).Return(pageContent3);
 
             host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
-            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("true");
+            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("yes");
             host.Expect(x => x.FindUser("User")).Repeat.Any().Return(new UserInfo("User", "Garrett", "", true, DateTime.Now, null));
 
             // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
@@ -280,7 +280,7 @@ namespace UnitTest
             host.Expect(x => x.GetPageContent(pageInfo3)).Return(pageContent3);
 
             host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
-            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("true");
+            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("yes");
             host.Expect(x => x.FindUser("User")).Repeat.Any().Return(new UserInfo("User", "Garrett", "", true, DateTime.Now, null));
 
             // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
@@ -316,7 +316,7 @@ namespace UnitTest
             provider.Expect(x => x.GetMessageCount(null)).IgnoreArguments().Return(3).Repeat.Any();
 
             host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
-            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("true");
+            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("yes");
             host.Expect(x => x.FindUser("User")).Repeat.Any().Return(new UserInfo("User", "Garrett", "", true, DateTime.Now, null));
 
             // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
@@ -328,6 +328,107 @@ namespace UnitTest
 
             //Assert
             Assert.AreEqual(true, retval.Contains("No posts yet!"));
+        }
+
+        [Test]
+        public void BlogPost_3_Posts_ShowGravatar()
+        {
+            //Arrange
+            var formatter = new BlogFormatter();
+            var host = MockRepository.GenerateStub<IHostV30>();
+            var settings = MockRepository.GenerateStub<ISettingsStorageProviderV30>();
+            var provider = MockRepository.GenerateStub<IPagesStorageProviderV30>();
+            var currentPageInfo = new PageInfo("BlogPage", provider, DateTime.Now);
+            var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });
+
+            var catInfo = new CategoryInfo[1] { MockRepository.GenerateStub<CategoryInfo>("Blog", provider) };
+            catInfo[0].Pages = new string[] { "MyPage1", "MyPage2", "MyPage3" };
+            var pageInfo1 = new PageInfo("MyPage1", provider, new DateTime(2010, 1, 1));
+            var pageInfo2 = new PageInfo("MyPage2", provider, new DateTime(2010, 1, 2));
+            var pageInfo3 = new PageInfo("MyPage3", provider, new DateTime(2010, 1, 3));
+            var pageContent1 = MockRepository.GenerateStub<PageContent>(pageInfo1, "Page 1", "User", new DateTime(2010, 1, 1), "", "Content 1", null, "My Description 1");
+            var pageContent2 = MockRepository.GenerateStub<PageContent>(pageInfo2, "Page 2", "User", new DateTime(2010, 1, 2), "", "Content 2", null, "My Description 2");
+            var pageContent3 = MockRepository.GenerateStub<PageContent>(pageInfo3, "Page 3", "User", new DateTime(2010, 1, 3), "", "Content 3", null, "My Description 3");
+
+            //Expect
+            provider.Expect(x => x.GetCategoriesForPage(null)).IgnoreArguments().Return(catInfo);
+            provider.Expect(x => x.GetCategory(null)).IgnoreArguments().Return(catInfo[0]);
+            provider.Expect(x => x.GetMessageCount(null)).IgnoreArguments().Return(3).Repeat.Any();
+
+            host.Expect(x => x.FindPage("MyPage1")).Return(pageInfo1);
+            host.Expect(x => x.FindPage("MyPage2")).Return(pageInfo2);
+            host.Expect(x => x.FindPage("MyPage3")).Return(pageInfo3);
+            host.Expect(x => x.GetPageContent(pageInfo1)).Return(pageContent1);
+            host.Expect(x => x.GetPageContent(pageInfo2)).Return(pageContent2);
+            host.Expect(x => x.GetPageContent(pageInfo3)).Return(pageContent3);
+
+            host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
+            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("yes");
+            host.Expect(x => x.FindUser("User")).Repeat.Any().Return(new UserInfo("User", "Garrett", "", true, DateTime.Now, null));
+
+            // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
+            string input = "bla bla bla {Blog(MyBlog,3,3,false,true,false,false,,,)} bla bla bla";
+
+            //Act
+            formatter.Init(host, "");
+            var retval = formatter.Format(input, context, FormattingPhase.Phase1);
+
+            //Assert
+            Assert.AreEqual(true, retval.Contains("<h1 class=\"blogavatartitle\"><a href=\"MyPage1.ashx\">Page 1</a></h1>\n"));
+            Assert.AreEqual(true, retval.Contains("<h1 class=\"blogavatartitle\"><a href=\"MyPage2.ashx\">Page 2</a></h1>\n"));
+            Assert.AreEqual(true, retval.Contains("<h1 class=\"blogavatartitle\"><a href=\"MyPage3.ashx\">Page 3</a></h1>\n"));
+        }
+
+        [Test]
+        public void BlogPost_3_OrderByLastModified()
+        {
+            //Arrange
+            var formatter = new BlogFormatter();
+            var host = MockRepository.GenerateStub<IHostV30>();
+            var settings = MockRepository.GenerateStub<ISettingsStorageProviderV30>();
+            var provider = MockRepository.GenerateStub<IPagesStorageProviderV30>();
+            var currentPageInfo = new PageInfo("BlogPage", provider, DateTime.Now);
+            var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });
+
+            var catInfo = new CategoryInfo[1] { MockRepository.GenerateStub<CategoryInfo>("Blog", provider) };
+            catInfo[0].Pages = new string[] { "MyPage1", "MyPage2", "MyPage3" };
+            var pageInfo1 = new PageInfo("MyPage1", provider, new DateTime(2010, 1, 1));
+            var pageInfo2 = new PageInfo("MyPage2", provider, new DateTime(2010, 1, 2));
+            var pageInfo3 = new PageInfo("MyPage3", provider, new DateTime(2010, 1, 3));
+            var pageContent1 = MockRepository.GenerateStub<PageContent>(pageInfo1, "Page 1", "User", new DateTime(2010, 1, 1), "", "Content 1", null, "My Description 1");
+            var pageContent2 = MockRepository.GenerateStub<PageContent>(pageInfo2, "Page 2", "User", new DateTime(2010, 1, 2), "", "Content 2", null, "My Description 2");
+            var pageContent3 = MockRepository.GenerateStub<PageContent>(pageInfo3, "Page 3", "User", new DateTime(2010, 1, 3), "", "Content 3", null, "My Description 3");
+
+            //Expect
+            provider.Expect(x => x.GetCategoriesForPage(null)).IgnoreArguments().Return(catInfo);
+            provider.Expect(x => x.GetCategory(null)).IgnoreArguments().Return(catInfo[0]);
+            provider.Expect(x => x.GetMessageCount(null)).IgnoreArguments().Return(3).Repeat.Any();
+            provider.Expect(x => x.GetBackupContent(pageInfo1, -1)).Return(pageContent1);
+            provider.Expect(x => x.GetBackupContent(pageInfo2, -1)).Return(pageContent2);
+            provider.Expect(x => x.GetBackupContent(pageInfo3, -1)).Return(pageContent3);
+
+            host.Expect(x => x.FindPage("MyPage1")).Return(pageInfo1);
+            host.Expect(x => x.FindPage("MyPage2")).Return(pageInfo2);
+            host.Expect(x => x.FindPage("MyPage3")).Return(pageInfo3);
+            host.Expect(x => x.GetPageContent(pageInfo1)).Return(pageContent1);
+            host.Expect(x => x.GetPageContent(pageInfo2)).Return(pageContent2);
+            host.Expect(x => x.GetPageContent(pageInfo3)).Return(pageContent3);
+
+            host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
+            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("yes");
+            host.Expect(x => x.FindUser("User")).Repeat.Any().Return(new UserInfo("User", "Garrett", "", true, DateTime.Now, null));
+
+            // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
+            string input = "bla bla bla {Blog(MyBlog,3,3,true,false,false,false,,,)} bla bla bla";
+
+            //Act
+            formatter.Init(host, "");
+            var retval = formatter.Format(input, context, FormattingPhase.Phase1);
+
+            //Assert
+            Assert.AreEqual(true, retval.Contains("<h1 class=\"blogtitle\"><a href=\"MyPage3.ashx\">Page 3</a></h1>"));
+            Assert.AreEqual(true, retval.Contains("<h1 class=\"blogtitle\"><a href=\"MyPage2.ashx\">Page 2</a></h1>"));
+            Assert.AreEqual(true, retval.Contains("<h1 class=\"blogtitle\"><a href=\"MyPage1.ashx\">Page 1</a></h1>"));
         }
 
         #region Archive
@@ -352,7 +453,7 @@ namespace UnitTest
 
             host.Expect(x => x.GetPageContent(null)).IgnoreArguments().Return(null);
             host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
-            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("true");
+            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("yes");
 
             // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
             string input = "bla bla bla {Blog(MyBlog,3,3,false,false,false,true,,,)} bla bla bla";
@@ -391,7 +492,7 @@ namespace UnitTest
             host.Expect(x => x.GetPageContent(pageInfo1)).Return(pageContent1);
 
             host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
-            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("true");
+            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("yes");
             host.Expect(x => x.FindUser("User")).Repeat.Any().Return(new UserInfo("User", "Garrett", "", true, DateTime.Now, null));
 
             // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
@@ -439,7 +540,7 @@ namespace UnitTest
             host.Expect(x => x.GetPageContent(pageInfo3)).Return(pageContent3);
 
             host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
-            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("true");
+            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("yes");
             host.Expect(x => x.FindUser("User")).Repeat.Any().Return(new UserInfo("User", "Garrett", "", true, DateTime.Now, null));
 
             // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
@@ -477,7 +578,7 @@ namespace UnitTest
 
             host.Expect(x => x.GetPageContent(null)).IgnoreArguments().Return(null);
             host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
-            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("true");
+            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("yes");
 
             // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
             string input = "bla bla bla {Blog(MyBlog,3,3,false,false,false,false,,'Bottom',)} bla bla bla";
@@ -514,10 +615,10 @@ namespace UnitTest
 
             host.Expect(x => x.GetPageContent(aboutPage)).Return(aboutContent);
             host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
-            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("true");
+            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("yes");
 
             // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
-            string input = "bla bla bla {Blog(MyBlog,3,3,false,false,false,false,'Bottom',,)} bla bla bla";
+            string input = "bla bla bla {Blog(MyBlog,3,3,false,false,false,false,,'Bottom',)} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -550,7 +651,7 @@ namespace UnitTest
 
             host.Expect(x => x.GetPageContent(aboutPage)).Return(aboutContent);
             host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
-            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("true");
+            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("yes");
 
             // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
             string input = "bla bla bla {Blog(MyBlog,3,3,false,false,false,false,,'MyPage',)} bla bla bla";
@@ -588,7 +689,7 @@ namespace UnitTest
 
             host.Expect(x => x.GetPageContent(null)).IgnoreArguments().Return(null);
             host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
-            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("true");
+            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("yes");
 
             // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
             string input = "bla bla bla {Blog(MyBlog,3,3,false,false,true,false,,,)} bla bla bla";
@@ -635,7 +736,7 @@ namespace UnitTest
             host.Expect(x => x.GetPageContent(pageInfo3)).Return(pageContent3);
 
             host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
-            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("true");
+            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("yes");
             host.Expect(x => x.FindUser("User")).Repeat.Any().Return(new UserInfo("User", "Garrett", "", true, DateTime.Now, null));
 
             // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
@@ -675,7 +776,7 @@ namespace UnitTest
             host.Expect(x => x.GetPageContent(pageInfo1)).Return(pageContent1);
 
             host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
-            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("true");
+            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("yes");
             host.Expect(x => x.FindUser("User")).Repeat.Any().Return(new UserInfo("User", "Garrett", "", true, DateTime.Now, null));
 
             // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
@@ -721,7 +822,7 @@ namespace UnitTest
             host.Expect(x => x.GetPageContent(pageInfo2)).Return(pageContent2);
 
             host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
-            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("true");
+            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("yes");
             host.Expect(x => x.FindUser("User")).Repeat.Any().Return(new UserInfo("User", "Garrett", "", true, DateTime.Now, null));
 
             // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
