@@ -296,6 +296,40 @@ namespace UnitTest
             Assert.AreEqual(false, retval.Contains("<h1 class=\"blogtitle\"><a href=\"MyPage1.ashx\">Page 1</a></h1>"));
         }
 
+        [Test]
+        public void BlogPost_No_Posts()
+        {
+            //Arrange
+            var formatter = new BlogFormatter();
+            var host = MockRepository.GenerateStub<IHostV30>();
+            var settings = MockRepository.GenerateStub<ISettingsStorageProviderV30>();
+            var provider = MockRepository.GenerateStub<IPagesStorageProviderV30>();
+            var currentPageInfo = new PageInfo("BlogPage", provider, DateTime.Now);
+            var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });
+
+            var catInfo = new CategoryInfo[1] { MockRepository.GenerateStub<CategoryInfo>("Blog", provider) };
+            catInfo[0].Pages = new string[] { };
+
+            //Expect
+            provider.Expect(x => x.GetCategoriesForPage(null)).IgnoreArguments().Return(catInfo);
+            provider.Expect(x => x.GetCategory(null)).IgnoreArguments().Return(catInfo[0]);
+            provider.Expect(x => x.GetMessageCount(null)).IgnoreArguments().Return(3).Repeat.Any();
+
+            host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
+            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("true");
+            host.Expect(x => x.FindUser("User")).Repeat.Any().Return(new UserInfo("User", "Garrett", "", true, DateTime.Now, null));
+
+            // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
+            string input = "bla bla bla {Blog(MyBlog,2,3,false,false,false,false,,,)} bla bla bla";
+
+            //Act
+            formatter.Init(host, "");
+            var retval = formatter.Format(input, context, FormattingPhase.Phase1);
+
+            //Assert
+            Assert.AreEqual(true, retval.Contains("No posts yet!"));
+        }
+
         #region Archive
 
         [Test]
