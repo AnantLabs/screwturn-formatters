@@ -6,6 +6,8 @@ using System.Diagnostics;
 using Keeper.Garrett.ScrewTurn.EventLogFormatter;
 using System.Linq;
 using System.Collections;
+using System.Text.RegularExpressions;
+using System.Web;
 
 namespace ManualTest
 {
@@ -19,7 +21,46 @@ namespace ManualTest
 /*                var db = new Keeper.Garrett.ScrewTurn.QueryTableFormatter.Database.Oracle("User Id=wiki;Password=myretuefest;Data Source=(DESCRIPTION = (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.1.100)(PORT = 1521)) )(CONNECT_DATA = (SERVER = DEDICATED) (SERVICE_NAME = XE)));");
                 db.Connect();
                 var result = db.Query("select * from wiki.schedule");*/
+                /*
 
+                / Capture quoted string or non-quoted strings followed by whitespace
+string exp = @"^(?:""([^""]*)""\s*|([^""\s]+)\s*)+";
+Match m = Regex.Match(Environment.CommandLine, exp);
+
+// Expect three Groups
+// group[0] = entire match
+// group[1] = matches from left capturing group
+// group[2] = matches from right capturing group
+if (m.Groups.Count < 3)
+    throw new ArgumentException("A minimum of 2 arguments are required for this program");
+
+// Sort the captures by their original postion
+var captures = m.Groups[1].Captures.Cast<Capture>().Concat(
+               m.Groups[2].Captures.Cast<Capture>()).
+               OrderBy(x => x.Index).
+               ToArray();
+
+// captures[0] is the executable file
+if (captures.Length < 3)
+    throw new ArgumentException("A minimum of 2 arguments are required for this program")*/
+
+//                var TagRegex = new Regex(@"\{Blog\((?<blog>(.*?)),(?<noOfPostsToShow>(.*?)),(?<noOfRecentPostsToShow>(.*?)),(?<useLastModified>(.*?)),(?<useCreateUserAsPostUser>(.*?)),(?<showGravatar>(.*?)),(?<showCloud>(.*?)),(?<showArchive>(.*?)),('(?<aboutPage>(.*?))')?,('(?<bottomPage>(.*?))')?,('(?<stylesheet>(.*?))')?\)\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
+
+//                var TagRegex = new Regex(@"\{Blog\(""(?<blog>(.*?)"") ((\/.*="".*"")*\)\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
+//                var TagRegex = new Regex(@"\{Blog\(""(?<blog>(.*?)"") [\?&](?<name>[^&=]+)=(?<value>[^&=]+)\)\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
+
+                var TagRegex = new Regex(@"\{Blog\(""(?<blog>(.*?)"") (?<argname>/\w+)=(?<argvalue>\w+)\)\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
+                
+                
+                var matches = TagRegex.Matches("{Blog(\"MyBlog\" a=test b=test2)}");
+
+                var ret = ParseArgs(new string[] { "{Blog(\"MyBlog\" -a:test -b:test2)}" });
+
+                foreach (Match match in matches)
+                {
+                    System.Console.WriteLine("{0} - {1}", match.Groups[0], match.Groups[1]);
+                }
+                
                 var dict = new SortedList<DateTime, string>(new ReverseDateComparer());
 
                 dict.Add(new DateTime(2010, 1, 1), "1");
@@ -66,6 +107,52 @@ namespace ManualTest
                 Trace.WriteLine("Error: {0}", e.Message);
             }
 
+        }
+
+        public static IDictionary<string, IList<string>> ParseArgs(string[] args)
+        {
+            const string ARGS_REGEX = @"-([a-zA-Z_][a-zA-Z_0-9]{0,}):(.{0,})";
+            IDictionary<string, IList<string>> parsedArgs;
+            string name, value;
+            Match match;
+
+            parsedArgs = new Dictionary<string, IList<string>>();
+
+            if (args != null)
+            {
+                foreach (string arg in args)
+                {
+                    match = Regex.Match(arg, ARGS_REGEX, RegexOptions.IgnorePatternWhitespace);
+
+                    if (match == null)
+                        continue;
+
+                    if (!match.Success)
+                        continue;
+
+                    if (match.Groups.Count != 3)
+                        continue;
+
+                    name = match.Groups[1].Value;
+                    value = match.Groups[2].Value;
+
+                    if (string.IsNullOrEmpty(name))
+                        continue;
+
+                    //if (DataType.IsTrimNullOrZeroLength(value))
+                    //    continue;
+
+                    name = name.ToLower();
+
+                    if (!parsedArgs.ContainsKey(name))
+                        parsedArgs.Add(name, new List<string>());
+
+                    if (!parsedArgs[name].Contains(value))
+                        parsedArgs[name].Add(value);
+                }
+            }
+
+            return parsedArgs;
         }
 
         public class ReverseDateComparer : IComparer<DateTime>

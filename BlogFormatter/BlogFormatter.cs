@@ -75,7 +75,7 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
 
                                     int.TryParse(match.Groups["noOfRecentPostsToShow"].Value, out noOfRecentPostsToShow);
                                     noOfRecentPostsToShow = (noOfRecentPostsToShow <= 0 ? 15 : noOfRecentPostsToShow);
-
+                                    
                                     bool.TryParse(match.Groups["useLastModified"].Value, out useLastModified);
                                     bool.TryParse(match.Groups["showCloud"].Value, out showCloud);
                                     bool.TryParse(match.Groups["showArchive"].Value, out showArchive);
@@ -130,8 +130,27 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
                                                     //Build dict
                                                     if (content != null)
                                                     {
-//                                                        CreateUser = provider.GetBackupContent(pageInfo,-1).User
-                                                        var postAuthor = m_Host.FindUser(content.User);
+                                                        //Find user
+                                                        var postAuthor = new UserInfo(null, null, null, false, DateTime.Now, null);
+                                                        string user = string.Empty;
+
+                                                        if (useLastModified == false)
+                                                        {
+                                                            //Verify first version of page and user who created it
+                                                            var cnt = provider.GetBackupContent(pageInfo, -1);
+                                                            user = (cnt != null ? cnt.User : string.Empty); 
+
+                                                        }
+                                                        
+                                                        //No user found? force last mod user
+                                                        if(string.IsNullOrEmpty(user) == true)
+                                                        {
+                                                            user = content.User;
+                                                        }
+
+                                                        postAuthor = m_Host.FindUser(user);
+
+                                                        //Create post to generate html from
                                                         var info = new BlogPostInfo() 
                                                         { 
                                                             Content = content, 

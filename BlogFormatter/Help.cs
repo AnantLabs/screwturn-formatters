@@ -57,6 +57,7 @@ The rest is purely customization of the look.
 ** '''noOfPosts''' - No of posts to show, default 7
 ** '''noOfRecent'''- No of most recent posts to show, default 15
 ** '''useLastModified'''- Use last modified date instead of create date as post ordering, default false
+*** If false create date and create user is used for post, if true latest mod date and mod user is displayed
 ** '''showGravatars''' - Show gravatars for post creator, only works when DisplayGravatars have been enabled in the wiki configuration, default false
 *** This feature only really make any meaning when used with Blogs where multiple users can create posts
 ** '''showCloud''' - Show keyword cloud, default false
@@ -143,14 +144,14 @@ A typical Blog would have the following setup:
 )))
 {BR}
 
-===== Use Modified Data To Display And Order Posts =====
+===== Use Modified Date+User To Display And Order Posts =====
 (((
 '''Markup:'''{BR}{BR}
 '''{Blog(MyBlogCategory,,,true,,,,,,) }''' {BR}{BR}
 '''Result:'''{BR}{BR}
 * At most 7 posts displayed
 * No recent posts displayed
-* '''Posts are displayed and ordered using modified date'''
+* '''Posts are displayed and ordered using modified date + last mod user'''
 * No Gravatars
 * No Cloud
 * No Archive 
