@@ -235,7 +235,7 @@ namespace Keeper.Garrett.ScrewTurn.QueryTableFormatter.Database
             }
         }
 
-        public Dictionary<int, string> Get_Index_Column_Name_Dictionary_FromLatestQuery()
+       /* public Dictionary<int, string> Get_Index_Column_Name_Dictionary_FromLatestQuery()
         {
             return m_IndexColumnNameDictionary;
         }
@@ -243,7 +243,7 @@ namespace Keeper.Garrett.ScrewTurn.QueryTableFormatter.Database
         public Dictionary<string, int> Get_Column_Name_Index_Dictionary_FromLatestQuery()
         {
             return m_ColumnNameIndexDictionary;
-        }
+        }*/
 
         public List<string> Get_Column_Name_List_FromLatestQuery()
         {

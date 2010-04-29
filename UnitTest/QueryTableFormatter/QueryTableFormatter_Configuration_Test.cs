@@ -165,6 +165,28 @@ namespace UnitTest
             Assert.AreEqual(1, generalCount);
         }
 
+        [Test]
+        public void Configuration_ConfigHelp_String()
+        {
+            //Arrange
+            var host = GenerateMockedHost();
+            var formatter = new QueryTableFormatter();
+
+            //Host
+            host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
+
+            string input = "bla bla bla {QTable(DBLink,'select * from schedule',,,,,,)} bla bla bla";
+
+            //Dict page
+            var context = new ContextInformation(false, false, FormattingContext.PageContent, null, "", HttpContext.Current, "", new string[] { "" });
+
+            //Act
+            formatter.Init(host, "");
+
+            //Assert
+            Assert.AreEqual(true, formatter.ConfigHelpHtml.Contains("WARNING: NEVER use a connectionstring"));
+        }
+
         #endregion
 
         #region DB Support
