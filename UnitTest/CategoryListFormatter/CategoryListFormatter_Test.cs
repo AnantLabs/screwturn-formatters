@@ -245,6 +245,49 @@ namespace UnitTest
         }
 
         [Test]
+        public void Table_StraightOrder_ShowSummary_Test()
+        {
+            //Arrange
+            var formatter = new CategoryListFormatter();
+            var host = MockRepository.GenerateStub<IHostV30>();
+            var provider = MockRepository.GenerateStub<IPagesStorageProviderV30>();
+            var currentPageInfo = new PageInfo("MyPage", provider, DateTime.Now);
+            var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });  //MockRepository.GenerateStub<ContextInformation>();
+
+            var catInfo = MockRepository.GenerateStub<CategoryInfo>("MyCategory", provider);
+            var pages = new string[] { "MyPage1", "MyPage2", "MyPage3" };
+            var pageInfo1 = new PageInfo("MyPage1", provider, DateTime.Now);
+            var pageInfo2 = new PageInfo("MyPage2", provider, DateTime.Now);
+            var pageInfo3 = new PageInfo("MyPage3", provider, DateTime.Now);
+            var pageContent1 = MockRepository.GenerateStub<PageContent>(pageInfo1, "Page 1", "", DateTime.Now, "", "", null, "My Description 1");
+            var pageContent2 = MockRepository.GenerateStub<PageContent>(pageInfo2, "Page 2", "", DateTime.Now, "", "", null, "My Description 2");
+            var pageContent3 = MockRepository.GenerateStub<PageContent>(pageInfo3, "Page 3", "", DateTime.Now, "", "", null, "My Description 3");
+
+            //Expect
+            provider.Expect(x => x.GetCategory(null)).IgnoreArguments().Return(catInfo);
+            catInfo.Pages = pages;
+
+            host.Expect(x => x.FindPage("MyPage1")).Return(pageInfo1);
+            host.Expect(x => x.FindPage("MyPage2")).Return(pageInfo2);
+            host.Expect(x => x.FindPage("MyPage3")).Return(pageInfo3);
+            host.Expect(x => x.GetPageContent(pageInfo1)).Return(pageContent1);
+            host.Expect(x => x.GetPageContent(pageInfo2)).Return(pageContent2);
+            host.Expect(x => x.GetPageContent(pageInfo3)).Return(pageContent3);
+
+            host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
+
+            // Category,output,include,head,headers,tbl,head,row
+            string input = "bla bla bla {CategoryList(MyCategory,,true,,,,,)} bla bla bla";
+
+            //Act
+            formatter.Init(host, "");
+            var retval = formatter.Format(input, context, FormattingPhase.Phase1);
+
+            //Assert         
+            Assert.AreEqual("bla bla bla {|  \n|+  \n! Page name !! Description \n|-  \n| [MyPage1|Page 1] || My Description 1 \n|-  \n| [MyPage2|Page 2] || My Description 2 \n|-  \n| [MyPage3|Page 3] || My Description 3 \n|} \n bla bla bla", retval);
+        }
+
+        [Test]
         public void Table_MessyOrder_Test()
         {
             //Arrange
