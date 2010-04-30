@@ -15,23 +15,6 @@ namespace UnitTest
     public class CategoryListFormatter_Test
     {
         [Test]
-        public void VerifyPhaseSetup()
-        {
-            //Arrange
-            var formatter = new CategoryListFormatter();
-
-            //Act
-            var phase1 = formatter.PerformPhase1;
-            var phase2 = formatter.PerformPhase2;
-            var phase3 = formatter.PerformPhase3;
-
-            //Assert
-            Assert.AreEqual(true, phase1);
-            Assert.AreEqual(false, phase2);
-            Assert.AreEqual(false, phase3);
-        }
-
-        [Test]
         public void PrimitiveList_StraightOrder_List1_Test()
         {
             //Arrange
