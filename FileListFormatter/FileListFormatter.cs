@@ -87,11 +87,11 @@ namespace Keeper.Garrett.ScrewTurn.FileListFormatter
                                     int showDetails = 0;
                                     int sortMethod = 7;
 
-                                    //Get params /test/*.*
+                                    //Get params 
                                     string tmpPattern = (string.IsNullOrEmpty(match.Groups["filePattern"].Value) == true ? "/*.*" : match.Groups["filePattern"].Value);
                                     path = tmpPattern.Substring(0,tmpPattern.LastIndexOf('/') + 1);
                                     filePattern = tmpPattern.Substring(tmpPattern.LastIndexOf('/') + 1);
-//                                    filePattern = (string.IsNullOrEmpty(match.Groups["filePattern"].Value) == true ? "*.*" : match.Groups["filePattern"].Value);
+
                                     storageProvider = (string.IsNullOrEmpty(match.Groups["storageProvider"].Value) == true ? defaultProvider : match.Groups["storageProvider"].Value).ToLower();
                                     bool.TryParse(match.Groups["asLinks"].Value, out asLinks);
 
@@ -257,7 +257,7 @@ namespace Keeper.Garrett.ScrewTurn.FileListFormatter
                 retval = string.Format("{0} \n{1} {2} {3}",
                      retval,
                      _outputType,
-                     (_asLinks == true ? GenerateLink(file.Key) : file.Key),
+                     (_asLinks == true ? GenerateLink(file.Key) : file.Key.Substring(file.Key.LastIndexOf("/") + 1)),
                      GetPrimitiveDetails(file.Value,_showDetails) );
             }
 
