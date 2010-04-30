@@ -113,7 +113,7 @@ namespace Keeper.Garrett.ScrewTurn.FileListFormatter
                                     var heading = (string.IsNullOrEmpty(match.Groups["heading"].Value) == false ? match.Groups["heading"].Value.Trim() : "");
 
                                     //Parse custom headers to show
-                                   /* if (string.IsNullOrEmpty(match.Groups["headers"].Value) == false)
+                                    if (string.IsNullOrEmpty(match.Groups["headers"].Value) == false)
                                     {
                                         var tmpColumns = match.Groups["headers"].Value.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                                         foreach (var str in tmpColumns)
@@ -121,15 +121,7 @@ namespace Keeper.Garrett.ScrewTurn.FileListFormatter
                                             headers.Add(str);
                                         }
                                     }
-                                    else
-                                    {
-                                        headers.Add("File");
-                                        if (showDownloadCount == true)
-                                        {
-                                            headers.Add("Downloads");
-                                        }
-                                    }*/
-
+ 
                                     //Setup table formatting, default to system/wiki theme if no override present
                                     var tblFormat = (string.IsNullOrEmpty(match.Groups["tblFormat"].Value) == false ? match.Groups["tblFormat"].Value.Trim() : "");
                                     var headFormat = (string.IsNullOrEmpty(match.Groups["headFormat"].Value) == false ? match.Groups["headFormat"].Value.Trim() : "");
@@ -177,10 +169,10 @@ namespace Keeper.Garrett.ScrewTurn.FileListFormatter
                                         {
                                             list = GeneratePrimitiveList(fileList, outputType, asLinks, showDetails);
                                         }
-                                      /*  else
+                                        else
                                         {
-                                            list = GenerateTableList(dict, includeSummary, heading, headers, tblFormat, headFormat, rowFormat);
-                                        }*/
+                                            list = GenerateTableList(fileList, asLinks, showDetails, heading, headers, tblFormat, headFormat, rowFormat);
+                                        }
                                     }
 
                                     //Add a final newline
@@ -248,6 +240,7 @@ namespace Keeper.Garrett.ScrewTurn.FileListFormatter
             return retval;
         }
 
+        #region List
         private string GeneratePrimitiveList(Dictionary<string, FileDetails> _listOfFiles, string _outputType, bool _asLinks, int _showDetails)
         {
             string retval = "";
@@ -300,52 +293,132 @@ namespace Keeper.Garrett.ScrewTurn.FileListFormatter
             return retval;
         }
 
+        #endregion
+
+        #region Table
+
+        private string GenerateTableList(Dictionary<string, FileDetails> _list, bool _asLinks, int _showDetails, string _tblHeading, List<string> _headers, string _tblFormat, string _headFormat, string _rowFormat)
+        {
+            var tableRowDict = new Dictionary<int, List<string>>();
+            int i = 0;
+
+            //Generate table header if missing
+            if(_headers.Count <= 0)
+            {
+                _headers = GetDefaultTableHeaders(_showDetails);
+            }
+
+            foreach(var file in _list)
+            {
+                tableRowDict.Add(i, new List<string>());
+
+                //Filename
+                tableRowDict[i].Add( (_asLinks == true ? GenerateLink(file.Key) : file.Key.Substring(file.Key.LastIndexOf("/") + 1)));
+
+                //Details
+                switch ((Details)_showDetails)
+                {
+                    case Details.None:
+                        break;
+                    case Details.Downloads:
+                        tableRowDict[i].Add(file.Value.RetrievalCount.ToString());
+                        break;
+                    case Details.DownloadsAndSize:
+                        tableRowDict[i].Add(GetFileSize(file.Value.Size));
+                        tableRowDict[i].Add(file.Value.RetrievalCount.ToString());
+                        break;
+                    case Details.DownloadsAndModDate:
+                        tableRowDict[i].Add(file.Value.LastModified.ToString(m_DateTimeFormat));
+                        tableRowDict[i].Add(file.Value.RetrievalCount.ToString());
+                        break;
+                    case Details.DownloadsAndSizeAndModDate:
+                        tableRowDict[i].Add(file.Value.LastModified.ToString(m_DateTimeFormat));
+                        tableRowDict[i].Add(GetFileSize(file.Value.Size));
+                        tableRowDict[i].Add(file.Value.RetrievalCount.ToString());
+                        break;
+                    case Details.Size:
+                        tableRowDict[i].Add(GetFileSize(file.Value.Size));
+                        break;
+                    case Details.SizeAndModDate:
+                        tableRowDict[i].Add(file.Value.LastModified.ToString(m_DateTimeFormat));
+                        tableRowDict[i].Add(GetFileSize(file.Value.Size));
+                        break;
+                    case Details.ModDate:
+                        tableRowDict[i].Add(file.Value.LastModified.ToString(m_DateTimeFormat));
+                        break;
+                    default:
+                        break;
+                };
+
+                i++;
+            }
+
+            //Generate table
+            return Keeper.Garrett.ScrewTurn.Utility.TableGenerator.GenerateTable(tableRowDict, _tblHeading, new List<int>(), new List<string>(), _headers, _tblFormat, _headFormat, _rowFormat);
+        }
+
+        private List<string> GetDefaultTableHeaders(int _showDetails)
+        {
+            var retval = new List<string>();
+
+            retval.Add("Filename");
+
+            switch ((Details)_showDetails)
+            {
+                case Details.None:
+                    break;
+                case Details.Downloads:
+                    retval.Add("Downloads");
+                    break;
+                case Details.DownloadsAndSize:
+                    retval.Add("Size");
+                    retval.Add("Downloads");
+                    break;
+                case Details.DownloadsAndModDate:
+                    retval.Add("Last Modifed");
+                    retval.Add("Downloads");
+                    break;
+                case Details.DownloadsAndSizeAndModDate:
+                    retval.Add("Last Modified");
+                    retval.Add("Size");
+                    retval.Add("Downloads");
+                    break;
+                case Details.Size:
+                    retval.Add("Size");
+                    break;
+                case Details.SizeAndModDate:
+                    retval.Add("Last Modified");
+                    retval.Add("Size");
+                    break;
+                case Details.ModDate:
+                    retval.Add("Last Modified");
+                    break;
+                default:
+                    break;
+            }
+
+            return retval;
+        }
+
+        #endregion
+
+        private string GenerateLink(string _file)
+        {
+            return string.Format("[GetFile.aspx?File={0}|{1}]", _file.Replace("/","%2f"), _file.Substring(_file.LastIndexOf("/") + 1));
+        }
 
         private string GetFileSize(long _size)
         {
             var retval = "";
             if (_size >= 1000)
             {
-                retval = string.Format("{0} KB", Math.Round((decimal) (_size/1000)));
+                retval = string.Format("{0} KB", Math.Round((decimal)(_size / 1000)));
             }
             else
             {
-                retval = string.Format("{0} B",_size);
+                retval = string.Format("{0} B", _size);
             }
             return retval;
-        }
-
-        /*private string GenerateTableList(SortedDictionary<string, PageContent> _list, bool _includeSummary, string _tblHeading, List<string> _headers, string _tblFormat, string _headFormat, string _rowFormat)
-        {
-            var tableRowDict = new Dictionary<int, List<string>>();
-            int i = 0;
-            foreach(var entry in _list)
-            {
-                if(_includeSummary)
-                {
-                    tableRowDict.Add(i++, new List<string>() { 
-                        GenerateLink(entry.Value), 
-                        (string.IsNullOrEmpty(entry.Value.Description) == true ? "''Missing summary''" : entry.Value.Description) 
-                    });
-                }
-                else
-                {
-                    tableRowDict.Add(i++,new List<string>() { GenerateLink(entry.Value) });
-                }
-            }
-
-            if (_includeSummary == false && _headers.Count > 0)
-            {
-                _headers = new List<string>() { _headers[0] };
-            }
-
-            //Generate table
-            return Keeper.Garrett.ScrewTurn.Utility.TableGenerator.GenerateTable(tableRowDict, _tblHeading, new List<int>(), new List<string>(), _headers, _tblFormat, _headFormat, _rowFormat);
-        }*/
-
-        private string GenerateLink(string _file)
-        {
-            return string.Format("[GetFile.aspx?File={0}|{1}]", _file.Replace("/","%2f"), _file.Substring(_file.LastIndexOf("/") + 1));
         }
     }
 }
