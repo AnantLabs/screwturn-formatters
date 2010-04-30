@@ -175,8 +175,6 @@ namespace UnitTest
             //Host
             host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
 
-            string input = "bla bla bla {QTable(DBLink,'select * from schedule',,,,,,)} bla bla bla";
-
             //Dict page
             var context = new ContextInformation(false, false, FormattingContext.PageContent, null, "", HttpContext.Current, "", new string[] { "" });
 

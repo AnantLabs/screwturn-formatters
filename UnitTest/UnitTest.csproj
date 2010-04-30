@@ -84,6 +84,7 @@
     <Compile Include="BlogFormatter\BlogFormatter_Test.cs" />
     <Compile Include="EventLogFormatter\EventLogFormatter_Test.cs" />
     <Compile Include="CategoryListFormatter\CategoryListFormatter_Test.cs" />
+    <Compile Include="FileListFormatter\FileListFormatter_Test.cs" />
     <Compile Include="QueryTableFormatter\QueryTableFormatter_Configuration_Test.cs" />
     <Compile Include="QueryTableFormatter\QueryTableFormatter_Test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -100,6 +101,10 @@
     <ProjectReference Include="..\EventLogFormatter\EventLogFormatter.csproj">
       <Project>{A2728443-6C37-4CB2-A569-38D7F0649F9C}</Project>
       <Name>EventLogFormatter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FileListFormatter\FileListFormatter.csproj">
+      <Project>{70F795AF-2CD6-4D8D-B856-75095CB573B7}</Project>
+      <Name>FileListFormatter</Name>
     </ProjectReference>
     <ProjectReference Include="..\QueryTableFormatter\QueryTableFormatter.csproj">
       <Project>{29660E60-5366-4CDA-9DD1-F8BFA89E86FD}</Project>

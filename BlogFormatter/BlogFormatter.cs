@@ -28,7 +28,7 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
 
         public override void Init(IHostV30 _host, string _config)
         {
-            base.Init(_host, _config, 55, Help.HelpPages);
+            base.Init(_host, _config, Help.HelpPages);
 
             LogEntry("BlogFormatter - Init success", LogEntryType.General);
         }
