@@ -286,7 +286,7 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
                     string title = "";
                     if (_showGravatar)
                     {
-                        title = string.Format("<p class=\"blogavatar\"><a href=\"User.aspx?Username={0}\">{1}</a></p>\n", entry.Value.UserName, entry.Value.UserGravatar);
+                        title = string.Format("<div class=\"blogavatar\"><a href=\"User.aspx?Username={0}\">{1}</a></div>\n", entry.Value.UserName, entry.Value.UserGravatar);
                         title = string.Format("{0}<h1 class=\"blogavatartitle\"><a href=\"{1}.ashx\">{2}</a></h1>\n", title, entry.Value.Content.PageInfo.FullName, entry.Value.Content.Title);
                     }
                     else
