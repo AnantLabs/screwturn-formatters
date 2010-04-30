@@ -152,6 +152,27 @@ namespace UnitTest.General
             Assert.AreEqual(GetExpected(_formatter), retval);
         }
 
+
+        [Test]
+        public void ForcePhaseX([Values(1, 2, 3, 4, 5)] int _formatter)
+        {
+            //Arrange
+            var formatter = GetFormatter(_formatter);
+
+            //Arrange
+            var host = MockRepository.GenerateStub<IHostV30>();
+            var provider = MockRepository.GenerateStub<IPagesStorageProviderV30>();
+            var currentPageInfo = new PageInfo("MyPage", provider, DateTime.Now);
+            var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });
+
+            //Act
+            formatter.Init(host, "");
+            var retval = formatter.Format(GetExpected(_formatter), context, (FormattingPhase) 4);
+
+            //Assert
+            Assert.AreEqual(GetExpected(_formatter), retval);
+        }
+
         [Test]
         public void ForceException([Values(1, 2, 4, 5)] int _formatter)
         {

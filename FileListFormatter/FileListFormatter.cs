@@ -346,8 +346,6 @@ namespace Keeper.Garrett.ScrewTurn.FileListFormatter
                     case Details.ModDate:
                         tableRowDict[i].Add(file.Value.LastModified.ToString(m_DateTimeFormat));
                         break;
-                    default:
-                        break;
                 };
 
                 i++;
@@ -392,8 +390,6 @@ namespace Keeper.Garrett.ScrewTurn.FileListFormatter
                     break;
                 case Details.ModDate:
                     retval.Add("Last Modified");
-                    break;
-                default:
                     break;
             }
 
