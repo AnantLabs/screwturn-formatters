@@ -22,7 +22,7 @@ No special actions required.{BR}{BR}
 === Markup Usage ===
 '''What can you do?'''{BR}
 * Generate a list/table of files in a directory that match a certain pattern
-* Specific specific FileStorageFormatter to find files in
+* Specify specific FileStorageFormatter to find files in
 * Enable/dsiable ability to download the files
 * Sort the files asc/desc accoring to:
 ** Name

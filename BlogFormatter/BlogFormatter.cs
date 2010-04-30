@@ -137,7 +137,7 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
                                                         if (useLastModified == false)
                                                         {
                                                             //Verify first version of page and user who created it
-                                                            var cnt = provider.GetBackupContent(pageInfo, -1);
+                                                            var cnt = provider.GetBackupContent(pageInfo, 0);
                                                             user = (cnt != null ? cnt.User : string.Empty); 
 
                                                         }
