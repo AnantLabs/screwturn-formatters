@@ -41,7 +41,7 @@ You can that the formatter is working by [BlogFormatterTest|opening this test pa
 '''How does it work?'''{BR}
 * Create a new page called ex. MyBlog. 
 ** '''Do not makes this page, the about page or the bottom page, a member of the MyBlogCategory, if you do you will create a self refering loop, which the BlogFormatter will detect, display a warning and deny blog generation.'''{BR}
-* Insert the Blog tag {Blog(MyBlogCategory,,,,)} and all posts shown in the blog will be pages marked with the category MyBlogCategory.{BR}
+* Insert the Blog tag {Blog(MyBlogCategory,,,,) } and all posts shown in the blog will be pages marked with the category MyBlogCategory.{BR}
 * The keyword cloud is generated based on the ''keywords'' attached to each wiki page.{BR}
 That's it! :).{BR}
 The rest is purely customization of the look.
