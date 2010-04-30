@@ -148,10 +148,12 @@ namespace Keeper.Garrett.ScrewTurn.FileListFormatter
                                     {
                                         var files = stoProvider.ListFiles(path);
 
+                                        //Create usable regex from wildcard
                                         var regex = Regex.Escape(filePattern).Replace(@"\*", ".*").Replace(@"\?", ".");
 
                                         foreach (var file in files)
                                         {
+                                            //Add only if pattern match
                                             if (Regex.IsMatch(file, regex) == true)
                                             {
                                                 fileList.Add(file, stoProvider.GetFileDetails(file));
@@ -286,8 +288,6 @@ namespace Keeper.Garrett.ScrewTurn.FileListFormatter
                 case Details.ModDate:
                     retval = string.Format("({0})", _file.LastModified.ToString(m_DateTimeFormat));
                     break;
-                default:
-                    break;
             }
 
             return retval;
@@ -375,7 +375,7 @@ namespace Keeper.Garrett.ScrewTurn.FileListFormatter
                     retval.Add("Downloads");
                     break;
                 case Details.DownloadsAndModDate:
-                    retval.Add("Last Modifed");
+                    retval.Add("Last Modified");
                     retval.Add("Downloads");
                     break;
                 case Details.DownloadsAndSizeAndModDate:
