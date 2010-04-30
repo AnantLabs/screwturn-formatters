@@ -79,6 +79,7 @@ namespace Keeper.Garrett.ScrewTurn.FileListFormatter
                                 {
                                     var defaultProvider = m_Host.GetSettingValue(SettingName.DefaultFilesStorageProvider).ToLower();
                                     IFilesStorageProviderV30 stoProvider = providers[0];
+                                    string path = string.Empty;
                                     string filePattern = string.Empty;
                                     string storageProvider = string.Empty;
                                     string outputType = string.Empty;
@@ -86,8 +87,11 @@ namespace Keeper.Garrett.ScrewTurn.FileListFormatter
                                     int showDetails = 0;
                                     int sortMethod = 7;
 
-                                    //Get params 
-                                    filePattern = (string.IsNullOrEmpty(match.Groups["filePattern"].Value) == true ? "*.*" : match.Groups["filePattern"].Value);
+                                    //Get params /test/*.*
+                                    string tmpPattern = (string.IsNullOrEmpty(match.Groups["filePattern"].Value) == true ? "/*.*" : match.Groups["filePattern"].Value);
+                                    path = tmpPattern.Substring(0,tmpPattern.LastIndexOf('/') + 1);
+                                    filePattern = tmpPattern.Substring(tmpPattern.LastIndexOf('/') + 1);
+//                                    filePattern = (string.IsNullOrEmpty(match.Groups["filePattern"].Value) == true ? "*.*" : match.Groups["filePattern"].Value);
                                     storageProvider = (string.IsNullOrEmpty(match.Groups["storageProvider"].Value) == true ? defaultProvider : match.Groups["storageProvider"].Value).ToLower();
                                     bool.TryParse(match.Groups["asLinks"].Value, out asLinks);
 
@@ -148,13 +152,18 @@ namespace Keeper.Garrett.ScrewTurn.FileListFormatter
                                     //Get info from database
                                     var fileList = new Dictionary<string,FileDetails>();
 
-                                    if (string.IsNullOrEmpty(filePattern) == false && stoProvider != null)
+                                    if (stoProvider != null)
                                     {
-                                        var files = stoProvider.ListFiles(filePattern);
+                                        var files = stoProvider.ListFiles(path);
+
+                                        var regex = Regex.Escape(filePattern).Replace(@"\*", ".*").Replace(@"\?", ".");
 
                                         foreach (var file in files)
                                         {
-                                            fileList.Add(file,stoProvider.GetFileDetails(file));
+                                            if (Regex.IsMatch(file, regex) == true)
+                                            {
+                                                fileList.Add(file, stoProvider.GetFileDetails(file));
+                                            }
                                         }
                                     }
 
