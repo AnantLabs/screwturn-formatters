@@ -267,19 +267,19 @@ namespace Keeper.Garrett.ScrewTurn.FileListFormatter
                     retval = string.Format("({0} downloads)", _file.RetrievalCount);
                     break;
                 case Details.DownloadsAndSize:
-                    retval = string.Format("({0} kb, {1} downloads)", _file.Size, _file.RetrievalCount);
+                    retval = string.Format("({0}, {1} downloads)", GetFileSize(_file.Size), _file.RetrievalCount);
                     break;
                 case Details.DownloadsAndModDate:
                     retval = string.Format("({0}, {1} downloads)", _file.LastModified.ToString(m_DateTimeFormat), _file.RetrievalCount);
                     break;
                 case Details.DownloadsAndSizeAndModDate:
-                    retval = string.Format("({0}, {1} kb, {2} downloads)", _file.LastModified.ToString(m_DateTimeFormat), _file.Size, _file.RetrievalCount);
+                    retval = string.Format("({0}, {1}, {2} downloads)", _file.LastModified.ToString(m_DateTimeFormat), GetFileSize(_file.Size), _file.RetrievalCount);
                     break;
                 case Details.Size:
-                    retval = string.Format("({0} kb)", _file.Size);
+                    retval = string.Format("({0})", GetFileSize(_file.Size));
                     break;
                 case Details.SizeAndModDate:
-                    retval = string.Format("({0}, {1} kb)", _file.LastModified.ToString(m_DateTimeFormat), _file.Size);
+                    retval = string.Format("({0}, {1})", _file.LastModified.ToString(m_DateTimeFormat), GetFileSize(_file.Size));
                     break;
                 case Details.ModDate:
                     retval = string.Format("({0})", _file.LastModified.ToString(m_DateTimeFormat));
@@ -288,6 +288,21 @@ namespace Keeper.Garrett.ScrewTurn.FileListFormatter
                     break;
             }
 
+            return retval;
+        }
+
+
+        private string GetFileSize(long _size)
+        {
+            var retval = "";
+            if (_size >= 1000)
+            {
+                retval = string.Format("{0} KB", Math.Round((decimal) (_size/1000)));
+            }
+            else
+            {
+                retval = string.Format("{0} B",_size);
+            }
             return retval;
         }
 
@@ -321,7 +336,7 @@ namespace Keeper.Garrett.ScrewTurn.FileListFormatter
 
         private string GenerateLink(string _file)
         {
-            return string.Format("[{0}|{1}]", _file, _file);
+            return string.Format("[GetFile.aspx?File={0}|{1}]", _file.Replace("/","%2f"), _file.Substring(_file.LastIndexOf("/") + 1));
         }
     }
 }

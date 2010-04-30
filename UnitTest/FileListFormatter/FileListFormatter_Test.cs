@@ -119,7 +119,7 @@ namespace UnitTest
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual("bla bla bla  \n* [file3.zip|file3.zip] (30 downloads) \n* [file2.txt|file2.txt] (20 downloads) \n* [file1.exe|file1.exe] (10 downloads) \n bla bla bla", retval);
+            Assert.AreEqual("bla bla bla  \n* [GetFile.aspx?File=file3.zip|file3.zip] (30 downloads) \n* [GetFile.aspx?File=file2.txt|file2.txt] (20 downloads) \n* [GetFile.aspx?File=file1.exe|file1.exe] (10 downloads) \n bla bla bla", retval);
         }
 
         [Test]
@@ -155,7 +155,7 @@ namespace UnitTest
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual("bla bla bla  \n* [file3.zip|file3.zip] (30 downloads) \n* [file2.txt|file2.txt] (20 downloads) \n* [file1.exe|file1.exe] (10 downloads) \n bla bla bla", retval);
+            Assert.AreEqual("bla bla bla  \n* [GetFile.aspx?File=file3.zip|file3.zip] (30 downloads) \n* [GetFile.aspx?File=file2.txt|file2.txt] (20 downloads) \n* [GetFile.aspx?File=file1.exe|file1.exe] (10 downloads) \n bla bla bla", retval);
         }
 
         [Test]
@@ -225,7 +225,7 @@ namespace UnitTest
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual("bla bla bla  \n* [file1.exe|file1.exe] (300 downloads) \n* [file2.txt|file2.txt] (200 downloads) \n* [file3.zip|file3.zip] (100 downloads) \n bla bla bla", retval);
+            Assert.AreEqual("bla bla bla  \n* [GetFile.aspx?File=file1.exe|file1.exe] (300 downloads) \n* [GetFile.aspx?File=file2.txt|file2.txt] (200 downloads) \n* [GetFile.aspx?File=file3.zip|file3.zip] (100 downloads) \n bla bla bla", retval);
         }
 
         [Test]
@@ -259,7 +259,7 @@ namespace UnitTest
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual("bla bla bla  \n* [file3.zip|file3.zip] (100 downloads) \n* [file2.txt|file2.txt] (200 downloads) \n* [file1.exe|file1.exe] (300 downloads) \n bla bla bla", retval);
+            Assert.AreEqual("bla bla bla  \n* [GetFile.aspx?File=file3.zip|file3.zip] (100 downloads) \n* [GetFile.aspx?File=file2.txt|file2.txt] (200 downloads) \n* [GetFile.aspx?File=file1.exe|file1.exe] (300 downloads) \n bla bla bla", retval);
         }
 
         [Test]
@@ -293,7 +293,7 @@ namespace UnitTest
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual("bla bla bla  \n* [file3.zip|file3.zip] (100 downloads) \n* [file2.txt|file2.txt] (200 downloads) \n* [file1.exe|file1.exe] (300 downloads) \n bla bla bla", retval);
+            Assert.AreEqual("bla bla bla  \n* [GetFile.aspx?File=file3.zip|file3.zip] (100 downloads) \n* [GetFile.aspx?File=file2.txt|file2.txt] (200 downloads) \n* [GetFile.aspx?File=file1.exe|file1.exe] (300 downloads) \n bla bla bla", retval);
         }
 
         [Test]
@@ -327,7 +327,7 @@ namespace UnitTest
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual("bla bla bla  \n* [file1.exe|file1.exe] (300 downloads) \n* [file2.txt|file2.txt] (200 downloads) \n* [file3.zip|file3.zip] (100 downloads) \n bla bla bla", retval);
+            Assert.AreEqual("bla bla bla  \n* [GetFile.aspx?File=file1.exe|file1.exe] (300 downloads) \n* [GetFile.aspx?File=file2.txt|file2.txt] (200 downloads) \n* [GetFile.aspx?File=file3.zip|file3.zip] (100 downloads) \n bla bla bla", retval);
         }
 
         [Test]
@@ -361,7 +361,7 @@ namespace UnitTest
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual("bla bla bla  \n* [file2.txt|file2.txt] (200 downloads) \n* [file3.zip|file3.zip] (100 downloads) \n* [file1.exe|file1.exe] (300 downloads) \n bla bla bla", retval);
+            Assert.AreEqual("bla bla bla  \n* [GetFile.aspx?File=file2.txt|file2.txt] (200 downloads) \n* [GetFile.aspx?File=file3.zip|file3.zip] (100 downloads) \n* [GetFile.aspx?File=file1.exe|file1.exe] (300 downloads) \n bla bla bla", retval);
         }
 
         [Test]
@@ -395,7 +395,7 @@ namespace UnitTest
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual("bla bla bla  \n* [file2.txt|file2.txt] (200 downloads) \n* [file1.exe|file1.exe] (300 downloads) \n* [file3.zip|file3.zip] (100 downloads) \n bla bla bla", retval);
+            Assert.AreEqual("bla bla bla  \n* [GetFile.aspx?File=file2.txt|file2.txt] (200 downloads) \n* [GetFile.aspx?File=file1.exe|file1.exe] (300 downloads) \n* [GetFile.aspx?File=file3.zip|file3.zip] (100 downloads) \n bla bla bla", retval);
         }
 
         [Test]
@@ -429,7 +429,7 @@ namespace UnitTest
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual("bla bla bla  \n* [file3.zip|file3.zip] (100 downloads) \n* [file1.exe|file1.exe] (300 downloads) \n* [file2.txt|file2.txt] (200 downloads) \n bla bla bla", retval);
+            Assert.AreEqual("bla bla bla  \n* [GetFile.aspx?File=file3.zip|file3.zip] (100 downloads) \n* [GetFile.aspx?File=file1.exe|file1.exe] (300 downloads) \n* [GetFile.aspx?File=file2.txt|file2.txt] (200 downloads) \n bla bla bla", retval);
         }
 
         [Test]
@@ -463,7 +463,7 @@ namespace UnitTest
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual("bla bla bla  \n* [file2.txt|file2.txt] (200 downloads) \n* [file1.exe|file1.exe] (300 downloads) \n* [file3.zip|file3.zip] (100 downloads) \n bla bla bla", retval);
+            Assert.AreEqual("bla bla bla  \n* [GetFile.aspx?File=file2.txt|file2.txt] (200 downloads) \n* [GetFile.aspx?File=file1.exe|file1.exe] (300 downloads) \n* [GetFile.aspx?File=file3.zip|file3.zip] (100 downloads) \n bla bla bla", retval);
         }
         #endregion
 
@@ -500,7 +500,7 @@ namespace UnitTest
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual("bla bla bla  \n* [file1.exe|file1.exe]  \n* [file2.txt|file2.txt]  \n* [file3.zip|file3.zip]  \n bla bla bla", retval);
+            Assert.AreEqual("bla bla bla  \n* [GetFile.aspx?File=file1.exe|file1.exe]  \n* [GetFile.aspx?File=file2.txt|file2.txt]  \n* [GetFile.aspx?File=file3.zip|file3.zip]  \n bla bla bla", retval);
         }
 
         [Test]
@@ -534,7 +534,7 @@ namespace UnitTest
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual("bla bla bla  \n* [file1.exe|file1.exe] (300 downloads) \n* [file2.txt|file2.txt] (200 downloads) \n* [file3.zip|file3.zip] (100 downloads) \n bla bla bla", retval);
+            Assert.AreEqual("bla bla bla  \n* [GetFile.aspx?File=file1.exe|file1.exe] (300 downloads) \n* [GetFile.aspx?File=file2.txt|file2.txt] (200 downloads) \n* [GetFile.aspx?File=file3.zip|file3.zip] (100 downloads) \n bla bla bla", retval);
         }
 
         [Test]
@@ -568,7 +568,7 @@ namespace UnitTest
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual("bla bla bla  \n* [file1.exe|file1.exe] (300 kb, 300 downloads) \n* [file2.txt|file2.txt] (200 kb, 200 downloads) \n* [file3.zip|file3.zip] (100 kb, 100 downloads) \n bla bla bla", retval);
+            Assert.AreEqual("bla bla bla  \n* [GetFile.aspx?File=file1.exe|file1.exe] (300 B, 300 downloads) \n* [GetFile.aspx?File=file2.txt|file2.txt] (200 B, 200 downloads) \n* [GetFile.aspx?File=file3.zip|file3.zip] (100 B, 100 downloads) \n bla bla bla", retval);
         }
 
         [Test]
@@ -602,7 +602,7 @@ namespace UnitTest
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual("bla bla bla  \n* [file1.exe|file1.exe] (02-01-2010 00:00:00, 300 downloads) \n* [file2.txt|file2.txt] (03-01-2010 00:00:00, 200 downloads) \n* [file3.zip|file3.zip] (01-01-2010 00:00:00, 100 downloads) \n bla bla bla", retval);
+            Assert.AreEqual("bla bla bla  \n* [GetFile.aspx?File=file1.exe|file1.exe] (02-01-2010 00:00:00, 300 downloads) \n* [GetFile.aspx?File=file2.txt|file2.txt] (03-01-2010 00:00:00, 200 downloads) \n* [GetFile.aspx?File=file3.zip|file3.zip] (01-01-2010 00:00:00, 100 downloads) \n bla bla bla", retval);
         }
 
         [Test]
@@ -623,9 +623,9 @@ namespace UnitTest
             provider.Expect(x => x.Information).Return(new ComponentInformation("Local Storage Provider", "", "", "", ""));
 
             provider.Expect(x => x.ListFiles(null)).IgnoreArguments().Return(new string[] { "file1.exe", "file2.txt", "file3.zip" });
-            provider.Expect(x => x.GetFileDetails("file1.exe")).Return(new FileDetails(300, new DateTime(2010, 1, 2), 300));
-            provider.Expect(x => x.GetFileDetails("file2.txt")).Return(new FileDetails(200, new DateTime(2010, 1, 3), 200));
-            provider.Expect(x => x.GetFileDetails("file3.zip")).Return(new FileDetails(100, new DateTime(2010, 1, 1), 100));
+            provider.Expect(x => x.GetFileDetails("file1.exe")).Return(new FileDetails(3000, new DateTime(2010, 1, 2), 300));
+            provider.Expect(x => x.GetFileDetails("file2.txt")).Return(new FileDetails(2000, new DateTime(2010, 1, 3), 200));
+            provider.Expect(x => x.GetFileDetails("file3.zip")).Return(new FileDetails(1000, new DateTime(2010, 1, 1), 100));
 
             // Category,output,include,head,headers,tbl,head,row
             // {FileList('filePattern','storageProvider',outputType,sortMethod,asLinks,showDownloadCount,'heading'?,'headers'?,'tblFormat'?,'headFormat'?,'rowFormat'? )
@@ -636,7 +636,7 @@ namespace UnitTest
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual("bla bla bla  \n* [file1.exe|file1.exe] (02-01-2010 00:00:00, 300 kb, 300 downloads) \n* [file2.txt|file2.txt] (03-01-2010 00:00:00, 200 kb, 200 downloads) \n* [file3.zip|file3.zip] (01-01-2010 00:00:00, 100 kb, 100 downloads) \n bla bla bla", retval);
+            Assert.AreEqual("bla bla bla  \n* [GetFile.aspx?File=file1.exe|file1.exe] (02-01-2010 00:00:00, 3 KB, 300 downloads) \n* [GetFile.aspx?File=file2.txt|file2.txt] (03-01-2010 00:00:00, 2 KB, 200 downloads) \n* [GetFile.aspx?File=file3.zip|file3.zip] (01-01-2010 00:00:00, 1 KB, 100 downloads) \n bla bla bla", retval);
         }
 
         [Test]
@@ -670,7 +670,7 @@ namespace UnitTest
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual("bla bla bla  \n* [file1.exe|file1.exe] (300 kb) \n* [file2.txt|file2.txt] (200 kb) \n* [file3.zip|file3.zip] (100 kb) \n bla bla bla", retval);
+            Assert.AreEqual("bla bla bla  \n* [GetFile.aspx?File=file1.exe|file1.exe] (300 B) \n* [GetFile.aspx?File=file2.txt|file2.txt] (200 B) \n* [GetFile.aspx?File=file3.zip|file3.zip] (100 B) \n bla bla bla", retval);
         }
 
         [Test]
@@ -691,9 +691,9 @@ namespace UnitTest
             provider.Expect(x => x.Information).Return(new ComponentInformation("Local Storage Provider", "", "", "", ""));
 
             provider.Expect(x => x.ListFiles(null)).IgnoreArguments().Return(new string[] { "file1.exe", "file2.txt", "file3.zip" });
-            provider.Expect(x => x.GetFileDetails("file1.exe")).Return(new FileDetails(300, new DateTime(2010, 1, 2), 300));
-            provider.Expect(x => x.GetFileDetails("file2.txt")).Return(new FileDetails(200, new DateTime(2010, 1, 3), 200));
-            provider.Expect(x => x.GetFileDetails("file3.zip")).Return(new FileDetails(100, new DateTime(2010, 1, 1), 100));
+            provider.Expect(x => x.GetFileDetails("file1.exe")).Return(new FileDetails(30000, new DateTime(2010, 1, 2), 300));
+            provider.Expect(x => x.GetFileDetails("file2.txt")).Return(new FileDetails(20000, new DateTime(2010, 1, 3), 200));
+            provider.Expect(x => x.GetFileDetails("file3.zip")).Return(new FileDetails(10000, new DateTime(2010, 1, 1), 100));
 
             // Category,output,include,head,headers,tbl,head,row
             // {FileList('filePattern','storageProvider',outputType,sortMethod,asLinks,showDownloadCount,'heading'?,'headers'?,'tblFormat'?,'headFormat'?,'rowFormat'? )
@@ -704,7 +704,7 @@ namespace UnitTest
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual("bla bla bla  \n* [file1.exe|file1.exe] (02-01-2010 00:00:00, 300 kb) \n* [file2.txt|file2.txt] (03-01-2010 00:00:00, 200 kb) \n* [file3.zip|file3.zip] (01-01-2010 00:00:00, 100 kb) \n bla bla bla", retval);
+            Assert.AreEqual("bla bla bla  \n* [GetFile.aspx?File=file1.exe|file1.exe] (02-01-2010 00:00:00, 30 KB) \n* [GetFile.aspx?File=file2.txt|file2.txt] (03-01-2010 00:00:00, 20 KB) \n* [GetFile.aspx?File=file3.zip|file3.zip] (01-01-2010 00:00:00, 10 KB) \n bla bla bla", retval);
         }
 
         [Test]
@@ -738,7 +738,7 @@ namespace UnitTest
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual("bla bla bla  \n* [file1.exe|file1.exe] (02-01-2010 00:00:00) \n* [file2.txt|file2.txt] (03-01-2010 00:00:00) \n* [file3.zip|file3.zip] (01-01-2010 00:00:00) \n bla bla bla", retval);
+            Assert.AreEqual("bla bla bla  \n* [GetFile.aspx?File=file1.exe|file1.exe] (02-01-2010 00:00:00) \n* [GetFile.aspx?File=file2.txt|file2.txt] (03-01-2010 00:00:00) \n* [GetFile.aspx?File=file3.zip|file3.zip] (01-01-2010 00:00:00) \n bla bla bla", retval);
         }
         #endregion
 
@@ -773,7 +773,7 @@ namespace UnitTest
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual("bla bla bla  \n* [file3.zip|file3.zip] (30 downloads) \n* [file2.txt|file2.txt] (20 downloads) \n* [file1.exe|file1.exe] (10 downloads) \n bla bla bla", retval);
+            Assert.AreEqual("bla bla bla  \n* [GetFile.aspx?File=file3.zip|file3.zip] (30 downloads) \n* [GetFile.aspx?File=file2.txt|file2.txt] (20 downloads) \n* [GetFile.aspx?File=file1.exe|file1.exe] (10 downloads) \n bla bla bla", retval);
         }
 /*
         [Test]
