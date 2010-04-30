@@ -40,7 +40,7 @@ No special actions required.{BR}{BR}
 '''Where:''' {BR}
 * ''Required:''
 ** '''Category''' - Name of a valid category
-** '''output''' - Ca be 1 of 3, '''*,# or nothing'''
+** '''output''' - Can be 1 of 3, '''*,# or nothing'''
 *** '''""*""'''- Means unnumbered list
 *** '''""#""'''- Means numbered list
 *** '''""""''' - Means use table instead of list

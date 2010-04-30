@@ -10,20 +10,29 @@ namespace Keeper.Garrett.ScrewTurn.FileListFormatter
         public static readonly Page[] HelpPages = new Page[]
         { 
             new Page() {
-            Fullname = "CategoryListFormatterHelp",
-            Title = "Category List Help",
-            Content = @"=='''Category Lists'''==
-Autogenerates a list/table of pages which are members of a category chosen by the user.{BR}
-You can verify that the formatter is working by [CategoryListFormatterTest|opening this test page (be patient, it may be slow)].{BR}
+            Fullname = "FileListFormatterHelp",
+            Title = "File List Help",
+            Content = @"=='''File Lists'''==
+Autogenerates a list/table of files in a directory chosen by the user, either for download or simple file overview.{BR}
+You can verify that the formatter is working by [FileListFormatterTest|opening this test page (be patient, it may be slow)].{BR}
 {TOC}
 {BR}
 === Administrators ===
 No special actions required.{BR}{BR}
 === Markup Usage ===
 '''What can you do?'''{BR}
-* Generate a list/table of pages that match a certain category
-* Use numbered/unnumbered lists (# or *)
-* Choose wether to include a summary of the pages in the list items
+* Generate a list/table of files in a directory that match a certain pattern
+* Specific specific FileStorageFormatter to find files in
+* Enable/dsiable ability to download the files
+* Sort the files asc/desc accoring to:
+** Name
+** Size
+** Last modified date
+** Download count
+* Display details of the files:
+** Size
+** Last modified date
+** Download count
 * Use tables instead of lists
 ** Add a table heading
 ** Override column headers and make them more ''user friendly'' 
@@ -36,15 +45,41 @@ No special actions required.{BR}{BR}
 
 (((
 '''Usage:'''{BR}{BR}
-'''{CategoryList(Category,output,showSummary,TblHeading,Headers,TblStyle,HeadStyle,RowStyle)}'''{BR}{BR}
+'''{FileList('Pattern','Provider',OutputType,SortMethod,CreateLinks,DetailsToShow,TblHeading,Headers,TblStyle,HeadStyle,RowStyle)}'''{BR}{BR}
 '''Where:''' {BR}
 * ''Required:''
-** '''Category''' - Name of a valid category
-** '''output''' - Ca be 1 of 3, '''*,# or nothing'''
+** '''Pattern''' - A valid path and file wildcard
+*** All patterns must start with '/' ex.  /*.*, will give all files in the root dir of the provider
+*** For sub directories:  /MyDir/*.* will work
+**** Default dir if none specified is '/'
+*** For file wildcards: *.* , Screw*Wiki.*xe, *.zip etc. will work
+**** Default wildcard is *.* if none is specified
+* ''Optional:''
+** '''Provider''' - Fullname as seen in the wiki File management, ex. 'Local Files Provider' and 'SQL Server Files Storage Provider'
+*** Default value is the chosen wiki default file storage provider
+** '''OutputType''' - Can be 1 of 3, '''*,# or 'table''''
 *** '''""*""'''- Means unnumbered list
 *** '''""#""'''- Means numbered list
-*** '''""""''' - Means use table instead of list
-** '''showSummary''' - Will add a page summary to each item in the output (if present). Must be ""true"" or ""false""
+*** '''""table""''' - Means use table instead of list
+** '''SortMethod''' - Can be anything from [0 ; 7], where:
+*** '''0'''- Filename Ascending
+*** '''1'''- Filename Descending
+*** '''2'''- Downloads Ascending
+*** '''3'''- Downloads Descending
+*** '''4'''- File Size Ascending
+*** '''5'''- File Size Descending
+*** '''6'''- Last Modified Date Ascending
+*** '''7'''- Last Modified Date Descending
+** '''CreateLink''' - Should filenames displayed by download links, true or false 
+** '''DetailsToShow''' - Can be anything from [0 ; 7], where:
+*** '''0'''- No extra details
+*** '''1'''- Show download count
+*** '''2'''- Show download count + file size
+*** '''3'''- Show download count + last modified date
+*** '''4'''- Show download count + file size + last modified date
+*** '''5'''- Show file size
+*** '''6'''- Show file size + last modified date
+*** '''7'''- Show last modified date
 * ''Optional (applies only for tables as output):''
 ** '''TblHeading''' - Heading of the table, must be encapsulated in ' ' '''ex. 'My Heading' '''
 ** '''Headers''' - Columnheaders will override default naming, '''must be encapsulated in ' ' ex. 'Head1,Head2' '''
@@ -205,16 +240,16 @@ Depends on your chosen theme. {BR}
 )))
 {BR}
 ",
-            Description = "CategoryListFormatter Help",
-            Keywords = new string[] { "CategoryListFormatter", "Help", "Formatting", "Markup", "Category", "List", "Table" }
+            Description = "FileListFormatter Help",
+            Keywords = new string[] { "FileListFormatter", "Help", "Formatting", "Markup", "File", "List", "Table" }
         },
 
         new Page()
         {
-            Fullname = "CategoryListFormatterTest",
-            Title = "Category List Test",
-            Content = @"== Page for testing and verifying the CategoryListFormatter ==
-You may need to adjust the category for each test, to match an existing category on your wiki.{BR}
+            Fullname = "FileListFormatterTest",
+            Title = "File List Test",
+            Content = @"== Page for testing and verifying the FileListFormatter ==
+You may need to adjust the path/pattern and provider for each test, to match existing files in your wiki.{BR}
 {TOC}
 {BR}
 == Primitive Lists ==
@@ -306,8 +341,8 @@ You may need to adjust the category for each test, to match an existing category
 {CategoryList(Help,,true,'My Table','Head1,Head2','cellspacing=""10"" style=""background-color: #88CC33; color: #000000;""','align=""center"" style=""color: #0000AA;""','align=""center"" style=""color: #BBBBBB;""')}
 {BR}
 ",
-            Description = "CategoryListFormatter Test",
-            Keywords = new string[] { "CategoryListFormatter", "Test" }
+            Description = "FileListFormatter Test",
+            Keywords = new string[] { "FileListFormatter", "Test" }
         }
         };
     }
