@@ -141,27 +141,34 @@ namespace Keeper.Garrett.ScrewTurn.FileListFormatter
                                         }
                                     }
 
+                                    string list = string.Format("(No files found matching \"{0}\".)", filePattern);
+
                                     //Get info from database
                                     var fileList = new Dictionary<string,FileDetails>();
 
                                     if (stoProvider != null)
                                     {
-                                        var files = stoProvider.ListFiles(path);
-
-                                        //Create usable regex from wildcard
-                                        var regex = Regex.Escape(filePattern).Replace(@"\*", ".*").Replace(@"\?", ".");
-
-                                        foreach (var file in files)
+                                        try
                                         {
-                                            //Add only if pattern match
-                                            if (Regex.IsMatch(file, regex) == true)
+                                            var files = stoProvider.ListFiles(path);
+
+                                            //Create usable regex from wildcard
+                                            var regex = Regex.Escape(filePattern).Replace(@"\*", ".*").Replace(@"\?", ".");
+
+                                            foreach (var file in files)
                                             {
-                                                fileList.Add(file, stoProvider.GetFileDetails(file));
+                                                //Add only if pattern match
+                                                if (Regex.IsMatch(file, regex) == true)
+                                                {
+                                                    fileList.Add(file, stoProvider.GetFileDetails(file));
+                                                }
                                             }
                                         }
+                                        catch (Exception e)
+                                        {
+                                            list = string.Format("(No directory found matching \"{0}\".)", path);
+                                        }
                                     }
-
-                                    string list = string.Format("(No files found matching \"{0}\".)", filePattern);
 
                                     if (fileList.Count > 0)
                                     {

@@ -23,7 +23,7 @@ No special actions required.{BR}{BR}
 '''What can you do?'''{BR}
 * Generate a list/table of files in a directory that match a certain pattern
 * Specify specific FileStorageFormatter to find files in
-* Enable/dsiable ability to download the files
+* Enable/disable ability to download the files
 * Sort the files asc/desc accoring to:
 ** Name
 ** Size
@@ -48,30 +48,34 @@ No special actions required.{BR}{BR}
 '''{FileList('Pattern','Provider',OutputType,SortMethod,CreateLinks,DetailsToShow,TblHeading,Headers,TblStyle,HeadStyle,RowStyle)}'''{BR}{BR}
 '''Where:''' {BR}
 * ''Required:''
-** '''Pattern''' - A valid path and file wildcard
+** '''Pattern''' - A valid path and file wildcard, must be encapsulated in ' '
 *** All patterns must start with '/' ex.  /*.*, will give all files in the root dir of the provider
 *** For sub directories:  /MyDir/*.* will work
 **** Default dir if none specified is '/'
 *** For file wildcards: *.* , Screw*Wiki.*xe, *.zip etc. will work
 **** Default wildcard is *.* if none is specified
+**** '''Note that the definition of the default dir might differ from provider to provider, ex. for Local Files Provider, the default root is /public/Upload'''
 * ''Optional:''
-** '''Provider''' - Fullname as seen in the wiki File management, ex. 'Local Files Provider' and 'SQL Server Files Storage Provider'
+** '''Provider''' - Fullname as seen in the wiki File management, ex. 'Local Files Provider' and 'SQL Server Files Storage Provider', must be encapsulated in ' '
 *** Default value is the chosen wiki default file storage provider
-** '''OutputType''' - Can be 1 of 3, '''*,# or 'table''''
+*** '''Note that the definition of the default dir might differ from provider to provider, ex. for Local Files Provider, the default root is /public/Upload'''
+** '''OutputType''' - Can be one of: '''*,# or 'table''''
 *** '''""*""'''- Means unnumbered list
 *** '''""#""'''- Means numbered list
 *** '''""table""''' - Means use table instead of list
-** '''SortMethod''' - Can be anything from [0 ; 7], where:
+*** Default is *
+** '''SortMethod''' - Can be anything from 0 - 7, where:
 *** '''0'''- Filename Ascending
 *** '''1'''- Filename Descending
-*** '''2'''- Downloads Ascending
-*** '''3'''- Downloads Descending
+*** '''2'''- Download count Ascending
+*** '''3'''- Download count Descending
 *** '''4'''- File Size Ascending
 *** '''5'''- File Size Descending
 *** '''6'''- Last Modified Date Ascending
 *** '''7'''- Last Modified Date Descending
-** '''CreateLink''' - Should filenames displayed by download links, true or false 
-** '''DetailsToShow''' - Can be anything from [0 ; 7], where:
+*** Default is 7
+** '''CreateLink''' - Should filenames displayed as download links, true or false, default is false
+** '''DetailsToShow''' - Can be anything from 0 - 7, where:
 *** '''0'''- No extra details
 *** '''1'''- Show download count
 *** '''2'''- Show download count + file size
@@ -80,6 +84,7 @@ No special actions required.{BR}{BR}
 *** '''5'''- Show file size
 *** '''6'''- Show file size + last modified date
 *** '''7'''- Show last modified date
+*** Default is 0
 * ''Optional (applies only for tables as output):''
 ** '''TblHeading''' - Heading of the table, must be encapsulated in ' ' '''ex. 'My Heading' '''
 ** '''Headers''' - Columnheaders will override default naming, '''must be encapsulated in ' ' ex. 'Head1,Head2' '''
@@ -92,60 +97,88 @@ No special actions required.{BR}{BR}
 {BR}
 
 ==== Minimum ====
-The combinations of lists.{BR}
+{BR}
 (((
 '''Markup:'''{BR}{BR}
-'''{CategoryList(MyCat,*,false,,,,,) }''' {BR}{BR}
+'''{FileList('/*.*',' ',,,,,,,,,) }''' {BR}{BR}
 '''Result:'''{BR}{BR}
-* [Page1|Page Link1]
-* [Page2|Page Link2]
-* [Page3|Page Link3]
+* File1
+* File2
+* File3
 )))
 {BR}
 (((
 '''Markup:'''{BR}{BR}
-'''{CategoryList(MyCat,#,false,,,,,) }''' {BR}{BR}
+'''{FileList('/*.*',' ',#,,,,,,,,) }''' {BR}{BR}
 '''Result:'''{BR}{BR}
-1. [Page1|Page Link1]
-2. [Page2|Page Link2]
-3. [Page3|Page Link3]
+1. File1
+2. File2
+3. File3
 )))
 {BR}
 (((
 '''Markup:'''{BR}{BR}
-'''{CategoryList(MyCat,*,true,,,,,) }''' {BR}{BR}
+'''{FileList('/*.*',' ',*,true,,,,,,,) }''' {BR}{BR}
 '''Result:'''{BR}{BR}
-* [Page1|Page Link1] - Page Summary/Description 1
-* [Page2|Page Link2] - Page Summary/Description 2
-* [Page3|Page Link3] - Page Summary/Description 3
+* [File1|File Link1]
+* [File2|File Link2]
+* [File3|File Link3]
 )))
 {BR}
 (((
 '''Markup:'''{BR}{BR}
-'''{CategoryList(MyCat,#,true,,,,,) }''' {BR}{BR}
+'''{FileList('/*.*',' ',*,7,true,0,,,,,) }''' {BR}{BR}
 '''Result:'''{BR}{BR}
-1. [Page1|Page Link1] - Page Summary/Description 1
-2. [Page2|Page Link2] - Page Summary/Description 2
-3. [Page3|Page Link3] - Page Summary/Description 3
+* [File1|File Link1]
+* [File2|File Link2]
+* [File3|File Link3]
 )))
 {BR}
+(((
+'''Markup:'''{BR}{BR}
+'''{FileList('/*.*',' ',*,7,true,4,,,,,) }''' {BR}{BR}
+'''Result:'''{BR}{BR}
+* [File1|File Link1] (1-1-2010, 10 KB, 1 downloads)
+* [File2|File Link2] (1-2-2010, 20 KB, 2 downloads)
+* [File3|File Link3] (1-3-2010, 30 KB, 3 downloads)
+)))
+{BR}
+(((
+'''Markup:'''{BR}{BR}
+'''{FileList('/*.*',' ',*,6,true,4,,,,,) }''' {BR}{BR}
+'''Result:'''{BR}{BR}
+* [File3|File Link3] (1-3-2010, 30 KB, 3 downloads)
+* [File2|File Link2] (1-2-2010, 20 KB, 2 downloads)
+* [File1|File Link1] (1-1-2010, 10 KB, 1 downloads)
+)))
+{BR}
+(((
+'''Markup:'''{BR}{BR}
+'''{FileList('/*.*',' ',*,2,true,4,,,,,) }''' {BR}{BR}
+'''Result:'''{BR}{BR}
+* [File3|File Link3] (1-1-2010, 10 KB, 3 downloads)
+* [File2|File Link2] (1-2-2010, 20 KB, 2 downloads)
+* [File1|File Link1] (1-1-2010, 10 KB, 1 downloads)
+)))
+{BR}
+
 
 ==== Tables and Styling ====
 '''Default style'''{BR}
 Depends on your chosen theme. {BR}
 (((
 '''Markup:'''{BR}{BR}
-'''{CategoryList(MyCat,,true,,,,,) }''' {BR}{BR}
+'''{FileList('/*.*',' ',table,7,true,1,,,,,) }''' {BR}{BR}
 '''Result:'''{BR}{BR}
 {|  
 |+  
-! Page name !! Description
+! Filename !! Downloads
 |-  
-| [Page1|Page Link1] || Page Summary/Description 1
+| [File1|File Link1] || 3
 |-  
-| [Page2|Page Link2] || Page Summary/Description 2
+| [File2|File Link2] || 2
 |-  
-| [Page3|Page Link3] || Page Summary/Description 3
+| [File3|File Link3] || 1
 |}
 )))
 {BR}
@@ -153,17 +186,17 @@ Depends on your chosen theme. {BR}
 '''Predefined style: ''Black and White'' '''{BR}
 (((
 '''Markup:'''{BR}{BR}
-'''{CategoryList(MyCat,,true,,,'bw','bw','bw') }''' {BR}{BR}
+'''{FileList('/*.*',' ',table,7,true,1,,,'bw','bw','bw') }''' {BR}{BR}
 '''Result:'''{BR}{BR}
 {| border=""0"" cellpadding=""2"" cellspacing=""0"" align=""center"" style=""background-color: #EEEEEE;""
 |- align=""center"" style=""background-color: #000000; color: #FFFFFF; font-weight: bold;""  
-| Page name || Description
+| Filename || Downloads
 |- align=""center"" style=""color: #000000;""
-| [Page1|Page Link1] || Page Summary/Description 1
+| [File1|File Link1] || 3
 |- align=""center"" style=""color: #000000;""
-| [Page2|Page Link2] || Page Summary/Description 2
+| [File2|File Link2] || 2
 |- align=""center"" style=""color: #000000;""
-| [Page3|Page Link3] || Page Summary/Description 3
+| [File3|File Link3] || 1
 |}
 )))
 {BR}
@@ -171,17 +204,17 @@ Depends on your chosen theme. {BR}
 '''Predefined style: ''Black and Grey'' '''{BR}
 (((
 '''Markup:'''{BR}{BR}
-'''{CategoryList(MyCat,,true,,,'bg','bg','bg') }''' {BR}{BR}
+'''{FileList('/*.*',' ',table,7,true,1,,,'bg','bg','bg') }''' {BR}{BR}
 '''Result:'''{BR}{BR}
 {| border=""0"" cellpadding=""2"" cellspacing=""0"" align=""center"" style=""background-color: #EEEEEE;""
 |- align=""center"" style=""background-color: #000000; color: #CCCCCC; font-weight: bold;""  
-| Page name || Description
+| Filename || Downloads
 |- align=""center"" 
-| [Page1|Page Link1] || Page Summary/Description 1
+| [File1|File Link1] || 3
 |- align=""center"" 
-| [Page2|Page Link2] || Page Summary/Description 2
+| [File2|File Link2] || 2
 |- align=""center"" 
-| [Page3|Page Link3] || Page Summary/Description 3
+| [File3|File Link3] || 1
 |}
 )))
 {BR}
@@ -189,17 +222,17 @@ Depends on your chosen theme. {BR}
 '''Predefined style: ''Green and Black''' ''{BR}
 (((
 '''Markup:'''{BR}{BR}
-'''{CategoryList(MyCat,,true,,,'gb','gb','gb') }''' {BR}{BR}
+'''{FileList('/*.*',' ',table,7,true,1,,,'gb','gb','gb') }''' {BR}{BR}
 '''Result:'''{BR}{BR}
 {| border=""0"" cellpadding=""2"" cellspacing=""0"" align=""center"" style=""background-color: #EEEEEE;""
 |- align=""center"" style=""background-color: #88CC33; color: #000000; font-weight: bold;""   
-| Page name || Description
+| Filename || Downloads
 |- align=""center"" style=""color: #000000;""
-| [Page1|Page Link1] || Page Summary/Description 1
+| [File1|File Link1] || 3
 |- align=""center"" style=""color: #000000;""
-| [Page2|Page Link2] || Page Summary/Description 2
+| [File2|File Link2] || 2
 |- align=""center"" style=""color: #000000;""
-| [Page3|Page Link3] || Page Summary/Description 3
+| [File3|File Link3] || 1
 |}
 )))
 {BR}
@@ -207,17 +240,17 @@ Depends on your chosen theme. {BR}
 '''Custom style:'''{BR}
 (((
 '''Markup:'''{BR}{BR}
-'''{CategoryList(MyCat,,true,,,'cellspacing=""10"" style=""background-color: #88CC33; color: #000000;""','style=""color: #00AAAA;""','style=""color: #BBBB00;""') }''' {BR}{BR}
+''''{FileList('/*.*',' ',table,7,true,1,,,'cellspacing=""10"" style=""background-color: #88CC33; color: #000000;""','style=""color: #00AAAA;""','style=""color: #BBBB00;""') }''' {BR}{BR}
 '''Result:'''{BR}{BR}
 {| cellspacing=""10"" style=""background-color: #88CC33; color: #000000;""
 |- style=""color: #00AAAA;""   
-| Page name || Description
+| Filename || Downloads
 |- style=""color: #BBBB00;""
-| [Page1|Page Link1] || Page Summary/Description 1
+| [File1|File Link1] || 3
 |- style=""color: #BBBB00;""
-| [Page2|Page Link2] || Page Summary/Description 2
+| [File2|File Link2] || 2
 |- style=""color: #BBBB00;""
-| [Page3|Page Link3] || Page Summary/Description 3
+| [File3|File Link3] || 1
 |}
 )))
 {BR}
@@ -225,17 +258,17 @@ Depends on your chosen theme. {BR}
 '''Custom heading + headers:'''{BR}
 (((
 '''Markup:'''{BR}{BR}
-'''{CategoryList(MyCat,,true,'My heading','Head1,Head2',,,) }''' {BR}{BR}
+''''{FileList('/*.*',' ',table,7,true,1,'My heading','Head1,Head2',,,) }''' {BR}{BR}
 '''Result:'''{BR}{BR}
 {|  
 |+ My heading  
 ! Head1 !! Head2
 |-  
-| [Page1|Page Link1] || Page Summary/Description 1
+| [File1|File Link1] || 3
 |-  
-| [Page2|Page Link2] || Page Summary/Description 2
+| [File2|File Link2] || 2
 |-  
-| [Page3|Page Link3] || Page Summary/Description 3
+| [File3|File Link3] || 1
 |}
 )))
 {BR}
@@ -254,91 +287,197 @@ You may need to adjust the path/pattern and provider for each test, to match exi
 {BR}
 == Primitive Lists ==
 
-===Primitive Unnumbered No Summary===
+===Default===
 {BR}
-{CategoryList(Help,*,false,,,,,)}
-{BR}
-
-===Primitive Unnumbered  Summary===
-{BR}
-{CategoryList(Help,*,true,,,,,)}
+{FileList('/*.*','',,,,,,,,,)}
 {BR}
 
-===Primitive Numbered No Summary===
+===Specific Provider===
 {BR}
-{CategoryList(Help,#,true,,,,,)}
-{BR}
-
-===Primitive Numbered  Summary===
-{BR}
-{CategoryList(Help,#,true,,,,,)}
+{FileList('/*.*','SQL Server Files Storage Provider',,,,,,,,,)}
 {BR}
 
-===Primitive Default When Bad Param No Summary===
+===With Links===
 {BR}
-{CategoryList(Help,X,false,,,,,)}
+{FileList('/*.*','',,,true,,,,,,)}
 {BR}
 
-===Primitive Default When Bad Param Summary===
+===Primitive Unnumbered No Details===
 {BR}
-{CategoryList(Help,X,true,,,,,)}
+{FileList('/*.*','',*,7,true,0,,,,,)}
+{BR}
+
+===Primitive Unnumbered All Details===
+{BR}
+{FileList('/*.*','',*,7,true,4,,,,,)}
+{BR}
+
+===Primitive Numbered No Details===
+{BR}
+{FileList('/*.*','',#,7,true,0,,,,,)}
+{BR}
+
+===Primitive Numbered All Details===
+{BR}
+{FileList('/*.*','',#,7,true,4,,,,,)}
+{BR}
+
+===Primitive Sort Method 0===
+{BR}
+{FileList('/*.*','',#,0,true,4,,,,,)}
+{BR}
+
+===Primitive Sort Method 1===
+{BR}
+{FileList('/*.*','',#,1,true,4,,,,,)}
+{BR}
+
+===Primitive Sort Method 2===
+{BR}
+{FileList('/*.*','',#,2,true,4,,,,,)}
+{BR}
+
+===Primitive Sort Method 3===
+{BR}
+{FileList('/*.*','',#,3,true,4,,,,,)}
+{BR}
+
+===Primitive Sort Method 4===
+{BR}
+{FileList('/*.*','',#,4,true,4,,,,,)}
+{BR}
+
+===Primitive Sort Method 5===
+{BR}
+{FileList('/*.*','',#,5,true,4,,,,,)}
+{BR}
+
+===Primitive Sort Method 6===
+{BR}
+{FileList('/*.*','',#,6,true,4,,,,,)}
+{BR}
+
+===Primitive Sort Method 7===
+{BR}
+{FileList('/*.*','',#,7,true,4,,,,,)}
+{BR}
+
+===Primitive No Files===
+{BR}
+{FileList('/XXYYZZ/*.*','',#,7,true,4,,,,,)}
+{BR}
+
+===Primitive Default When Bad Params===
+{BR}
+{FileList('/XXYYZZ/*.*','XSD',X,X,X,X,,,,,)}
 {BR}
 {BR}
 == Tables ==
 
-===Table No Summary===
+===Default===
 {BR}
-{CategoryList(Help,,false,,,,,)}
-{BR}
-
-===Table Summary===
-{BR}
-{CategoryList(Help,,true,,,,,)}
+{FileList('/*.*','',table,,,,,,,,)}
 {BR}
 
-===Table No Summary - Style BW===
+===Specific Provider===
 {BR}
-{CategoryList(Help,,false,,,'bw','bw','bw')}
-{BR}
-
-===Table Summary - Style BW===
-{BR}
-{CategoryList(Help,,true,,,'bw','bw','bw')}
+{FileList('/*.*','SQL Server Files Storage Provider',table,,,,,,,,)}
 {BR}
 
-===Table No Summary - Style BG===
+===With Links===
 {BR}
-{CategoryList(Help,,false,,,'bg','bg','bg')}
-{BR}
-
-===Table Summary - Style BG===
-{BR}
-{CategoryList(Help,,true,,,'bg','bg','bg')}
+{FileList('/*.*','',table,,true,,,,,,)}
 {BR}
 
-===Table No Summary - Style GB===
+===Table No Details===
 {BR}
-{CategoryList(Help,,false,,,'gb','gb','gb')}
+{FileList('/*.*','',table,7,true,0,,,,,)}
 {BR}
 
-===Table Summary - Style GB===
+===Table All Details===
 {BR}
-{CategoryList(Help,,true,,,'gb','gb','gb')}
+{FileList('/*.*','',table,7,true,4,,,,,)}
+{BR}
+
+===Table Sort Method 0===
+{BR}
+{FileList('/*.*','',table,0,true,4,,,,,)}
+{BR}
+
+===Table Sort Method 1===
+{BR}
+{FileList('/*.*','',table,1,true,4,,,,,)}
+{BR}
+
+===Table Sort Method 2===
+{BR}
+{FileList('/*.*','',table,2,true,4,,,,,)}
+{BR}
+
+===Table Sort Method 3===
+{BR}
+{FileList('/*.*','',table,3,true,4,,,,,)}
+{BR}
+
+===Table Sort Method 4===
+{BR}
+{FileList('/*.*','',table,4,true,4,,,,,)}
+{BR}
+
+===Table Sort Method 5===
+{BR}
+{FileList('/*.*','',table,5,true,4,,,,,)}
+{BR}
+
+===Table Sort Method 6===
+{BR}
+{FileList('/*.*','',table,6,true,4,,,,,)}
+{BR}
+
+===Table Sort Method 7===
+{BR}
+{FileList('/*.*','',table,7,true,4,,,,,)}
+{BR}
+
+===Table No Files===
+{BR}
+{FileList('/XXYYZZ/*.*','',table,7,true,4,,,,,)}
+{BR}
+
+===Table Default When Bad Params===
+{BR}
+{FileList('XXYYZZ/*.*','AXC',table,X,X,X,,,,,)}
+{BR}
+{BR}
+
+===Table All Details - Style BW===
+{BR}
+{FileList('/*.*','',table,7,true,4,,,'bw','bw','bw')}
+{BR}
+
+===Table All Details - Style BG===
+{BR}
+{FileList('/*.*','',table,7,true,4,,,'bg','bg','bg')}
+{BR}
+
+===Table All Details - Style GB===
+{BR}
+{FileList('/*.*','',table,7,true,4,,,'gb','gb','gb')}
 {BR}
 
 ===Table Summary - Heading + 1 Header===
 {BR}
-{CategoryList(Help,,true,'My Table','MyHead',,,)}
+{FileList('/*.*','',table,7,true,4,'My Table','MyHead',,,)}
 {BR}
 
 ===Table Summary - Heading + 2 Headers===
 {BR}
-{CategoryList(Help,,true,'My Table','Head1,Head2',,,)}
+{FileList('/*.*','',table,7,true,4,'My Table','Head1,Head2',,,)}
 {BR}
 
 ===Table Summary - Custom Style===
 {BR}
-{CategoryList(Help,,true,'My Table','Head1,Head2','cellspacing=""10"" style=""background-color: #88CC33; color: #000000;""','align=""center"" style=""color: #0000AA;""','align=""center"" style=""color: #BBBBBB;""')}
+{FileList('/*.*','',table,7,true,4,'My Table','Head1,Head2','cellspacing=""10"" style=""background-color: #88CC33; color: #000000;""','align=""center"" style=""color: #0000AA;""','align=""center"" style=""color: #BBBBBB;""')}
 {BR}
 ",
             Description = "FileListFormatter Test",
