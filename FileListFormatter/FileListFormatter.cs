@@ -78,7 +78,7 @@ namespace Keeper.Garrett.ScrewTurn.FileListFormatter
                                 foreach (Match match in matches)
                                 {
                                     var defaultProvider = m_Host.GetSettingValue(SettingName.DefaultFilesStorageProvider).ToLower();
-                                    IFilesStorageProviderV30 stoProvider = providers[0];
+                                    IFilesStorageProviderV30 stoProvider = null;
                                     string path = string.Empty;
                                     string filePattern = string.Empty;
                                     string storageProvider = string.Empty;
