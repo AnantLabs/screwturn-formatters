@@ -119,7 +119,7 @@
 	margin: 0;
 	border-bottom: 2px solid #484848;
 	color: #484848;    
-	margin-top: 44px;
+	padding-top: 44px;
 }
 
 .blogbyline {
@@ -129,7 +129,7 @@
 
 .blogentry 
 {
-    padding: 5px;
+    margin-top: 10px;
     border-bottom: dashed 1px #DDDDDD;    
 }
 
