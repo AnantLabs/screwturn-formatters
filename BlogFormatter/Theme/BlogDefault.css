@@ -17,6 +17,12 @@
 	color: #484848;
 }
 
+.blogaboutedit
+{
+    float: right;
+    margin-top: 7px;
+}
+
 .blogabout
 {
     margin-left: auto;
@@ -71,6 +77,12 @@
 	color: #484848;
 }
 
+.blogbottomedit
+{
+    float: right;
+    margin-top: 7px;
+}
+
 .blogbottom
 {
     margin-left: auto;
@@ -78,8 +90,6 @@
 	padding: 0px 10px 10px 10px;
 	border-bottom: dashed 1px #DDDDDD;
 }
-
-
 
 /* Blog Post */
 /****************************************************************************/
