@@ -144,12 +144,16 @@
 {
     padding-top: 2px;
 	padding-left: 20px;
+	padding-bottom: 4px;
+	padding-right: 2px;
 	background: url(Images/BlogPostReadMore.gif) no-repeat left center;
 }
 
 .blogmeta .blogcomments {
     padding-top: 2px;
 	padding-left: 20px;
+	padding-bottom: 4px;
+	padding-right: 2px;
 	background: url(Images/BlogPostComments.gif) no-repeat left center;
 }
 
