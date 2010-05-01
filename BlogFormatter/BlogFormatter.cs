@@ -340,15 +340,14 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
             //Generate HTML
             var retval = string.Format("{0}\n"
                                 + "<div id=\"blogaboutcontent\">\n"
-                                    + "<h1 class=\"blogabouttitle\"><a href=\"{1}.ashx\">{2}</a><small><a class=\"blogaboutedit\" href=\"Edit.aspx?Page={3}\">Edit</a></small></h1>"
+                                    + "<h1 class=\"blogabouttitle\"><a href=\"Edit.aspx?Page={1}\">{2}</a></h1>"
                                     + "<div class=\"blogabout\">\n"
-                                    + "{4}\n"
+                                    + "{3}\n"
                                     + "</div>\n"
                                 + "</div>\n"
                                 , _stylesheet
                                 , _page.PageInfo.FullName
                                 , _page.Title
-                                , _page.PageInfo.FullName
                                 , _page.Content
                            );
 
@@ -448,16 +447,15 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
         {
             //Generate HTML
             var retval = string.Format("{0}\n"
-                                + "<div id=\"blogbottomcontent\">\n"                                  
-                                    + "<h1 class=\"blogbottomtitle\"><a href=\"{1}.ashx\">{2}</a><small><a class=\"blogbottomedit\" href=\"Edit.aspx?Page={3}\">Edit</a></small></h1>\n"
+                                + "<div id=\"blogbottomcontent\">\n"
+                                    + "<h1 class=\"blogbottomtitle\"><a href=\"Edit.aspx?Page={1}\">{2}</a></h1>\n"
                                     + "<div class=\"blogbottom\">\n"
-                                    + "{4}\n"
+                                    + "{3}\n"
                                     + "</div>\n"
                                 + "</div>\n"
                                 , _stylesheet
                                 , _page.PageInfo.FullName
                                 , _page.Title
-                                , _page.PageInfo.FullName
                                 , _page.Content
                            );
 

@@ -17,12 +17,6 @@
 	color: #484848;
 }
 
-.blogaboutedit
-{
-    float: right;
-    margin-top: 7px;
-}
-
 .blogabout
 {
     margin-left: auto;
@@ -75,12 +69,6 @@
 	margin: 5px;
 	border-bottom: 2px solid #484848;
 	color: #484848;
-}
-
-.blogbottomedit
-{
-    float: right;
-    margin-top: 7px;
 }
 
 .blogbottom
