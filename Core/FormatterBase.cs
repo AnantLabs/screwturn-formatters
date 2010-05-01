@@ -164,10 +164,23 @@ namespace Keeper.Garrett.ScrewTurn.Core
             if (m_Host != null)
             {
                 string storeName = "Keeper.Garrett.Formatters";
+
+                IFilesStorageProviderV30 provider = null;
                 var providers = m_Host.GetFilesStorageProviders(true);
-                if (providers != null && providers.Length > 0)
+                var defaultProvider = m_Host.GetSettingValue(SettingName.DefaultFilesStorageProvider).ToLower();
+
+                //Find matching provider
+                foreach (var prov in providers)
                 {
-                    var provider = providers[0];
+                    if (prov.Information.Name.ToLower() == defaultProvider)
+                    {
+                        provider = prov;
+                        break;
+                    }
+                }
+
+                if (provider != null)
+                {
 
                     var rootDirs = provider.ListDirectories("/");
                     bool foundDirectory = false;
