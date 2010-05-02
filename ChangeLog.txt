@@ -1,2 +1,9 @@
-[Version 1.0.91.0 - April 27 - 2010]
-Initial release
+
+[Version 1.0.1.0 - May 2 - 2010]
+Initial release of formatters.
+Included:
+	BlogFormatter
+	CategoryFormatter
+	EventLogFormatter
+	FileListFormatter
+	QueryTableFormatter
