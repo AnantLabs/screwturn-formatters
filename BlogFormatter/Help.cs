@@ -14,7 +14,7 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
             Title = "Blog Help",
             Content = @"=='''Blog'''==
 Autogenerates a blog consisting of pages with a specific category.{BR}
-You can that the formatter is working by [BlogFormatterTest|opening this test page].{BR}
+You can verify that the formatter is working by [BlogFormatterTest|opening this test page].{BR}
 {TOC}
 {BR}
 === Administrators ===
