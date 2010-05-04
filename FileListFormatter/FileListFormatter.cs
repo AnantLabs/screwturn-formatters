@@ -77,8 +77,7 @@ namespace Keeper.Garrett.ScrewTurn.FileListFormatter
                                 //Foreach query
                                 foreach (Match match in matches)
                                 {
-                                    var defaultProvider = m_Host.GetSettingValue(SettingName.DefaultFilesStorageProvider).ToLower();
-                                    IFilesStorageProviderV30 stoProvider = null;
+                                    IFilesStorageProviderV30 stoProvider = providers[providers.Length - 1]; 
                                     string path = string.Empty;
                                     string filePattern = string.Empty;
                                     string storageProvider = string.Empty;
@@ -92,7 +91,7 @@ namespace Keeper.Garrett.ScrewTurn.FileListFormatter
                                     path = tmpPattern.Substring(0,tmpPattern.LastIndexOf('/') + 1);
                                     filePattern = tmpPattern.Substring(tmpPattern.LastIndexOf('/') + 1);
 
-                                    storageProvider = (string.IsNullOrEmpty(match.Groups["storageProvider"].Value) == true ? defaultProvider : match.Groups["storageProvider"].Value).ToLower();
+                                    storageProvider = (string.IsNullOrEmpty(match.Groups["storageProvider"].Value) == true ? "" : match.Groups["storageProvider"].Value).ToLower();
                                     bool.TryParse(match.Groups["asLinks"].Value, out asLinks);
 
                                     int.TryParse(match.Groups["showDetails"].Value, out showDetails);
@@ -134,11 +133,8 @@ namespace Keeper.Garrett.ScrewTurn.FileListFormatter
                                         {
                                             stoProvider = prov;
                                             break;
-                                        }//Else if default provider
-                                        else if (prov.Information.Name.ToLower() == defaultProvider)
-                                        {
-                                            stoProvider = prov;
                                         }
+                                        //Else if default provider is allready set
                                     }
 
                                     string list = string.Format("(No files found matching \"{0}\".)", filePattern);

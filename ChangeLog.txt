@@ -1,3 +1,8 @@
+[Version 1.0.2.0 - May 2 - 2010]
+FileListFormatter:
+	Bug fix -	Default provider now works when specifiyng '' or ,, , BUT the default provider is now always the LAST active provider detected, 
+				which in most cases will be SQL provider due to the alphabetic order (Local Files, MySql Provider, Oracle Provider, SQL Provider)
+
 
 [Version 1.0.1.0 - May 2 - 2010]
 Initial release of formatters.
