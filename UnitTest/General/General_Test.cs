@@ -12,6 +12,7 @@ using Keeper.Garrett.ScrewTurn.Core;
 using ScrewTurn.Wiki.PluginFramework;
 using Rhino.Mocks;
 using System.Web;
+using Keeper.Garrett.ScrewTurn.FileContentFormatter;
 
 namespace UnitTest.General
 {
@@ -64,6 +65,9 @@ namespace UnitTest.General
                 case 5:
                     retval = new QueryTableFormatter();
                     break;
+                case 6:
+                    retval = new FileContentFormatter();
+                    break;
             }
 
             return retval;
@@ -90,13 +94,16 @@ namespace UnitTest.General
                 case 5:
                     retval = "bla bla bla {QTable(MyLink,'select * from schedule',,,,,,)} bla bla bla";
                     break;
+                case 6:
+                    retval = "bla bla bla {FileCont file='/*.*')} bla bla bla";
+                    break;
             }
 
             return retval;
         }
 
         [Test]
-        public void VerifyPhaseSetup([Values(1, 2, 3, 4, 5)] int _formatter)
+        public void VerifyPhaseSetup([Values(1, 2, 3, 4, 5, 6)] int _formatter)
         {
             //Arrange
             var formatter = GetFormatter(_formatter);
@@ -113,7 +120,7 @@ namespace UnitTest.General
         }
 
         [Test]
-        public void ForcePhase2([Values(1, 2, 3, 4, 5)] int _formatter)
+        public void ForcePhase2([Values(1, 2, 3, 4, 5, 6)] int _formatter)
         {
             //Arrange
             var formatter = GetFormatter(_formatter);
@@ -133,7 +140,7 @@ namespace UnitTest.General
         }
 
         [Test]
-        public void ForcePhase3([Values(1, 2, 3, 4, 5)] int _formatter)
+        public void ForcePhase3([Values(1, 2, 3, 4, 5, 6)] int _formatter)
         {
             //Arrange
             var formatter = GetFormatter(_formatter);
@@ -154,7 +161,7 @@ namespace UnitTest.General
 
 
         [Test]
-        public void ForcePhaseX([Values(1, 2, 3, 4, 5)] int _formatter)
+        public void ForcePhaseX([Values(1, 2, 3, 4, 5, 6)] int _formatter)
         {
             //Arrange
             var formatter = GetFormatter(_formatter);
@@ -174,7 +181,7 @@ namespace UnitTest.General
         }
 
         [Test]
-        public void ForceException([Values(1, 2, 4, 5)] int _formatter)
+        public void ForceException([Values(1, 2, 4, 5, 6)] int _formatter)
         {
             //Arrange
             var formatter = GetFormatter(_formatter);
