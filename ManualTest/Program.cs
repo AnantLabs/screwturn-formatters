@@ -8,6 +8,7 @@ using System.Linq;
 using System.Collections;
 using System.Text.RegularExpressions;
 using System.Web;
+using System.Configuration.Install;
 
 namespace ManualTest
 {
@@ -49,17 +50,45 @@ if (captures.Length < 3)
 //                var TagRegex = new Regex(@"\{Blog\(""(?<blog>(.*?)"") ((\/.*="".*"")*\)\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
 //                var TagRegex = new Regex(@"\{Blog\(""(?<blog>(.*?)"") [\?&](?<name>[^&=]+)=(?<value>[^&=]+)\)\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
 
-                var TagRegex = new Regex(@"\{Blog\(""(?<blog>(.*?)"") (?<argname>/\w+)=(?<argvalue>\w+)\)\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
+
+                var TagRegex = new Regex(@"\{Blog (?<args>(.*?))\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
+
+                var parser = new CommandParser();
+
+
+                var result1 = parser.Parse("fghfghfgh a='dfgdfg ækæ ' c='ffdgdfgklm' b='!#¤%&/()=?`'");
+
+                var result2 = parser.Parse("a='dfgdfg ækæ ' c='ffdgdfgklm' b='!#¤%&/()=?`'");
+
+                var result3 = parser.Parse(" a=' ' c=   b='!#¤%&/()=?`' ");
+
+                var result4 = parser.Parse(" a='dfgdfg ækæ ' c='ffdgdfgklm' ='!#¤%&/()=?`'");
+
+                var result5 = parser.Parse("a=dfgdfg ækæ  c='ffdgdfgklm' b=!#¤%&/()=?`");
+
+
+/*                var ctx = new InstallContext();
+                ctx.
+
+                string argss = "a='' b='' c=''";
+
+                argss.Split(' ');*/
+
+                
+//                var TagRegex = new Regex(@"\{Blog\(""(?<blog>(.*?)"") (?<argname>/\w+)=(?<argvalue>\w+)\)\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
                 
                 
-                var matches = TagRegex.Matches("{Blog(\"MyBlog\" a=test b=test2)}");
+                var matches = TagRegex.Matches("{Blog asd=\"asf asd\" a=test)}");
 
                 var ret = ParseArgs(new string[] { "{Blog(\"MyBlog\" -a:test -b:test2)}" });
 
                 foreach (Match match in matches)
                 {
-                    System.Console.WriteLine("{0} - {1}", match.Groups[0], match.Groups[1]);
+                    for (int i = 0; i < match.Groups.Count; i++ )
+                        Trace.WriteLine(string.Format("Grp {0} - {1}", 1, match.Groups[i]));
                 }
+
+
                 
                 var dict = new SortedList<DateTime, string>(new ReverseDateComparer());
 
