@@ -11,4 +11,4 @@ Included:
 	CategoryFormatter
 	EventLogFormatter
 	FileListFormatter
-	QueryTableFormatter
+	QueryTableFormatter 
