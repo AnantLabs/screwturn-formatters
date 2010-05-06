@@ -54,6 +54,9 @@
     <Compile Include="..\Core\Page.cs">
       <Link>Shared\Page.cs</Link>
     </Compile>
+    <Compile Include="..\Utility\ArgumentParser.cs">
+      <Link>Shared\ArgumentParser.cs</Link>
+    </Compile>
     <Compile Include="..\Utility\Gravatar.cs">
       <Link>Shared\Gravatar.cs</Link>
     </Compile>

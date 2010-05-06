@@ -6,8 +6,6 @@ using Rhino.Mocks;
 using ScrewTurn.Wiki.PluginFramework;
 using System.Web;
 using Keeper.Garrett.ScrewTurn;
-using Keeper.Garrett.ScrewTurn.FileListFormatter;
-using Keeper.Garrett.ScrewTurn.FileContentFormatter;
 using Keeper.Garrett.ScrewTurn.Utility;
 
 namespace UnitTest

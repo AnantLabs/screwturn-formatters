@@ -42,8 +42,8 @@ namespace UnitTest
             host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
             settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("yes");
 
-            // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
-            string input = "bla bla bla {Blog(MyBlog,3,3,false,false,false,false,'About',,)} bla bla bla";
+            // Blog, NoPosts, NoRecent, lastMod, avatar, cloud,archive,about,bottom,style
+            string input = "bla bla bla {Blog cat=MyBlog posts=3 recent=3 about='About'} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -79,8 +79,8 @@ namespace UnitTest
             host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
             settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("yes");
 
-            // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
-            string input = "bla bla bla {Blog(MyBlog,3,3,false,false,false,false,'About',,)} bla bla bla";
+            // Blog, NoPosts, NoRecent, lastMod, avatar, cloud,archive,about,bottom,style
+            string input = "bla bla bla {Blog cat=MyBlog posts=3 recent=3 about='About'} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -116,8 +116,8 @@ namespace UnitTest
             host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
             settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("yes");
 
-            // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
-            string input = "bla bla bla {Blog(MyBlog,3,3,false,false,false,false,'MyPage',,)} bla bla bla";
+            // Blog, NoPosts, NoRecent, lastMod, avatar, cloud,archive,about,bottom,style
+            string input = "bla bla bla {Blog cat=MyBlog posts=3 recent=3 about='MyPage'} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -169,8 +169,8 @@ namespace UnitTest
             host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
             settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("yes");
 
-            // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
-            string input = "bla bla bla {Blog(MyBlog,3,3,false,false,false,false,,,)} bla bla bla";
+            // Blog, NoPosts, NoRecent, lastMod, avatar, cloud,archive,about,bottom,style
+            string input = "bla bla bla {Blog cat=MyBlog posts=3 recent=3} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -217,8 +217,8 @@ namespace UnitTest
             settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("yes");
             host.Expect(x => x.FindUser("User")).Repeat.Any().Return(new UserInfo("User", "Garrett", "", true, DateTime.Now, null));
 
-            // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
-            string input = "bla bla bla {Blog(MyBlog,3,3,false,false,false,false,,,)} bla bla bla";
+            // Blog, NoPosts, NoRecent, lastMod, avatar, cloud,archive,about,bottom,style
+            string input = "bla bla bla {Blog cat=MyBlog posts=3 recent=3} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -266,8 +266,8 @@ namespace UnitTest
             settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("yes");
             host.Expect(x => x.FindUser("User")).Repeat.Any().Return(new UserInfo("User", "Garrett", "", true, DateTime.Now, null));
 
-            // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
-            string input = "bla bla bla {Blog(MyBlog,2,3,false,false,false,false,,,)} bla bla bla";
+            // Blog, NoPosts, NoRecent, lastMod, avatar, cloud,archive,about,bottom,style
+            string input = "bla bla bla {Blog cat=MyBlog posts=2 recent=3} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -302,8 +302,8 @@ namespace UnitTest
             settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("yes");
             host.Expect(x => x.FindUser("User")).Repeat.Any().Return(new UserInfo("User", "Garrett", "", true, DateTime.Now, null));
 
-            // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
-            string input = "bla bla bla {Blog(MyBlog,2,3,false,false,false,false,,,)} bla bla bla";
+            // Blog, NoPosts, NoRecent, lastMod, avatar, cloud,archive,about,bottom,style
+            string input = "bla bla bla {Blog cat=MyBlog posts=2 recent=3} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -349,8 +349,8 @@ namespace UnitTest
             settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("yes");
             host.Expect(x => x.FindUser("User")).Repeat.Any().Return(new UserInfo("User", "Garrett", "", true, DateTime.Now, null));
 
-            // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
-            string input = "bla bla bla {Blog(MyBlog,3,3,false,true,false,false,,,)} bla bla bla";
+            // Blog, NoPosts, NoRecent, lastMod, avatar, cloud,archive,about,bottom,style
+            string input = "bla bla bla {Blog cat=MyBlog posts=3 recent=3 avatar=true} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -401,8 +401,8 @@ namespace UnitTest
             settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("yes");
             host.Expect(x => x.FindUser("User")).Repeat.Any().Return(new UserInfo("User", "Garrett", "", true, DateTime.Now, null));
 
-            // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
-            string input = "bla bla bla {Blog(MyBlog,3,3,true,false,false,false,,,)} bla bla bla";
+            // Blog, NoPosts, NoRecent, lastMod, avatar, cloud,archive,about,bottom,style
+            string input = "bla bla bla {Blog cat=MyBlog posts=3 recent=3 useMod=true avatar=false cloud=false archive=false} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -438,8 +438,8 @@ namespace UnitTest
             host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
             settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("yes");
 
-            // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
-            string input = "bla bla bla {Blog(MyBlog,3,3,false,false,false,true,,,)} bla bla bla";
+            // Blog, NoPosts, NoRecent, lastMod, avatar, cloud,archive,about,bottom,style
+            string input = "bla bla bla {Blog cat=MyBlog posts=3 recent=3 archive=true} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -478,8 +478,8 @@ namespace UnitTest
             settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("yes");
             host.Expect(x => x.FindUser("User")).Repeat.Any().Return(new UserInfo("User", "Garrett", "", true, DateTime.Now, null));
 
-            // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
-            string input = "bla bla bla {Blog(MyBlog,3,3,false,false,false,true,,,)} bla bla bla";
+            // Blog, NoPosts, NoRecent, lastMod, avatar, cloud,archive,about,bottom,style
+            string input = "bla bla bla {Blog cat=MyBlog posts=3 recent=3 archive=true} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -526,8 +526,8 @@ namespace UnitTest
             settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("yes");
             host.Expect(x => x.FindUser("User")).Repeat.Any().Return(new UserInfo("User", "Garrett", "", true, DateTime.Now, null));
 
-            // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
-            string input = "bla bla bla {Blog(MyBlog,3,2,false,false,false,true,,,)} bla bla bla";
+            // Blog, NoPosts, NoRecent, lastMod, avatar, cloud,archive,about,bottom,style
+            string input = "bla bla bla {Blog cat=MyBlog posts=3 recent=2 archive=true} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -563,8 +563,8 @@ namespace UnitTest
             host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
             settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("yes");
 
-            // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
-            string input = "bla bla bla {Blog(MyBlog,3,3,false,false,false,false,,'Bottom',)} bla bla bla";
+            // Blog, NoPosts, NoRecent, lastMod, avatar, cloud,archive,about,bottom,style
+            string input = "bla bla bla {Blog cat=MyBlog posts=3 recent=3 bottom='Bottom'} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -600,8 +600,8 @@ namespace UnitTest
             host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
             settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("yes");
 
-            // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
-            string input = "bla bla bla {Blog(MyBlog,3,3,false,false,false,false,,'Bottom',)} bla bla bla";
+            // Blog, NoPosts, NoRecent, lastMod, avatar, cloud,archive,about,bottom,style
+            string input = "bla bla bla {Blog cat=MyBlog posts=3 recent=3 bottom='Bottom'} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -636,8 +636,8 @@ namespace UnitTest
             host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
             settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("yes");
 
-            // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
-            string input = "bla bla bla {Blog(MyBlog,3,3,false,false,false,false,,'MyPage',)} bla bla bla";
+            // Blog, NoPosts, NoRecent, lastMod, avatar, cloud,archive,about,bottom,style
+            string input = "bla bla bla {Blog cat=MyBlog posts=3 recent=3 bottom='MyPage'} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -674,8 +674,8 @@ namespace UnitTest
             host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
             settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("yes");
 
-            // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
-            string input = "bla bla bla {Blog(MyBlog,3,3,false,false,true,false,,,)} bla bla bla";
+            // Blog, NoPosts, NoRecent, lastMod, avatar, cloud,archive,about,bottom,style
+            string input = "bla bla bla {Blog cat=MyBlog posts=3 recent=3 cloud=true} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -722,8 +722,8 @@ namespace UnitTest
             settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("yes");
             host.Expect(x => x.FindUser("User")).Repeat.Any().Return(new UserInfo("User", "Garrett", "", true, DateTime.Now, null));
 
-            // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
-            string input = "bla bla bla {Blog(MyBlog,3,3,false,false,true,false,,,)} bla bla bla";
+            // Blog, NoPosts, NoRecent, lastMod, avatar, cloud,archive,about,bottom,style
+            string input = "bla bla bla {Blog cat=MyBlog posts=3 recent=3 cloud=true} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -762,8 +762,8 @@ namespace UnitTest
             settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("yes");
             host.Expect(x => x.FindUser("User")).Repeat.Any().Return(new UserInfo("User", "Garrett", "", true, DateTime.Now, null));
 
-            // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
-            string input = "bla bla bla {Blog(MyBlog,3,3,false,false,true,false,,,)} bla bla bla";
+            // Blog, NoPosts, NoRecent, lastMod, avatar, cloud,archive,about,bottom,style
+            string input = "bla bla bla {Blog cat=MyBlog posts=3 recent=3 cloud=true} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -808,8 +808,8 @@ namespace UnitTest
             settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("yes");
             host.Expect(x => x.FindUser("User")).Repeat.Any().Return(new UserInfo("User", "Garrett", "", true, DateTime.Now, null));
 
-            // Blog, NoPosts, NoRecent, lastMod,cloud,archive,about,bottom,style
-            string input = "bla bla bla {Blog(MyBlog,3,3,false,false,true,false,,,)} bla bla bla";
+            // Blog, NoPosts, NoRecent, lastMod, avatar, cloud,archive,about,bottom,style
+            string input = "bla bla bla {Blog cat=MyBlog posts=3 recent=3 cloud=true} bla bla bla";
 
             //Act
             formatter.Init(host, "");

@@ -21,7 +21,7 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
 
         //Tag format {BlogPosts(Category)}
         // Category,noPosts,useLastMod,showCloud,showArchive,about,bottom,style  
-        private static readonly Regex TagRegex = new Regex(@"\{Blog\((?<blog>(.*?)),(?<noOfPostsToShow>(.*?)),(?<noOfRecentPostsToShow>(.*?)),(?<useLastModified>(.*?)),(?<showGravatar>(.*?)),(?<showCloud>(.*?)),(?<showArchive>(.*?)),('(?<aboutPage>(.*?))')?,('(?<bottomPage>(.*?))')?,('(?<stylesheet>(.*?))')?\)\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
+        private static readonly Regex TagRegex = new Regex(@"\{Blog(?<arguments>(.*?))\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
 
         private static Random m_Random = new Random();
         private static string m_DateTimeFormat = "";
@@ -57,7 +57,7 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
                                     int noOfPostsToShow = 7;
                                     int noOfRecentPostsToShow = 15;
                                     bool useLastModified = false;
-                                    bool showGravatar = false;
+                                    bool showAvatar = false;
                                     bool gravatarsEnabled = false;
                                     bool showCloud = false;
                                     bool showArchive = false;
@@ -67,6 +67,32 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
                                     PageContent aboutPage = null;
                                     PageContent bottomPage = null;
 
+                                    var args = new ArgumentParser().Parse(match.Groups["arguments"].Value);
+
+                                    //Get params 
+                                    blog = (args.ContainsKey("cat") == true ? args["cat"] : "");
+
+                                    int.TryParse( (args.ContainsKey("posts") == true ? args["posts"] : "7"), out noOfPostsToShow);
+                                    noOfPostsToShow = (noOfPostsToShow <= 0 ? 7 : noOfPostsToShow);
+
+                                    int.TryParse((args.ContainsKey("recent") == true ? args["recent"] : "15"), out noOfRecentPostsToShow);
+                                    noOfRecentPostsToShow = (noOfRecentPostsToShow <= 0 ? 15 : noOfRecentPostsToShow);
+
+                                    bool.TryParse((args.ContainsKey("usemod") == true ? args["recent"] : "false"), out useLastModified);
+                                    bool.TryParse((args.ContainsKey("cloud") == true ? args["cloud"] : "false"), out showCloud);
+                                    bool.TryParse((args.ContainsKey("archive") == true ? args["archive"] : "false"), out showArchive);
+                                    bool.TryParse((args.ContainsKey("avatar") == true ? args["avatar"] : "false"), out showAvatar);
+                                    gravatarsEnabled = (m_Host.GetSettingsStorageProvider().GetSetting("DisplayGravatars").ToLower() == "yes" ? true : false);
+                                    showAvatar = (gravatarsEnabled == true && showAvatar == true ? true : false);
+                                    m_DateTimeFormat = m_Host.GetSettingValue(SettingName.DateTimeFormat); //Update datetime format
+
+                                    about = (args.ContainsKey("about") == true ? args["about"] : null);
+                                    bottom = (args.ContainsKey("bottom") == true ? args["bottom"] : null);
+
+                                    //Get style
+                                    stylesheet = (args.ContainsKey("css") == true ? args["css"] : "BlogDefault.css");
+                                    stylesheet = string.Format("<link type=\"text/css\" rel=\"stylesheet\" href=\"/Themes/Blog/{0}\"></link> ", stylesheet);
+                                    /*
                                     //Get params 
                                     blog = (string.IsNullOrEmpty(match.Groups["blog"].Value) == true ? "" : match.Groups["blog"].Value);
 
@@ -90,7 +116,7 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
                                     //Get style
                                     stylesheet = (string.IsNullOrEmpty(match.Groups["stylesheet"].Value) == true ? "BlogDefault.css" : match.Groups["stylesheet"].Value);
                                     stylesheet = string.Format("<link type=\"text/css\" rel=\"stylesheet\" href=\"/Themes/Blog/{0}\"></link> ", stylesheet);
-
+                                    */
                                     //Security check that the page with the {Blog} tag itself do not have the category Blog.
                                     bool abortToAvoidSelfReferencing = false;
                                     var categories = provider.GetCategoriesForPage(context.Page);
@@ -197,7 +223,7 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
 
                                     
                                     //Create output
-                                    var pageContent = GeneratePage(blog, sortedPosts, noOfPostsToShow, noOfRecentPostsToShow, showGravatar, showCloud, showArchive, aboutPage, bottomPage, stylesheet);
+                                    var pageContent = GeneratePage(blog, sortedPosts, noOfPostsToShow, noOfRecentPostsToShow, showAvatar, showCloud, showArchive, aboutPage, bottomPage, stylesheet);
 
                                     //Add a final newline
                                     pageContent = string.Format("{0} \n ", pageContent);
