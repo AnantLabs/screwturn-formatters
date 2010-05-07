@@ -28,7 +28,7 @@ namespace UnitTest
             var result = XHtmlTableGenerator.GenerateTable(data, null, null, new List<int>(), new List<string>(), new List<string>() { "Head1","Head2","Head3" },null);
 
             //Assert
-            Assert.AreEqual("", result);
+            Assert.AreEqual("<link type=\"text/css\" rel=\"stylesheet\" href=\"/public/Plugins/Keeper.Garrett.ScrewTurn.Formatters/tablestyles.css\"></link>\n<table id=\"default\">\n\t<colgroup>\n\t\t<col class=\"col-odd\" />\n\t\t<col class=\"col-even\" />\n\t\t<col class=\"col-odd\" />\n\t</colgroup>\n\n\t<thead>\n\t\t<tr>\n\t\t\t<th scope=\"col\" class=\"first-head\">Head1</th>\n\t\t\t<th scope=\"col\" class=\"standard-head\">Head2</th>\n\t\t\t<th scope=\"col\" class=\"last-head\">Head3</th>\n\t\t</tr>\n\t</thead>\n\n\t<tfoot>\n\t\t<tr>\n\t\t\t<td colspan=\"2\" class=\"first-foot\"></td>\n\t\t\t<td class=\"last-foot\"/>\n\t\t</tr>\n\t</tfoot>\n\n\t<tbody>\n\t\t<tr class=\"row-odd\">\n\t\t\t<td>Col1</td>\n\t\t\t<td>Col2</td>\n\t\t\t<td>Col3</td>\n\t\t</tr>\n\t\t<tr class=\"row-even\">\n\t\t\t<td>Col1</td>\n\t\t\t<td>Col2</td>\n\t\t\t<td>Col3</td>\n\t\t</tr>\n\t\t<tr class=\"row-odd\">\n\t\t\t<td>Col1</td>\n\t\t\t<td>Col2</td>\n\t\t\t<td>Col3</td>\n\t\t</tr>\n\t</tbody>\n</table>", result);
         }
 
 
@@ -487,7 +487,7 @@ namespace UnitTest
 
             //Assert
             Assert.AreEqual(true, result.Contains("<colgroup>\n\t\t<col class=\"col-odd\" />\n\t</colgroup>"));
-            Assert.AreEqual(true, result.Contains("<thead>\n\t\t<tr>\n\t\t\t<th scope=\"col\" class=\"standard-head\">?Missing Header</th>\n\t\t</tr>\n\t</thead>"));
+            Assert.AreEqual(true, result.Contains("<thead>\n\t\t<tr>\n\t\t\t<th scope=\"col\" class=\"standard-head\">?Missing Header?</th>\n\t\t</tr>\n\t</thead>"));
             Assert.AreEqual(true, result.Contains("<tfoot>\n\t\t<tr>\n\t\t\t<td class=\"standard-foot\"></td>\n\t\t</tr>\n\t</tfoot>"));
             Assert.AreEqual(true, result.Contains("<tbody>\n\t\t<tr class=\"row-odd\">\n\t\t</tr>\n\t\t<tr class=\"row-even\">\n\t\t</tr>\n\t\t<tr class=\"row-odd\">\n\t\t</tr>\n\t</tbody>"));
         }
