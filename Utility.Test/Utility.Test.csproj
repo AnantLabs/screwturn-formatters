@@ -5,13 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{1B80E0E9-EBC8-4705-8C66-98D08BCD1095}</ProjectGuid>
+    <ProjectGuid>{63FEE856-7311-4773-9F80-632B9E302B1F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Keeper.Garrett.ScrewTurn.BlogFormatter</RootNamespace>
-    <AssemblyName>Keeper.Garrett.ScrewTurn.BlogFormatter</AssemblyName>
+    <RootNamespace>Utility.Test</RootNamespace>
+    <AssemblyName>Utility.Test</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,48 +32,32 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ScrewTurn.Wiki.Core">
-      <HintPath>..\Common\ScrewTurn 3.0.2.509\ScrewTurn.Wiki.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="ScrewTurn.Wiki.PluginFramework, Version=3.0.2.500, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Common\ScrewTurn 3.0.2.509\ScrewTurn.Wiki.PluginFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Data.Linq" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="..\Core\FormatterBase.cs">
-      <Link>Shared\FormatterBase.cs</Link>
-    </Compile>
-    <Compile Include="..\Core\NoCoverage.cs">
-      <Link>Shared\NoCoverage.cs</Link>
-    </Compile>
-    <Compile Include="..\Core\Page.cs">
-      <Link>Shared\Page.cs</Link>
-    </Compile>
-    <Compile Include="..\Utility\ArgumentParser.cs">
-      <Link>Shared\ArgumentParser.cs</Link>
-    </Compile>
-    <Compile Include="..\Utility\Avatar.cs">
-      <Link>Shared\Avatar.cs</Link>
-    </Compile>
-    <Compile Include="..\Utility\ReverseDateComparer.cs">
-      <Link>Shared\ReverseDateComparer.cs</Link>
-    </Compile>
-    <Compile Include="BlogFormatter.cs" />
-    <Compile Include="BlogPostInfo.cs" />
-    <Compile Include="Help.cs" />
+    <Compile Include="ArgumentParser_Test.cs" />
+    <Compile Include="XHtmlTableGenerator_Test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Theme\Images\BlogPostBackground.jpg" />
-    <None Include="Theme\Images\BlogPostComments.gif" />
-    <None Include="Theme\Images\BlogPostReadMore.gif" />
-    <None Include="Theme\BlogDefault.css" />
+    <Content Include="Assemblies\NUnit 2.5.3\nunit.framework.dll" />
+    <Content Include="Assemblies\Rhino.Mocks 3.6\Rhino.Mocks.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="nunit.framework, Version=2.5.3.9345, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Assemblies\NUnit 2.5.3\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Rhino.Mocks, Version=3.6.0.0, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Assemblies\Rhino.Mocks 3.6\Rhino.Mocks.dll</HintPath>
+    </Reference>
+    <Reference Include="ScrewTurn.Wiki.PluginFramework">
+      <HintPath>..\Common\ScrewTurn 3.0.2.509\ScrewTurn.Wiki.PluginFramework.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Utility\Utility.csproj">
+      <Project>{574B3BFC-3C72-44A3-9921-E7CA8EC5D842}</Project>
+      <Name>Utility</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

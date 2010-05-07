@@ -8,20 +8,7 @@ namespace Keeper.Garrett.ScrewTurn.Utility
 {
     public class XHtmlTableGenerator
     {
-        //Builtin table styles
-        public static readonly string BlackWhite_Tabel_1 = "border=\"0\" cellpadding=\"2\" cellspacing=\"0\" align=\"center\" style=\"background-color: #EEEEEE;\"";
-        public static readonly string BlackWhite_Head_1 = "align=\"center\" style=\"background-color: #000000; color: #FFFFFF; font-weight: bold;\"";
-        public static readonly string BlackWhite_Row_1 = "align=\"center\" style=\"color: #000000;\"";
-
-        public static readonly string BlackGrey_Tabel_2 = "border=\"0\" cellpadding=\"2\" cellspacing=\"0\" align=\"center\" style=\"background-color: #EEEEEE;\"";
-        public static readonly string BlackGrey_Head_2 = "align=\"center\" style=\"background-color: #000000; color: #CCCCCC; font-weight: bold;\"";
-        public static readonly string BlackGrey_Row_2 = "align=\"center\"";
-
-        public static readonly string GreenBlack_Tabel_3 = "border=\"0\" cellpadding=\"2\" cellspacing=\"0\" align=\"center\" style=\"background-color: #EEEEEE;\"";
-        public static readonly string GreenBlack_Head_3 = "align=\"center\" style=\"background-color: #88CC33; color: #000000; font-weight: bold;\"";
-        public static readonly string GreenBlack_Row_3 = "align=\"center\" style=\"color: #000000;\"";
-
-        public static string GenerateTable(Dictionary<int, List<string>> _result, string _tblHeading, List<int> _columnsToShow, List<string> _customHeaders, List<string> _actualHeaders, string _tblFormat, string _headFormat, string _rowFormat)
+        public static string GenerateTable(Dictionary<int, List<string>> _result, string _tblHeading, string _tblFooter, List<int> _columnsToShow, List<string> _customHeaders, List<string> _actualHeaders, string _style)
         {
             string retval = null;
 
@@ -31,9 +18,6 @@ namespace Keeper.Garrett.ScrewTurn.Utility
             {
                 _actualHeaders.Add("Result");
             }
-
-            //Check for styling
-            ApplyStyles(ref _tblFormat, ref _headFormat, ref _rowFormat);
 
             if (_result.Count > 0) //Only good data
             {
@@ -47,34 +31,43 @@ namespace Keeper.Garrett.ScrewTurn.Utility
                 }
 
                 //Update headers (with regards to the columns to show)
-                string headAndFormat = GenerateTableHeader(_columnsToShow, _customHeaders, _actualHeaders, _headFormat);
+                string tableHeader = GenerateTableHeaders(_columnsToShow, _customHeaders, _actualHeaders, _tblHeading, _tblFooter);
 
                 //Start building table
-                retval = string.Format("{{| {0} \n|+ {1} \n{2}", _tblFormat.ToString(), _tblHeading.ToString(), headAndFormat);
+                retval = string.Format("<link type=\"text/css\" rel=\"stylesheet\" href=\"/public/Plugins/Keeper.Garrett.ScrewTurn.Formatters/tablestyles.css\"></link>");
+                retval = string.Format("{0}\n<table id=\"{1}\">{2}\n\n\t<tbody>", retval, (string.IsNullOrEmpty(_style) == true ? "default" : _style), tableHeader);
 
                 //Each row
-                foreach (var row in _result.Values)
+                for (int i = 0; i < _result.Values.Count; i++)
                 {
-                    retval = string.Format("{0}|- {1} \n", retval, _rowFormat);
+                    var row = _result[i];
+
+                    if (i % 2 == 0)
+                    {
+                        retval = string.Format("{0}\n\t\t<tr class=\"row-odd\">", retval);
+                    }
+                    else
+                    {
+                        retval = string.Format("{0}\n\t\t<tr class=\"row-even\">", retval);
+                    }
 
                     //Each Column requested (all or custom)
-                    for (int i = 0; i < _columnsToShow.Count; i++)
+                    for (int j = 0; j < _columnsToShow.Count; j++)
                     {
-                        var columnToUse = _columnsToShow[i];
+                        var columnToUse = _columnsToShow[j];
                         //Add only value if in range of the columns to show
                         if (columnToUse < row.Count)
                         {
-                            retval = string.Format("{0}| {1} |", retval, row[columnToUse]);
+                            retval = string.Format("{0}\n\t\t\t<td>{1}</td>", retval, row[columnToUse]);
                         }
                     }
 
-                    //Delete last splitter
-                    retval = string.Format("{0}\n", retval.Remove(retval.Length - 1));
-
+                    //Close tr
+                    retval = string.Format("{0}\n\t\t</tr>", retval);
                 }
 
                 //Close table
-                retval = string.Format("{0}|}}", retval);
+                retval = string.Format("{0}\n\t</tbody>\n</table>", retval);
             }
 
             return retval;
@@ -108,19 +101,17 @@ namespace Keeper.Garrett.ScrewTurn.Utility
             }
         }
 
-        private static string GenerateTableHeader(List<int> _columnsToShow, List<string> _customHeaders, List<string> _actualHeaders, string _headFormat)
+        private static string GenerateTableHeaders(List<int> _columnsToShow, List<string> _customHeaders, List<string> _actualHeaders, string _heading, string _footer)
         {
-            string retval = "";
-
             var headers = new Dictionary<int,string>();
 
             //Custom order and columns
             for(int i = 0; i < _columnsToShow.Count; i++)
             {
                 //Custom headers (must match 1 - 1)
-                if(i < _customHeaders.Count)
+                if (_columnsToShow[i] < _customHeaders.Count)
                 {
-                    headers.Add(i,_customHeaders[i].Trim());
+                    headers.Add(i, _customHeaders[_columnsToShow[i]].Trim());
                  //Fill possible ends with actual header IF avaliable, does not match 1 - 1
                 }//When no custom headers or order apply the columnsToShow wil be linear 1,2,3,4,5, based on actual header count
                 else if(_columnsToShow[i] < _actualHeaders.Count)
@@ -134,45 +125,81 @@ namespace Keeper.Garrett.ScrewTurn.Utility
             }
 
             //Header formatting
-            //Are there special formatting?
-            if(string.IsNullOrEmpty(_headFormat) == false)
-            {
-                retval = string.Format("|- {0} \n",_headFormat);
+            string heading = "";
+            string colGroup = "";
+            string headerGroup = "";
+            string footerGroup = "";
 
-                foreach(var header in headers)
-                {
-                    retval = string.Format("{0}| {1} |", retval, header.Value);
-                }
-            }
-            else
+            //heading
+            if (string.IsNullOrEmpty(_heading) == false)
             {
-                foreach(var header in headers)
-                {
-                    retval = string.Format("{0}! {1} !", retval, header.Value);
-                }
+                heading = string.Format("\n\t\t<tr>\n\t\t\t<td colspan=\"{0}\" class=\"heading\">{1}</td>\n\t\t</tr>", headers.Count, _heading);
             }
 
-            //Remove last splitter
-            retval = string.Format("{0}\n", retval.Remove(retval.Length - 1));
+            //colgroup
+            colGroup = "\n\t<colgroup>";
+            //thead
+            headerGroup = "\n\t<thead>";
+            headerGroup = string.Format("{0}{1}\n\t\t<tr>", headerGroup, (string.IsNullOrEmpty(heading) == false ? heading : ""));
+            //tfoot
+            footerGroup = "\n\t<tfoot>";
+            footerGroup = string.Format("{0}\n\t\t<tr>", footerGroup);
 
-            return retval;
-        }
+            for(int i = 0; i < headers.Count; i++)
+            {
+                //First header AND we have at least 2
+                if (i == 0 && headers.Count >= 2)
+                {
+                    headerGroup = string.Format("{0}\n\t\t\t<th scope=\"col\" class=\"first-head\">{1}</th>", headerGroup, headers[i]);
 
-        private static void ApplyStyles(ref string _tblFormat, ref string _headFormat, ref string _rowFormat)
-        {
-            //Check if any of the builtin styles are wanted, and apply
-            //Theme 1 Black/White
-            _tblFormat = (_tblFormat.ToLower() == "bw" ? BlackWhite_Tabel_1 : _tblFormat);
-            _headFormat = (_headFormat.ToLower() == "bw" ? BlackWhite_Head_1 : _headFormat);
-            _rowFormat = (_rowFormat.ToLower() == "bw" ? BlackWhite_Row_1 : _rowFormat);
-            //Theme 2 Black/Grey
-            _tblFormat = (_tblFormat.ToLower() == "bg" ? BlackGrey_Tabel_2 : _tblFormat);
-            _headFormat = (_headFormat.ToLower() == "bg" ? BlackGrey_Head_2 : _headFormat);
-            _rowFormat = (_rowFormat.ToLower() == "bg" ? BlackGrey_Row_2 : _rowFormat);
-            //Theme 3 Green/Black
-            _tblFormat = (_tblFormat.ToLower() == "gb" ? GreenBlack_Tabel_3 : _tblFormat);
-            _headFormat = (_headFormat.ToLower() == "gb" ? GreenBlack_Head_3 : _headFormat);
-            _rowFormat = (_rowFormat.ToLower() == "gb" ? GreenBlack_Row_3 : _rowFormat);
+                    footerGroup = string.Format("{0}\n\t\t\t<td colspan=\"{1}\" class=\"first-foot\">{2}</td>", footerGroup, headers.Count - 1, _footer);
+                }//Last header
+                else if (i == (headers.Count - 1) && headers.Count >= 2)
+                {
+                    headerGroup = string.Format("{0}\n\t\t\t<th scope=\"col\" class=\"last-head\">{1}</th>", headerGroup, headers[i]);
+
+                    footerGroup = string.Format("{0}\n\t\t\t<td class=\"last-foot\"/>", footerGroup);
+                }//All else AND if only 1
+                else
+                {
+                    headerGroup = string.Format("{0}\n\t\t\t<th scope=\"col\" class=\"standard-head\">{1}</th>", headerGroup, headers[i]);
+
+                    if (i == 0 && headers.Count == 1)
+                    {
+                        footerGroup = string.Format("{0}\n\t\t\t<td class=\"standard-foot\">{1}</td>", footerGroup, _footer);
+                    }
+                }
+
+                if (i % 2 == 0)
+                {
+                    colGroup = string.Format("{0}\n\t\t<col class=\"col-odd\" />", colGroup);
+                }
+                else
+                {
+                    colGroup = string.Format("{0}\n\t\t<col class=\"col-even\" />", colGroup);
+                }
+            }
+            //colgroup
+            colGroup = string.Format("{0}\n\t</colgroup>", colGroup);
+            //thead
+            headerGroup = string.Format("{0}\n\t\t</tr>", headerGroup);
+            headerGroup = string.Format("{0}\n\t</thead>", headerGroup);
+            //tfoot
+            footerGroup = string.Format("{0}\n\t\t</tr>", footerGroup);
+            footerGroup = string.Format("{0}\n\t</tfoot>", footerGroup);
+
+            //Combine
+            return string.Format("{0}\n{1}\n{2}", colGroup, headerGroup, footerGroup);
         }
+                    /*       //Each Column requested (all or custom)
+                    for (int j = 0; j < _columnsToShow.Count; j++)
+                    {
+                        var columnToUse = _columnsToShow[j];
+                        //Add only value if in range of the columns to show
+                        if (columnToUse < row.Count)
+                        {
+                            retval = string.Format("{0}\n\t\t\t<td>{1}</td>", retval, row[columnToUse]);
+                        }
+                    }*/
     }
 }

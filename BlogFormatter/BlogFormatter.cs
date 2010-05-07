@@ -183,7 +183,7 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
                                                             NoOfComments = provider.GetMessageCount(pageInfo),
                                                             UserName = content.User,
                                                             UserDisplayName = postAuthor.DisplayName,
-                                                            UserGravatar = Gravatar.GenerateGravatarLink(postAuthor.Email),
+                                                            UserGravatar = Avatar.GenerateAvatarLink(postAuthor.Email),
                                                         };
                                                         
                                                         //Sort method
