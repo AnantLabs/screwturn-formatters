@@ -7,7 +7,7 @@ using ScrewTurn.Wiki.PluginFramework;
 using Keeper.Garrett.ScrewTurn;
 using Keeper.Garrett.ScrewTurn.Utility;
 
-namespace UnitTest
+namespace Utility.Tests
 {
     [TestFixture]
     [Category("Utility")]
