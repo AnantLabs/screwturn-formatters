@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Reflection;
+using Keeper.Garrett.ScrewTurn.Core;
 
 namespace Keeper.Garrett.ScrewTurn.Utility
 {
+    [NoCoverage]
     public class TableGenerator
     {
         //Builtin table styles
