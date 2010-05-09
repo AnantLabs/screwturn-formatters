@@ -28,7 +28,7 @@ namespace Formatters.Tests
             host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
 
             //                                    machine,log,filter,results,heading,cols,headers,tbl,head,row
-            string input = "bla bla bla {EventLog(,'Application',,,,,,,,)} bla bla bla";
+            string input = "bla bla bla {EventLog log=Application} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -52,7 +52,7 @@ namespace Formatters.Tests
 
             //                         Filter options: "Id","Type","Date","Time","Source","Category","Event","User","Computer", "Description"
             //                                         machine,log,filter,results,heading,cols,headers,tbl,head,row
-            string input = "bla bla bla {EventLog(,'Application','type=Error',,,,,,,)} bla bla bla";
+            string input = "bla bla bla {EventLog log=Application filter='type=Error'} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -76,7 +76,7 @@ namespace Formatters.Tests
 
             //                         Filter options: "Id","Type","Date","Time","Source","Category","Event","User","Computer", "Description"
             //                                         machine,log,filter,results,heading,cols,headers,tbl,head,row
-            string input = "bla bla bla {EventLog(,'Application','type=Warning',,,,,,,)} bla bla bla";
+            string input = "bla bla bla {EventLog log='Application' filter='type=Warning'} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -100,7 +100,7 @@ namespace Formatters.Tests
 
             //                         Filter options: "Id","Type","Date","Time","Source","Category","Event","User","Computer", "Description"
             //                                         machine,log,filter,results,heading,cols,headers,tbl,head,row
-            string input = "bla bla bla {EventLog(,'Application','type=Information',,,,,,,)} bla bla bla";
+            string input = "bla bla bla {EventLog log=Application filter='type=Information'} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -124,7 +124,7 @@ namespace Formatters.Tests
 
             //                         Filter options: "Id","Type","Date","Time","Source","Category","Event","User","Computer", "Description"
             //                                         machine,log,filter,results,heading,cols,headers,tbl,head,row
-            string input = "bla bla bla {EventLog(,'Application','type=infoandwarn',,,,,,,)} bla bla bla";
+            string input = "bla bla bla {EventLog log=Application filter='type=infoandwarn'} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -148,7 +148,7 @@ namespace Formatters.Tests
 
             //                         Filter options: "Id","Type","Date","Time","Source","Category","Event","User","Computer", "Description"
             //                                         machine,log,filter,results,heading,cols,headers,tbl,head,row
-            string input = "bla bla bla {EventLog(,'Application','type=infoanderror',50,,,,,,)} bla bla bla";
+            string input = "bla bla bla {EventLog log=Application filter='type=infoanderror' results=50} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -172,7 +172,7 @@ namespace Formatters.Tests
 
             //                         Filter options: "Id","Type","Date","Time","Source","Category","Event","User","Computer", "Description"
             //                                         machine,log,filter,results,heading,cols,headers,tbl,head,row
-            string input = "bla bla bla {EventLog(,'Application','type=warnanderror',,,,,,,)} bla bla bla";
+            string input = "bla bla bla {EventLog log=Application filter='type=warnanderror'} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -196,7 +196,7 @@ namespace Formatters.Tests
 
             //                         Filter options: "Id","Type","Date","Time","Source","Category","Event","User","Computer", "Description"
             //                                         machine,log,filter,results,heading,cols,headers,tbl,head,row
-            string input = "bla bla bla {EventLog(,'Application','date=" + DateTime.Now.AddDays(-1) + "',,,,,,,)} bla bla bla";
+            string input = "bla bla bla {EventLog log=Application filter='date=" + DateTime.Now.AddDays(-1) + "'} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -220,7 +220,7 @@ namespace Formatters.Tests
 
             //                         Filter options: "Id","Type","Date","Time","Source","Category","Event","User","Computer", "Description"
             //                                         machine,log,filter,results,heading,cols,headers,tbl,head,row
-            string input = "bla bla bla {EventLog(,'Application','date=-1',,,,,,,)} bla bla bla";
+            string input = "bla bla bla {EventLog log=Application filter='date=-1'} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -244,7 +244,7 @@ namespace Formatters.Tests
 
             //                         Filter options: "Id","Type","Date","Time","Source","Category","Event","User","Computer", "Description"
             //                                         machine,log,filter,results,heading,cols,headers,tbl,head,row
-            string input = "bla bla bla {EventLog(,'Application','time=" + DateTime.Now.AddDays(-1) + "',,,,,,,)} bla bla bla";
+            string input = "bla bla bla {EventLog log=Application filter='time=" + DateTime.Now.AddDays(-1) + "'} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -268,7 +268,7 @@ namespace Formatters.Tests
 
             //                         Filter options: "Id","Type","Date","Time","Source","Category","Event","User","Computer", "Description"
             //                                         machine,log,filter,results,heading,cols,headers,tbl,head,row
-            string input = "bla bla bla {EventLog(,'Application','source=EventSystem',,,,,,,)} bla bla bla";
+            string input = "bla bla bla {EventLog log=Application filter='source=EventSystem'} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -292,7 +292,7 @@ namespace Formatters.Tests
 
             //                         Filter options: "Id","Type","Date","Time","Source","Category","Event","User","Computer", "Description"
             //                                         machine,log,filter,results,heading,cols,headers,tbl,head,row
-            string input = "bla bla bla {EventLog(,'Application','description=database',,,,,,,)} bla bla bla";
+            string input = "bla bla bla {EventLog log=Application filter='description=database'} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -316,7 +316,7 @@ namespace Formatters.Tests
 
             //                         Filter options: "Id","Type","Date","Time","Source","Category","Event","User","Computer", "Description"
             //                                         machine,log,filter,results,heading,cols,headers,tbl,head,row
-            string input = "bla bla bla {EventLog(,'Application','type=information,date=" + DateTime.Now.AddDays(-1) + ",source=vss,description=idle',,,,,,,)} bla bla bla";            
+            string input = "bla bla bla {EventLog log=Application filter='type=information,date=" + DateTime.Now.AddDays(-1) + ",source=vss,description=idle'} bla bla bla";            
             //Act
             formatter.Init(host, "");
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
@@ -339,7 +339,7 @@ namespace Formatters.Tests
 
             //                         Filter options: "Id","Type","Date","Time","Source","Category","Event","User","Computer", "Description"
             //                                         machine,log,filter,results,heading,cols,headers,tbl,head,row
-            string input = "bla bla bla {EventLog(,'Application',,,'My Heading',,,,,)} bla bla bla";
+            string input = "bla bla bla {EventLog log=Application filter='Application' head='My Heading'} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -363,14 +363,17 @@ namespace Formatters.Tests
 
             //                         Filter options: "Id","Type","Date","Time","Source","Category","Event","User","Computer", "Description"
             //                                         machine,log,filter,results,heading,cols,headers,tbl,head,row
-            string input = "bla bla bla {EventLog(,'Application',,,,,,,,)} bla bla bla";
+            string input = "bla bla bla {EventLog log=Application} bla bla bla";
 
             //Act
             formatter.Init(host, "");
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual(true, retval.Contains("! Type !! Date !! Source !! Description"));
+            Assert.AreEqual(true, retval.Contains(">Type<"));
+            Assert.AreEqual(true, retval.Contains(">Date<"));
+            Assert.AreEqual(true, retval.Contains(">Source<"));
+            Assert.AreEqual(true, retval.Contains(">Description<"));
         }
 
         [Test]
@@ -387,14 +390,23 @@ namespace Formatters.Tests
 
             //                         Filter options: "Id","Type","Date","Time","Source","Category","Event","User","Computer", "Description"
             //                                         machine,log,filter,results,heading,cols,headers,tbl,head,row
-            string input = "bla bla bla {EventLog(,'Application',,,,'all',,,,)} bla bla bla";
+            string input = "bla bla bla {EventLog log=Application' cols='all'} bla bla bla";
 
             //Act
             formatter.Init(host, "");
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual(true, retval.Contains("! Id !! Type !! Date !! Time !! Source !! Category !! Event !! User !! Computer !! Description"));
+            Assert.AreEqual(true, retval.Contains(">Id<"));
+            Assert.AreEqual(true, retval.Contains(">Type<"));
+            Assert.AreEqual(true, retval.Contains(">Date<"));
+            Assert.AreEqual(true, retval.Contains(">Time<"));
+            Assert.AreEqual(true, retval.Contains(">Source<"));
+            Assert.AreEqual(true, retval.Contains(">Category<"));
+            Assert.AreEqual(true, retval.Contains(">Event<"));
+            Assert.AreEqual(true, retval.Contains(">User<"));
+            Assert.AreEqual(true, retval.Contains(">Computer<"));
+            Assert.AreEqual(true, retval.Contains(">Description<"));
         }
 
         [Test]
@@ -411,14 +423,17 @@ namespace Formatters.Tests
 
             //                         Filter options: "Id","Type","Date","Time","Source","Category","Event","User","Computer", "Description"
             //                                         machine,log,filter,results,heading,cols,headers,tbl,head,row
-            string input = "bla bla bla {EventLog(,'Application',,,,,'H1,H2,H3,H4',,,)} bla bla bla";
+            string input = "bla bla bla {EventLog log=Application' colnames='H1,H2,H3,H4'} bla bla bla";
 
             //Act
             formatter.Init(host, "");
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual(true, retval.Contains("! H1 !! H2 !! H3 !! H4"));
+            Assert.AreEqual(true, retval.Contains(">H1<"));
+            Assert.AreEqual(true, retval.Contains(">H2<"));
+            Assert.AreEqual(true, retval.Contains(">H3<"));
+            Assert.AreEqual(true, retval.Contains(">H4<"));
         }
 
         [Test]
@@ -435,14 +450,17 @@ namespace Formatters.Tests
 
             //                         Filter options: "Id","Type","Date","Time","Source","Category","Event","User","Computer", "Description"
             //                                         machine,log,filter,results,heading,cols,headers,tbl,head,row
-            string input = "bla bla bla {EventLog(,'Application',,,,'2,3,9,4',,,,)} bla bla bla";
+            string input = "bla bla bla {EventLog log=Application cols='date,time,description,source'} bla bla bla";
 
             //Act
             formatter.Init(host, "");
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual(true, retval.Contains("! Date !! Time !! Description !! Source "));
+            Assert.AreEqual(true, retval.Contains(">Date<"));
+            Assert.AreEqual(true, retval.Contains(">Time<"));
+            Assert.AreEqual(true, retval.Contains(">Description<"));
+            Assert.AreEqual(true, retval.Contains(">Source<"));
         }
 
         [Test]
@@ -459,14 +477,17 @@ namespace Formatters.Tests
 
             //                         Filter options: "Id","Type","Date","Time","Source","Category","Event","User","Computer", "Description"
             //                                         machine,log,filter,results,heading,cols,headers,tbl,head,row
-            string input = "bla bla bla {EventLog(,'Application',,,,'2,3,9,4','H1,H2,H3,H4',,,)} bla bla bla";
+            string input = "bla bla bla {EventLog log=Application' cols='date,time,description,source' colnames='H1,H2,H3,H4'} bla bla bla";
 
             //Act
             formatter.Init(host, "");
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual(true, retval.Contains("! H1 !! H2 !! H3 !! H4 "));
+            Assert.AreEqual(true, retval.Contains(">H1<"));
+            Assert.AreEqual(true, retval.Contains(">H2<"));
+            Assert.AreEqual(true, retval.Contains(">H3<"));
+            Assert.AreEqual(true, retval.Contains(">H4<"));
         }
 
         [Test]
@@ -483,14 +504,14 @@ namespace Formatters.Tests
 
             //                         Filter options: "Id","Type","Date","Time","Source","Category","Event","User","Computer", "Description"
             //                                         machine,log,filter,results,heading,cols,headers,tbl,head,row
-            string input = "bla bla bla {EventLog(,'Application',,,,,,'gb','gb','gb')} bla bla bla";
+            string input = "bla bla bla {EventLog log='Application' style='gb'} bla bla bla";
 
             //Act
             formatter.Init(host, "");
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual(true, retval.Contains("style=\"background-color: #88CC33; color: #000000; font-weight: bold;\""));
+            Assert.AreEqual(true, retval.Contains("<table id=\"gb\">"));
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Text;
 using Keeper.Garrett.ScrewTurn.Core;
 using System.Text.RegularExpressions;
 using ScrewTurn.Wiki.PluginFramework;
+using Keeper.Garrett.ScrewTurn.Utility;
 
 namespace Keeper.Garrett.ScrewTurn.CategoryListFormatter
 {
@@ -15,7 +16,7 @@ namespace Keeper.Garrett.ScrewTurn.CategoryListFormatter
 
         //Tag format {CategoryList(Category)}
         // Category,output,include,head,headers,tbl,head,row
-        private static readonly Regex TagRegex = new Regex(@"\{CategoryList\((?<category>(.*?)),(?<outputtype>(.*?)),(?<includesummary>(.*?)),('(?<heading>(.*?))')?,('(?<headers>(.*?))')?,('(?<tblFormat>(.*?))')?,('(?<headFormat>(.*?))')?,('(?<rowFormat>(.*?))')?\)\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
+        private static readonly Regex TagRegex = new Regex(@"\{CategoryList(?<arguments>(.*?))\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
 
         public override void Init(IHostV30 _host, string _config)
         {
@@ -44,25 +45,52 @@ namespace Keeper.Garrett.ScrewTurn.CategoryListFormatter
                                 //Foreach query
                                 foreach (Match match in matches)
                                 {   
+                                    //Get formatting
+                                    var columns = new List<string>();
+                                    var headers = new List<string>();
+                                    string style = "";
                                     bool includeSummary = false;
 
-                                    var category = (string.IsNullOrEmpty(match.Groups["category"].Value) == false ? match.Groups["category"].Value.Trim() : "");
+                                    var args = new ArgumentParser().Parse(match.Groups["arguments"].Value);
 
-                                    //Get formatting
-                                    var columns = new List<int>();
-                                    var headers = new List<string>();
+                                    var category = (args.ContainsKey("cat") == true ? args["cat"] : "");
 
-                                    var outputType = (string.IsNullOrEmpty(match.Groups["outputtype"].Value) == false ? match.Groups["outputtype"].Value.Trim() : "");
+                                    var outputType = (args.ContainsKey("type") == true ? args["type"] : "");
                                     outputType = (outputType != "*" && outputType != "#" && outputType != "" ? "*" : outputType);
 
-                                    bool.TryParse(match.Groups["includesummary"].Value, out includeSummary);
+                                    var header = (args.ContainsKey("head") == true ? args["head"] : "");
+                                    var footer = (args.ContainsKey("foot") == true ? args["foot"] : "");
 
-                                    var heading = (string.IsNullOrEmpty(match.Groups["heading"].Value) == false ? match.Groups["heading"].Value.Trim() : "");
+                                    //Parse columns to show
+                                    if (args.ContainsKey("cols") == true)
+                                    {
+                                        var value = args["cols"];
+
+                                        switch (value.ToLower())
+                                        {
+                                            case "all":
+                                                //Handled by header setup
+                                                includeSummary = true;
+                                                break;
+                                            default:
+                                                var tmpColumns = value.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                                                foreach (var str in tmpColumns)
+                                                {
+                                                    columns.Add(str.ToLower());
+
+                                                    if (str.ToLower() == "sum")
+                                                    {
+                                                        includeSummary = true;
+                                                    }
+                                                }
+                                                break;
+                                        };
+                                    }
 
                                     //Parse custom headers to show
-                                    if (string.IsNullOrEmpty(match.Groups["headers"].Value) == false)
+                                    if (args.ContainsKey("colnames") == true)
                                     {
-                                        var tmpColumns = match.Groups["headers"].Value.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                                        var tmpColumns = args["colnames"].Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                                         foreach (var str in tmpColumns)
                                         {
                                             headers.Add(str);
@@ -77,11 +105,7 @@ namespace Keeper.Garrett.ScrewTurn.CategoryListFormatter
                                         }
                                     }
 
-                                    //Setup table formatting, default to system/wiki theme if no override present
-                                    var tblFormat = (string.IsNullOrEmpty(match.Groups["tblFormat"].Value) == false ? match.Groups["tblFormat"].Value.Trim() : "");
-                                    var headFormat = (string.IsNullOrEmpty(match.Groups["headFormat"].Value) == false ? match.Groups["headFormat"].Value.Trim() : "");
-                                    var rowFormat = (string.IsNullOrEmpty(match.Groups["rowFormat"].Value) == false ? match.Groups["rowFormat"].Value.Trim() : "");
-
+                                    style = (args.ContainsKey("style") == true ? args["style"] : "");
 
                                     //Get info from database
                                     var dict = new SortedDictionary<string,PageContent>(StringComparer.InvariantCultureIgnoreCase);
@@ -118,7 +142,7 @@ namespace Keeper.Garrett.ScrewTurn.CategoryListFormatter
                                         }
                                         else
                                         {
-                                            list = GenerateTableList(dict, includeSummary, heading, headers, tblFormat, headFormat, rowFormat);
+                                            list = GenerateTableList(dict, includeSummary, header, footer, headers, style);
                                         }
                                     }
 
@@ -181,7 +205,7 @@ namespace Keeper.Garrett.ScrewTurn.CategoryListFormatter
             return retval;
         }
 
-        private string GenerateTableList(SortedDictionary<string, PageContent> _list, bool _includeSummary, string _tblHeading, List<string> _headers, string _tblFormat, string _headFormat, string _rowFormat)
+        private string GenerateTableList(SortedDictionary<string, PageContent> _list, bool _includeSummary, string _tblHeading, string _tblFooter, List<string> _headers, string _style)
         {
             var tableRowDict = new Dictionary<int, List<string>>();
             int i = 0;
@@ -206,7 +230,7 @@ namespace Keeper.Garrett.ScrewTurn.CategoryListFormatter
             }
 
             //Generate table
-            return Keeper.Garrett.ScrewTurn.Utility.TableGenerator.GenerateTable(tableRowDict, _tblHeading, new List<int>(), new List<string>(), _headers, _tblFormat, _headFormat, _rowFormat);
+            return Keeper.Garrett.ScrewTurn.Utility.XHtmlTableGenerator.GenerateTable(tableRowDict, _tblHeading, _tblFooter, new List<int>(), new List<string>(), _headers, _style);
         }
 
         private string GenerateLink(PageContent _content)

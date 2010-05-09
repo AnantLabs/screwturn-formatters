@@ -81,13 +81,13 @@ namespace Formatters.Tests
             switch (_formatter)
             {
                 case 1:
-                    retval = "bla bla bla {Blog(MyBlog,3,3,false,false,false,false,'About',,)} bla bla bla";
+                    retval = "bla bla bla {Blog cat=MyBlog} bla bla bla";
                     break;
                 case 2:
-                    retval = "bla bla bla {CategoryList(MyCategory,*,false,,,,,)} bla bla bla";
+                    retval = "bla bla bla {CategoryList cat=MyCategory} bla bla bla";
                     break;
                 case 3:
-                    retval = "bla bla bla {EventLog(,'Application',,,,,,,,)} bla bla bla";
+                    retval = "bla bla bla {EventLog log='Application'} bla bla bla";
                     break;
                 case 4:
                     retval = "bla bla bla {FileList('*.*','Local Storage Provider',*,7,true,true,,,,,)} bla bla bla";

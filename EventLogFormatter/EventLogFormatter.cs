@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Drawing;
 using System.Reflection;
+using Keeper.Garrett.ScrewTurn.Utility;
 
 namespace Keeper.Garrett.ScrewTurn.EventLogFormatter
 {
@@ -17,8 +18,39 @@ namespace Keeper.Garrett.ScrewTurn.EventLogFormatter
         public override bool PerformPhase2 { get { return false; } }
         public override bool PerformPhase3 { get { return false; } }
 
+        //  { "Id","Type","Date","Time","Source","Category","Event","User","Computer", "Description" },
+        private Dictionary<string, int> m_ColumnDictionary = new Dictionary<string, int>()
+        {
+            { "id", 0 },
+            { "type", 1 },
+            { "date", 2 },
+            { "time", 3 },
+            { "source", 4 },
+            { "category", 5 },
+            { "event", 6 },
+            { "user", 7 },
+            { "computer", 8 },
+            { "description", 9 }
+        };
+
+        private List<string> m_ColumnNames = new List<string>()
+        {
+            "Id",
+            "Type",
+            "Date",
+            "Time",
+            "Source",
+            "Category",
+            "Event",
+            "User",
+            "Computer",
+            "Description"
+        };
+
         //                                                              machine,log,filter,results,heading,cols,headers,tbl,head,row
-        private static readonly Regex TagRegex = new Regex(@"\{EventLog\((?<machine>(.*?)),('(?<logname>(.*?))'),('(?<filter>(.*?))')?,(?<results>(.*?)),('(?<heading>(.*?))')?,('(?<columns>(.*?))')?,('(?<headers>(.*?))')?,('(?<tblFormat>(.*?))')?,('(?<headFormat>(.*?))')?,('(?<rowFormat>(.*?))')?\)\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
+//        private static readonly Regex TagRegex = new Regex(@"\{EventLog\((?<machine>(.*?)),('(?<logname>(.*?))'),('(?<filter>(.*?))')?,(?<results>(.*?)),('(?<heading>(.*?))')?,('(?<columns>(.*?))')?,('(?<headers>(.*?))')?,('(?<tblFormat>(.*?))')?,('(?<headFormat>(.*?))')?,('(?<rowFormat>(.*?))')?\)\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
+        private static readonly Regex TagRegex = new Regex(@"\{EventLog(?<arguments>(.*?))\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
+
 
         public override void Init(IHostV30 _host, string _config)
         {
@@ -74,35 +106,50 @@ namespace Keeper.Garrett.ScrewTurn.EventLogFormatter
                                 //Foreach query
                                 foreach (Match match in matches)
                                 {
-                                    var machine = (string.IsNullOrEmpty(match.Groups["machine"].Value) == false ? match.Groups["machine"].Value.Trim() : System.Environment.MachineName );
-                                    var logname = (string.IsNullOrEmpty(match.Groups["logname"].Value) == false ? match.Groups["logname"].Value.Trim() : "");
-                                    var filter =  (string.IsNullOrEmpty(match.Groups["filter"].Value) == false ? match.Groups["filter"].Value.Trim() : "");
-                                    int results = 15;
-                                    int.TryParse((string.IsNullOrEmpty(match.Groups["results"].Value) == false ? match.Groups["results"].Value.Trim() : "15"), out results);
+                                    var args = new ArgumentParser().Parse(match.Groups["arguments"].Value);
+
+                                    var machine = (args.ContainsKey("machine") == true ? args["machine"] : System.Environment.MachineName);
+                                    var logname = (args.ContainsKey("log") == true ? args["log"] : "");
+                                    var filter = (args.ContainsKey("filter") == true ? args["filter"] : ""); 
+
+                                    int results = 0;
+                                    int.TryParse( (args.ContainsKey("results") == true ? args["results"] : "15"),out results);
 
                                     #region Formatting
-                                    //Get formatting
+                                    var head = (args.ContainsKey("head") == true ? args["head"] : "");
+                                    var foot = (args.ContainsKey("foot") == true ? args["foot"] : "");
+                                    var style = (args.ContainsKey("style") == true ? args["style"] : "");
+                                    
                                     var columns = new List<int>();
-                                    var headers = new List<string>();
+                                    var headers = m_ColumnNames;
 
                                     //Parse columns to show
-                                    if (string.IsNullOrEmpty(match.Groups["columns"].Value) == false)
+                                    if (args.ContainsKey("cols") == true)
                                     {
-                                        var value = match.Groups["columns"].Value;
+                                        var value = args["cols"];
 
                                         switch (value.ToLower())
                                         {
                                             case "all":
-                                                //Handled by header setup
+                                                columns.Add(0);
+                                                columns.Add(1);
+                                                columns.Add(2);
+                                                columns.Add(3);
+                                                columns.Add(4);
+                                                columns.Add(5);
+                                                columns.Add(6);
+                                                columns.Add(7);
+                                                columns.Add(8);
+                                                columns.Add(9);
                                                 break;
                                             default:
                                                 var tmpColumns = value.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                                                 foreach (var str in tmpColumns)
                                                 {
-                                                    int columnIndex;
-                                                    if (int.TryParse(str, out columnIndex) == true)
+                                                    var key = str.ToLower();
+                                                    if (m_ColumnDictionary.ContainsKey(key) == true)
                                                     {
-                                                        columns.Add(columnIndex);
+                                                        columns.Add(m_ColumnDictionary[key]);
                                                     }
                                                 }
                                                 break;
@@ -110,29 +157,84 @@ namespace Keeper.Garrett.ScrewTurn.EventLogFormatter
                                     }
                                     else
                                     {
-                                        columns.Add(1);//Type
-                                        columns.Add(2);//Create time
-                                        columns.Add(4);//Source
-                                        columns.Add(9);//Description
+                                        columns.Add(m_ColumnDictionary["type"]);//Type
+                                        columns.Add(m_ColumnDictionary["date"]);//Create time
+                                        columns.Add(m_ColumnDictionary["source"]);//Source
+                                        columns.Add(m_ColumnDictionary["description"]);//Description 
                                     }
 
-                                    //Parse custom headers to show
-                                    if (string.IsNullOrEmpty(match.Groups["headers"].Value) == false)
+                                    //Parse custom header names to use
+                                    if (args.ContainsKey("colnames") == true)
                                     {
-                                        var tmpColumns = match.Groups["headers"].Value.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                                        foreach (var str in tmpColumns)
+                                        var tmpColumns = args["colnames"].Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                                        for (int i = 0; i < tmpColumns.Length && i < columns.Count ; i++)
                                         {
-                                            headers.Add(str);
+                                            headers[columns[i]] = tmpColumns[i];
                                         }
                                     }
 
-                                    //Setup table formatting, default to system/wiki theme if no override present
-                                    var heading = (string.IsNullOrEmpty(match.Groups["heading"].Value) == false ? match.Groups["heading"].Value.Trim() : "");
-                                    var tblFormat = (string.IsNullOrEmpty(match.Groups["tblFormat"].Value) == false ? match.Groups["tblFormat"].Value.Trim() : "");
-                                    var headFormat = (string.IsNullOrEmpty(match.Groups["headFormat"].Value) == false ? match.Groups["headFormat"].Value.Trim() : "");
-                                    var rowFormat = (string.IsNullOrEmpty(match.Groups["rowFormat"].Value) == false ? match.Groups["rowFormat"].Value.Trim() : "");
-
                                     #endregion
+
+
+                                    //var machine = (string.IsNullOrEmpty(match.Groups["machine"].Value) == false ? match.Groups["machine"].Value.Trim() : System.Environment.MachineName);
+                                    //var logname = (string.IsNullOrEmpty(match.Groups["logname"].Value) == false ? match.Groups["logname"].Value.Trim() : "");
+                                    //var filter = (string.IsNullOrEmpty(match.Groups["filter"].Value) == false ? match.Groups["filter"].Value.Trim() : "");
+                                    //int results = 15;
+                                    //int.TryParse((string.IsNullOrEmpty(match.Groups["results"].Value) == false ? match.Groups["results"].Value.Trim() : "15"), out results);
+
+                                    //#region Formatting
+                                    ////Get formatting
+                                    //var columns = new List<int>();
+                                    //var headers = new List<string>();
+
+                                    ////Parse columns to show
+                                    //if (string.IsNullOrEmpty(match.Groups["columns"].Value) == false)
+                                    //{
+                                    //    var value = match.Groups["columns"].Value;
+
+                                    //    switch (value.ToLower())
+                                    //    {
+                                    //        case "all":
+                                    //            //Handled by header setup
+                                    //            break;
+                                    //        default:
+                                    //            var tmpColumns = value.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                                    //            foreach (var str in tmpColumns)
+                                    //            {
+                                    //                int columnIndex;
+                                    //                if (int.TryParse(str, out columnIndex) == true)
+                                    //                {
+                                    //                    columns.Add(columnIndex);
+                                    //                }
+                                    //            }
+                                    //            break;
+                                    //    };
+                                    //}
+                                    //else
+                                    //{
+                                    //    columns.Add(1);//Type
+                                    //    columns.Add(2);//Create time
+                                    //    columns.Add(4);//Source
+                                    //    columns.Add(9);//Description
+                                    //}
+
+                                    ////Parse custom headers to show
+                                    //if (string.IsNullOrEmpty(match.Groups["headers"].Value) == false)
+                                    //{
+                                    //    var tmpColumns = match.Groups["headers"].Value.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                                    //    foreach (var str in tmpColumns)
+                                    //    {
+                                    //        headers.Add(str);
+                                    //    }
+                                    //}
+
+                                    ////Setup table formatting, default to system/wiki theme if no override present
+                                    //var heading = (string.IsNullOrEmpty(match.Groups["heading"].Value) == false ? match.Groups["heading"].Value.Trim() : "");
+                                    //var tblFormat = (string.IsNullOrEmpty(match.Groups["tblFormat"].Value) == false ? match.Groups["tblFormat"].Value.Trim() : "");
+                                    //var headFormat = (string.IsNullOrEmpty(match.Groups["headFormat"].Value) == false ? match.Groups["headFormat"].Value.Trim() : "");
+                                    //var rowFormat = (string.IsNullOrEmpty(match.Groups["rowFormat"].Value) == false ? match.Groups["rowFormat"].Value.Trim() : "");
+
+                                    //#endregion
 
                                     //Fetch logs
                                     var logRows = GetEventLogEntries(machine, logname, filter, columns, results);
@@ -143,14 +245,13 @@ namespace Keeper.Garrett.ScrewTurn.EventLogFormatter
                                     if (logRows.Count > 0)
                                     {
                                         //Generate table
-                                        resultTable = Utility.TableGenerator.GenerateTable(logRows,
-                                                                    heading,
+                                        resultTable = Utility.XHtmlTableGenerator.GenerateTable(logRows,
+                                                                    head,
+                                                                    foot,
                                                                     columns,
                                                                     headers,
-                                                                    new List<string>() { "Id","Type","Date","Time","Source","Category","Event","User","Computer", "Description" },
-                                                                    tblFormat,
-                                                                    headFormat,
-                                                                    rowFormat);
+                                                                    new List<string>() { "Id", "Type", "Date", "Time", "Source", "Category", "Event", "User", "Computer", "Description" },
+                                                                    style);
                                     }
 
                                     //Insert table

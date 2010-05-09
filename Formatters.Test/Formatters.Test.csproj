@@ -38,6 +38,7 @@
     <Compile Include="FileContentFormatter\FileContentFormatter_Test.cs" />
     <Compile Include="FileListFormatter\FileListFormatter_Test.cs" />
     <Compile Include="General\General_Test.cs" />
+    <Compile Include="Helpers\AssertTable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueryTableFormatter\QueryTableFormatter_Configuration_Test.cs" />
     <Compile Include="QueryTableFormatter\QueryTableFormatter_Test.cs" />

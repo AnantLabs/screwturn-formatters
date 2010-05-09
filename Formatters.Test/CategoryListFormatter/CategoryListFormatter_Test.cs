@@ -47,7 +47,7 @@ namespace Formatters.Tests
             host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
 
             // Category,output,include,head,headers,tbl,head,row
-            string input = "bla bla bla {CategoryList(MyCategory,*,false,,,,,)} bla bla bla";
+            string input = "bla bla bla {CategoryList cat=MyCategory type=*} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -90,7 +90,7 @@ namespace Formatters.Tests
             host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
 
             // Category,output,include,head,headers,tbl,head,row
-            string input = "bla bla bla {CategoryList(MyCategory,#,false,,,,,)} bla bla bla";
+            string input = "bla bla bla {CategoryList cat=MyCategory type=#} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -132,7 +132,7 @@ namespace Formatters.Tests
 
             host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
 
-            string input = "bla bla bla {CategoryList(MyCategory,*,false,,,,,)} bla bla bla";
+            string input = "bla bla bla {CategoryList cat=MyCategory type=*} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -174,7 +174,7 @@ namespace Formatters.Tests
 
             host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
 
-            string input = "bla bla bla {CategoryList(MyCategory,*,true,,,,,)} bla bla bla";
+            string input = "bla bla bla {CategoryList cat=MyCategory type=* cols=sum} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -217,14 +217,19 @@ namespace Formatters.Tests
             host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
 
             // Category,output,include,head,headers,tbl,head,row
-            string input = "bla bla bla {CategoryList(MyCategory,,false,,,,,)} bla bla bla";
+            string input = "bla bla bla {CategoryList cat=MyCategory} bla bla bla";
 
             //Act
             formatter.Init(host, "");
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual("bla bla bla {|  \n|+  \n! Page name \n|-  \n| [MyPage1|Page 1] \n|-  \n| [MyPage2|Page 2] \n|-  \n| [MyPage3|Page 3] \n|} \n bla bla bla", retval);
+            AssertTable.VerifyTable(retval, null, null, "", new List<string>() { "Page name" }, new Dictionary<int, List<string>>()
+            {
+                {0, new List<string>() { "[MyPage1|Page 1]" }},
+                {1, new List<string>() { "[MyPage2|Page 2]" }},
+                {2, new List<string>() { "[MyPage3|Page 3]" }}
+            });
         }
 
         [Test]
@@ -260,14 +265,19 @@ namespace Formatters.Tests
             host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
 
             // Category,output,include,head,headers,tbl,head,row
-            string input = "bla bla bla {CategoryList(MyCategory,,true,,,,,)} bla bla bla";
+            string input = "bla bla bla {CategoryList cat=MyCategory cols='sum'} bla bla bla";
 
             //Act
             formatter.Init(host, "");
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert         
-            Assert.AreEqual("bla bla bla {|  \n|+  \n! Page name !! Description \n|-  \n| [MyPage1|Page 1] || My Description 1 \n|-  \n| [MyPage2|Page 2] || My Description 2 \n|-  \n| [MyPage3|Page 3] || My Description 3 \n|} \n bla bla bla", retval);
+            AssertTable.VerifyTable(retval, null, null, "", new List<string>() { "Page name", "Description" }, new Dictionary<int, List<string>>()
+            {
+                {0, new List<string>() { "[MyPage1|Page 1]", "My Description 1" }},
+                {1, new List<string>() { "[MyPage2|Page 2]", "My Description 2" }},
+                {2, new List<string>() { "[MyPage3|Page 3]", "My Description 3" }}
+            });
         }
 
         [Test]
@@ -303,14 +313,19 @@ namespace Formatters.Tests
             host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
 
             // Category,output,include,head,headers,tbl,head,row
-            string input = "bla bla bla {CategoryList(MyCategory,,false,,,,,)} bla bla bla";
+            string input = "bla bla bla {CategoryList cat=MyCategory} bla bla bla";
 
             //Act
             formatter.Init(host, "");
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert    
-            Assert.AreEqual("bla bla bla {|  \n|+  \n! Page name \n|-  \n| [MyPage0|aaa] \n|-  \n| [aaa|BBB] \n|-  \n| [MyPage3|Page 0] \n|} \n bla bla bla", retval);
+            AssertTable.VerifyTable(retval, null, null, "", new List<string>() { "Page name" }, new Dictionary<int, List<string>>()
+            {
+                {0, new List<string>() { "[MyPage0|aaa]" }},
+                {1, new List<string>() { "[aaa|BBB]" }},
+                {2, new List<string>() { "[MyPage3|Page 0]" }}
+            });
         }
 
         [Test]
@@ -346,14 +361,19 @@ namespace Formatters.Tests
             host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
 
             // Category,output,include,head,headers,tbl,head,row
-            string input = "bla bla bla {CategoryList(MyCategory,,false,'My Products','Product Name,Summary','My Table Format','My Head Format','My Row Format')} bla bla bla";
+            string input = "bla bla bla {CategoryList cat=MyCategory cols=sum head='My Products' colnames='Product Name,Summary'} bla bla bla";
 
             //Act
             formatter.Init(host, "");
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual("bla bla bla {| My Table Format \n|+ My Products \n|- My Head Format \n| Product Name \n|- My Row Format \n| [MyPage1|Page 1] \n|- My Row Format \n| [MyPage2|Page 2] \n|- My Row Format \n| [MyPage3|Page 3] \n|} \n bla bla bla", retval);
+            AssertTable.VerifyTable(retval, null, "My Products", "", new List<string>() { "Product Name", "Summary" }, new Dictionary<int, List<string>>()
+            {
+                {0, new List<string>() { "[MyPage1|Page 1]", "My Description 1" }},
+                {1, new List<string>() { "[MyPage2|Page 2]", "My Description 2" }},
+                {2, new List<string>() { "[MyPage3|Page 3]", "My Description 3" }}
+            }); 
         }
 
         [Test]
@@ -389,14 +409,19 @@ namespace Formatters.Tests
             host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
 
             // Category,output,include,head,headers,tbl,head,row
-            string input = "bla bla bla {CategoryList(MyCategory,,false,'My Products','Product Name,Summary','bw','bw','bw')} bla bla bla";
+            string input = "bla bla bla {CategoryList cat=MyCategory cols=not head='My Products' colnames='Product Name,Summary' style='bw'} bla bla bla";
 
             //Act
             formatter.Init(host, "");
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual("bla bla bla {| border=\"0\" cellpadding=\"2\" cellspacing=\"0\" align=\"center\" style=\"background-color: #EEEEEE;\" \n|+ My Products \n|- align=\"center\" style=\"background-color: #000000; color: #FFFFFF; font-weight: bold;\" \n| Product Name \n|- align=\"center\" style=\"color: #000000;\" \n| [MyPage1|Page 1] \n|- align=\"center\" style=\"color: #000000;\" \n| [MyPage2|Page 2] \n|- align=\"center\" style=\"color: #000000;\" \n| [MyPage3|Page 3] \n|} \n bla bla bla", retval);
+            AssertTable.VerifyTable(retval, "bw", "My Products", "", new List<string>() { "Product Name" }, new Dictionary<int, List<string>>()
+            {
+                {0, new List<string>() { "[MyPage1|Page 1]" }},
+                {1, new List<string>() { "[MyPage2|Page 2]" }},
+                {2, new List<string>() { "[MyPage3|Page 3]" }}
+            }); 
         }
     }
 }

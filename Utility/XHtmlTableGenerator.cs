@@ -34,7 +34,7 @@ namespace Keeper.Garrett.ScrewTurn.Utility
                 string tableHeader = GenerateTableHeaders(_columnsToShow, _customHeaders, _actualHeaders, _tblHeading, _tblFooter);
 
                 //Start building table
-                retval = string.Format("<link type=\"text/css\" rel=\"stylesheet\" href=\"/public/Plugins/Keeper.Garrett.ScrewTurn.Formatters/tablestyles.css\"></link>");
+                retval = string.Format("<link type=\"text/css\" rel=\"stylesheet\" href=\"/public/Plugins/Keeper.Garrett.ScrewTurn.Formatters/TableStyle.css\"></link>");
                 retval = string.Format("{0}\n<table id=\"{1}\">{2}\n\n\t<tbody>", retval, (string.IsNullOrEmpty(_style) == true ? "default" : _style), tableHeader);
 
                 //Each row

@@ -72,8 +72,11 @@
     <Compile Include="..\Core\Page.cs">
       <Link>Shared\Page.cs</Link>
     </Compile>
-    <Compile Include="..\Utility\TableGenerator.cs">
-      <Link>Shared\TableGenerator.cs</Link>
+    <Compile Include="..\Utility\ArgumentParser.cs">
+      <Link>Shared\ArgumentParser.cs</Link>
+    </Compile>
+    <Compile Include="..\Utility\XHtmlTableGenerator.cs">
+      <Link>Shared\XHtmlTableGenerator.cs</Link>
     </Compile>
     <Compile Include="CategoryListFormatter.cs" />
     <Compile Include="Help.cs" />
