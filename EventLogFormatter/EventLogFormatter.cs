@@ -33,6 +33,10 @@ namespace Keeper.Garrett.ScrewTurn.EventLogFormatter
             { "description", 9 }
         };
 
+        private List<string> m_ColumNames = new List<string>() { "Id", "Type", "Date", "Time", "Source", "Category", "Event", "User", "Computer", "Description" };
+        private string m_DefaultColumNames = "type,date,source,description";
+        private string m_DateTimeFormat = "";
+
         private static readonly Regex TagRegex = new Regex(@"\{EventLog(?<arguments>(.*?))\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
 
 
@@ -99,72 +103,18 @@ namespace Keeper.Garrett.ScrewTurn.EventLogFormatter
                                     int results = 0;
                                     int.TryParse( (args.ContainsKey("results") == true ? args["results"] : "15"),out results);
 
-                                    #region Formatting
+                                    // Formatting
                                     var head = (args.ContainsKey("head") == true ? args["head"] : "");
                                     var foot = (args.ContainsKey("foot") == true ? args["foot"] : "");
                                     var style = (args.ContainsKey("style") == true ? args["style"] : "");
-                                    
 
-                                    var cols = (args.ContainsKey("cols") == true ? args["cols"] : "type,date,source,description");
+                                    var cols = (args.ContainsKey("cols") == true ? args["cols"] : m_DefaultColumNames);
                                     var colnames = (args.ContainsKey("colnames") == true ? args["colnames"] : "");
                                     var newCols = new List<int>();
                                     var newColNames = new List<string>();
-                                    XHtmlTableGenerator.GenerateColumnsAndColumnNames(m_ColumnDictionary, cols, colnames, out newCols, out newColNames);
+                                    XHtmlTableGenerator.GenerateColumnsAndColumnNames(m_ColumnDictionary, m_ColumNames, m_DefaultColumNames, cols, colnames, out newCols, out newColNames);
 
-                                 /*   var columns = new List<int>();
-                                    var headers = m_ColumnNames;
-
-                                    //Parse columns to show
-                                    if (args.ContainsKey("cols") == true)
-                                    {
-                                        var value = args["cols"];
-
-                                        switch (value.ToLower())
-                                        {
-                                            case "all":
-                                                columns.Add(0);
-                                                columns.Add(1);
-                                                columns.Add(2);
-                                                columns.Add(3);
-                                                columns.Add(4);
-                                                columns.Add(5);
-                                                columns.Add(6);
-                                                columns.Add(7);
-                                                columns.Add(8);
-                                                columns.Add(9);
-                                                break;
-                                            default:
-                                                var tmpColumns = value.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                                                foreach (var str in tmpColumns)
-                                                {
-                                                    var key = str.ToLower();
-                                                    if (m_ColumnDictionary.ContainsKey(key) == true)
-                                                    {
-                                                        columns.Add(m_ColumnDictionary[key]);
-                                                    }
-                                                }
-                                                break;
-                                        };
-                                    }
-                                    else
-                                    {
-                                        columns.Add(m_ColumnDictionary["type"]);//Type
-                                        columns.Add(m_ColumnDictionary["date"]);//Create time
-                                        columns.Add(m_ColumnDictionary["source"]);//Source
-                                        columns.Add(m_ColumnDictionary["description"]);//Description 
-                                    }
-
-                                    //Parse custom header names to use
-                                    if (args.ContainsKey("colnames") == true)
-                                    {
-                                        var tmpColumns = args["colnames"].Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                                        for (int i = 0; i < tmpColumns.Length && i < columns.Count ; i++)
-                                        {
-                                            headers[columns[i]] = tmpColumns[i];
-                                        }
-                                    }*/
-
-                                    #endregion
+                                    m_DateTimeFormat = m_Host.GetSettingValue(SettingName.DateTimeFormat); //Update datetime format
 
                                     //Fetch logs
                                     var logRows = GetEventLogEntries(machine, logname, filter, newCols, results);
@@ -180,7 +130,7 @@ namespace Keeper.Garrett.ScrewTurn.EventLogFormatter
                                                                     foot,
                                                                     newCols,
                                                                     newColNames,
-                                                                    new List<string>() { "Id", "Type", "Date", "Time", "Source", "Category", "Event", "User", "Computer", "Description" },
+                                                                    m_ColumNames,
                                                                     style);
                                     }
 
@@ -237,8 +187,8 @@ namespace Keeper.Garrett.ScrewTurn.EventLogFormatter
                                             {
                                                 entry.Index.ToString(),
                                                 GenerateTypeEntry(entry),
-                                                entry.TimeGenerated.ToString(),
-                                                entry.TimeWritten.ToString(),
+                                                entry.TimeGenerated.ToString(m_DateTimeFormat),
+                                                entry.TimeWritten.ToString(m_DateTimeFormat),
                                                 entry.Source,
                                                 entry.Category,
                                                 entry.EventID.ToString(),

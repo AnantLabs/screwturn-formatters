@@ -386,9 +386,9 @@ namespace Formatters.Tests
             provider.Expect(x => x.GetCategoriesForPage(null)).IgnoreArguments().Return(catInfo);
             provider.Expect(x => x.GetCategory(null)).IgnoreArguments().Return(catInfo[0]);
             provider.Expect(x => x.GetMessageCount(null)).IgnoreArguments().Return(3).Repeat.Any();
-            provider.Expect(x => x.GetBackupContent(pageInfo1, -1)).Return(pageContent1);
-            provider.Expect(x => x.GetBackupContent(pageInfo2, -1)).Return(pageContent2);
-            provider.Expect(x => x.GetBackupContent(pageInfo3, -1)).Return(pageContent3);
+            provider.Expect(x => x.GetBackupContent(pageInfo1, 0)).Return(pageContent1);
+            provider.Expect(x => x.GetBackupContent(pageInfo2, 0)).Return(pageContent2);
+            provider.Expect(x => x.GetBackupContent(pageInfo3, 0)).Return(pageContent3);
 
             host.Expect(x => x.FindPage("MyPage1")).Return(pageInfo1);
             host.Expect(x => x.FindPage("MyPage2")).Return(pageInfo2);

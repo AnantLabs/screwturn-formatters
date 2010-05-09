@@ -80,6 +80,7 @@
     </Compile>
     <Compile Include="CategoryListFormatter.cs" />
     <Compile Include="Help.cs" />
+    <Compile Include="PageDescription.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

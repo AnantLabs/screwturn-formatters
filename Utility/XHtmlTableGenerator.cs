@@ -192,13 +192,13 @@ namespace Keeper.Garrett.ScrewTurn.Utility
             return string.Format("{0}\n{1}\n{2}", colGroup, headerGroup, footerGroup);
         }
 
-        public static void GenerateColumnsAndColumnNames(Dictionary<string, int> _colsNamesDict, string _cols, string _colNames, out List<int> _newCols, out List<string> _newColNames)
+        public static void GenerateColumnsAndColumnNames(Dictionary<string, int> _colsKeyNamesDict, List<string> _allColNames, string _defaultColNames, string _cols, string _colNames, out List<int> _newCols, out List<string> _newColNames)
         {
             _newCols = new List<int>();
             _newColNames = new List<string>();
 
             //Setup the colnames
-            foreach (var colName in _colsNamesDict.Keys)
+            foreach (var colName in _allColNames)
             {
                 _newColNames.Add(string.Format("{0}{1}", colName.Substring(0,1).ToUpper(), colName.Substring(1)));
             }
@@ -206,7 +206,7 @@ namespace Keeper.Garrett.ScrewTurn.Utility
             //Setup column order id's
             if (_cols.ToLower() == "all")
             {
-                foreach (var key in _colsNamesDict.Values)
+                foreach (var key in _colsKeyNamesDict.Values)
                 {
                     _newCols.Add(key);
                 }
@@ -217,9 +217,23 @@ namespace Keeper.Garrett.ScrewTurn.Utility
                 foreach (var str in tmpColumnsIds)
                 {
                     var key = str.ToLower();
-                    if (_colsNamesDict.ContainsKey(key) == true)
+                    if (_colsKeyNamesDict.ContainsKey(key) == true)
                     {
-                        _newCols.Add(_colsNamesDict[key]);
+                        _newCols.Add(_colsKeyNamesDict[key]);
+                    }
+                }
+
+                //Failsafe if there are no cols found -> Use defaults
+                if (_newCols.Count <= 0)
+                {
+                    var tmpColIds = _defaultColNames.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (var str in tmpColIds)
+                    {
+                        var key = str.ToLower();
+                        if (_colsKeyNamesDict.ContainsKey(key) == true)
+                        {
+                            _newCols.Add(_colsKeyNamesDict[key]);
+                        }
                     }
                 }
             }

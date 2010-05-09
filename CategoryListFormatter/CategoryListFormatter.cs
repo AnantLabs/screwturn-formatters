@@ -14,8 +14,24 @@ namespace Keeper.Garrett.ScrewTurn.CategoryListFormatter
         public override bool PerformPhase2 { get { return false; } }
         public override bool PerformPhase3 { get { return false; } }
 
-        //Tag format {CategoryList(Category)}
-        // Category,output,include,head,headers,tbl,head,row
+        private Dictionary<string, int> m_ColumnDictionary = new Dictionary<string, int>()
+        {
+            { "comment", 0 },
+            { "content", 1 },
+            { "summary", 2 },
+            { "keywords", 3 },
+            { "lastmodified", 4 },
+            { "linkedpages", 5 },
+            { "createtime", 6 },
+            { "pagename", 7 },
+            { "user", 8 },
+            { "creator", 9 }
+        };
+
+        private List<string> m_ColumNames = new List<string>() { "Comment", "Content", "Summary", "Keywords", "Last Modified", "Linked Pages", "Created", "Page name", "Last Modified By", "Created By" };
+        private string m_DefaultColumNames = "pagename";
+        private string m_DateTimeFormat = "";
+
         private static readonly Regex TagRegex = new Regex(@"\{CategoryList(?<arguments>(.*?))\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
 
         public override void Init(IHostV30 _host, string _config)
@@ -49,7 +65,6 @@ namespace Keeper.Garrett.ScrewTurn.CategoryListFormatter
                                     var columns = new List<string>();
                                     var headers = new List<string>();
                                     string style = "";
-                                    bool includeSummary = false;
 
                                     var args = new ArgumentParser().Parse(match.Groups["arguments"].Value);
 
@@ -58,57 +73,21 @@ namespace Keeper.Garrett.ScrewTurn.CategoryListFormatter
                                     var outputType = (args.ContainsKey("type") == true ? args["type"] : "");
                                     outputType = (outputType != "*" && outputType != "#" && outputType != "" ? "*" : outputType);
 
-                                    var header = (args.ContainsKey("head") == true ? args["head"] : "");
-                                    var footer = (args.ContainsKey("foot") == true ? args["foot"] : "");
+                                    var head = (args.ContainsKey("head") == true ? args["head"] : "");
+                                    var foot = (args.ContainsKey("foot") == true ? args["foot"] : "");
 
-                                    //Parse columns to show
-                                    if (args.ContainsKey("cols") == true)
-                                    {
-                                        var value = args["cols"];
+                                    var cols = (args.ContainsKey("cols") == true ? args["cols"] : m_DefaultColumNames);
+                                    var colnames = (args.ContainsKey("colnames") == true ? args["colnames"] : "");
+                                    var newCols = new List<int>();
+                                    var newColNames = new List<string>();
+                                    XHtmlTableGenerator.GenerateColumnsAndColumnNames(m_ColumnDictionary, m_ColumNames, m_DefaultColumNames, cols, colnames, out newCols, out newColNames);
 
-                                        switch (value.ToLower())
-                                        {
-                                            case "all":
-                                                //Handled by header setup
-                                                includeSummary = true;
-                                                break;
-                                            default:
-                                                var tmpColumns = value.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                                                foreach (var str in tmpColumns)
-                                                {
-                                                    columns.Add(str.ToLower());
-
-                                                    if (str.ToLower() == "sum")
-                                                    {
-                                                        includeSummary = true;
-                                                    }
-                                                }
-                                                break;
-                                        };
-                                    }
-
-                                    //Parse custom headers to show
-                                    if (args.ContainsKey("colnames") == true)
-                                    {
-                                        var tmpColumns = args["colnames"].Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                                        foreach (var str in tmpColumns)
-                                        {
-                                            headers.Add(str);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        headers.Add("Page name");
-                                        if (includeSummary == true)
-                                        {
-                                            headers.Add("Description");
-                                        }
-                                    }
+                                    m_DateTimeFormat = m_Host.GetSettingValue(SettingName.DateTimeFormat); //Update datetime format
 
                                     style = (args.ContainsKey("style") == true ? args["style"] : "");
 
                                     //Get info from database
-                                    var dict = new SortedDictionary<string,PageContent>(StringComparer.InvariantCultureIgnoreCase);
+                                    var dict = new SortedDictionary<string, PageDescription>(StringComparer.InvariantCultureIgnoreCase);
                                 
                                     if(string.IsNullOrEmpty(category) == false && provider != null)
                                     {
@@ -121,11 +100,30 @@ namespace Keeper.Garrett.ScrewTurn.CategoryListFormatter
                                                 var pageInfo = m_Host.FindPage(page);
                                                 if (pageInfo != null)
                                                 {
-                                                    var content = m_Host.GetPageContent(pageInfo);
-                                                    //Build dict
-                                                    if (content != null)
+                                                    var content = new PageDescription();
+                                                    content.Content = m_Host.GetPageContent(pageInfo);
+
+                                                    if(newCols.Contains(9) == true) //Are they asking for creator, make another lookup (this is optimization, only make a lookup whne required)
                                                     {
-                                                        dict.Add(content.Title, content);
+                                                        content.CreatorName = provider.GetBackupContent(pageInfo, 0).User;
+                                                        var user = m_Host.FindUser(content.CreatorName);
+                                                        if (user != null)
+                                                        {
+                                                            content.CreatorDisplayName = user.DisplayName;
+                                                        }
+                                                    }
+
+                                                    //Build dict
+                                                    if (content.Content != null)
+                                                    {
+                                                        var user = m_Host.FindUser(content.Content.User);
+                                                        if (user != null)
+                                                        {
+                                                            content.UserName = user.Username;
+                                                            content.UserDisplayName = user.DisplayName;
+                                                        }
+
+                                                        dict.Add(content.Content.Title, content);
                                                     }
                                                 }
                                             }
@@ -138,12 +136,12 @@ namespace Keeper.Garrett.ScrewTurn.CategoryListFormatter
                                     {
                                         if (outputType != "") //Use primitive style?
                                         {
-                                            list = GeneratePrimitiveList(dict, outputType, includeSummary);
+                                            list = GeneratePrimitiveList(dict, outputType, newCols);
                                         }
                                         else
                                         {
-                                            list = GenerateTableList(dict, includeSummary, header, footer, headers, style);
-                                        }
+                                            list = GenerateTableList(dict, head, foot, newCols, newColNames, style);
+                                        } 
                                     }
 
                                     //Add a final newline
@@ -176,66 +174,96 @@ namespace Keeper.Garrett.ScrewTurn.CategoryListFormatter
             return raw;
         }
 
-        private string GeneratePrimitiveList(SortedDictionary<string, PageContent> _list, string _outputType, bool _includeSummary)
+        private string GeneratePrimitiveList(SortedDictionary<string, PageDescription> _list, string _outputType, List<int> _cols)
         {
             string retval = "";
 
-            if (_includeSummary == true)
+            foreach (var entry in _list)
             {
-                foreach (var entry in _list)
+                retval = string.Format("{0} \n{1}", retval, _outputType);
+
+                retval = string.Format("{0} {1}", retval, GetField(entry.Value, _cols[0]));
+
+                for(int i = 1; i < _cols.Count; i++)
                 {
-                    retval = string.Format("{0} \n{1} {2} - {3}",
-                        retval,
-                        _outputType,
-                        GenerateLink(entry.Value),
-                        (string.IsNullOrEmpty(entry.Value.Description) == true ? "''Missing summary''" : entry.Value.Description) );
-                }
-            }
-            else
-            {
-                foreach (var entry in _list)
-                {
-                    retval = string.Format("{0} \n{1} {2}",
-                        retval,
-                        _outputType,
-                        GenerateLink(entry.Value));
+                    retval = string.Format("{0} - {1}", retval, GetField(entry.Value, _cols[i]));
                 }
             }
 
             return retval;
         }
 
-        private string GenerateTableList(SortedDictionary<string, PageContent> _list, bool _includeSummary, string _tblHeading, string _tblFooter, List<string> _headers, string _style)
+        private string GenerateTableList(SortedDictionary<string, PageDescription> _list, string _tblHeading, string _tblFooter, List<int> _cols, List<string> _colNames, string _style)
         {
             var tableRowDict = new Dictionary<int, List<string>>();
             int i = 0;
-            foreach(var entry in _list)
+            foreach (var entry in _list)
             {
-                if(_includeSummary)
+                tableRowDict.Add(i++, new List<string>());
+                
+                //Get all data fields
+                for(int j = 0; j < m_ColumNames.Count; j++)
                 {
-                    tableRowDict.Add(i++, new List<string>() { 
-                        GenerateLink(entry.Value), 
-                        (string.IsNullOrEmpty(entry.Value.Description) == true ? "''Missing summary''" : entry.Value.Description) 
-                    });
+                    tableRowDict[i - 1].Add(GetField(entry.Value, j));
                 }
-                else
-                {
-                    tableRowDict.Add(i++,new List<string>() { GenerateLink(entry.Value) });
-                }
-            }
-
-            if (_includeSummary == false && _headers.Count > 0)
-            {
-                _headers = new List<string>() { _headers[0] };
             }
 
             //Generate table
-            return Keeper.Garrett.ScrewTurn.Utility.XHtmlTableGenerator.GenerateTable(tableRowDict, _tblHeading, _tblFooter, new List<int>(), new List<string>(), _headers, _style);
+            return Keeper.Garrett.ScrewTurn.Utility.XHtmlTableGenerator.GenerateTable(tableRowDict, _tblHeading, _tblFooter, _cols, _colNames, m_ColumNames, _style);
         }
 
-        private string GenerateLink(PageContent _content)
+        private string GetField(PageDescription _page, int _col)
         {
-            return string.Format("[{0}|{1}]", _content.PageInfo.FullName, _content.Title);
+            string retval = "";
+
+            switch(_col)
+            {
+                case 0://comment
+                    retval = _page.Content.Comment;
+                    break;
+                case 1://content
+                    retval = _page.Content.Content;
+                    break;
+                case 2://description
+                    retval = _page.Content.Description;
+                    break;
+                case 3://keywords
+                    foreach (var word in _page.Content.Keywords)
+                    {
+                        retval = string.Format("{0},{1}",retval, word);
+                    }
+                    if (retval.Length > 0 && retval[0] == ',')
+                    {
+                        retval = retval.Remove(0, 1);
+                    }
+                    break;
+                case 4://lastmodified
+                    retval = _page.Content.LastModified.ToString(m_DateTimeFormat);
+                    break;
+                case 5://linkedpages
+                    foreach (var link in _page.Content.LinkedPages)
+                    {
+                        retval = string.Format("[{0}],{1}", retval, link);
+                    }
+                    if (retval.Length > 0 && retval[0] == ',')
+                    {
+                        retval = retval.Remove(0, 1);
+                    }
+                    break;
+                case 6://createtime
+                    retval = _page.Content.PageInfo.CreationDateTime.ToString(m_DateTimeFormat);
+                    break;
+                case 7://title
+                    retval = string.Format("[{0}|{1}]", _page.Content.PageInfo.FullName, _page.Content.Title);
+                    break;
+                case 8://user
+                    retval = string.Format("[User.aspx?Username={0}|{1}]", _page.UserName, _page.UserDisplayName); ;
+                    break;
+                case 9://creator
+                    retval = string.Format("[User.aspx?Username={0}|{1}]", _page.CreatorName, _page.CreatorDisplayName); ;
+                    break;
+            }
+            return retval;
         }
     }
 }

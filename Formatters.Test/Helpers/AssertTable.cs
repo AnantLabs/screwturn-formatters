@@ -123,16 +123,16 @@ namespace Formatters.Tests
 
                 if(i % 2 == 0)
                 {
-                    row = "n\t\t<tr class=\"row-odd\">";
+                    row = "\n\t\t<tr class=\"row-odd\">";
                 }
                 else
                 {
-                    row = "n\t\t<tr class=\"row-even\">";
+                    row = "\n\t\t<tr class=\"row-even\">";
                 }
 
                 for(int j = 0; j < _rows[i].Count; j++)
                 {
-                    row = string.Format("\n\t\t\t<td>{0}</td>",_rows[i][j]);
+                    row = string.Format("{0}\n\t\t\t<td>{1}</td>",row,_rows[i][j]);
                 }
 
                 row = string.Format("{0}\n\t\t</tr>",row);
