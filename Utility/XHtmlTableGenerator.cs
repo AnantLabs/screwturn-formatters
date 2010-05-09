@@ -191,15 +191,44 @@ namespace Keeper.Garrett.ScrewTurn.Utility
             //Combine
             return string.Format("{0}\n{1}\n{2}", colGroup, headerGroup, footerGroup);
         }
-                    /*       //Each Column requested (all or custom)
-                    for (int j = 0; j < _columnsToShow.Count; j++)
+
+        public static void GenerateColumnsAndColumnNames(Dictionary<string, int> _colsNamesDict, string _cols, string _colNames, out List<int> _newCols, out List<string> _newColNames)
+        {
+            _newCols = new List<int>();
+            _newColNames = new List<string>();
+
+            //Setup the colnames
+            foreach (var colName in _colsNamesDict.Keys)
+            {
+                _newColNames.Add(string.Format("{0}{1}", colName.Substring(0,1).ToUpper(), colName.Substring(1)));
+            }
+
+            //Setup column order id's
+            if (_cols.ToLower() == "all")
+            {
+                foreach (var key in _colsNamesDict.Values)
+                {
+                    _newCols.Add(key);
+                }
+            }
+            else
+            {
+                var tmpColumnsIds = _cols.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (var str in tmpColumnsIds)
+                {
+                    var key = str.ToLower();
+                    if (_colsNamesDict.ContainsKey(key) == true)
                     {
-                        var columnToUse = _columnsToShow[j];
-                        //Add only value if in range of the columns to show
-                        if (columnToUse < row.Count)
-                        {
-                            retval = string.Format("{0}\n\t\t\t<td>{1}</td>", retval, row[columnToUse]);
-                        }
-                    }*/
+                        _newCols.Add(_colsNamesDict[key]);
+                    }
+                }
+            }
+
+            var tmpColumnNames = _colNames.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            for (int i = 0; i < tmpColumnNames.Length && i < _newCols.Count; i++)
+            {
+                _newColNames[_newCols[i]] = tmpColumnNames[i];
+            }
+        }
     }
 }

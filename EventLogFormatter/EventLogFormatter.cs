@@ -33,22 +33,6 @@ namespace Keeper.Garrett.ScrewTurn.EventLogFormatter
             { "description", 9 }
         };
 
-        private List<string> m_ColumnNames = new List<string>()
-        {
-            "Id",
-            "Type",
-            "Date",
-            "Time",
-            "Source",
-            "Category",
-            "Event",
-            "User",
-            "Computer",
-            "Description"
-        };
-
-        //                                                              machine,log,filter,results,heading,cols,headers,tbl,head,row
-//        private static readonly Regex TagRegex = new Regex(@"\{EventLog\((?<machine>(.*?)),('(?<logname>(.*?))'),('(?<filter>(.*?))')?,(?<results>(.*?)),('(?<heading>(.*?))')?,('(?<columns>(.*?))')?,('(?<headers>(.*?))')?,('(?<tblFormat>(.*?))')?,('(?<headFormat>(.*?))')?,('(?<rowFormat>(.*?))')?\)\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
         private static readonly Regex TagRegex = new Regex(@"\{EventLog(?<arguments>(.*?))\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
 
 
@@ -120,7 +104,14 @@ namespace Keeper.Garrett.ScrewTurn.EventLogFormatter
                                     var foot = (args.ContainsKey("foot") == true ? args["foot"] : "");
                                     var style = (args.ContainsKey("style") == true ? args["style"] : "");
                                     
-                                    var columns = new List<int>();
+
+                                    var cols = (args.ContainsKey("cols") == true ? args["cols"] : "type,date,source,description");
+                                    var colnames = (args.ContainsKey("colnames") == true ? args["colnames"] : "");
+                                    var newCols = new List<int>();
+                                    var newColNames = new List<string>();
+                                    XHtmlTableGenerator.GenerateColumnsAndColumnNames(m_ColumnDictionary, cols, colnames, out newCols, out newColNames);
+
+                                 /*   var columns = new List<int>();
                                     var headers = m_ColumnNames;
 
                                     //Parse columns to show
@@ -171,73 +162,12 @@ namespace Keeper.Garrett.ScrewTurn.EventLogFormatter
                                         {
                                             headers[columns[i]] = tmpColumns[i];
                                         }
-                                    }
+                                    }*/
 
                                     #endregion
 
-
-                                    //var machine = (string.IsNullOrEmpty(match.Groups["machine"].Value) == false ? match.Groups["machine"].Value.Trim() : System.Environment.MachineName);
-                                    //var logname = (string.IsNullOrEmpty(match.Groups["logname"].Value) == false ? match.Groups["logname"].Value.Trim() : "");
-                                    //var filter = (string.IsNullOrEmpty(match.Groups["filter"].Value) == false ? match.Groups["filter"].Value.Trim() : "");
-                                    //int results = 15;
-                                    //int.TryParse((string.IsNullOrEmpty(match.Groups["results"].Value) == false ? match.Groups["results"].Value.Trim() : "15"), out results);
-
-                                    //#region Formatting
-                                    ////Get formatting
-                                    //var columns = new List<int>();
-                                    //var headers = new List<string>();
-
-                                    ////Parse columns to show
-                                    //if (string.IsNullOrEmpty(match.Groups["columns"].Value) == false)
-                                    //{
-                                    //    var value = match.Groups["columns"].Value;
-
-                                    //    switch (value.ToLower())
-                                    //    {
-                                    //        case "all":
-                                    //            //Handled by header setup
-                                    //            break;
-                                    //        default:
-                                    //            var tmpColumns = value.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                                    //            foreach (var str in tmpColumns)
-                                    //            {
-                                    //                int columnIndex;
-                                    //                if (int.TryParse(str, out columnIndex) == true)
-                                    //                {
-                                    //                    columns.Add(columnIndex);
-                                    //                }
-                                    //            }
-                                    //            break;
-                                    //    };
-                                    //}
-                                    //else
-                                    //{
-                                    //    columns.Add(1);//Type
-                                    //    columns.Add(2);//Create time
-                                    //    columns.Add(4);//Source
-                                    //    columns.Add(9);//Description
-                                    //}
-
-                                    ////Parse custom headers to show
-                                    //if (string.IsNullOrEmpty(match.Groups["headers"].Value) == false)
-                                    //{
-                                    //    var tmpColumns = match.Groups["headers"].Value.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                                    //    foreach (var str in tmpColumns)
-                                    //    {
-                                    //        headers.Add(str);
-                                    //    }
-                                    //}
-
-                                    ////Setup table formatting, default to system/wiki theme if no override present
-                                    //var heading = (string.IsNullOrEmpty(match.Groups["heading"].Value) == false ? match.Groups["heading"].Value.Trim() : "");
-                                    //var tblFormat = (string.IsNullOrEmpty(match.Groups["tblFormat"].Value) == false ? match.Groups["tblFormat"].Value.Trim() : "");
-                                    //var headFormat = (string.IsNullOrEmpty(match.Groups["headFormat"].Value) == false ? match.Groups["headFormat"].Value.Trim() : "");
-                                    //var rowFormat = (string.IsNullOrEmpty(match.Groups["rowFormat"].Value) == false ? match.Groups["rowFormat"].Value.Trim() : "");
-
-                                    //#endregion
-
                                     //Fetch logs
-                                    var logRows = GetEventLogEntries(machine, logname, filter, columns, results);
+                                    var logRows = GetEventLogEntries(machine, logname, filter, newCols, results);
 
                                     //Prepare resulting table
                                     var resultTable = string.Format("No logs found for {0}: {1}, Filter: {2}", machine,logname,filter);
@@ -248,8 +178,8 @@ namespace Keeper.Garrett.ScrewTurn.EventLogFormatter
                                         resultTable = Utility.XHtmlTableGenerator.GenerateTable(logRows,
                                                                     head,
                                                                     foot,
-                                                                    columns,
-                                                                    headers,
+                                                                    newCols,
+                                                                    newColNames,
                                                                     new List<string>() { "Id", "Type", "Date", "Time", "Source", "Category", "Event", "User", "Computer", "Description" },
                                                                     style);
                                     }
