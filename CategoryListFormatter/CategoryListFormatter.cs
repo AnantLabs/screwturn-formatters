@@ -28,7 +28,7 @@ namespace Keeper.Garrett.ScrewTurn.CategoryListFormatter
             { "creator", 9 }
         };
 
-        private List<string> m_ColumNames = new List<string>() { "Comment", "Content", "Summary", "Keywords", "Last Modified", "Linked Pages", "Created", "Page name", "Last Modified By", "Created By" };
+        private List<string> m_ColumnNames = new List<string>() { "Comment", "Content", "Summary", "Keywords", "Last Modified", "Linked Pages", "Created", "Page name", "Last Modified By", "Created By" };
         private string m_DefaultColumNames = "pagename";
         private string m_DateTimeFormat = "";
 
@@ -70,7 +70,7 @@ namespace Keeper.Garrett.ScrewTurn.CategoryListFormatter
 
                                     var category = (args.ContainsKey("cat") == true ? args["cat"] : "");
 
-                                    var outputType = (args.ContainsKey("type") == true ? args["type"] : "");
+                                    var outputType = (args.ContainsKey("type") == true ? args["type"] : "");//Default is table
                                     outputType = (outputType != "*" && outputType != "#" && outputType != "" ? "*" : outputType);
 
                                     var head = (args.ContainsKey("head") == true ? args["head"] : "");
@@ -80,7 +80,7 @@ namespace Keeper.Garrett.ScrewTurn.CategoryListFormatter
                                     var colnames = (args.ContainsKey("colnames") == true ? args["colnames"] : "");
                                     var newCols = new List<int>();
                                     var newColNames = new List<string>();
-                                    XHtmlTableGenerator.GenerateColumnsAndColumnNames(m_ColumnDictionary, m_ColumNames, m_DefaultColumNames, cols, colnames, out newCols, out newColNames);
+                                    XHtmlTableGenerator.GenerateColumnsAndColumnNames(m_ColumnDictionary, m_ColumnNames, m_DefaultColumNames, cols, colnames, out newCols, out newColNames);
 
                                     m_DateTimeFormat = m_Host.GetSettingValue(SettingName.DateTimeFormat); //Update datetime format
 
@@ -202,14 +202,14 @@ namespace Keeper.Garrett.ScrewTurn.CategoryListFormatter
                 tableRowDict.Add(i++, new List<string>());
                 
                 //Get all data fields
-                for(int j = 0; j < m_ColumNames.Count; j++)
+                for(int j = 0; j < m_ColumnNames.Count; j++)
                 {
                     tableRowDict[i - 1].Add(GetField(entry.Value, j));
                 }
             }
 
             //Generate table
-            return Keeper.Garrett.ScrewTurn.Utility.XHtmlTableGenerator.GenerateTable(tableRowDict, _tblHeading, _tblFooter, _cols, _colNames, m_ColumNames, _style);
+            return Keeper.Garrett.ScrewTurn.Utility.XHtmlTableGenerator.GenerateTable(tableRowDict, _tblHeading, _tblFooter, _cols, _colNames, m_ColumnNames, _style);
         }
 
         private string GetField(PageDescription _page, int _col)

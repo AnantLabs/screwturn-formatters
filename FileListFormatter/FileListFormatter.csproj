@@ -58,6 +58,9 @@
     <Compile Include="..\Utility\TableGenerator.cs">
       <Link>Shared\TableGenerator.cs</Link>
     </Compile>
+    <Compile Include="..\Utility\XHtmlTableGenerator.cs">
+      <Link>Shared\XHtmlTableGenerator.cs</Link>
+    </Compile>
     <Compile Include="FileListFormatter.cs" />
     <Compile Include="Help.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -316,7 +316,7 @@ namespace Formatters.Tests
 
             //                         Filter options: "Id","Type","Date","Time","Source","Category","Event","User","Computer", "Description"
             //                                         machine,log,filter,results,heading,cols,headers,tbl,head,row
-            string input = "bla bla bla {EventLog log=Application filter='type=information,date=" + DateTime.Now.AddDays(-1) + ",source=vss,description=idle'} bla bla bla";            
+            string input = "bla bla bla {EventLog log=Application filter='type=information,date=" + DateTime.Now.AddDays(-2) + ",source=vss,description=idle'} bla bla bla";            
             //Act
             formatter.Init(host, "");
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);

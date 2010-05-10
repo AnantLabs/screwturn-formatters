@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using ScrewTurn.Wiki.PluginFramework;
 using ScrewTurn.Wiki;
 using System.Linq;
+using Keeper.Garrett.ScrewTurn.Utility;
 
 namespace Keeper.Garrett.ScrewTurn.FileListFormatter
 {
@@ -31,19 +32,27 @@ namespace Keeper.Garrett.ScrewTurn.FileListFormatter
         {
             None = 0,
             Downloads = 1,
-            DownloadsAndSize = 2,
-            DownloadsAndModDate = 3,
-            DownloadsAndSizeAndModDate = 4,
-            Size = 5,
+            Size = 2,
+            DownloadsAndSize = 3,
+            ModDate = 4,
+            DownloadsAndModDate = 5,
             SizeAndModDate = 6,
-            ModDate = 7
+            DownloadsAndSizeAndModDate = 7
         }
 
-        //Tag format {CategoryList(Category)}
-        // Category,output,include,head,headers,tbl,head,row                                                                                                                        
-        private static readonly Regex TagRegex = new Regex(@"\{FileList\(('(?<filePattern>(.*?))'),('(?<storageProvider>(.*?))')?,(?<outputType>(.*?))?,(?<sortMethod>(.*?))?,(?<asLinks>(.*?))?,(?<showDetails>(.*?))?,('(?<heading>(.*?))')?,('(?<headers>(.*?))')?,('(?<tblFormat>(.*?))')?,('(?<headFormat>(.*?))')?,('(?<rowFormat>(.*?))')?\)\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
+        private Dictionary<string, int> m_ColumnDictionary = new Dictionary<string, int>()
+        {
+            { "name", 0 },
+            { "downloads", 1 },
+            { "size", 2 },
+            { "date", 3 }
+        };
 
-        private static string m_DateTimeFormat = "";
+        private List<string> m_ColumnNames = new List<string>() { "Name", "Downloads", "Size", "Last Modified" };
+        private string m_DefaultColumNames = "name";
+        private string m_DateTimeFormat = "";
+
+        private static readonly Regex TagRegex = new Regex(@"\{FileList(?<arguments>(.*?))\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
 
         public override void Init(IHostV30 _host, string _config)
         {
@@ -77,54 +86,48 @@ namespace Keeper.Garrett.ScrewTurn.FileListFormatter
                                 //Foreach query
                                 foreach (Match match in matches)
                                 {
+                                    //Get arguments
+                                    var args = new ArgumentParser().Parse(match.Groups["arguments"].Value);
+
                                     IFilesStorageProviderV30 stoProvider = providers[providers.Length - 1]; 
-                                    string path = string.Empty;
-                                    string filePattern = string.Empty;
-                                    string storageProvider = string.Empty;
-                                    string outputType = string.Empty;
-                                    bool asLinks = false;
-                                    int showDetails = 0;
+                                    bool dwnl = true;
                                     int sortMethod = 7;
+                                    int details = 0;
 
-                                    //Get params 
-                                    string tmpPattern = (string.IsNullOrEmpty(match.Groups["filePattern"].Value) == true ? "/*.*" : match.Groups["filePattern"].Value);
-                                    path = tmpPattern.Substring(0,tmpPattern.LastIndexOf('/') + 1);
-                                    filePattern = tmpPattern.Substring(tmpPattern.LastIndexOf('/') + 1);
+                                    //Pattern
+                                    var tmpPattern = (args.ContainsKey("file") == true ? args["file"] : "/*.*");
+                                    var path = tmpPattern.Substring(0,tmpPattern.LastIndexOf('/') + 1);
+                                    var filePattern = tmpPattern.Substring(tmpPattern.LastIndexOf('/') + 1);
 
-                                    storageProvider = (string.IsNullOrEmpty(match.Groups["storageProvider"].Value) == true ? "" : match.Groups["storageProvider"].Value).ToLower();
-                                    bool.TryParse(match.Groups["asLinks"].Value, out asLinks);
+                                    var storageProvider = (args.ContainsKey("prov") == true ? args["prov"].ToLower() : "");
 
-                                    int.TryParse(match.Groups["showDetails"].Value, out showDetails);
-                                    showDetails = (showDetails < 0 || showDetails > 7 ? 0 : showDetails);
+                                    var outputType = (args.ContainsKey("type") == true ? args["type"] : "");//Default is *
+                                    outputType = (outputType != "*" && outputType != "#" && outputType != "table" ? "*" : outputType);
 
-                                    int.TryParse(match.Groups["sortMethod"].Value, out sortMethod);
-                                    sortMethod = (sortMethod < 0 || sortMethod > 7 ? 7 : sortMethod);
+                                    bool.TryParse((args.ContainsKey("dwnl") == true ? args["dwnl"] : "true"), out dwnl);
+
+                                    details = (args.ContainsKey("details") == true ? ParseDetails(args["details"]) : 0);
+                                    sortMethod = (args.ContainsKey("sort") == true ? ParseSortOrder(args["sort"]) : 7);
+
+                                    //Formatting and style
+                                    var head = (args.ContainsKey("head") == true ? args["head"] : "");
+                                    var foot = (args.ContainsKey("foot") == true ? args["foot"] : "");
+
+                                    var cols = (args.ContainsKey("cols") == true ? args["cols"] : m_DefaultColumNames);
+                                    var colnames = (args.ContainsKey("colnames") == true ? args["colnames"] : "");
+                                    var newCols = new List<int>();
+                                    var newColNames = new List<string>();
+                                    XHtmlTableGenerator.GenerateColumnsAndColumnNames(m_ColumnDictionary, m_ColumnNames, m_DefaultColumNames, cols, colnames, out newCols, out newColNames);
+
+                                    //Always insert name if not there
+                                    if (newCols.Contains(0) == false)
+                                    {
+                                        newCols.Insert(0, 0);
+                                    }
+
+                                    var style = (args.ContainsKey("style") == true ? args["style"] : "");
 
                                     m_DateTimeFormat = m_Host.GetSettingValue(SettingName.DateTimeFormat); //Update datetime format
-
-                                    //Get formatting
-                                    var columns = new List<int>();
-                                    var headers = new List<string>();
-
-                                    outputType = (string.IsNullOrEmpty(match.Groups["outputType"].Value) == false ? match.Groups["outputType"].Value.Trim() : "");
-                                    outputType = (outputType != "*" && outputType != "#" && outputType != "table" ? "*" : outputType); //Force table if wrong type
-
-                                    var heading = (string.IsNullOrEmpty(match.Groups["heading"].Value) == false ? match.Groups["heading"].Value.Trim() : "");
-
-                                    //Parse custom headers to show
-                                    if (string.IsNullOrEmpty(match.Groups["headers"].Value) == false)
-                                    {
-                                        var tmpColumns = match.Groups["headers"].Value.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                                        foreach (var str in tmpColumns)
-                                        {
-                                            headers.Add(str);
-                                        }
-                                    }
- 
-                                    //Setup table formatting, default to system/wiki theme if no override present
-                                    var tblFormat = (string.IsNullOrEmpty(match.Groups["tblFormat"].Value) == false ? match.Groups["tblFormat"].Value.Trim() : "");
-                                    var headFormat = (string.IsNullOrEmpty(match.Groups["headFormat"].Value) == false ? match.Groups["headFormat"].Value.Trim() : "");
-                                    var rowFormat = (string.IsNullOrEmpty(match.Groups["rowFormat"].Value) == false ? match.Groups["rowFormat"].Value.Trim() : "");
 
                                     //Find matching provider, use default if none
                                     foreach (var prov in providers)
@@ -172,11 +175,11 @@ namespace Keeper.Garrett.ScrewTurn.FileListFormatter
 
                                         if (outputType != "table") //Use primitive style?
                                         {
-                                            list = GeneratePrimitiveList(fileList, outputType, asLinks, showDetails);
+                                            list = GeneratePrimitiveList(fileList, outputType, dwnl, details);
                                         }
                                         else
                                         {
-                                            list = GenerateTableList(fileList, asLinks, showDetails, heading, headers, tblFormat, headFormat, rowFormat);
+                                            list = GenerateTableList(fileList, dwnl, head, foot, newCols, newColNames, style);
                                         }
                                     }
 
@@ -208,6 +211,85 @@ namespace Keeper.Garrett.ScrewTurn.FileListFormatter
             }
 
             return raw;
+        }
+
+        private int ParseSortOrder(string _order)
+        {
+            int retval = (int)SortOrder.FileModDateDesc;
+            var orderKeys = _order.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+            if (orderKeys != null && orderKeys.Length >= 2)
+            {
+                int order = 0;
+                for(int i = 0; i < orderKeys.Length; i++)
+                {
+                    switch (orderKeys[i].ToLower())
+                    {
+                        case "name":
+                            order += 0;
+                            break;
+                        case "downloads":
+                            order += 2;
+                            break;
+                        case "size":
+                            order += 4;
+                            break;
+                        case "date":
+                            order += 6;
+                            break;
+                        case "asc":
+                            order += 0;
+                            break;
+                        case "desc":
+                            order += 1;
+                            break;
+                    }
+                }
+
+                if(order > 7)
+                {
+                    order = 7;
+                }
+
+                retval = order;
+            }
+
+            return retval;
+        }
+
+        private int ParseDetails(string _details)
+        {
+            int retval = (int)SortOrder.FileModDateDesc;
+            var detailKeys = _details.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+            if (detailKeys != null && detailKeys.Length > 0)
+            {
+                int details = 0;
+                for (int i = 0; i < detailKeys.Length; i++)
+                {
+                    switch (detailKeys[i].ToLower())
+                    {
+                        case "downloads":
+                            details += 1;
+                            break;
+                        case "size":
+                            details += 2;
+                            break;
+                        case "date":
+                            details += 4;
+                            break;
+                    }
+                }
+
+                if (details > 7)
+                {
+                    details = 0;
+                }
+
+                retval = details;
+            }
+
+            return retval;
         }
 
         private Dictionary<string, FileDetails> SortFiles(Dictionary<string, FileDetails> _filesToSort, int _sortMethod)
@@ -300,16 +382,10 @@ namespace Keeper.Garrett.ScrewTurn.FileListFormatter
 
         #region Table
 
-        private string GenerateTableList(Dictionary<string, FileDetails> _list, bool _asLinks, int _showDetails, string _tblHeading, List<string> _headers, string _tblFormat, string _headFormat, string _rowFormat)
+        private string GenerateTableList(Dictionary<string, FileDetails> _list, bool _asLinks, string _tblHeading, string _tblFooter, List<int> _cols, List<string> _colNames, string _style)
         {
             var tableRowDict = new Dictionary<int, List<string>>();
             int i = 0;
-
-            //Generate table header if missing
-            if(_headers.Count <= 0)
-            {
-                _headers = GetDefaultTableHeaders(_showDetails);
-            }
 
             foreach(var file in _list)
             {
@@ -317,86 +393,18 @@ namespace Keeper.Garrett.ScrewTurn.FileListFormatter
 
                 //Filename
                 tableRowDict[i].Add( (_asLinks == true ? GenerateLink(file.Key) : file.Key.Substring(file.Key.LastIndexOf("/") + 1)));
-
-                //Details
-                switch ((Details)_showDetails)
-                {
-                    case Details.None:
-                        break;
-                    case Details.Downloads:
-                        tableRowDict[i].Add(file.Value.RetrievalCount.ToString());
-                        break;
-                    case Details.DownloadsAndSize:
-                        tableRowDict[i].Add(GetFileSize(file.Value.Size));
-                        tableRowDict[i].Add(file.Value.RetrievalCount.ToString());
-                        break;
-                    case Details.DownloadsAndModDate:
-                        tableRowDict[i].Add(file.Value.LastModified.ToString(m_DateTimeFormat));
-                        tableRowDict[i].Add(file.Value.RetrievalCount.ToString());
-                        break;
-                    case Details.DownloadsAndSizeAndModDate:
-                        tableRowDict[i].Add(file.Value.LastModified.ToString(m_DateTimeFormat));
-                        tableRowDict[i].Add(GetFileSize(file.Value.Size));
-                        tableRowDict[i].Add(file.Value.RetrievalCount.ToString());
-                        break;
-                    case Details.Size:
-                        tableRowDict[i].Add(GetFileSize(file.Value.Size));
-                        break;
-                    case Details.SizeAndModDate:
-                        tableRowDict[i].Add(file.Value.LastModified.ToString(m_DateTimeFormat));
-                        tableRowDict[i].Add(GetFileSize(file.Value.Size));
-                        break;
-                    case Details.ModDate:
-                        tableRowDict[i].Add(file.Value.LastModified.ToString(m_DateTimeFormat));
-                        break;
-                };
+                //Downloads
+                tableRowDict[i].Add(file.Value.RetrievalCount.ToString());
+                //Size
+                tableRowDict[i].Add(GetFileSize(file.Value.Size));
+                //Date
+                tableRowDict[i].Add(file.Value.LastModified.ToString(m_DateTimeFormat));
 
                 i++;
             }
 
             //Generate table
-            return Keeper.Garrett.ScrewTurn.Utility.TableGenerator.GenerateTable(tableRowDict, _tblHeading, new List<int>(), new List<string>(), _headers, _tblFormat, _headFormat, _rowFormat);
-        }
-
-        private List<string> GetDefaultTableHeaders(int _showDetails)
-        {
-            var retval = new List<string>();
-
-            retval.Add("Filename");
-
-            switch ((Details)_showDetails)
-            {
-                case Details.None:
-                    break;
-                case Details.Downloads:
-                    retval.Add("Downloads");
-                    break;
-                case Details.DownloadsAndSize:
-                    retval.Add("Size");
-                    retval.Add("Downloads");
-                    break;
-                case Details.DownloadsAndModDate:
-                    retval.Add("Last Modified");
-                    retval.Add("Downloads");
-                    break;
-                case Details.DownloadsAndSizeAndModDate:
-                    retval.Add("Last Modified");
-                    retval.Add("Size");
-                    retval.Add("Downloads");
-                    break;
-                case Details.Size:
-                    retval.Add("Size");
-                    break;
-                case Details.SizeAndModDate:
-                    retval.Add("Last Modified");
-                    retval.Add("Size");
-                    break;
-                case Details.ModDate:
-                    retval.Add("Last Modified");
-                    break;
-            }
-
-            return retval;
+            return Keeper.Garrett.ScrewTurn.Utility.XHtmlTableGenerator.GenerateTable(tableRowDict, _tblHeading, _tblFooter, _cols, _colNames, m_ColumnNames, _style);
         }
 
         #endregion
