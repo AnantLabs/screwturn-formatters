@@ -175,6 +175,37 @@ namespace Formatters.Tests
             Assert.AreEqual("bla bla bla  \n* [GetFile.aspx?File=file3.zip|file3.zip]  \n* [GetFile.aspx?File=file2.txt|file2.txt]  \n* [GetFile.aspx?File=file1.exe|file1.exe]  \n bla bla bla", retval);
         }
 
+        [Test]
+        public void No_Directory()
+        {
+            //Arrange
+            var formatter = new FileListFormatter();
+            var host = MockRepository.GenerateStub<IHostV30>();
+            var provider = MockRepository.GenerateStub<IFilesStorageProviderV30>();
+
+            var pageProvider = MockRepository.GenerateStub<IPagesStorageProviderV30>();
+            var currentPageInfo = new PageInfo("MyPage", pageProvider, DateTime.Now);
+            var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });
+
+            //Expect
+            host.Expect(x => x.GetFilesStorageProviders(true)).Return(new IFilesStorageProviderV30[] { provider });
+            host.Expect(x => x.GetSettingValue(SettingName.DefaultFilesStorageProvider)).Return("Local Storage Provider");
+            provider.Expect(x => x.Information).Return(new ComponentInformation("Local Storage Provider", "", "", "", ""));
+
+            provider.Expect(x => x.ListFiles(null)).IgnoreArguments().Throw(new Exception("Directory does not exist"));
+
+            // Category,output,include,head,headers,tbl,head,row
+            // {FileList('filePattern','storageProvider',outputType,sortMethod,asLinks,showDownloadCount,'heading'?,'headers'?,'tblFormat'?,'headFormat'?,'rowFormat'? )
+            string input = "bla bla bla {FileListfile='/Test/*.*' sort='name,asc' details='size'} bla bla bla";
+
+            //Act
+            formatter.Init(host, "");
+            var retval = formatter.Format(input, context, FormattingPhase.Phase1);
+
+            //Assert
+            Assert.AreEqual("bla bla bla (No directory found matching \"/Test/\".) \n bla bla bla", retval);
+        }
+
         #region SortOrder
 
         [Test]
@@ -448,6 +479,40 @@ namespace Formatters.Tests
             //Assert
             Assert.AreEqual("bla bla bla  \n* [GetFile.aspx?File=file2.txt|file2.txt] (200 downloads) \n* [GetFile.aspx?File=file1.exe|file1.exe] (300 downloads) \n* [GetFile.aspx?File=file3.zip|file3.zip] (100 downloads) \n bla bla bla", retval);
         }
+
+        [Test]
+        public void SortOrder_ToMany()
+        {
+            //Arrange
+            var formatter = new FileListFormatter();
+            var host = MockRepository.GenerateStub<IHostV30>();
+            var provider = MockRepository.GenerateStub<IFilesStorageProviderV30>();
+
+            var pageProvider = MockRepository.GenerateStub<IPagesStorageProviderV30>();
+            var currentPageInfo = new PageInfo("MyPage", pageProvider, DateTime.Now);
+            var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });
+
+            //Expect
+            host.Expect(x => x.GetFilesStorageProviders(true)).Return(new IFilesStorageProviderV30[] { provider });
+            host.Expect(x => x.GetSettingValue(SettingName.DefaultFilesStorageProvider)).Return("Local Storage Provider");
+            provider.Expect(x => x.Information).Return(new ComponentInformation("Local Storage Provider", "", "", "", ""));
+
+            provider.Expect(x => x.ListFiles(null)).IgnoreArguments().Return(new string[] { "file1.exe", "file2.txt", "file3.zip" });
+            provider.Expect(x => x.GetFileDetails("file1.exe")).Return(new FileDetails(300, new DateTime(2010, 1, 2), 300));
+            provider.Expect(x => x.GetFileDetails("file2.txt")).Return(new FileDetails(500, new DateTime(2010, 1, 3), 200));
+            provider.Expect(x => x.GetFileDetails("file3.zip")).Return(new FileDetails(100, new DateTime(2010, 1, 1), 100));
+
+            // Category,output,include,head,headers,tbl,head,row
+            // {FileList('filePattern','storageProvider',outputType,sortMethod,asLinks,showDownloadCount,'heading'?,'headers'?,'tblFormat'?,'headFormat'?,'rowFormat'? )
+            string input = "bla bla bla {FileList file='*.*' sort='date,desc,date,desc,date,desc' details=downloads} bla bla bla";
+
+            //Act
+            formatter.Init(host, "");
+            var retval = formatter.Format(input, context, FormattingPhase.Phase1);
+
+            //Assert
+            Assert.AreEqual("bla bla bla  \n* [GetFile.aspx?File=file2.txt|file2.txt] (200 downloads) \n* [GetFile.aspx?File=file1.exe|file1.exe] (300 downloads) \n* [GetFile.aspx?File=file3.zip|file3.zip] (100 downloads) \n bla bla bla", retval);
+        }
         #endregion
 
         #region Primitive Details
@@ -654,6 +719,40 @@ namespace Formatters.Tests
 
             //Assert
             Assert.AreEqual("bla bla bla  \n* [GetFile.aspx?File=file1.exe|file1.exe] (02-01-2010 00:00:00, 3 KB, 300 downloads) \n* [GetFile.aspx?File=file2.txt|file2.txt] (03-01-2010 00:00:00, 2 KB, 200 downloads) \n* [GetFile.aspx?File=file3.zip|file3.zip] (01-01-2010 00:00:00, 1 KB, 100 downloads) \n bla bla bla", retval);
+        }
+
+        [Test]
+        public void Primitive_Details_ToMany()
+        {
+            //Arrange
+            var formatter = new FileListFormatter();
+            var host = MockRepository.GenerateStub<IHostV30>();
+            var provider = MockRepository.GenerateStub<IFilesStorageProviderV30>();
+
+            var pageProvider = MockRepository.GenerateStub<IPagesStorageProviderV30>();
+            var currentPageInfo = new PageInfo("MyPage", pageProvider, DateTime.Now);
+            var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });
+
+            //Expect
+            host.Expect(x => x.GetFilesStorageProviders(true)).Return(new IFilesStorageProviderV30[] { provider });
+            host.Expect(x => x.GetSettingValue(SettingName.DefaultFilesStorageProvider)).Return("Local Storage Provider");
+            provider.Expect(x => x.Information).Return(new ComponentInformation("Local Storage Provider", "", "", "", ""));
+
+            provider.Expect(x => x.ListFiles(null)).IgnoreArguments().Return(new string[] { "file1.exe", "file2.txt", "file3.zip" });
+            provider.Expect(x => x.GetFileDetails("file1.exe")).Return(new FileDetails(300, new DateTime(2010, 1, 2), 300));
+            provider.Expect(x => x.GetFileDetails("file2.txt")).Return(new FileDetails(200, new DateTime(2010, 1, 3), 200));
+            provider.Expect(x => x.GetFileDetails("file3.zip")).Return(new FileDetails(100, new DateTime(2010, 1, 1), 100));
+
+            // Category,output,include,head,headers,tbl,head,row
+            // {FileList('filePattern','storageProvider',outputType,sortMethod,asLinks,showDownloadCount,'heading'?,'headers'?,'tblFormat'?,'headFormat'?,'rowFormat'? )
+            string input = "bla bla bla {FileListfile='*.*' sort='name,asc' details='size,size,size,size,size'} bla bla bla";
+
+            //Act
+            formatter.Init(host, "");
+            var retval = formatter.Format(input, context, FormattingPhase.Phase1);
+
+            //Assert
+            Assert.AreEqual("bla bla bla  \n* [GetFile.aspx?File=file1.exe|file1.exe]  \n* [GetFile.aspx?File=file2.txt|file2.txt]  \n* [GetFile.aspx?File=file3.zip|file3.zip]  \n bla bla bla", retval);
         }
 
         [Test]
@@ -1037,6 +1136,45 @@ namespace Formatters.Tests
         }
 
         [Test]
+        public void Table_Details_All()
+        {
+            //Arrange
+            var formatter = new FileListFormatter();
+            var host = MockRepository.GenerateStub<IHostV30>();
+            var provider = MockRepository.GenerateStub<IFilesStorageProviderV30>();
+
+            var pageProvider = MockRepository.GenerateStub<IPagesStorageProviderV30>();
+            var currentPageInfo = new PageInfo("MyPage", pageProvider, DateTime.Now);
+            var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });
+
+            //Expect
+            host.Expect(x => x.GetFilesStorageProviders(true)).Return(new IFilesStorageProviderV30[] { provider });
+            host.Expect(x => x.GetSettingValue(SettingName.DefaultFilesStorageProvider)).Return("Local Storage Provider");
+            provider.Expect(x => x.Information).Return(new ComponentInformation("Local Storage Provider", "", "", "", ""));
+
+            provider.Expect(x => x.ListFiles(null)).IgnoreArguments().Return(new string[] { "file1.exe", "file2.txt", "file3.zip" });
+            provider.Expect(x => x.GetFileDetails("file1.exe")).Return(new FileDetails(3000, new DateTime(2010, 1, 2), 300));
+            provider.Expect(x => x.GetFileDetails("file2.txt")).Return(new FileDetails(2000, new DateTime(2010, 1, 3), 200));
+            provider.Expect(x => x.GetFileDetails("file3.zip")).Return(new FileDetails(1000, new DateTime(2010, 1, 1), 100));
+
+            // Category,output,include,head,headers,tbl,head,row
+            // {FileList('filePattern','storageProvider',outputType,sortMethod,asLinks,showDownloadCount,'heading'?,'headers'?,'tblFormat'?,'headFormat'?,'rowFormat'? )
+            string input = "bla bla bla {FileList file='*.*' type=table sort='name,asc' cols='all'} bla bla bla";
+
+            //Act
+            formatter.Init(host, "");
+            var retval = formatter.Format(input, context, FormattingPhase.Phase1);
+
+            //Assert         
+            AssertTable.VerifyTable(retval, null, null, "", new List<string>() { "Name", "Downloads", "Size", "Last Modified" }, new Dictionary<int, List<string>>()
+            {
+                { 0, new List<string>() { "[GetFile.aspx?File=file1.exe|file1.exe]", "300", "3 KB", "02-01-2010 00:00:00" } },
+                { 1, new List<string>() { "[GetFile.aspx?File=file2.txt|file2.txt]", "200", "2 KB", "03-01-2010 00:00:00" } },
+                { 2, new List<string>() { "[GetFile.aspx?File=file3.zip|file3.zip]", "100", "1 KB", "01-01-2010 00:00:00" } }
+            });
+        }
+
+        [Test]
         public void Table_Details_Size()
         {
             //Arrange
@@ -1152,6 +1290,46 @@ namespace Formatters.Tests
                 { 2, new List<string>() { "[GetFile.aspx?File=file3.zip|file3.zip]", "01-01-2010 00:00:00" } }
             }); 
         }
+
+        [Test]
+        public void Table_Cols_Bad()
+        {
+            //Arrange
+            var formatter = new FileListFormatter();
+            var host = MockRepository.GenerateStub<IHostV30>();
+            var provider = MockRepository.GenerateStub<IFilesStorageProviderV30>();
+
+            var pageProvider = MockRepository.GenerateStub<IPagesStorageProviderV30>();
+            var currentPageInfo = new PageInfo("MyPage", pageProvider, DateTime.Now);
+            var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });
+
+            //Expect
+            host.Expect(x => x.GetFilesStorageProviders(true)).Return(new IFilesStorageProviderV30[] { provider });
+            host.Expect(x => x.GetSettingValue(SettingName.DefaultFilesStorageProvider)).Return("Local Storage Provider");
+            provider.Expect(x => x.Information).Return(new ComponentInformation("Local Storage Provider", "", "", "", ""));
+
+            provider.Expect(x => x.ListFiles(null)).IgnoreArguments().Return(new string[] { "file1.exe", "file2.txt", "file3.zip" });
+            provider.Expect(x => x.GetFileDetails("file1.exe")).Return(new FileDetails(3000, new DateTime(2010, 1, 2), 300));
+            provider.Expect(x => x.GetFileDetails("file2.txt")).Return(new FileDetails(2000, new DateTime(2010, 1, 3), 200));
+            provider.Expect(x => x.GetFileDetails("file3.zip")).Return(new FileDetails(1000, new DateTime(2010, 1, 1), 100));
+
+            // Category,output,include,head,headers,tbl,head,row
+            // {FileList('filePattern','storageProvider',outputType,sortMethod,asLinks,showDownloadCount,'heading'?,'headers'?,'tblFormat'?,'headFormat'?,'rowFormat'? )
+            string input = "bla bla bla {FileList file='*.*' type=table sort='name,asc' cols='XXyyZZ'} bla bla bla";
+
+            //Act
+            formatter.Init(host, "");
+            var retval = formatter.Format(input, context, FormattingPhase.Phase1);
+
+            //Assert         
+            AssertTable.VerifyTable(retval, null, null, "", new List<string>() { "Name" }, new Dictionary<int, List<string>>()
+            {
+                { 0, new List<string>() { "[GetFile.aspx?File=file1.exe|file1.exe]" } },
+                { 1, new List<string>() { "[GetFile.aspx?File=file2.txt|file2.txt]" } },
+                { 2, new List<string>() { "[GetFile.aspx?File=file3.zip|file3.zip]" } }
+            });
+        }
+
         #endregion
     }
 }

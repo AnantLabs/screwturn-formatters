@@ -88,13 +88,9 @@ namespace Keeper.Garrett.ScrewTurn.QueryTableFormatter
                                 case "sqlite":
                                     m_Connections.Add(key, new DatabaseConfiguration(connStr, DatabaseType.SqLite));
                                     break;
-                                default:
-                                    break;
                             };
-
                         }
                     }
-
                 }
             }
         }
@@ -136,8 +132,6 @@ namespace Keeper.Garrett.ScrewTurn.QueryTableFormatter
                     case DatabaseType.SqLite:
                         retval = new Database.SqLite(m_Connections[_connectionKey].ConnectionString);
                         break;
-                    default:
-                        break;
                 };
             }
 
@@ -174,76 +168,78 @@ namespace Keeper.Garrett.ScrewTurn.QueryTableFormatter
         {
             try
             {
-                if (m_Connections.Count > 0 
-                    && context.Context == FormattingContext.PageContent
+                if (context.Context == FormattingContext.PageContent
                     && context.ForIndexing == false
                     && context.ForWysiwyg == false)
                 {
                     switch (phase)
                     {
                         case FormattingPhase.Phase1:
-                            var matches = TagRegex.Matches(raw);
-                            if (matches != null && matches.Count > 0)
+                            if (m_Connections.Count > 0)
                             {
-                                //Foreach query
-                                foreach (Match match in matches)
+                                var matches = TagRegex.Matches(raw);
+                                if (matches != null && matches.Count > 0)
                                 {
-                                    //Get arguments
-                                    var args = new ArgumentParser().Parse(match.Groups["arguments"].Value);
-
-                                    var dbKey = (args.ContainsKey("conn") == true ? args["conn"] : "");
-                                    var query = (args.ContainsKey("query") == true ? args["query"] : "");
-
-                                    //Formatting and style
-                                    var head = (args.ContainsKey("head") == true ? args["head"] : "");
-                                    var foot = (args.ContainsKey("foot") == true ? args["foot"] : "");
-                                    var style = (args.ContainsKey("style") == true ? args["style"] : "");
-
-                                    var cols = (args.ContainsKey("cols") == true ? args["cols"] : "");
-                                    var colnames = (args.ContainsKey("colnames") == true ? args["colnames"] : "");
-                                    var newCols = new List<int>();
-                                    var newColNames = new List<string>();
-
-                                    //Prepare resulting table
-                                    var resultTable = string.Format("No DBLinkKey found for {0}", dbKey);
-
-                                    if (m_Connections.ContainsKey(dbKey) == true)
+                                    //Foreach query
+                                    foreach (Match match in matches)
                                     {
-                                        var actualHeaders = new List<string>();
+                                        //Get arguments
+                                        var args = new ArgumentParser().Parse(match.Groups["arguments"].Value);
 
-                                        //Perform query
-                                        var result = PerformQuery(dbKey, query, ref actualHeaders, ref resultTable);
+                                        var dbKey = (args.ContainsKey("conn") == true ? args["conn"] : "");
+                                        var query = (args.ContainsKey("query") == true ? args["query"] : "");
 
-                                        if (result.Count > 0)
+                                        //Formatting and style
+                                        var head = (args.ContainsKey("head") == true ? args["head"] : "");
+                                        var foot = (args.ContainsKey("foot") == true ? args["foot"] : "");
+                                        var style = (args.ContainsKey("style") == true ? args["style"] : "");
+
+                                        var cols = (args.ContainsKey("cols") == true ? args["cols"] : "");
+                                        var colnames = (args.ContainsKey("colnames") == true ? args["colnames"] : "");
+                                        var newCols = new List<int>();
+                                        var newColNames = new List<string>();
+
+                                        //Prepare resulting table
+                                        var resultTable = string.Format("No DBLinkKey found for {0}", dbKey);
+
+                                        if (m_Connections.ContainsKey(dbKey) == true)
                                         {
-                                            //Generate col data
-                                            var colKeys = new Dictionary<string, int>();
-                                            string defaultColNames = "";
-                                            for(int i = 0; i < actualHeaders.Count; i++)
+                                            var actualHeaders = new List<string>();
+
+                                            //Perform query
+                                            var result = PerformQuery(dbKey, query, ref actualHeaders, ref resultTable);
+
+                                            if (result.Count > 0)
                                             {
-                                                colKeys.Add(actualHeaders[i].ToLower(), i);
-                                                defaultColNames = string.Format("{0},{1}", defaultColNames, actualHeaders[i]);
+                                                //Generate col data
+                                                var colKeys = new Dictionary<string, int>();
+                                                string defaultColNames = "";
+                                                for (int i = 0; i < actualHeaders.Count; i++)
+                                                {
+                                                    colKeys.Add(actualHeaders[i].ToLower(), i);
+                                                    defaultColNames = string.Format("{0},{1}", defaultColNames, actualHeaders[i]);
+                                                }
+                                                defaultColNames = defaultColNames.Substring(1);
+                                                XHtmlTableGenerator.GenerateColumnsAndColumnNames(colKeys, actualHeaders, defaultColNames, cols, colnames, out newCols, out newColNames);
+
+                                                //Generate table
+                                                resultTable = Utility.XHtmlTableGenerator.GenerateTable(result,
+                                                                            head,
+                                                                            foot,
+                                                                            newCols,
+                                                                            newColNames,
+                                                                            actualHeaders,
+                                                                            style);
                                             }
-                                            defaultColNames = defaultColNames.Substring(1);
-                                            XHtmlTableGenerator.GenerateColumnsAndColumnNames(colKeys, actualHeaders, defaultColNames, cols, colnames, out newCols, out newColNames);
-
-                                            //Generate table
-                                            resultTable = Utility.XHtmlTableGenerator.GenerateTable(result,
-                                                                        head,
-                                                                        foot,
-                                                                        newCols,
-                                                                        newColNames,
-                                                                        actualHeaders,
-                                                                        style);
                                         }
-                                    }
 
-                                    //Insert table
-                                    //Recall position as string may allready have been modified by other table match entry
-                                    int pos = TagRegex.Match(raw).Index;
-                                    int length = TagRegex.Match(raw).Length;
-                                    raw = raw.Remove(pos, length);
-                                    raw = raw.Insert(pos, resultTable);
+                                        //Insert table
+                                        //Recall position as string may allready have been modified by other table match entry
+                                        int pos = TagRegex.Match(raw).Index;
+                                        int length = TagRegex.Match(raw).Length;
+                                        raw = raw.Remove(pos, length);
+                                        raw = raw.Insert(pos, resultTable);
+                                    }
                                 }
                             }
                             break;
@@ -290,7 +286,7 @@ namespace Keeper.Garrett.ScrewTurn.QueryTableFormatter
             }
             catch (Exception e)
             {
-                _error = string.Format("(((Error connection to DB or Querying.\r\nDBLinkKey: {0}\r\nQuery: {1}\r\nMessage: {2})))", _key, _query, e.Message);
+                _error = string.Format("(((Error connecting to DB or Querying.\r\nDBLinkKey: {0}\r\nQuery: {1}\r\nMessage: {2})))", _key, _query, e.Message);
 
                 //Stacktrace ONLY to log
                 LogEntry(string.Format("QueryTableFormatter error: {0}\r\nStackTrace: {1}", _error, e.StackTrace), LogEntryType.Error);

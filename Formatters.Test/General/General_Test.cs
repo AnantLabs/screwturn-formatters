@@ -90,13 +90,13 @@ namespace Formatters.Tests
                     retval = "bla bla bla {EventLog log='Application'} bla bla bla";
                     break;
                 case 4:
-                    retval = "bla bla bla {FileList('*.*','Local Storage Provider',*,7,true,true,,,,,)} bla bla bla";
+                    retval = "bla bla bla {FileList file='*.*' prov='Local Storage Provider'} bla bla bla";
                     break;
                 case 5:
-                    retval = "bla bla bla {QTable(MyLink,'select * from schedule',,,,,,)} bla bla bla";
+                    retval = "bla bla bla {QTable conn=MyLink query='select * from schedule'} bla bla bla";
                     break;
                 case 6:
-                    retval = "bla bla bla {FileCont file='/*.*')} bla bla bla";
+                    retval = "bla bla bla {FileCont file='/*.*'} bla bla bla";
                     break;
             }
 
