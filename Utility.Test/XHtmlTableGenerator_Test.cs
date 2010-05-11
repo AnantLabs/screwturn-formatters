@@ -13,6 +13,85 @@ namespace Utility.Tests
     [Category("Utility")]
     public class XHtmlTableGenerator_Test
     {
+
+        [Test]
+        public void NewColNames()
+        {
+            //Arrange
+            var data = new Dictionary<string,int>()
+            {
+                {"col1",0},
+                {"col2",1},
+                {"col3",2}
+            };
+
+            var newCols = new List<int>();
+            var newColNames = new List<string>();
+            //Act
+            XHtmlTableGenerator.GenerateColumnsAndColumnNames(data, new List<string>() { "Col1", "Col2", "Col3" }, "Col2", "Col1,Col2", "mycol1,mycol2", out newCols, out newColNames);
+
+            //Assert
+            Assert.AreEqual(2, newCols.Count);
+            Assert.AreEqual(3, newColNames.Count);
+            Assert.AreEqual(0, newCols[0]);
+            Assert.AreEqual(1, newCols[1]);
+            Assert.AreEqual("mycol1", newColNames[0]);
+            Assert.AreEqual("mycol2", newColNames[1]);
+            Assert.AreEqual("Col3", newColNames[2]);
+        }
+
+        [Test]
+        public void NewColNames_AllCols()
+        {
+            //Arrange
+            var data = new Dictionary<string, int>()
+            {
+                {"col1",0},
+                {"col2",1},
+                {"col3",2}
+            };
+
+            var newCols = new List<int>();
+            var newColNames = new List<string>();
+            //Act
+            XHtmlTableGenerator.GenerateColumnsAndColumnNames(data, new List<string>() { "Col1", "Col2", "Col3" }, "Col2", "all", "mycol1,mycol2", out newCols, out newColNames);
+
+            //Assert
+            Assert.AreEqual(3, newCols.Count);
+            Assert.AreEqual(3, newColNames.Count);
+            Assert.AreEqual(0, newCols[0]);
+            Assert.AreEqual(1, newCols[1]);
+            Assert.AreEqual(2, newCols[2]);
+            Assert.AreEqual("mycol1", newColNames[0]);
+            Assert.AreEqual("mycol2", newColNames[1]);
+            Assert.AreEqual("Col3", newColNames[2]);
+        }
+
+        [Test]
+        public void NewColNames_UseDefaultCols()
+        {
+            //Arrange
+            var data = new Dictionary<string, int>()
+            {
+                {"col1",0},
+                {"col2",1},
+                {"col3",2}
+            };
+
+            var newCols = new List<int>();
+            var newColNames = new List<string>();
+            //Act
+            XHtmlTableGenerator.GenerateColumnsAndColumnNames(data, new List<string>() { "Col1", "Col2", "Col3" }, "Col2", "", "mycol1,mycol2", out newCols, out newColNames);
+
+            //Assert
+            Assert.AreEqual(1, newCols.Count);
+            Assert.AreEqual(3, newColNames.Count);
+            Assert.AreEqual(1, newCols[0]);
+            Assert.AreEqual("Col1", newColNames[0]);
+            Assert.AreEqual("mycol1", newColNames[1]); //Should potentially be mycol2...
+            Assert.AreEqual("Col3", newColNames[2]);
+        }
+
         [Test]
         public void Null_Arguments()
         {
