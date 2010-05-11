@@ -28,7 +28,7 @@ namespace Utility.Tests
             var result = XHtmlTableGenerator.GenerateTable(data, null, null, new List<int>(), new List<string>(), new List<string>() { "Head1","Head2","Head3" },null);
 
             //Assert
-            Assert.AreEqual("<link type=\"text/css\" rel=\"stylesheet\" href=\"/public/Plugins/Keeper.Garrett.ScrewTurn.Formatters/TableStyle.css\"></link>\n<table id=\"default\">\n\t<colgroup>\n\t\t<col class=\"col-odd\" />\n\t\t<col class=\"col-even\" />\n\t\t<col class=\"col-odd\" />\n\t</colgroup>\n\n\t<thead>\n\t\t<tr>\n\t\t\t<th scope=\"col\" class=\"first-head\">Head1</th>\n\t\t\t<th scope=\"col\" class=\"standard-head\">Head2</th>\n\t\t\t<th scope=\"col\" class=\"last-head\">Head3</th>\n\t\t</tr>\n\t</thead>\n\n\t<tfoot>\n\t\t<tr>\n\t\t\t<td colspan=\"2\" class=\"first-foot\"></td>\n\t\t\t<td class=\"last-foot\"/>\n\t\t</tr>\n\t</tfoot>\n\n\t<tbody>\n\t\t<tr class=\"row-odd\">\n\t\t\t<td>Col1</td>\n\t\t\t<td>Col2</td>\n\t\t\t<td>Col3</td>\n\t\t</tr>\n\t\t<tr class=\"row-even\">\n\t\t\t<td>Col1</td>\n\t\t\t<td>Col2</td>\n\t\t\t<td>Col3</td>\n\t\t</tr>\n\t\t<tr class=\"row-odd\">\n\t\t\t<td>Col1</td>\n\t\t\t<td>Col2</td>\n\t\t\t<td>Col3</td>\n\t\t</tr>\n\t</tbody>\n</table>", result);
+            Assert.AreEqual("<link type=\"text/css\" rel=\"stylesheet\" href=\"/public/Plugins/Keeper.Garrett.ScrewTurn.Formatters/TableStyle.css\"></link>\n<table id=\"default\">\n\t<colgroup>\n\t</colgroup>\n\n\t<thead>\n\t\t<tr>\n\t\t</tr>\n\t</thead>\n\n\t<tfoot>\n\t\t<tr>\n\t\t</tr>\n\t</tfoot>\n\n\t<tbody>\n\t\t<tr class=\"row-odd\">\n\t\t</tr>\n\t\t<tr class=\"row-even\">\n\t\t</tr>\n\t\t<tr class=\"row-odd\">\n\t\t</tr>\n\t</tbody>\n</table>", result);
         }
 
 
@@ -44,7 +44,7 @@ namespace Utility.Tests
             };
 
             //Act
-            var result = XHtmlTableGenerator.GenerateTable(data, null, null, new List<int>(), new List<string>(), new List<string>() { "Head1" }, null);
+            var result = XHtmlTableGenerator.GenerateTable(data, null, null, new List<int>() { 0 }, new List<string>(), new List<string>() { "Head1" }, null);
 
             //Assert
             Assert.AreEqual(true, result.Contains("<colgroup>\n\t\t<col class=\"col-odd\" />\n\t</colgroup>"));
@@ -65,7 +65,7 @@ namespace Utility.Tests
             };
 
             //Act
-            var result = XHtmlTableGenerator.GenerateTable(data, null, null, new List<int>(), new List<string>(), new List<string>() { "Head1","Head2" }, null);
+            var result = XHtmlTableGenerator.GenerateTable(data, null, null, new List<int>() { 0,1 }, new List<string>(), new List<string>() { "Head1", "Head2" }, null);
 
             //Assert
             Assert.AreEqual(true, result.Contains("<colgroup>\n\t\t<col class=\"col-odd\" />\n\t\t<col class=\"col-even\" />\n\t</colgroup>"));
@@ -86,7 +86,7 @@ namespace Utility.Tests
             };
 
             //Act
-            var result = XHtmlTableGenerator.GenerateTable(data, null, null, new List<int>(), new List<string>(), new List<string>() { "Head1", "Head2", "Head3" }, null);
+            var result = XHtmlTableGenerator.GenerateTable(data, null, null, new List<int>() { 0,1,2 }, new List<string>(), new List<string>() { "Head1", "Head2", "Head3" }, null);
 
             //Assert
             Assert.AreEqual(true, result.Contains("<colgroup>\n\t\t<col class=\"col-odd\" />\n\t\t<col class=\"col-even\" />\n\t\t<col class=\"col-odd\" />\n\t</colgroup>"));
@@ -107,7 +107,7 @@ namespace Utility.Tests
             };
 
             //Act
-            var result = XHtmlTableGenerator.GenerateTable(data, null, null, new List<int>(), new List<string>(), new List<string>() { "Head1", "Head2", "Head3", "Head4" }, null);
+            var result = XHtmlTableGenerator.GenerateTable(data, null, null, new List<int>() { 0,1,2,3 }, new List<string>(), new List<string>() { "Head1", "Head2", "Head3", "Head4" }, null);
 
             //Assert
             Assert.AreEqual(true, result.Contains("<colgroup>\n\t\t<col class=\"col-odd\" />\n\t\t<col class=\"col-even\" />\n\t\t<col class=\"col-odd\" />\n\t\t<col class=\"col-even\" />\n\t</colgroup>"));
@@ -128,7 +128,7 @@ namespace Utility.Tests
             };
 
             //Act
-            var result = XHtmlTableGenerator.GenerateTable(data, "My Heading", null, new List<int>(), new List<string>(), new List<string>() { "Head1" }, null);
+            var result = XHtmlTableGenerator.GenerateTable(data, "My Heading", null, new List<int>() { 0 }, new List<string>(), new List<string>() { "Head1" }, null);
 
             //Assert
             Assert.AreEqual(true, result.Contains("<colgroup>\n\t\t<col class=\"col-odd\" />\n\t</colgroup>"));
@@ -149,7 +149,7 @@ namespace Utility.Tests
             };
 
             //Act
-            var result = XHtmlTableGenerator.GenerateTable(data, "My Heading", null, new List<int>(), new List<string>(), new List<string>() { "Head1", "Head2", "Head3", "Head4" }, null);
+            var result = XHtmlTableGenerator.GenerateTable(data, "My Heading", null, new List<int>() { 0, 1, 2, 3 }, new List<string>(), new List<string>() { "Head1", "Head2", "Head3", "Head4" }, null);
 
             //Assert
             Assert.AreEqual(true, result.Contains("<colgroup>\n\t\t<col class=\"col-odd\" />\n\t\t<col class=\"col-even\" />\n\t\t<col class=\"col-odd\" />\n\t\t<col class=\"col-even\" />\n\t</colgroup>"));
@@ -170,7 +170,7 @@ namespace Utility.Tests
             };
 
             //Act
-            var result = XHtmlTableGenerator.GenerateTable(data, null, "My Footer", new List<int>(), new List<string>(), new List<string>() { "Head1" }, null);
+            var result = XHtmlTableGenerator.GenerateTable(data, null, "My Footer", new List<int>() { 0 }, new List<string>(), new List<string>() { "Head1" }, null);
 
             //Assert
             Assert.AreEqual(true, result.Contains("<colgroup>\n\t\t<col class=\"col-odd\" />\n\t</colgroup>"));
@@ -191,7 +191,7 @@ namespace Utility.Tests
             };
 
             //Act
-            var result = XHtmlTableGenerator.GenerateTable(data, null, "My Footer", new List<int>(), new List<string>(), new List<string>() { "Head1", "Head2", "Head3", "Head4" }, null);
+            var result = XHtmlTableGenerator.GenerateTable(data, null, "My Footer", new List<int>() { 0,1,2,3 }, new List<string>(), new List<string>() { "Head1", "Head2", "Head3", "Head4" }, null);
 
             //Assert
             Assert.AreEqual(true, result.Contains("<colgroup>\n\t\t<col class=\"col-odd\" />\n\t\t<col class=\"col-even\" />\n\t\t<col class=\"col-odd\" />\n\t\t<col class=\"col-even\" />\n\t</colgroup>"));
@@ -212,7 +212,7 @@ namespace Utility.Tests
             };
 
             //Act
-            var result = XHtmlTableGenerator.GenerateTable(data, "My Heading", "My Footer", new List<int>(), new List<string>(), new List<string>() { "Head1" }, null);
+            var result = XHtmlTableGenerator.GenerateTable(data, "My Heading", "My Footer", new List<int>() { 0 }, new List<string>(), new List<string>() { "Head1" }, null);
 
             //Assert
             Assert.AreEqual(true, result.Contains("<colgroup>\n\t\t<col class=\"col-odd\" />\n\t</colgroup>"));
@@ -233,7 +233,7 @@ namespace Utility.Tests
             };
 
             //Act
-            var result = XHtmlTableGenerator.GenerateTable(data, "My Heading", "My Footer", new List<int>(), new List<string>(), new List<string>() { "Head1", "Head2", "Head3", "Head4" }, null);
+            var result = XHtmlTableGenerator.GenerateTable(data, "My Heading", "My Footer", new List<int>() { 0, 1, 2, 3 }, new List<string>(), new List<string>() { "Head1", "Head2", "Head3", "Head4" }, null);
 
             //Assert
             Assert.AreEqual(true, result.Contains("<colgroup>\n\t\t<col class=\"col-odd\" />\n\t\t<col class=\"col-even\" />\n\t\t<col class=\"col-odd\" />\n\t\t<col class=\"col-even\" />\n\t</colgroup>"));
@@ -377,7 +377,7 @@ namespace Utility.Tests
             };
 
             //Act
-            var result = XHtmlTableGenerator.GenerateTable(data, null, null, new List<int>(), new List<string>() { "H1","H2","H3" }, new List<string>() { "Head1", "Head2", "Head3" }, null);
+            var result = XHtmlTableGenerator.GenerateTable(data, null, null, new List<int>() { 0, 1, 2 }, new List<string>() { "H1", "H2", "H3" }, new List<string>() { "Head1", "Head2", "Head3" }, null);
 
             //Assert
             Assert.AreEqual(true, result.Contains("<colgroup>\n\t\t<col class=\"col-odd\" />\n\t\t<col class=\"col-even\" />\n\t\t<col class=\"col-odd\" />\n\t</colgroup>"));
@@ -398,7 +398,7 @@ namespace Utility.Tests
             };
 
             //Act
-            var result = XHtmlTableGenerator.GenerateTable(data, null, null, new List<int>(), new List<string>() { "H1", "H2" }, new List<string>() { "Head1", "Head2", "Head3" }, null);
+            var result = XHtmlTableGenerator.GenerateTable(data, null, null, new List<int>() { 0, 1, 2 }, new List<string>() { "H1", "H2" }, new List<string>() { "Head1", "Head2", "Head3" }, null);
 
             //Assert
             Assert.AreEqual(true, result.Contains("<colgroup>\n\t\t<col class=\"col-odd\" />\n\t\t<col class=\"col-even\" />\n\t\t<col class=\"col-odd\" />\n\t</colgroup>"));

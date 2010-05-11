@@ -84,14 +84,14 @@ namespace Keeper.Garrett.ScrewTurn.Utility
                     headers.Add(i, _customHeaders[_columnsToShow[i]].Trim());
                  //Fill possible ends with actual header IF avaliable, does not match 1 - 1
                 }//When no custom headers or order apply the columnsToShow wil be linear 1,2,3,4,5, based on actual header count
-           /*     else if(_columnsToShow[i] < _actualHeaders.Count)
+                else if(_columnsToShow[i] < _actualHeaders.Count)
                 {
                     headers.Add(i, _actualHeaders[_columnsToShow[i]].Trim());
                 }
                 else
                 {
                     headers.Add(i,"?Missing Header?");
-                }*/
+                }
             }
 
             //Header formatting
