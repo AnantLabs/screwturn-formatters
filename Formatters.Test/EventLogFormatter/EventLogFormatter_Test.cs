@@ -58,7 +58,7 @@ namespace Formatters.Tests
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual("bla bla bla (((<h2>No logs found for GARRETT: ForwardedEvents, Filter: </h2>))) bla bla bla", retval);
+            Assert.AreEqual("bla bla bla (((<h2>No logs found for " + Environment.MachineName + ": ForwardedEvents, Filter: </h2>))) bla bla bla", retval);
         }
 
         [Test]
@@ -146,7 +146,7 @@ namespace Formatters.Tests
 
             //                         Filter options: "Id","Type","Date","Time","Source","Category","Event","User","Computer", "Description"
             //                                         machine,log,filter,results,heading,cols,headers,tbl,head,row
-            string input = "bla bla bla {EventLog log='Application' filter='id=11935'} bla bla bla";
+            string input = "bla bla bla {EventLog log='Application' filter='id=1001'} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -338,7 +338,7 @@ namespace Formatters.Tests
 
             //                         Filter options: "Id","Type","Date","Time","Source","Category","Event","User","Computer", "Description"
             //                                         machine,log,filter,results,heading,cols,headers,tbl,head,row
-            string input = "bla bla bla {EventLog log=Application filter='computer=GARRETT'} bla bla bla";
+            string input = "bla bla bla {EventLog log=Application filter='computer=" + Environment.MachineName +"'} bla bla bla";
 
             //Act
             formatter.Init(host, "");
