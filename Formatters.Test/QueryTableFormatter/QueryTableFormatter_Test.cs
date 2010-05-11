@@ -70,9 +70,9 @@ namespace Formatters.Tests
             host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
 
             string input =
-                  "bla bla bla {QTable(MyLink,'delete * from schedule t where t.id=0 and t.reason='asd'',,,,,,)} bla bla bla"
-                + "bla bla bla {QTable(MyLink,'alter table schedule set',,,,,,)} bla bla bla"
-                + "bla bla bla {QTable(MyLink,'drop schedule',,,,,,)} bla bla bla";
+                  "bla bla bla {QTable conn=MyLink query='delete * from schedule t where t.id=0 and t.reason='asd''} bla bla bla"
+                + "bla bla bla {QTable conn=MyLink query='alter table schedule set'} bla bla bla"
+                + "bla bla bla {QTable conn=MyLink query='drop schedule'} bla bla bla";
 
             //Dict page
             var context = new ContextInformation(false, false, FormattingContext.PageContent, null, "", HttpContext.Current, "", new string[] { "" });
@@ -103,9 +103,9 @@ namespace Formatters.Tests
             host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
 
             string input =
-                  "bla bla bla {QTable(MyLink,'delete * from schedule',,,,,,)} bla bla bla"
-                + "bla bla bla {QTable(MyLink,'select * from schedule',,,,,,)} bla bla bla"
-                + "bla bla bla {QTable(MyLink,'drop * from schedule',,,,,,)} bla bla bla";
+                  "bla bla bla {QTable conn=MyLink query='delete * from schedule'} bla bla bla"
+                + "bla bla bla {QTable conn=MyLink query='select * from schedule'} bla bla bla"
+                + "bla bla bla {QTable conn=MyLink query='drop * from schedule'} bla bla bla";
 
             //Dict page
             var context = new ContextInformation(false, false, FormattingContext.PageContent, null, "", HttpContext.Current, "", new string[] { "" });
@@ -135,7 +135,7 @@ namespace Formatters.Tests
             //Host
             host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
 
-            string input = "bla bla bla {QTable(MyLink,'select * from schedule',,,,,,)} bla bla bla";
+            string input = "bla bla bla {QTable conn=MyLink query='select * from schedule'} bla bla bla";
 
             //Dict page
             var context = new ContextInformation(false, false, FormattingContext.PageContent, null, "", HttpContext.Current, "", new string[] { "" });
@@ -145,7 +145,10 @@ namespace Formatters.Tests
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual("bla bla bla {|  \n|+  \n! ID !! RUNTIME !! REASON !! UPDAT \n|-  \n| 1 || 01-01-2010 00:00:00 || dsadasdasd || 01-01-2010 00:00:00 \n|} bla bla bla", retval);
+            AssertTable.VerifyTable(retval, null, null, "", new List<string>() { "ID", "RUNTIME", "REASON","UPDAT" }, new Dictionary<int, List<string>>()
+            {
+                { 0, new List<string>() { "1", "01-01-2010 00:00:00", "dsadasdasd", "01-01-2010 00:00:00" } }
+            }); 
             var args = host.GetArgumentsForCallsMadeOn(x => x.LogEntry("", LogEntryType.Error, "", null));
             int warnCount = 0;
             int errorCount = 0;
@@ -166,7 +169,7 @@ namespace Formatters.Tests
             //Host
             host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
 
-            string input = "bla bla bla {QTable(MyLink,'select * from schedule t where t.id=1 and t.reason='dsadasdasd'',,,,,,)} bla bla bla";
+            string input = "bla bla bla {QTable conn=MyLink query='select * from schedule t where t.id=1 and t.reason='dsadasdasd''} bla bla bla";
 
             //Dict page
             var context = new ContextInformation(false, false, FormattingContext.PageContent, null, "", HttpContext.Current, "", new string[] { "" });
@@ -176,7 +179,10 @@ namespace Formatters.Tests
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual("bla bla bla {|  \n|+  \n! ID !! RUNTIME !! REASON !! UPDAT \n|-  \n| 1 || 01-01-2010 00:00:00 || dsadasdasd || 01-01-2010 00:00:00 \n|} bla bla bla", retval);
+            AssertTable.VerifyTable(retval, null, null, "", new List<string>() { "ID", "RUNTIME", "REASON", "UPDAT" }, new Dictionary<int, List<string>>()
+            {
+                { 0, new List<string>() { "1", "01-01-2010 00:00:00", "dsadasdasd", "01-01-2010 00:00:00" } }
+            }); 
             var args = host.GetArgumentsForCallsMadeOn(x => x.LogEntry("", LogEntryType.Error, "", null));
             int warnCount = 0;
             int errorCount = 0;
@@ -197,7 +203,7 @@ namespace Formatters.Tests
             //Host
             host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
 
-            string input = "bla bla bla {QTable(MyLink,'select * from schedule t where t.id=1 and t.reason='badcomparison'',,,,,,)} bla bla bla";
+            string input = "bla bla bla {QTable conn=MyLink query='select * from schedule t where t.id=1 and t.reason='badcomparison''} bla bla bla";
 
             //Dict page
             var context = new ContextInformation(false, false, FormattingContext.PageContent, null, "", HttpContext.Current, "", new string[] { "" });
@@ -207,7 +213,7 @@ namespace Formatters.Tests
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual("bla bla bla {|  \n|+  \n! ID !! RUNTIME !! REASON !! UPDAT \n|-  \n| align=\"center\" colspan=\"4\" | <h2>Query revealed no results, table/view is empty.</h2> \n|} bla bla bla", retval);
+            Assert.AreEqual("bla bla bla (((<h2>Query revealed no results, table/view is empty.</h2>))) bla bla bla", retval);
             var args = host.GetArgumentsForCallsMadeOn(x => x.LogEntry("", LogEntryType.Error, "", null));
             int warnCount = 0;
             int errorCount = 0;
@@ -229,7 +235,7 @@ namespace Formatters.Tests
             //Host
             host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
 
-            string input = "bla bla bla {QTable(MyLink,'select * from emptytable',,,,,,)} bla bla bla";
+            string input = "bla bla bla {QTable conn=MyLink query='select * from emptytable'} bla bla bla";
 
             //Dict page
             var context = new ContextInformation(false, false, FormattingContext.PageContent, null, "", HttpContext.Current, "", new string[] { "" });
@@ -238,9 +244,8 @@ namespace Formatters.Tests
             formatter.Init(host, _connectionString);
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
-
             //Assert  
-            Assert.AreEqual("bla bla bla {|  \n|+  \n! ID !! REASON \n|-  \n| align=\"center\" colspan=\"2\" | <h2>Query revealed no results, table/view is empty.</h2> \n|} bla bla bla", retval);
+            Assert.AreEqual("bla bla bla (((<h2>Query revealed no results, table/view is empty.</h2>))) bla bla bla", retval);
             var args = host.GetArgumentsForCallsMadeOn(x => x.LogEntry("", LogEntryType.Error, "", null));
             int warnCount = 0;
             int errorCount = 0;
@@ -261,7 +266,7 @@ namespace Formatters.Tests
             //Host
             host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
             //                           Key ,Query ,Heading ,ColumnOrder ,Headers ,TdblFormat ,HeadFormat ,RowFormat
-            string input = "bla bla bla {QTable(MyLink,'select * from schedule',,'1,2,3',,,,)} bla bla bla";
+            string input = "bla bla bla {QTable conn=MyLink query='select * from schedule' cols='runtime,REASON,updat'} bla bla bla";
 
             //Dict page
             var context = new ContextInformation(false, false, FormattingContext.PageContent, null, "", HttpContext.Current, "", new string[] { "" });
@@ -272,7 +277,10 @@ namespace Formatters.Tests
 
 
             //Assert        
-            Assert.AreEqual("bla bla bla {|  \n|+  \n! RUNTIME !! REASON !! UPDAT \n|-  \n| 01-01-2010 00:00:00 || dsadasdasd || 01-01-2010 00:00:00 \n|} bla bla bla", retval);
+            AssertTable.VerifyTable(retval, null, null, "", new List<string>() { "RUNTIME", "REASON", "UPDAT" }, new Dictionary<int, List<string>>()
+            {
+                { 0, new List<string>() { "01-01-2010 00:00:00", "dsadasdasd", "01-01-2010 00:00:00" } }
+            }); 
             var args = host.GetArgumentsForCallsMadeOn(x => x.LogEntry("", LogEntryType.Error, "", null));
             int warnCount = 0;
             int errorCount = 0;
@@ -293,7 +301,7 @@ namespace Formatters.Tests
             //Host
             host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
             //                           Key ,Query ,Heading ,ColumnOrder ,Headers ,TdblFormat ,HeadFormat ,RowFormat
-            string input = "bla bla bla {QTable(MyLink,'select * from schedule',,'3,1,2',,,,)} bla bla bla";
+            string input = "bla bla bla {QTable conn=MyLink query='select * from schedule' cols='updat,runtime,reason'} bla bla bla";
 
             //Dict page
             var context = new ContextInformation(false, false, FormattingContext.PageContent, null, "", HttpContext.Current, "", new string[] { "" });
@@ -304,7 +312,10 @@ namespace Formatters.Tests
 
 
             //Assert        
-            Assert.AreEqual("bla bla bla {|  \n|+  \n! UPDAT !! RUNTIME !! REASON \n|-  \n| 01-01-2010 00:00:00 || 01-01-2010 00:00:00 || dsadasdasd \n|} bla bla bla", retval);
+            AssertTable.VerifyTable(retval, null, null, "", new List<string>() { "UPDAT", "RUNTIME", "REASON" }, new Dictionary<int, List<string>>()
+            {
+                { 0, new List<string>() { "01-01-2010 00:00:00", "01-01-2010 00:00:00", "dsadasdasd" } }
+            }); 
             var args = host.GetArgumentsForCallsMadeOn(x => x.LogEntry("", LogEntryType.Error, "", null));
             int warnCount = 0;
             int errorCount = 0;
@@ -325,7 +336,7 @@ namespace Formatters.Tests
             //Host
             host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
             //                           Key ,Query ,Heading ,ColumnOrder ,Headers ,TdblFormat ,HeadFormat ,RowFormat
-            string input = "bla bla bla {QTable(MyLink,'select * from schedule',,'3,1,2','Head3,Head1,Head2',,,)} bla bla bla";
+            string input = "bla bla bla {QTable conn=MyLink query='select * from schedule' cols='updat,runtime,reason' colnames='Head3,Head1,Head2'} bla bla bla";
 
             //Dict page
             var context = new ContextInformation(false, false, FormattingContext.PageContent, null, "", HttpContext.Current, "", new string[] { "" });
@@ -336,7 +347,10 @@ namespace Formatters.Tests
 
 
             //Assert        
-            Assert.AreEqual("bla bla bla {|  \n|+  \n! Head3 !! Head1 !! Head2 \n|-  \n| 01-01-2010 00:00:00 || 01-01-2010 00:00:00 || dsadasdasd \n|} bla bla bla", retval);
+            AssertTable.VerifyTable(retval, null, null, "", new List<string>() { "Head3", "Head1", "Head2" }, new Dictionary<int, List<string>>()
+            {
+                { 0, new List<string>() { "01-01-2010 00:00:00", "01-01-2010 00:00:00", "dsadasdasd" } }
+            }); 
             var args = host.GetArgumentsForCallsMadeOn(x => x.LogEntry("", LogEntryType.Error, "", null));
             int warnCount = 0;
             int errorCount = 0;
@@ -357,7 +371,7 @@ namespace Formatters.Tests
             //Host
             host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
             //                           Key ,Query ,Heading ,ColumnOrder ,Headers ,TdblFormat ,HeadFormat ,RowFormat
-            string input = "bla bla bla {QTable(MyLink,'select * from schedule',,'3,1,2','Head3,Head1',,,)} bla bla bla";
+            string input = "bla bla bla {QTable conn=MyLink query='select * from schedule' cols='updat,runtime,reason' colnames='Head3,Head1'} bla bla bla";
 
             //Dict page
             var context = new ContextInformation(false, false, FormattingContext.PageContent, null, "", HttpContext.Current, "", new string[] { "" });
@@ -368,7 +382,10 @@ namespace Formatters.Tests
 
 
             //Assert        
-            Assert.AreEqual("bla bla bla {|  \n|+  \n! Head3 !! Head1 !! REASON \n|-  \n| 01-01-2010 00:00:00 || 01-01-2010 00:00:00 || dsadasdasd \n|} bla bla bla", retval);
+            AssertTable.VerifyTable(retval, null, null, "", new List<string>() { "Head3", "Head1", "REASON" }, new Dictionary<int, List<string>>()
+            {
+                { 0, new List<string>() { "01-01-2010 00:00:00", "01-01-2010 00:00:00", "dsadasdasd" } }
+            }); 
             var args = host.GetArgumentsForCallsMadeOn(x => x.LogEntry("", LogEntryType.Error, "", null));
             int warnCount = 0;
             int errorCount = 0;
@@ -390,7 +407,7 @@ namespace Formatters.Tests
             //Host
             host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
             //                           Key ,Query ,Heading ,ColumnOrder ,Headers ,TdblFormat ,HeadFormat ,RowFormat
-            string input = "bla bla bla {QTable(MyLink,'select * from schedule',,'3,1,2,4,5,6','Head3,Head1',,,)} bla bla bla";
+            string input = "bla bla bla {QTable conn=MyLink query='select * from schedule' cols='updat,runtime,reason,h1,h2,h3' colnames='Head3,Head1'} bla bla bla";
 
             //Dict page
             var context = new ContextInformation(false, false, FormattingContext.PageContent, null, "", HttpContext.Current, "", new string[] { "" });
@@ -401,7 +418,10 @@ namespace Formatters.Tests
 
 
             //Assert        
-            Assert.AreEqual("bla bla bla {|  \n|+  \n! Head3 !! Head1 !! REASON !! ?Missing Header? !! ?Missing Header? !! ?Missing Header? \n|-  \n| 01-01-2010 00:00:00 || 01-01-2010 00:00:00 || dsadasdasd \n|} bla bla bla", retval);
+            AssertTable.VerifyTable(retval, null, null, "", new List<string>() { "Head3", "Head1", "REASON" }, new Dictionary<int, List<string>>()
+            {
+                { 0, new List<string>() { "01-01-2010 00:00:00", "01-01-2010 00:00:00", "dsadasdasd" } }
+            }); 
             var args = host.GetArgumentsForCallsMadeOn(x => x.LogEntry("", LogEntryType.Error, "", null));
             int warnCount = 0;
             int errorCount = 0;
@@ -423,7 +443,7 @@ namespace Formatters.Tests
             host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
 
             //                           Key ,Query ,Heading ,ColumnOrder ,Headers ,TdblFormat ,HeadFormat ,RowFormat
-            string input = "bla bla bla {QTable(MyLink,'select * from schedule','My Heading',,,,,)} bla bla bla";
+            string input = "bla bla bla {QTable conn=MyLink query='select * from schedule' head='My Heading'} bla bla bla";
 
             //Dict page
             var context = new ContextInformation(false, false, FormattingContext.PageContent, null, "", HttpContext.Current, "", new string[] { "" });
@@ -434,7 +454,10 @@ namespace Formatters.Tests
 
 
             //Assert       
-            Assert.AreEqual("bla bla bla {|  \n|+ My Heading \n! ID !! RUNTIME !! REASON !! UPDAT \n|-  \n| 1 || 01-01-2010 00:00:00 || dsadasdasd || 01-01-2010 00:00:00 \n|} bla bla bla", retval);
+            AssertTable.VerifyTable(retval, null, "My Heading", "", new List<string>() { "ID", "RUNTIME", "REASON", "UPDAT" }, new Dictionary<int, List<string>>()
+            {
+                { 0, new List<string>() { "1", "01-01-2010 00:00:00", "dsadasdasd", "01-01-2010 00:00:00"  } }
+            }); 
             var args = host.GetArgumentsForCallsMadeOn(x => x.LogEntry("", LogEntryType.Error, "", null));
             int warnCount = 0;
             int errorCount = 0;
@@ -456,7 +479,7 @@ namespace Formatters.Tests
             host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
 
             //                           Key ,Query ,Heading ,ColumnOrder ,Headers ,TdblFormat ,HeadFormat ,RowFormat
-            string input = "bla bla bla {QTable(MyLink,'select * from schedule',,,,'My Table Format',,)} bla bla bla";
+            string input = "bla bla bla {QTable conn=MyLink query='select * from schedule' style=bg} bla bla bla";
 
             //Dict page
             var context = new ContextInformation(false, false, FormattingContext.PageContent, null, "", HttpContext.Current, "", new string[] { "" });
@@ -467,7 +490,10 @@ namespace Formatters.Tests
 
 
             //Assert        
-            Assert.AreEqual("bla bla bla {| My Table Format \n|+  \n! ID !! RUNTIME !! REASON !! UPDAT \n|-  \n| 1 || 01-01-2010 00:00:00 || dsadasdasd || 01-01-2010 00:00:00 \n|} bla bla bla", retval);
+            AssertTable.VerifyTable(retval, "bg", null, "", new List<string>() { "ID", "RUNTIME", "REASON", "UPDAT" }, new Dictionary<int, List<string>>()
+            {
+                { 0, new List<string>() { "1", "01-01-2010 00:00:00", "dsadasdasd", "01-01-2010 00:00:00"  } }
+            }); 
             var args = host.GetArgumentsForCallsMadeOn(x => x.LogEntry("", LogEntryType.Error, "", null));
             int warnCount = 0;
             int errorCount = 0;
@@ -489,7 +515,7 @@ namespace Formatters.Tests
             host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
 
             //                           Key ,Query ,Heading ,ColumnOrder ,Headers ,TdblFormat ,HeadFormat ,RowFormat
-            string input = "bla bla bla {QTable(MyLink,'select * from schedule',,,'MyHead1,MyHead2,MyHead3,MyHead4',,,)} bla bla bla";
+            string input = "bla bla bla {QTable conn=MyLink query='select * from schedule' colnames='MyHead1,MyHead2,MyHead3,MyHead4'} bla bla bla";
 
             //Dict page
             var context = new ContextInformation(false, false, FormattingContext.PageContent, null, "", HttpContext.Current, "", new string[] { "" });
@@ -500,7 +526,10 @@ namespace Formatters.Tests
 
 
             //Assert        
-            Assert.AreEqual("bla bla bla {|  \n|+  \n! MyHead1 !! MyHead2 !! MyHead3 !! MyHead4 \n|-  \n| 1 || 01-01-2010 00:00:00 || dsadasdasd || 01-01-2010 00:00:00 \n|} bla bla bla", retval);
+            AssertTable.VerifyTable(retval, null, null, "", new List<string>() { "MyHead1", "MyHead2", "MyHead3", "MyHead4" }, new Dictionary<int, List<string>>()
+            {
+                { 0, new List<string>() { "1", "01-01-2010 00:00:00", "dsadasdasd", "01-01-2010 00:00:00"  } }
+            }); 
             var args = host.GetArgumentsForCallsMadeOn(x => x.LogEntry("", LogEntryType.Error, "", null));
             int warnCount = 0;
             int errorCount = 0;
@@ -522,7 +551,7 @@ namespace Formatters.Tests
             host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
 
             //                           Key ,Query ,Heading ,ColumnOrder ,Headers ,TdblFormat ,HeadFormat ,RowFormat
-            string input = "bla bla bla {QTable(MyLink,'select * from schedule',,,'MyHead1,MyHead2,MyHead3',,,)} bla bla bla";
+            string input = "bla bla bla {QTable conn=MyLink query='select * from schedule' colnames='MyHead1,MyHead2,MyHead3'} bla bla bla";
 
             //Dict page
             var context = new ContextInformation(false, false, FormattingContext.PageContent, null, "", HttpContext.Current, "", new string[] { "" });
@@ -533,7 +562,10 @@ namespace Formatters.Tests
 
 
             //Assert        
-            Assert.AreEqual("bla bla bla {|  \n|+  \n! MyHead1 !! MyHead2 !! MyHead3 !! UPDAT \n|-  \n| 1 || 01-01-2010 00:00:00 || dsadasdasd || 01-01-2010 00:00:00 \n|} bla bla bla", retval);
+            AssertTable.VerifyTable(retval, null, null, "", new List<string>() { "MyHead1", "MyHead2", "MyHead3", "UPDAT" }, new Dictionary<int, List<string>>()
+            {
+                { 0, new List<string>() { "1", "01-01-2010 00:00:00", "dsadasdasd", "01-01-2010 00:00:00"  } }
+            }); 
             var args = host.GetArgumentsForCallsMadeOn(x => x.LogEntry("", LogEntryType.Error, "", null));
             int warnCount = 0;
             int errorCount = 0;
@@ -545,7 +577,7 @@ namespace Formatters.Tests
         }
 
         [Test]
-        public void Query_Pass_Format_TableRowFormat([Values(Oralce, MsSql, MySql, SqLite)] string _connectionString)
+        public void Query_Pass_Format_Footer([Values(Oralce, MsSql, MySql, SqLite)] string _connectionString)
         {
             //Arrange
             var host = GenerateMockedHost();
@@ -555,7 +587,7 @@ namespace Formatters.Tests
             host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
 
             //                           Key ,Query ,Heading ,ColumnOrder ,Headers ,TdblFormat ,HeadFormat ,RowFormat
-            string input = "bla bla bla {QTable(MyLink,'select * from schedule',,,,,,'My Row Format')} bla bla bla";
+            string input = "bla bla bla {QTable conn=MyLink query='select * from schedule' foot='My Foot'} bla bla bla";
 
             //Dict page
             var context = new ContextInformation(false, false, FormattingContext.PageContent, null, "", HttpContext.Current, "", new string[] { "" });
@@ -566,7 +598,10 @@ namespace Formatters.Tests
 
 
             //Assert  
-            Assert.AreEqual("bla bla bla {|  \n|+  \n! ID !! RUNTIME !! REASON !! UPDAT \n|- My Row Format \n| 1 || 01-01-2010 00:00:00 || dsadasdasd || 01-01-2010 00:00:00 \n|} bla bla bla", retval);
+            AssertTable.VerifyTable(retval, null, null, "My Foot", new List<string>() { "ID", "RUNTIME", "REASON", "UPDAT" }, new Dictionary<int, List<string>>()
+            {
+                { 0, new List<string>() { "1", "01-01-2010 00:00:00", "dsadasdasd", "01-01-2010 00:00:00"  } }
+            }); 
             var args = host.GetArgumentsForCallsMadeOn(x => x.LogEntry("", LogEntryType.Error, "", null));
             int warnCount = 0;
             int errorCount = 0;
@@ -587,7 +622,7 @@ namespace Formatters.Tests
             //Host
             host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
                                             //  Key   ,Query                      ,Heading ,ColumnOrder,Headers            ,TdblFormat     ,HeadFormat    ,RowFormat
-            string input = "bla bla bla {QTable(MyLink,'select * from schedule','My Table','1,2,3','MyHead1,MyHead2,MyHead3','My Table format','My Head Format','My Row Format')} bla bla bla";
+            string input = "bla bla bla {QTable conn=MyLink query='select * from schedule' head='My Table' foot='My Foot' cols='runtime,reason,updat' colnames='MyHead1,MyHead2,MyHead3' style='style'} bla bla bla";
 
             //Dict page
             var context = new ContextInformation(false, false, FormattingContext.PageContent, null, "", HttpContext.Current, "", new string[] { "" });
@@ -598,7 +633,10 @@ namespace Formatters.Tests
 
 
             //Assert       
-            Assert.AreEqual("bla bla bla {| My Table format \n|+ My Table \n|- My Head Format \n| MyHead1 || MyHead2 || MyHead3 \n|- My Row Format \n| 01-01-2010 00:00:00 || dsadasdasd || 01-01-2010 00:00:00 \n|} bla bla bla", retval);
+            AssertTable.VerifyTable(retval, "style", "My Table", "My Foot", new List<string>() { "MyHead1", "MyHead2", "MyHead3" }, new Dictionary<int, List<string>>()
+            {
+                { 0, new List<string>() {  "01-01-2010 00:00:00", "dsadasdasd", "01-01-2010 00:00:00"  } }
+            }); 
             var args = host.GetArgumentsForCallsMadeOn(x => x.LogEntry("", LogEntryType.Error, "", null));
             int warnCount = 0;
             int errorCount = 0;
@@ -620,7 +658,7 @@ namespace Formatters.Tests
             host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
 
             //                           Key ,Query ,Heading ,ColumnOrder ,Headers ,TdblFormat ,HeadFormat ,RowFormat
-            string input = "bla bla bla {QTable(MyLink,'select * from schedule','My Table','1,2,3','MyHead1,MyHead2,MyHead3','My Table format','My Head Format','My Row Format')} bla bla bla {QTable(MyLink,'select * from schedule','My Table2','1,2,3','MyHead1,MyHead2,MyHead3','My Table format2','My Head Format2','My Row Format2')}";
+            string input = "bla bla bla {QTable conn=MyLink query='select * from schedule' head='My Table 1' foot='My Foot 1' cols='runtime,reason,updat' colnames='MyHead1,MyHead2,MyHead3' style='My Style'} bla bla bla {QTable conn=MyLink query='select * from schedule' head='My Table 2' foot='My Foot 2' cols='runtime,reason,updat' colnames='MyHead1,MyHead2,MyHead3' style='My Style 2'}";
 
             //Dict page
             var context = new ContextInformation(false, false, FormattingContext.PageContent, null, "", HttpContext.Current, "", new string[] { "" });
@@ -631,7 +669,16 @@ namespace Formatters.Tests
 
 
             //Assert        
-            Assert.AreEqual("bla bla bla {| My Table format \n|+ My Table \n|- My Head Format \n| MyHead1 || MyHead2 || MyHead3 \n|- My Row Format \n| 01-01-2010 00:00:00 || dsadasdasd || 01-01-2010 00:00:00 \n|} bla bla bla {| My Table format2 \n|+ My Table2 \n|- My Head Format2 \n| MyHead1 || MyHead2 || MyHead3 \n|- My Row Format2 \n| 01-01-2010 00:00:00 || dsadasdasd || 01-01-2010 00:00:00 \n|}", retval);
+            AssertTable.VerifyTable(retval, "My Style", "My Table 1", "My Foot 1", new List<string>() { "MyHead1", "MyHead2", "MyHead3" }, new Dictionary<int, List<string>>()
+            {
+                { 0, new List<string>() { "01-01-2010 00:00:00", "dsadasdasd", "01-01-2010 00:00:00"  } }
+            });
+
+            AssertTable.VerifyTable(retval, "My Style 2", "My Table 2", "My Foot 2", new List<string>() { "MyHead1", "MyHead2", "MyHead3" }, new Dictionary<int, List<string>>()
+            {
+                { 0, new List<string>() { "01-01-2010 00:00:00", "dsadasdasd", "01-01-2010 00:00:00"  } }
+            });
+
             var args = host.GetArgumentsForCallsMadeOn(x => x.LogEntry("", LogEntryType.Error, "", null));
             int warnCount = 0;
             int errorCount = 0;
@@ -642,7 +689,7 @@ namespace Formatters.Tests
             Assert.AreEqual(1, generalCount);
         }
 
-        [Test]
+  /*      [Test]
         public void Query_Pass_Format_Style_BlackWhite([Values(Oralce, MsSql, MySql, SqLite)] string _connectionString)
         {
             //Arrange
@@ -653,7 +700,7 @@ namespace Formatters.Tests
             host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
 
             //                           Key ,Query ,Heading ,ColumnOrder ,Headers ,TdblFormat ,HeadFormat ,RowFormat
-            string input = "bla bla bla {QTable(MyLink,'select * from schedule',,,,'bw','bw','bw')} bla bla bla";
+            string input = "bla bla bla {QTable conn=MyLink query='select * from schedule',,,,'bw','bw','bw')} bla bla bla";
 
             //Dict page
             var context = new ContextInformation(false, false, FormattingContext.PageContent, null, "", HttpContext.Current, "", new string[] { "" });
@@ -686,7 +733,7 @@ namespace Formatters.Tests
             host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
 
             //                           Key ,Query ,Heading ,ColumnOrder ,Headers ,TdblFormat ,HeadFormat ,RowFormat
-            string input = "bla bla bla {QTable(MyLink,'select * from schedule',,,,'bg','bg','bg')} bla bla bla";
+            string input = "bla bla bla {QTable conn=MyLink query='select * from schedule',,,,'bg','bg','bg')} bla bla bla";
 
             //Dict page
             var context = new ContextInformation(false, false, FormattingContext.PageContent, null, "", HttpContext.Current, "", new string[] { "" });
@@ -719,7 +766,7 @@ namespace Formatters.Tests
             host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
 
             //                           Key ,Query ,Heading ,ColumnOrder ,Headers ,TdblFormat ,HeadFormat ,RowFormat
-            string input = "bla bla bla {QTable(MyLink,'select * from schedule',,,,'gb','gb','gb')} bla bla bla";
+            string input = "bla bla bla {QTable conn=MyLink query='select * from schedule',,,,'gb','gb','gb')} bla bla bla";
 
             //Dict page
             var context = new ContextInformation(false, false, FormattingContext.PageContent, null, "", HttpContext.Current, "", new string[] { "" });
@@ -752,7 +799,7 @@ namespace Formatters.Tests
             host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
 
             //                           Key ,Query ,Heading ,ColumnOrder ,Headers ,TdblFormat ,HeadFormat ,RowFormat
-            string input = "bla bla bla {QTable(MyLink,'select * from schedule',,,,'border=\"0\" cellpadding=\"2\" cellspacing=\"1\" align=\"center\" style=\"background-color: #EEEEEE;\"',,)} bla bla bla";
+            string input = "bla bla bla {QTable conn=MyLink query='select * from schedule',,,,'border=\"0\" cellpadding=\"2\" cellspacing=\"1\" align=\"center\" style=\"background-color: #EEEEEE;\"',,)} bla bla bla";
 
             //Dict page
             var context = new ContextInformation(false, false, FormattingContext.PageContent, null, "", HttpContext.Current, "", new string[] { "" });
@@ -785,7 +832,7 @@ namespace Formatters.Tests
             host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
 
             //                           Key ,Query ,Heading ,ColumnOrder ,Headers ,TdblFormat ,HeadFormat ,RowFormat
-            string input = "bla bla bla {QTable(MyLink,'select * from schedule',,,,,'border=\"0\" cellpadding=\"2\" cellspacing=\"1\" align=\"center\" style=\"background-color: #EEEEEE;\"',)} bla bla bla";
+            string input = "bla bla bla {QTable conn=MyLink query='select * from schedule',,,,,'border=\"0\" cellpadding=\"2\" cellspacing=\"1\" align=\"center\" style=\"background-color: #EEEEEE;\"',)} bla bla bla";
 
             //Dict page
             var context = new ContextInformation(false, false, FormattingContext.PageContent, null, "", HttpContext.Current, "", new string[] { "" });
@@ -818,7 +865,7 @@ namespace Formatters.Tests
             host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
 
             //                           Key ,Query ,Heading ,ColumnOrder ,Headers ,TdblFormat ,HeadFormat ,RowFormat
-            string input = "bla bla bla {QTable(MyLink,'select * from schedule',,,,,,'border=\"0\" cellpadding=\"2\" cellspacing=\"1\" align=\"center\" style=\"background-color: #EEEEEE;\"')} bla bla bla";
+            string input = "bla bla bla {QTable conn=MyLink query='select * from schedule',,,,,,'border=\"0\" cellpadding=\"2\" cellspacing=\"1\" align=\"center\" style=\"background-color: #EEEEEE;\"')} bla bla bla";
 
             //Dict page
             var context = new ContextInformation(false, false, FormattingContext.PageContent, null, "", HttpContext.Current, "", new string[] { "" });
@@ -838,7 +885,7 @@ namespace Formatters.Tests
             Assert.AreEqual(0, warnCount);
             Assert.AreEqual(0, errorCount);
             Assert.AreEqual(1, generalCount);
-        }
+        }*/
 
         #endregion
     }

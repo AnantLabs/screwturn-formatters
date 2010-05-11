@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using Keeper.Garrett.ScrewTurn.Core;
 using Keeper.Garrett.ScrewTurn.QueryTableFormatter.Database;
 using System.Reflection;
+using Keeper.Garrett.ScrewTurn.Utility;
 
 namespace Keeper.Garrett.ScrewTurn.QueryTableFormatter
 {
@@ -16,11 +17,15 @@ namespace Keeper.Garrett.ScrewTurn.QueryTableFormatter
         public override bool PerformPhase3 { get { return false; } }
                                                                 
         private static readonly Regex ConfigRegex = new Regex(@"\{(?<dblink>(.*?))=(?<dbtype>(.*?)),(?<connstr>(.*?))\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
+        private static Dictionary<string, DatabaseConfiguration> m_Connections = new Dictionary<string, DatabaseConfiguration>();
+
+        private string m_DateTimeFormat = "";
+
+        private static readonly Regex TagRegex = new Regex(@"\{QTable(?<arguments>(.*?))\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
 
         // Key#Query#Heading#ColumnOrder#Headers#TdblFormat#HeadFormat#RowFormat
-        private static readonly Regex TagRegex = new Regex(@"\{QTable\((?<key>(.*?)),('(?<query>(.*?))')?,('(?<heading>(.*?))')?,('(?<columns>(.*?))')?,('(?<headers>(.*?))')?,('(?<tblFormat>(.*?))')?,('(?<headFormat>(.*?))')?,('(?<rowFormat>(.*?))')?\)\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
+//        private static readonly Regex TagRegex = new Regex(@"\{QTable\((?<key>(.*?)),('(?<query>(.*?))')?,('(?<heading>(.*?))')?,('(?<columns>(.*?))')?,('(?<headers>(.*?))')?,('(?<tblFormat>(.*?))')?,('(?<headFormat>(.*?))')?,('(?<rowFormat>(.*?))')?\)\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
 
-        private static Dictionary<string, DatabaseConfiguration> m_Connections = new Dictionary<string, DatabaseConfiguration>();
 
         public override void Init(IHostV30 _host, string _config)
         {
@@ -183,48 +188,21 @@ namespace Keeper.Garrett.ScrewTurn.QueryTableFormatter
                                 //Foreach query
                                 foreach (Match match in matches)
                                 {
-                                    var dbKey = match.Groups["key"].Value;
-                                    var query = match.Groups["query"].Value;
+                                    //Get arguments
+                                    var args = new ArgumentParser().Parse(match.Groups["arguments"].Value);
 
-                                    #region Formatting of table
+                                    var dbKey = (args.ContainsKey("conn") == true ? args["conn"] : "");
+                                    var query = (args.ContainsKey("query") == true ? args["query"] : "");
 
-                                    var columns = new List<int>();
-                                    var headers = new List<string>();
+                                    //Formatting and style
+                                    var head = (args.ContainsKey("head") == true ? args["head"] : "");
+                                    var foot = (args.ContainsKey("foot") == true ? args["foot"] : "");
+                                    var style = (args.ContainsKey("style") == true ? args["style"] : "");
 
-
-                                    //Parse columns to show
-                                    if (string.IsNullOrEmpty(match.Groups["columns"].Value) == false)
-                                    {
-                                        var tmpColumns = match.Groups["columns"].Value.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                                        foreach (var str in tmpColumns)
-                                        {
-                                            int columnIndex;
-                                            if (int.TryParse(str, out columnIndex) == true)
-                                            {
-                                                columns.Add(columnIndex);
-                                            }
-                                        }
-                                    }
-
-
-                                    //Parse custom headers to show
-                                    if (string.IsNullOrEmpty(match.Groups["headers"].Value) == false)
-                                    {
-                                        var tmpColumns = match.Groups["headers"].Value.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                                        foreach (var str in tmpColumns)
-                                        {
-                                            headers.Add(str);
-                                        }
-                                    }
-
-
-                                    //Setup table formatting, default to system/wiki theme if no override present
-                                    var heading =   (string.IsNullOrEmpty(match.Groups["heading"].Value) == false       ? match.Groups["heading"].Value.Trim() : "");
-                                    var tblFormat = (string.IsNullOrEmpty(match.Groups["tblFormat"].Value) == false     ? match.Groups["tblFormat"].Value.Trim() : "");
-                                    var headFormat =(string.IsNullOrEmpty(match.Groups["headFormat"].Value) == false    ? match.Groups["headFormat"].Value.Trim() : "");
-                                    var rowFormat = (string.IsNullOrEmpty(match.Groups["rowFormat"].Value) == false     ? match.Groups["rowFormat"].Value.Trim() : "");
-
-                                    #endregion
+                                    var cols = (args.ContainsKey("cols") == true ? args["cols"] : "");
+                                    var colnames = (args.ContainsKey("colnames") == true ? args["colnames"] : "");
+                                    var newCols = new List<int>();
+                                    var newColNames = new List<string>();
 
                                     //Prepare resulting table
                                     var resultTable = string.Format("No DBLinkKey found for {0}", dbKey);
@@ -234,17 +212,30 @@ namespace Keeper.Garrett.ScrewTurn.QueryTableFormatter
                                         var actualHeaders = new List<string>();
 
                                         //Perform query
-                                        var result = PerformQuery(dbKey, query, ref actualHeaders);
+                                        var result = PerformQuery(dbKey, query, ref actualHeaders, ref resultTable);
 
-                                        //Generate table
-                                        resultTable = Utility.TableGenerator.GenerateTable(result, 
-                                                                    heading,
-                                                                    columns,
-                                                                    headers,
-                                                                    actualHeaders,
-                                                                    tblFormat,
-                                                                    headFormat,
-                                                                    rowFormat);
+                                        if (result.Count > 0)
+                                        {
+                                            //Generate col data
+                                            var colKeys = new Dictionary<string, int>();
+                                            string defaultColNames = "";
+                                            for(int i = 0; i < actualHeaders.Count; i++)
+                                            {
+                                                colKeys.Add(actualHeaders[i].ToLower(), i);
+                                                defaultColNames = string.Format("{0},{1}", defaultColNames, actualHeaders[i]);
+                                            }
+                                            defaultColNames = defaultColNames.Substring(1);
+                                            XHtmlTableGenerator.GenerateColumnsAndColumnNames(colKeys, actualHeaders, defaultColNames, cols, colnames, out newCols, out newColNames);
+
+                                            //Generate table
+                                            resultTable = Utility.XHtmlTableGenerator.GenerateTable(result,
+                                                                        head,
+                                                                        foot,
+                                                                        newCols,
+                                                                        newColNames,
+                                                                        actualHeaders,
+                                                                        style);
+                                        }
                                     }
 
                                     //Insert table
@@ -273,7 +264,7 @@ namespace Keeper.Garrett.ScrewTurn.QueryTableFormatter
             return raw;
         }
 
-        private Dictionary<int,List<string>> PerformQuery(string _key, string _query, ref List<string> _actualHeaders)
+        private Dictionary<int,List<string>> PerformQuery(string _key, string _query, ref List<string> _actualHeaders, ref string _error)
         {
             var retval = new Dictionary<int, List<string>>();
 
@@ -292,17 +283,17 @@ namespace Keeper.Garrett.ScrewTurn.QueryTableFormatter
                 //No results?
                 if(retval.Count <= 0)
                 {
-                    retval.Add(int.MinValue, new List<string>() { string.Format("align=\"center\" colspan=\"{0}\" | <h2>Query revealed no results, table/view is empty.</h2>", _actualHeaders.Count) });
+                    _error = "(((<h2>Query revealed no results, table/view is empty.</h2>)))";
                 }
 
                 connection.Disconnet();
             }
             catch (Exception e)
             {
-                retval.Add(int.MinValue + 1, new List<string>() { string.Format("Error connection to DB or Querying.\r\nDBLinkKey: {0}\r\nQuery: {1}\r\nMessage: {2}", _key, _query, e.Message) });
+                _error = string.Format("(((Error connection to DB or Querying.\r\nDBLinkKey: {0}\r\nQuery: {1}\r\nMessage: {2})))", _key, _query, e.Message);
 
                 //Stacktrace ONLY to log
-                LogEntry(string.Format("QueryTableFormatter error: {0}\r\nStackTrace: {1}", retval[int.MinValue + 1][0], e.StackTrace), LogEntryType.Error);
+                LogEntry(string.Format("QueryTableFormatter error: {0}\r\nStackTrace: {1}", _error, e.StackTrace), LogEntryType.Error);
             }
 
             return retval;

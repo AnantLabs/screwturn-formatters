@@ -12,8 +12,6 @@ namespace Keeper.Garrett.ScrewTurn.Utility
         {
             string retval = null;
 
-            CheckForWarning(ref _result);
-
             if (_columnsToShow.Count <= 0 && _actualHeaders.Count <= 0)
             {
                 _actualHeaders.Add("Result");
@@ -71,34 +69,6 @@ namespace Keeper.Garrett.ScrewTurn.Utility
             }
 
             return retval;
-        }
-
-        private static void CheckForWarning(ref Dictionary<int, List<string>> _result)
-        {
-            var listToInsert = new List<string>();
-
-            if (_result.ContainsKey(int.MinValue) == true)
-            {
-                listToInsert = _result[int.MinValue];
-                _result.Remove(int.MinValue);
-            }
-
-            if (_result.ContainsKey(int.MinValue + 1) == true)
-            {
-                listToInsert = _result[int.MinValue + 1];
-                _result.Remove(int.MinValue + 1);
-            }
-
-            if (_result.ContainsKey(int.MinValue + 2) == true)
-            {
-                listToInsert = _result[int.MinValue + 2];
-                _result.Remove(int.MinValue + 2);
-            }
-
-            if (listToInsert.Count > 0)
-            {
-                _result.Add(_result.Count, listToInsert);
-            }
         }
 
         private static string GenerateTableHeaders(List<int> _columnsToShow, List<string> _customHeaders, List<string> _actualHeaders, string _heading, string _footer)

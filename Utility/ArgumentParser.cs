@@ -17,7 +17,7 @@ namespace Keeper.Garrett.ScrewTurn.Utility
         ///     ('(?<value>(.*?))') - Value must start with ' and end with '
         ///     (?<value>(.*?))(\s|$) - Value ends with whitespace,/n,/r,/t OR $ endofline
         /// </summary>
-        private static readonly Regex m_ArgumentRegex = new Regex(@"(\s)?(/)?(?<key>(\w+))=(('(?<value>(.*?))')|(?<value>(.*?))(\s|$))", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
+        private static readonly Regex m_ArgumentRegex = new Regex(@"(\s)?(/)?(?<key>(\w+))=(('(?<value>(.*?))'(\s|$))|(?<value>(.*?))(\s|$))", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
 
         public Dictionary<string, string> Parse(string _line)
         {

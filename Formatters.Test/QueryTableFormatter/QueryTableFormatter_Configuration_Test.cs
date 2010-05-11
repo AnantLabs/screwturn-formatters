@@ -79,7 +79,7 @@ namespace Formatters.Tests
             //Host
             host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
 
-            string input = "bla bla bla {QTable(DBLink,'select * from schedule',,,,,,)} bla bla bla";
+            string input = "bla bla bla {QTable conn=DBLink query='select * from schedule'} bla bla bla";
 
             //Dict page
             var context = new ContextInformation(false, false, FormattingContext.PageContent, null, "", HttpContext.Current, "", new string[] { "" });
@@ -102,7 +102,7 @@ namespace Formatters.Tests
             //Host
             host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
 
-            string input = "bla bla bla {QTable(BADLink,'select * from schedule',,,,,,)} bla bla bla";
+            string input = "bla bla bla {QTable conn=BADLink query='select * from schedule'} bla bla bla";
 
             //Dict page
             var context = new ContextInformation(false, false, FormattingContext.PageContent, null, "", HttpContext.Current, "", new string[] { "" });
@@ -125,7 +125,7 @@ namespace Formatters.Tests
             //Host
             host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
 
-            string input = "bla bla bla {QTable(BADLink,'select * from schedule',,,,,,)} bla bla bla";
+            string input = "bla bla bla {QTable conn=BADLink query='select * from schedule'} bla bla bla";
 
             //Dict page
             var context = new ContextInformation(false, false, FormattingContext.PageContent, null, "", HttpContext.Current, "", new string[] { "" });
@@ -200,7 +200,7 @@ namespace Formatters.Tests
             //Host
             host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
 
-            string input = "bla bla bla {QTable(BADLink,'select * from schedule',,,,,,)} bla bla bla";
+            string input = "bla bla bla {QTable conn=BADLink query='select * from schedule'} bla bla bla";
 
             //Dict page
             var context = new ContextInformation(false, false, FormattingContext.PageContent, null, "", HttpContext.Current, "", new string[] { "" });
@@ -232,7 +232,7 @@ namespace Formatters.Tests
             //Host
             host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
 
-            string input = "bla bla bla {QTable(BADLink,'select * from schedule',,,,,,)} bla bla bla";
+            string input = "bla bla bla {QTable conn=BADLink query='select * from schedule'} bla bla bla";
 
             //Dict page
             var context = new ContextInformation(false, false, FormattingContext.PageContent, null, "", HttpContext.Current, "", new string[] { "" });
@@ -263,7 +263,7 @@ namespace Formatters.Tests
             //Host
             host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
 
-            string input = "bla bla bla {QTable(BADLink,'select * from schedule',,,,,,)} bla bla bla";
+            string input = "bla bla bla {QTable conn=BADLink query='select * from schedule'} bla bla bla";
 
             //Dict page
             var context = new ContextInformation(false, false, FormattingContext.PageContent, null, "", HttpContext.Current, "", new string[] { "" });
@@ -294,7 +294,7 @@ namespace Formatters.Tests
             //Host
             host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
 
-            string input = "bla bla bla {QTable(BADLink,'select * from schedule',,,,,,)} bla bla bla";
+            string input = "bla bla bla {QTable conn=BADLink query='select * from schedule'} bla bla bla";
 
             //Dict page
             var context = new ContextInformation(false, false, FormattingContext.PageContent, null, "", HttpContext.Current, "", new string[] { "" });

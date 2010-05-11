@@ -116,11 +116,11 @@ namespace Keeper.Garrett.ScrewTurn.EventLogFormatter
 
                                     m_DateTimeFormat = m_Host.GetSettingValue(SettingName.DateTimeFormat); //Update datetime format
 
-                                    //Fetch logs
-                                    var logRows = GetEventLogEntries(machine, logname, filter, newCols, results);
-
                                     //Prepare resulting table
-                                    var resultTable = string.Format("No logs found for {0}: {1}, Filter: {2}", machine,logname,filter);
+                                    var resultTable = string.Format("No logs found for {0}: {1}, Filter: {2}", machine, logname, filter);
+
+                                    //Fetch logs
+                                    var logRows = GetEventLogEntries(machine, logname, filter, newCols, results, ref resultTable);
 
                                     if (logRows.Count > 0)
                                     {
@@ -160,7 +160,7 @@ namespace Keeper.Garrett.ScrewTurn.EventLogFormatter
             return raw;
         }
 
-        private Dictionary<int, List<string>> GetEventLogEntries(string _machine, string _logName, string _filter, List<int> _columns, int results )
+        private Dictionary<int, List<string>> GetEventLogEntries(string _machine, string _logName, string _filter, List<int> _columns, int results, ref string _error )
         {
             var retval = new Dictionary<int, List<string>>();
 
@@ -214,20 +214,18 @@ namespace Keeper.Garrett.ScrewTurn.EventLogFormatter
                 //No results?
                 if (retval.Count <= 0)
                 {
-                    retval.Add(int.MinValue, new List<string>() { string.Format("align=\"center\" colspan=\"{0}\" | <h2>No logs found for {0}: {1}, Filter: {2}</h2>",
-                        (_columns.Count > 0 ? _columns.Count : 10),
+                    _error = string.Format("(((<h2>No logs found for {0}: {1}, Filter: {2}</h2>)))",
                         _machine,
                         _logName,
-                        _filter ) 
-                    });
+                        _filter );
                 }
             }
             catch (Exception e)
             {
-                retval.Add(int.MinValue + 1, new List<string>() { string.Format("Error connection to {0}: {1}, Filter: {2}\r\nMessage: {3}", _machine, _logName, _filter, e.Message) });
+                _error = string.Format("(((Error connection to {0}: {1}, Filter: {2}\r\nMessage: {3})))", _machine, _logName, _filter, e.Message);
 
                 //Stacktrace ONLY to log
-                LogEntry(string.Format("EventLogFormatter error: {0}\r\nStackTrace: {1}", retval[int.MinValue + 1][0], e.StackTrace), LogEntryType.Error);
+                LogEntry(string.Format("EventLogFormatter error: {0}\r\nStackTrace: {1}", _error, e.StackTrace), LogEntryType.Error);
             }
 
             return retval;

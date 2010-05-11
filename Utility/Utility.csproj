@@ -64,7 +64,6 @@
     <Compile Include="Avatar.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReverseDateComparer.cs" />
-    <Compile Include="TableGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
