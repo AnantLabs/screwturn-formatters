@@ -336,22 +336,27 @@ namespace Keeper.Garrett.ScrewTurn.EventLogFormatter
                             }
                             break;
                         case "source":
-                            if (_log.Source.ToString().ToLower().Trim() == entry.Value.ToLower().Trim()) matchCount++;
+                            if (  string.IsNullOrEmpty(_log.Source) == false 
+                                && _log.Source.ToString().ToLower().Trim() == entry.Value.ToLower().Trim()) matchCount++;
                             break;
                         case "category":
-                            if (_log.Category.ToString().ToLower().Trim() == entry.Value.ToLower().Trim()) matchCount++;
+                            if (string.IsNullOrEmpty(_log.Category) == false 
+                                && _log.Category.ToString().ToLower().Trim() == entry.Value.ToLower().Trim()) matchCount++;
                             break;
                         case "event":
                             if (_log.InstanceId.ToString().ToLower().Trim() == entry.Value.ToLower().Trim()) matchCount++;
                             break;
                         case "user":
-                            if (_log.UserName.ToString().ToLower().Trim() == entry.Value.ToLower().Trim()) matchCount++;
+                            if (string.IsNullOrEmpty(_log.UserName) == false
+                                && _log.UserName.ToString().ToLower().Trim() == entry.Value.ToLower().Trim()) matchCount++;
                             break;
                         case "computer":
-                            if (_log.MachineName.ToString().ToLower().Trim() == entry.Value.ToLower().Trim()) matchCount++;
+                            if (string.IsNullOrEmpty(_log.MachineName) == false
+                                && _log.MachineName.ToString().ToLower().Trim() == entry.Value.ToLower().Trim()) matchCount++;
                             break;
                         case "description":
-                            if (_log.Message.ToLower().Contains(entry.Value.ToLower().Trim()) == true) matchCount++;
+                            if (string.IsNullOrEmpty(_log.Message) == false
+                                && _log.Message.ToLower().Contains(entry.Value.ToLower().Trim()) == true) matchCount++;
                             break;
                     };
 

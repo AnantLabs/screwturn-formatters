@@ -243,7 +243,7 @@ namespace Keeper.Garrett.ScrewTurn.CategoryListFormatter
                 case 5://linkedpages
                     foreach (var link in _page.Content.LinkedPages)
                     {
-                        retval = string.Format("[{0}],{1}", retval, link);
+                        retval = string.Format("{0},[{1}]", retval, link);
                     }
                     if (retval.Length > 0 && retval[0] == ',')
                     {

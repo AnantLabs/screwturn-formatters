@@ -442,7 +442,10 @@ namespace Formatters.Tests
             var pageContent1 = MockRepository.GenerateStub<PageContent>(pageInfo1, "Page 1", "User", new DateTime(2010, 4, 27), "Comment 1", "Content 1", new string[] { "w1", "w2" }, "My Description 1");
             var pageContent2 = MockRepository.GenerateStub<PageContent>(pageInfo2, "Page 2", "User", new DateTime(2010, 4, 27), "Comment 2", "Content 2", new string[] { "w1", "w2" }, "My Description 2");
             var pageContent3 = MockRepository.GenerateStub<PageContent>(pageInfo3, "Page 3", "User", new DateTime(2010, 4, 27), "Comment 3", "Content 3", new string[] { "w1", "w2" }, "My Description 3");
-
+            pageContent1.LinkedPages = new string[] { "PageLink1" };
+            pageContent2.LinkedPages = new string[] { "PageLink1", "PageLink2" };
+            pageContent3.LinkedPages = new string[] { "PageLink2", "PageLink3" };
+            
             //Expect
             provider.Expect(x => x.GetCategory(null)).IgnoreArguments().Return(catInfo);
             catInfo.Pages = pages;
@@ -471,9 +474,9 @@ namespace Formatters.Tests
             AssertTable.VerifyTable(retval, "bw", "My Products", "", new List<string>() { "MyColHead", "Content", "Summary", "Keywords", "Last Modified", "Linked Pages", "Created", "Page name", "Last Modified By", "Created By" }, new Dictionary<int, List<string>>()
             {
                 //                       "Comment",  "Content",  "Summary",         "Keywords", "Last Modified",      "Linked Pages", "Created",            "Page name",        "Last Modified By",                 "Created By" };
-                {0, new List<string>() { "Comment 1","Content 1","My Description 1","w1,w2",    "27-04-2010 00:00:00","",             "27-04-1980 00:00:00","[MyPage1|Page 1]", "[User.aspx?Username=User|Garrett]","[User.aspx?Username=User|Garrett]" }},
-                {1, new List<string>() { "Comment 2","Content 2","My Description 2","w1,w2",    "27-04-2010 00:00:00","",             "27-04-1980 00:00:00","[MyPage2|Page 2]", "[User.aspx?Username=User|Garrett]","[User.aspx?Username=User|Garrett]" }},
-                {2, new List<string>() { "Comment 3","Content 3","My Description 3","w1,w2",    "27-04-2010 00:00:00","",             "27-04-1980 00:00:00","[MyPage3|Page 3]", "[User.aspx?Username=User|Garrett]","[User.aspx?Username=User|Garrett]" }},
+                {0, new List<string>() { "Comment 1","Content 1","My Description 1","w1,w2",    "27-04-2010 00:00:00","[PageLink1]",             "27-04-1980 00:00:00","[MyPage1|Page 1]", "[User.aspx?Username=User|Garrett]","[User.aspx?Username=User|Garrett]" }},
+                {1, new List<string>() { "Comment 2","Content 2","My Description 2","w1,w2",    "27-04-2010 00:00:00","[PageLink1],[PageLink2]",             "27-04-1980 00:00:00","[MyPage2|Page 2]", "[User.aspx?Username=User|Garrett]","[User.aspx?Username=User|Garrett]" }},
+                {2, new List<string>() { "Comment 3","Content 3","My Description 3","w1,w2",    "27-04-2010 00:00:00","[PageLink2],[PageLink3]",             "27-04-1980 00:00:00","[MyPage3|Page 3]", "[User.aspx?Username=User|Garrett]","[User.aspx?Username=User|Garrett]" }},
             });
         }
     }

@@ -12,21 +12,21 @@ namespace Keeper.Garrett.ScrewTurn.Utility
         {
             string retval = null;
 
-            if (_columnsToShow.Count <= 0 && _actualHeaders.Count <= 0)
+          /*  if (_columnsToShow.Count <= 0 && _actualHeaders.Count <= 0)
             {
                 _actualHeaders.Add("Result");
-            }
+            }*/
 
             if (_result.Count > 0) //Only good data
             {
                 //Update columns to show, add all if no override specified
-                if (_columnsToShow.Count <= 0)
+              /*  if (_columnsToShow.Count <= 0)
                 {
                     for (int i = 0; i < _actualHeaders.Count; i++)
                     {
                         _columnsToShow.Add(i);
                     }
-                }
+                }*/
 
                 //Update headers (with regards to the columns to show)
                 string tableHeader = GenerateTableHeaders(_columnsToShow, _customHeaders, _actualHeaders, _tblHeading, _tblFooter);
@@ -84,14 +84,14 @@ namespace Keeper.Garrett.ScrewTurn.Utility
                     headers.Add(i, _customHeaders[_columnsToShow[i]].Trim());
                  //Fill possible ends with actual header IF avaliable, does not match 1 - 1
                 }//When no custom headers or order apply the columnsToShow wil be linear 1,2,3,4,5, based on actual header count
-                else if(_columnsToShow[i] < _actualHeaders.Count)
+           /*     else if(_columnsToShow[i] < _actualHeaders.Count)
                 {
                     headers.Add(i, _actualHeaders[_columnsToShow[i]].Trim());
                 }
                 else
                 {
                     headers.Add(i,"?Missing Header?");
-                }
+                }*/
             }
 
             //Header formatting

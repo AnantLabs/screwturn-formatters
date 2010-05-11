@@ -16,6 +16,52 @@ namespace Formatters.Tests
     public class EventLogFormatter_Test
     {
         [Test]
+        public void No_Machine()
+        {
+            //Arrange
+            var formatter = new EventLogFormatter();
+            var host = MockRepository.GenerateStub<IHostV30>();
+            var provider = MockRepository.GenerateStub<IPagesStorageProviderV30>();
+            var currentPageInfo = new PageInfo("MyPage", provider, DateTime.Now);
+            var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });  //MockRepository.GenerateStub<ContextInformation>();
+
+            host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
+
+            //                                    machine,log,filter,results,heading,cols,headers,tbl,head,row
+            string input = "bla bla bla {EventLog log=Application machine=IDoNotExist} bla bla bla";
+
+            //Act
+            formatter.Init(host, "");
+            var retval = formatter.Format(input, context, FormattingPhase.Phase1);
+
+            //Assert
+            Assert.AreEqual("bla bla bla (((Error connection to IDoNotExist: Application, Filter: \r\nMessage: The network path was not found.\r\n))) bla bla bla", retval);
+        }
+
+        [Test]
+        public void No_Results()
+        {
+            //Arrange
+            var formatter = new EventLogFormatter();
+            var host = MockRepository.GenerateStub<IHostV30>();
+            var provider = MockRepository.GenerateStub<IPagesStorageProviderV30>();
+            var currentPageInfo = new PageInfo("MyPage", provider, DateTime.Now);
+            var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });  //MockRepository.GenerateStub<ContextInformation>();
+
+            host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
+
+            //                                    machine,log,filter,results,heading,cols,headers,tbl,head,row
+            string input = "bla bla bla {EventLog log='ForwardedEvents'} bla bla bla";
+
+            //Act
+            formatter.Init(host, "");
+            var retval = formatter.Format(input, context, FormattingPhase.Phase1);
+
+            //Assert
+            Assert.AreEqual("bla bla bla (((<h2>No logs found for GARRETT: ForwardedEvents, Filter: </h2>))) bla bla bla", retval);
+        }
+
+        [Test]
         public void No_Filter()
         {
             //Arrange
@@ -84,6 +130,30 @@ namespace Formatters.Tests
 
             //Assert
             Assert.AreEqual(true, retval.Contains("Warning.png"));
+        }
+
+        [Test]
+        public void Filter_Id_MsiInstaller()
+        {
+            //Arrange
+            var formatter = new EventLogFormatter();
+            var host = MockRepository.GenerateStub<IHostV30>();
+            var provider = MockRepository.GenerateStub<IPagesStorageProviderV30>();
+            var currentPageInfo = new PageInfo("MyPage", provider, DateTime.Now);
+            var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });  //MockRepository.GenerateStub<ContextInformation>();
+
+            host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
+
+            //                         Filter options: "Id","Type","Date","Time","Source","Category","Event","User","Computer", "Description"
+            //                                         machine,log,filter,results,heading,cols,headers,tbl,head,row
+            string input = "bla bla bla {EventLog log='Application' filter='id=11935'} bla bla bla";
+
+            //Act
+            formatter.Init(host, "");
+            var retval = formatter.Format(input, context, FormattingPhase.Phase1);
+
+            //Assert
+            Assert.AreEqual(true, retval.Contains("<td>[image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Information.png|Information] Information</td>"));
         }
 
         [Test]
@@ -203,6 +273,130 @@ namespace Formatters.Tests
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
+            Assert.AreEqual(true, retval.Contains("Information.png"));
+        }
+
+        [Test]
+        public void Filter_Time_Number()
+        {
+            //Arrange
+            var formatter = new EventLogFormatter();
+            var host = MockRepository.GenerateStub<IHostV30>();
+            var provider = MockRepository.GenerateStub<IPagesStorageProviderV30>();
+            var currentPageInfo = new PageInfo("MyPage", provider, DateTime.Now);
+            var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });  //MockRepository.GenerateStub<ContextInformation>();
+
+            host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
+
+            //                         Filter options: "Id","Type","Date","Time","Source","Category","Event","User","Computer", "Description"
+            //                                         machine,log,filter,results,heading,cols,headers,tbl,head,row
+            string input = "bla bla bla {EventLog log=Application filter='time=-24'} bla bla bla";
+
+            //Act
+            formatter.Init(host, "");
+            var retval = formatter.Format(input, context, FormattingPhase.Phase1);
+
+            //Assert
+            Assert.AreEqual(true, retval.Contains("Information.png"));
+        }
+
+        [Test]
+        public void Filter_Event()
+        {
+            //Arrange
+            var formatter = new EventLogFormatter();
+            var host = MockRepository.GenerateStub<IHostV30>();
+            var provider = MockRepository.GenerateStub<IPagesStorageProviderV30>();
+            var currentPageInfo = new PageInfo("MyPage", provider, DateTime.Now);
+            var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });  //MockRepository.GenerateStub<ContextInformation>();
+
+            host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
+
+            //                         Filter options: "Id","Type","Date","Time","Source","Category","Event","User","Computer", "Description"
+            //                                         machine,log,filter,results,heading,cols,headers,tbl,head,row
+            string input = "bla bla bla {EventLog log=Application filter='event=1001'} bla bla bla";
+
+            //Act
+            formatter.Init(host, "");
+            var retval = formatter.Format(input, context, FormattingPhase.Phase1);
+
+            //Assert
+            Assert.AreEqual(true, retval.Contains("Information.png"));
+        }
+
+        [Test]
+        public void Filter_Computer()
+        {
+            //Arrange
+            var formatter = new EventLogFormatter();
+            var host = MockRepository.GenerateStub<IHostV30>();
+            var provider = MockRepository.GenerateStub<IPagesStorageProviderV30>();
+            var currentPageInfo = new PageInfo("MyPage", provider, DateTime.Now);
+            var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });  //MockRepository.GenerateStub<ContextInformation>();
+
+            host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
+
+            //                         Filter options: "Id","Type","Date","Time","Source","Category","Event","User","Computer", "Description"
+            //                                         machine,log,filter,results,heading,cols,headers,tbl,head,row
+            string input = "bla bla bla {EventLog log=Application filter='computer=GARRETT'} bla bla bla";
+
+            //Act
+            formatter.Init(host, "");
+            var retval = formatter.Format(input, context, FormattingPhase.Phase1);
+
+            //Assert
+            Assert.AreEqual(true, retval.Contains("Information.png"));
+        }
+
+        [Test]
+        public void Filter_Category_Footer()
+        {
+            //Arrange
+            var formatter = new EventLogFormatter();
+            var host = MockRepository.GenerateStub<IHostV30>();
+            var provider = MockRepository.GenerateStub<IPagesStorageProviderV30>();
+            var currentPageInfo = new PageInfo("MyPage", provider, DateTime.Now);
+            var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });  //MockRepository.GenerateStub<ContextInformation>();
+
+            host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
+
+            //                         Filter options: "Id","Type","Date","Time","Source","Category","Event","User","Computer", "Description"
+            //                                         machine,log,filter,results,heading,cols,headers,tbl,head,row
+            string input = "bla bla bla {EventLog log=Application foot='My Footer' filter='category=General' cols='id'} bla bla bla";
+
+            //Act
+            formatter.Init(host, "");
+            var retval = formatter.Format(input, context, FormattingPhase.Phase1);
+
+            //Assert
+            Assert.AreEqual(true, retval.Contains("standard-foot"));
+        }
+
+        [Test]
+        public void Filter_User_NoCols()
+        {
+            //Arrange
+            var formatter = new EventLogFormatter();
+            var host = MockRepository.GenerateStub<IHostV30>();
+            var provider = MockRepository.GenerateStub<IPagesStorageProviderV30>();
+            var currentPageInfo = new PageInfo("MyPage", provider, DateTime.Now);
+            var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });  //MockRepository.GenerateStub<ContextInformation>();
+
+            host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
+
+            //                         Filter options: "Id","Type","Date","Time","Source","Category","Event","User","Computer", "Description"
+            //                                         machine,log,filter,results,heading,cols,headers,tbl,head,row
+            string input = "bla bla bla {EventLog log=Application filter='user=NT AUTHORITY\\SYSTEM' cols='badcol'} bla bla bla";
+
+            //Act
+            formatter.Init(host, "");
+            var retval = formatter.Format(input, context, FormattingPhase.Phase1);
+
+            //Assert
+            Assert.AreEqual(true, retval.Contains(">Type<"));
+            Assert.AreEqual(true, retval.Contains(">Date<"));
+            Assert.AreEqual(true, retval.Contains(">Description<"));
+            Assert.AreEqual(true, retval.Contains(">Source<")); 
             Assert.AreEqual(true, retval.Contains("Information.png"));
         }
 

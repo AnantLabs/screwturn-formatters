@@ -182,7 +182,7 @@ namespace Formatters.Tests
         }
 
         [Test]
-        public void ForceException([Values(1, 2, 4, 5, 6)] int _formatter)
+        public void ForceException([Values(1, 2, 3, 4, 5, 6)] int _formatter)
         {
             //Arrange
             var formatter = GetFormatter(_formatter);
@@ -193,6 +193,7 @@ namespace Formatters.Tests
             var currentPageInfo = new PageInfo("MyPage", provider, DateTime.Now);
             var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });
             provider.Expect(x => x.GetCategory(null)).IgnoreArguments().Throw(new Exception("An Error Occoured"));
+            host.Expect(x => x.GetSettingValue(SettingName.AccountActivationMode)).IgnoreArguments().Throw(new Exception("An Error Occoured"));
 
             //Act
             formatter.Init(host, "");
@@ -201,7 +202,7 @@ namespace Formatters.Tests
             //Assert
             Assert.AreEqual(GetExpected(_formatter), retval);
             var args = host.GetArgumentsForCallsMadeOn(x => x.LogEntry("", LogEntryType.Error, "", null));
-            Assert.AreEqual(4, args.Count);
+            Assert.GreaterOrEqual(args.Count,4);
         }
     }
 }
