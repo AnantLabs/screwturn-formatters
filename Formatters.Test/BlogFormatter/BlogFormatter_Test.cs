@@ -131,6 +131,70 @@ namespace Formatters.Tests
         #endregion
 
         [Test]
+        public void StoreTableFiles_CreateAll()
+        {
+            //Arrange
+            var formatter = new BlogFormatter();
+
+            //Arrange
+            var host = MockRepository.GenerateMock<IHostV30>();
+            var provider = MockRepository.GenerateStub<IFilesStorageProviderV30>();
+
+            provider.Expect(x => x.Information).Return(new ComponentInformation("SomeProvider", "", "", "", ""));
+            host.Expect(x => x.GetSettingValue(SettingName.DefaultFilesStorageProvider)).IgnoreArguments().Return(provider.GetType().FullName);
+            host.Expect(x => x.GetFilesStorageProviders(true)).IgnoreArguments().Return(new IFilesStorageProviderV30[] { provider });
+
+            //Dirs
+            provider.Expect(x => x.ListDirectories("/")).Return(new string[] { "NoPresent1" });
+            provider.Expect(x => x.ListDirectories("/Keeper.Garrett.Formatters/")).Return(new string[] { "NoPresent2" });
+            provider.Expect(x => x.ListDirectories(string.Format("/Keeper.Garrett.Formatters/{0}", formatter.GetType().Name))).Return(new string[] { "NoPresent3" });
+
+            //Files
+            provider.Expect(x => x.ListFiles(string.Format("/Keeper.Garrett.Formatters/{0}", formatter.GetType().Name))).Return(new string[] { "NoFilesAtAll" });
+            provider.Expect(x => x.ListFiles(string.Format("/Keeper.Garrett.Formatters/{0}/Images", formatter.GetType().Name))).Return(new string[] { "NoFilesAtAll" });
+
+            //Act
+            formatter.Init(host, "");
+
+            //Assert
+            provider.AssertWasCalled(x => x.CreateDirectory("/", "Keeper.Garrett.Formatters"));
+            provider.AssertWasCalled(x => x.CreateDirectory("/Keeper.Garrett.Formatters/", formatter.GetType().Name));
+            provider.AssertWasCalled(x => x.CreateDirectory(string.Format("/Keeper.Garrett.Formatters/{0}",formatter.GetType().Name), "Images"));
+        }
+
+        [Test]
+        public void StoreTableFiles_CreateNone()
+        {
+            //Arrange
+            var formatter = new BlogFormatter();
+
+            //Arrange
+            var host = MockRepository.GenerateMock<IHostV30>();
+            var provider = MockRepository.GenerateStub<IFilesStorageProviderV30>();
+
+            provider.Expect(x => x.Information).Return(new ComponentInformation("SomeProvider", "", "", "", ""));
+            host.Expect(x => x.GetSettingValue(SettingName.DefaultFilesStorageProvider)).IgnoreArguments().Return(provider.GetType().FullName);
+            host.Expect(x => x.GetFilesStorageProviders(true)).IgnoreArguments().Return(new IFilesStorageProviderV30[] { provider });
+
+            //Dirs
+            provider.Expect(x => x.ListDirectories("/")).Return(new string[] { "Keeper.Garrett.Formatters" });
+            provider.Expect(x => x.ListDirectories("/Keeper.Garrett.Formatters/")).Return(new string[] { formatter.GetType().Name });
+            provider.Expect(x => x.ListDirectories(string.Format("/Keeper.Garrett.Formatters/{0}", formatter.GetType().Name))).Return(new string[] { "Images" });
+
+            //Files
+            provider.Expect(x => x.ListFiles(string.Format("/Keeper.Garrett.Formatters/{0}", formatter.GetType().Name))).Return(new string[] { "None" });
+            provider.Expect(x => x.ListFiles(string.Format("/Keeper.Garrett.Formatters/{0}/Images", formatter.GetType().Name))).Return(new string[] { string.Format("/Keeper.Garrett.Formatters/{0}/Images/Error.png", formatter.GetType().Name) });
+
+            //Act
+            formatter.Init(host, "");
+
+            //Assert
+            provider.AssertWasNotCalled(x => x.CreateDirectory("/", "Keeper.Garrett.Formatters"));
+            provider.AssertWasNotCalled(x => x.CreateDirectory("/Keeper.Garrett.Formatters/", formatter.GetType().Name));
+            provider.AssertWasNotCalled(x => x.CreateDirectory(string.Format("/Keeper.Garrett.Formatters/{0}", formatter.GetType().Name), "Images"));
+        }
+
+        [Test]
         public void BlogPost_SelfReference()
         {
             //Arrange

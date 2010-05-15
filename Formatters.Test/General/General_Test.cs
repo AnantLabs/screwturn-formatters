@@ -243,7 +243,7 @@ namespace Formatters.Tests
         }
 
         [Test]
-        public void StoreTableFiles_CreateNone([Values(2, 3, 4, 5)] int _formatter)
+        public void StoreTableFiles_CreateNone([Values( 2, 3, 4, 5)] int _formatter)
         {
             //Arrange
             var formatter = GetFormatter(_formatter);
