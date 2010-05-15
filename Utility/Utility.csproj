@@ -54,12 +54,17 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ScrewTurn.Wiki.PluginFramework, Version=3.0.2.509, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Common\ScrewTurn 3.0.2.509\ScrewTurn.Wiki.PluginFramework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArgumentParser.cs" />
+    <Compile Include="FilePersister.cs" />
     <Compile Include="XHtmlTableGenerator.cs" />
     <Compile Include="Avatar.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -87,6 +92,19 @@
       <Project>{E6557708-85E2-44EB-87DE-C3ED884E71F1}</Project>
       <Name>Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\images\back.png" />
+    <Content Include="Resources\images\blurry.jpg" />
+    <Content Include="Resources\images\botleft.png" />
+    <Content Include="Resources\images\botright.png" />
+    <Content Include="Resources\images\gradback.png" />
+    <Content Include="Resources\images\gradhead.png" />
+    <Content Include="Resources\images\gradhover.png" />
+    <Content Include="Resources\images\left.png" />
+    <Content Include="Resources\images\right.png" />
+    <Content Include="Resources\table-examples.html" />
+    <Content Include="Resources\TableStyle.css" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

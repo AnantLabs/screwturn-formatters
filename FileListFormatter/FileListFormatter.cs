@@ -58,7 +58,21 @@ namespace Keeper.Garrett.ScrewTurn.FileListFormatter
         {
             base.Init(_host, _config, 55, Help.HelpPages);
 
+            StoreFiles(_host);
+
             LogEntry("FileListFormatter - Init success", LogEntryType.General);
+        }
+
+        private void StoreFiles(IHostV30 _host)
+        {
+            try
+            {
+                XHtmlTableGenerator.StoreFiles(_host, "FileListFormatter");
+            }
+            catch (Exception e)
+            {
+                LogEntry(string.Format("FileListFormatter - StoreFiles - Error: {0}", e.Message), LogEntryType.Error);
+            }
         }
 
         public override string Format(string raw, ContextInformation context, FormattingPhase phase)
@@ -165,6 +179,7 @@ namespace Keeper.Garrett.ScrewTurn.FileListFormatter
                                         }
                                         catch (Exception e)
                                         {
+                                            var tmp = e.Message;
                                             list = string.Format("(No directory found matching \"{0}\".)", path);
                                         }
                                     }

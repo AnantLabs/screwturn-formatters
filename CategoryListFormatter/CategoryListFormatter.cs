@@ -5,6 +5,7 @@ using Keeper.Garrett.ScrewTurn.Core;
 using System.Text.RegularExpressions;
 using ScrewTurn.Wiki.PluginFramework;
 using Keeper.Garrett.ScrewTurn.Utility;
+using System.Reflection;
 
 namespace Keeper.Garrett.ScrewTurn.CategoryListFormatter
 {
@@ -38,7 +39,21 @@ namespace Keeper.Garrett.ScrewTurn.CategoryListFormatter
         {
             base.Init(_host, _config, 55, Help.HelpPages);
 
+            StoreFiles(_host);
+
             LogEntry("CategoryListFormatter - Init success", LogEntryType.General);
+        }
+
+        private void StoreFiles(IHostV30 _host)
+        {
+            try
+            {
+                XHtmlTableGenerator.StoreFiles(_host, "CategoryListFormatter");
+            }
+            catch (Exception e)
+            {
+                LogEntry(string.Format("CategoryListFormatter - StoreFiles - Error: {0}",e.Message), LogEntryType.Error);
+            }
         }
 
         public override string Format(string raw, ContextInformation context, FormattingPhase phase)

@@ -6,6 +6,7 @@ using Rhino.Mocks;
 using ScrewTurn.Wiki.PluginFramework;
 using Keeper.Garrett.ScrewTurn;
 using Keeper.Garrett.ScrewTurn.Utility;
+using System.Reflection;
 
 namespace Utility.Tests
 {
@@ -13,6 +14,65 @@ namespace Utility.Tests
     [Category("Utility")]
     public class XHtmlTableGenerator_Test
     {
+
+        [Test]
+        public void Store_Files_All()
+        {
+            //Arrange
+            var host = MockRepository.GenerateMock<IHostV30>();
+            var provider = MockRepository.GenerateStub<IFilesStorageProviderV30>();
+
+            provider.Expect(x => x.Information).Return(new ComponentInformation("SomeProvider", "", "", "", ""));
+            host.Expect(x => x.GetSettingValue(SettingName.DefaultFilesStorageProvider)).IgnoreArguments().Return("SomeProvider");
+            host.Expect(x => x.GetFilesStorageProviders(true)).IgnoreArguments().Return(new IFilesStorageProviderV30[] { provider });
+
+            //Dirs
+            provider.Expect(x => x.ListDirectories("/")).Return(new string[] { "NoPresent1" });
+            provider.Expect(x => x.ListDirectories("/Keeper.Garrett.Formatters/")).Return(new string[] { "NoPresent2" });
+            provider.Expect(x => x.ListDirectories("/Keeper.Garrett.Formatters/Tables")).Return(new string[] { "NoPresent3" });
+
+            //Files
+            provider.Expect(x => x.ListFiles("/Keeper.Garrett.Formatters/Tables")).Return(new string[] { "NoFilesAtAll" });
+            provider.Expect(x => x.ListFiles("/Keeper.Garrett.Formatters/Tables/Images")).Return(new string[] { "NoFilesAtAll" });
+
+
+            //Act
+            XHtmlTableGenerator.StoreFiles(host, "SomeFormatterName");
+
+            //Assert
+            provider.AssertWasCalled(x => x.CreateDirectory("/", "Keeper.Garrett.Formatters"));
+            provider.AssertWasCalled(x => x.CreateDirectory("/Keeper.Garrett.Formatters/", "Tables"));
+            provider.AssertWasCalled(x => x.CreateDirectory("/Keeper.Garrett.Formatters/Tables", "Images"));
+        }
+
+        [Test]
+        public void Store_Files_None()
+        {
+            //Arrange
+            var host = MockRepository.GenerateMock<IHostV30>();
+            var provider = MockRepository.GenerateStub<IFilesStorageProviderV30>();
+
+            provider.Expect(x => x.Information).Return(new ComponentInformation("SomeProvider", "", "", "", ""));
+            host.Expect(x => x.GetSettingValue(SettingName.DefaultFilesStorageProvider)).IgnoreArguments().Return("SomeProvider");
+            host.Expect(x => x.GetFilesStorageProviders(true)).IgnoreArguments().Return(new IFilesStorageProviderV30[] { provider });
+
+            //Dirs
+            provider.Expect(x => x.ListDirectories("/")).Return(new string[] { "Keeper.Garrett.Formatters" });
+            provider.Expect(x => x.ListDirectories("/Keeper.Garrett.Formatters/")).Return(new string[] { "Tables" });
+            provider.Expect(x => x.ListDirectories("/Keeper.Garrett.Formatters/Tables")).Return(new string[] { "Images" });
+
+            //Files
+            provider.Expect(x => x.ListFiles("/Keeper.Garrett.Formatters/Tables")).Return(new string[] { "/Keeper.Garrett.Formatters/Tables/TableStyle.css" });
+            provider.Expect(x => x.ListFiles("/Keeper.Garrett.Formatters/Tables/Images")).Return(new string[] { "/Keeper.Garrett.Formatters/Tables/Images/back.png" });
+
+            //Act
+            XHtmlTableGenerator.StoreFiles(host, "SomeFormatterName");
+
+            //Assert
+            provider.AssertWasNotCalled(x => x.CreateDirectory("/", "Keeper.Garrett.Formatters"));
+            provider.AssertWasNotCalled(x => x.CreateDirectory("/Keeper.Garrett.Formatters/", "Tables"));
+            provider.AssertWasNotCalled(x => x.CreateDirectory("/Keeper.Garrett.Formatters/Tables", "Images"));
+        }
 
         [Test]
         public void NewColNames()
@@ -107,7 +167,7 @@ namespace Utility.Tests
             var result = XHtmlTableGenerator.GenerateTable(data, null, null, new List<int>(), new List<string>(), new List<string>() { "Head1","Head2","Head3" },null);
              
             //Assert
-            Assert.AreEqual("<link type=\"text/css\" rel=\"stylesheet\" href=\"/public/Plugins/Keeper.Garrett.ScrewTurn.Formatters/TableStyle.css\"></link>\n<table id=\"default\">\n\t<colgroup>\n\t</colgroup>\n\n\t<thead>\n\t\t<tr>\n\t\t</tr>\n\t</thead>\n\n\t<tfoot>\n\t\t<tr>\n\t\t</tr>\n\t</tfoot>\n\n\t<tbody>\n\t\t<tr class=\"row-odd\">\n\t\t</tr>\n\t\t<tr class=\"row-even\">\n\t\t</tr>\n\t\t<tr class=\"row-odd\">\n\t\t</tr>\n\t</tbody>\n</table>", result);
+            Assert.AreEqual("<link type=\"text/css\" rel=\"stylesheet\" href=\"GetFile.aspx?File=/Keeper.Garrett.Formatters/Tables/TableStyle.css\"></link>\n<table id=\"default\">\n\t<colgroup>\n\t</colgroup>\n\n\t<thead>\n\t\t<tr>\n\t\t</tr>\n\t</thead>\n\n\t<tfoot>\n\t\t<tr>\n\t\t</tr>\n\t</tfoot>\n\n\t<tbody>\n\t\t<tr class=\"row-odd\">\n\t\t</tr>\n\t\t<tr class=\"row-even\">\n\t\t</tr>\n\t\t<tr class=\"row-odd\">\n\t\t</tr>\n\t</tbody>\n</table>", result);
         }
 
 

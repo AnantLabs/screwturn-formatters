@@ -13,6 +13,7 @@ using ScrewTurn.Wiki.PluginFramework;
 using Rhino.Mocks;
 using System.Web;
 using Keeper.Garrett.ScrewTurn.FileContentFormatter;
+using System.Reflection;
 
 namespace Formatters.Tests
 {
@@ -160,7 +161,6 @@ namespace Formatters.Tests
             Assert.AreEqual(GetExpected(_formatter), retval);
         }
 
-
         [Test]
         public void ForcePhaseX([Values(1, 2, 3, 4, 5, 6)] int _formatter)
         {
@@ -203,6 +203,80 @@ namespace Formatters.Tests
             Assert.AreEqual(GetExpected(_formatter), retval);
             var args = host.GetArgumentsForCallsMadeOn(x => x.LogEntry("", LogEntryType.Error, "", null));
             Assert.GreaterOrEqual(args.Count,4);
+        }
+
+        [Test]
+        public void StoreTableFiles_CreateAll([Values(2, 3, 4, 5)] int _formatter)
+        {
+            //Arrange
+            var formatter = GetFormatter(_formatter);
+
+            //Arrange
+            var host = MockRepository.GenerateMock<IHostV30>();
+            var provider = MockRepository.GenerateStub<IFilesStorageProviderV30>();
+
+            provider.Expect(x => x.Information).Return(new ComponentInformation("SomeProvider", "", "", "", ""));
+            host.Expect(x => x.GetSettingValue(SettingName.DefaultFilesStorageProvider)).IgnoreArguments().Return("SomeProvider");
+            host.Expect(x => x.GetFilesStorageProviders(true)).IgnoreArguments().Return(new IFilesStorageProviderV30[] { provider });
+
+            //Dirs
+            provider.Expect(x => x.ListDirectories("/")).Return(new string[] { "NoPresent1" });
+            provider.Expect(x => x.ListDirectories("/Keeper.Garrett.Formatters/")).Return(new string[] { "NoPresent2" });
+            provider.Expect(x => x.ListDirectories("/Keeper.Garrett.Formatters/Tables")).Return(new string[] { "NoPresent3" });
+
+            provider.Expect(x => x.ListDirectories(string.Format("/Keeper.Garrett.Formatters/{0}",formatter.GetType().Name))).Return(new string[] { "NoPresent3" });
+
+            //Files
+            provider.Expect(x => x.ListFiles("/Keeper.Garrett.Formatters/Tables")).Return(new string[] { "NoFilesAtAll" });
+            provider.Expect(x => x.ListFiles("/Keeper.Garrett.Formatters/Tables/Images")).Return(new string[] { "NoFilesAtAll" });
+
+            provider.Expect(x => x.ListFiles(string.Format("/Keeper.Garrett.Formatters/{0}", formatter.GetType().Name))).Return(new string[] { "NoFilesAtAll" });
+            provider.Expect(x => x.ListFiles(string.Format("/Keeper.Garrett.Formatters/{0}/Images", formatter.GetType().Name))).Return(new string[] { "NoFilesAtAll" });
+
+            //Act
+            formatter.Init(host, "");
+
+            //Assert
+            provider.AssertWasCalled(x => x.CreateDirectory("/", "Keeper.Garrett.Formatters"));
+            provider.AssertWasCalled(x => x.CreateDirectory("/Keeper.Garrett.Formatters/", "Tables"));
+            provider.AssertWasCalled(x => x.CreateDirectory("/Keeper.Garrett.Formatters/Tables", "Images"));
+        }
+
+        [Test]
+        public void StoreTableFiles_CreateNone([Values(2, 3, 4, 5)] int _formatter)
+        {
+            //Arrange
+            var formatter = GetFormatter(_formatter);
+
+            //Arrange
+            var host = MockRepository.GenerateMock<IHostV30>();
+            var provider = MockRepository.GenerateStub<IFilesStorageProviderV30>();
+
+            provider.Expect(x => x.Information).Return(new ComponentInformation("SomeProvider", "", "", "", ""));
+            host.Expect(x => x.GetSettingValue(SettingName.DefaultFilesStorageProvider)).IgnoreArguments().Return("SomeProvider");
+            host.Expect(x => x.GetFilesStorageProviders(true)).IgnoreArguments().Return(new IFilesStorageProviderV30[] { provider });
+
+            //Dirs
+            provider.Expect(x => x.ListDirectories("/")).Return(new string[] { "Keeper.Garrett.Formatters" });
+            provider.Expect(x => x.ListDirectories("/Keeper.Garrett.Formatters/")).Return(new string[] { "Tables" });
+            provider.Expect(x => x.ListDirectories("/Keeper.Garrett.Formatters/Tables")).Return(new string[] { "Images" });
+
+            provider.Expect(x => x.ListDirectories(string.Format("/Keeper.Garrett.Formatters/{0}", formatter.GetType().Name))).Return(new string[] { "Images" });
+
+            //Files
+            provider.Expect(x => x.ListFiles("/Keeper.Garrett.Formatters/Tables")).Return(new string[] { "/Keeper.Garrett.Formatters/Tables/TableStyle.css" });
+            provider.Expect(x => x.ListFiles("/Keeper.Garrett.Formatters/Tables/Images")).Return(new string[] { "/Keeper.Garrett.Formatters/Tables/Images/back.png" });
+
+            provider.Expect(x => x.ListFiles(string.Format("/Keeper.Garrett.Formatters/{0}", formatter.GetType().Name))).Return(new string[] { "None" });
+            provider.Expect(x => x.ListFiles(string.Format("/Keeper.Garrett.Formatters/{0}/Images", formatter.GetType().Name))).Return(new string[] { string.Format("/Keeper.Garrett.Formatters/{0}/Images/Error.png", formatter.GetType().Name) });
+
+            //Act
+            formatter.Init(host, "");
+
+            //Assert
+            provider.AssertWasNotCalled(x => x.CreateDirectory("/", "Keeper.Garrett.Formatters"));
+            provider.AssertWasNotCalled(x => x.CreateDirectory("/Keeper.Garrett.Formatters/", "Tables"));
+            provider.AssertWasNotCalled(x => x.CreateDirectory("/Keeper.Garrett.Formatters/Tables", "Images"));
         }
     }
 }

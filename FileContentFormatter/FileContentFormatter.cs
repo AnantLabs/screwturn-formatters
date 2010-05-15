@@ -151,6 +151,7 @@ namespace Keeper.Garrett.ScrewTurn.FileContentFormatter
                 }
                 catch (Exception e)
                 {
+                    var tmp = e.Message;
                     _list = string.Format("(No directory found matching \"{0}\".)", _path);
                 }
             }

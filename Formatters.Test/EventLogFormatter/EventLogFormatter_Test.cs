@@ -153,7 +153,7 @@ namespace Formatters.Tests
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual(true, retval.Contains("<td>[image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Information.png|Information] Information</td>"));
+            Assert.AreEqual(true, retval.Contains("Information.png"));
         }
 
         [Test]

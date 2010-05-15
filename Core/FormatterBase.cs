@@ -4,6 +4,7 @@ using System.Text;
 using ScrewTurn.Wiki.PluginFramework;
 using System.Reflection;
 using System.IO;
+using System.Linq;
 
 namespace Keeper.Garrett.ScrewTurn.Core
 {
@@ -157,68 +158,6 @@ namespace Keeper.Garrett.ScrewTurn.Core
         protected void LogEntry(string _message, LogEntryType _type)
         {
             m_Host.LogEntry(_message, _type, GetUserName(), this);
-        }
-
-        protected void StoreFiles(string _dirName, Dictionary<string, MemoryStream> _filesToSave)
-        {
-            if (m_Host != null)
-            {
-                string storeName = "Keeper.Garrett.Formatters";
-
-                IFilesStorageProviderV30 provider = null;
-                var providers = m_Host.GetFilesStorageProviders(true);
-                var defaultProvider = m_Host.GetSettingValue(SettingName.DefaultFilesStorageProvider).ToLower();
-
-                //Find matching provider
-                foreach (var prov in providers)
-                {
-                    if (prov.Information.Name.ToLower() == defaultProvider)
-                    {
-                        provider = prov;
-                        break;
-                    }
-                }
-
-                if (provider != null)
-                {
-
-                    var rootDirs = provider.ListDirectories("/");
-                    bool foundDirectory = false;
-                    foreach(var dir in rootDirs)
-                    {
-                        if (dir.Contains(storeName) == true)
-                        {
-                            foundDirectory = true;
-                            break;
-                        }
-                    }
-                    if (foundDirectory == false)
-                    {
-                        provider.CreateDirectory("/", storeName);
-                    }
-
-
-                    var formatterDirs = provider.ListDirectories(string.Format("/{0}",storeName));
-                    foundDirectory = false;
-                    foreach (var dir in formatterDirs)
-                    {
-                        if (dir.Contains(_dirName) == true)
-                        {
-                            foundDirectory = true;
-                            break;
-                        }
-                    }
-                    if (foundDirectory == false)
-                    {
-                        provider.CreateDirectory(string.Format("/{0}/", storeName), _dirName);
-                    }
-
-                    foreach(var fileEntry in _filesToSave)
-                    {
-                        provider.StoreFile(string.Format("/{0}/{1}/{2}",storeName,_dirName, fileEntry.Key), fileEntry.Value, true);
-                    }
-                }
-            }
         }
 
         #endregion

@@ -76,6 +76,9 @@
     <Compile Include="..\Utility\ArgumentParser.cs">
       <Link>Shared\ArgumentParser.cs</Link>
     </Compile>
+    <Compile Include="..\Utility\FilePersister.cs">
+      <Link>Shared\FilePersister.cs</Link>
+    </Compile>
     <Compile Include="..\Utility\XHtmlTableGenerator.cs">
       <Link>Shared\XHtmlTableGenerator.cs</Link>
     </Compile>
@@ -84,9 +87,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Images\Information.png" />
-    <EmbeddedResource Include="Images\Error.png" />
-    <EmbeddedResource Include="Images\Warning.png" />
+    <EmbeddedResource Include="Resources\Images\Information.png" />
+    <EmbeddedResource Include="Resources\Images\Error.png" />
+    <EmbeddedResource Include="Resources\Images\Warning.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -104,6 +107,61 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\utility\resources\images\back.png">
+      <Link>Resources\Tables\Images\back.png</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\utility\resources\images\blurry.jpg">
+      <Link>Resources\Tables\Images\blurry.jpg</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\utility\resources\images\botleft.png">
+      <Link>Resources\Tables\Images\botleft.png</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\utility\resources\images\botright.png">
+      <Link>Resources\Tables\Images\botright.png</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\utility\resources\images\gradback.png">
+      <Link>Resources\Tables\Images\gradback.png</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\utility\resources\images\gradhead.png">
+      <Link>Resources\Tables\Images\gradhead.png</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\utility\resources\images\gradhover.png">
+      <Link>Resources\Tables\Images\gradhover.png</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\utility\resources\images\left.png">
+      <Link>Resources\Tables\Images\left.png</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\utility\resources\images\right.png">
+      <Link>Resources\Tables\Images\right.png</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\utility\resources\table-examples.html">
+      <Link>Resources\Tables\table-examples.html</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\utility\resources\TableStyle.css">
+      <Link>Resources\Tables\TableStyle.css</Link>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

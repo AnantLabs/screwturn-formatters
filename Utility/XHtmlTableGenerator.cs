@@ -3,36 +3,44 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Reflection;
+using ScrewTurn.Wiki.PluginFramework;
 
 namespace Keeper.Garrett.ScrewTurn.Utility
 {
     public class XHtmlTableGenerator
     {
+        public static void StoreFiles(IHostV30 _host, string _formatter)
+        {
+            var resourcePath = string.Format("Keeper.Garrett.ScrewTurn.{0}.Resources.Tables",_formatter);
+
+            //Setup store files
+            var persister = new FilePersister("Tables");
+            persister.AddDir("Images");
+            persister.AddFile("/", "TableStyle.css",        string.Format("{0}.TableStyle.css",resourcePath));
+            persister.AddFile("/", "table-examples.html",   string.Format("{0}.table-examples.html", resourcePath));
+            persister.AddFile("Images", "left.png",         string.Format("{0}.Images.left.png", resourcePath));
+            persister.AddFile("Images", "blurry.jpg",       string.Format("{0}.Images.blurry.jpg", resourcePath));
+            persister.AddFile("Images", "botleft.png",      string.Format("{0}.Images.botleft.png",resourcePath));
+            persister.AddFile("Images", "botright.png",     string.Format("{0}.Images.botright.png",resourcePath));
+            persister.AddFile("Images", "gradback.png",     string.Format("{0}.Images.gradback.png",resourcePath));
+            persister.AddFile("Images", "gradhead.png",     string.Format("{0}.Images.gradhead.png",resourcePath));
+            persister.AddFile("Images", "gradhover.png",     string.Format("{0}.Images.gradhover.png",resourcePath));
+            persister.AddFile("Images", "left.png",         string.Format("{0}.Images.left.png",resourcePath));
+            persister.AddFile("Images", "right.png",        string.Format("{0}.Images.right.png", resourcePath));
+            persister.StoreFiles(_host);
+        }
+
         public static string GenerateTable(Dictionary<int, List<string>> _result, string _tblHeading, string _tblFooter, List<int> _columnsToShow, List<string> _customHeaders, List<string> _actualHeaders, string _style)
         {
             string retval = null;
 
-          /*  if (_columnsToShow.Count <= 0 && _actualHeaders.Count <= 0)
-            {
-                _actualHeaders.Add("Result");
-            }*/
-
             if (_result.Count > 0) //Only good data
             {
-                //Update columns to show, add all if no override specified
-              /*  if (_columnsToShow.Count <= 0)
-                {
-                    for (int i = 0; i < _actualHeaders.Count; i++)
-                    {
-                        _columnsToShow.Add(i);
-                    }
-                }*/
-
                 //Update headers (with regards to the columns to show)
                 string tableHeader = GenerateTableHeaders(_columnsToShow, _customHeaders, _actualHeaders, _tblHeading, _tblFooter);
 
-                //Start building table
-                retval = string.Format("<link type=\"text/css\" rel=\"stylesheet\" href=\"/public/Plugins/Keeper.Garrett.ScrewTurn.Formatters/TableStyle.css\"></link>");
+                //Start building table                                                   
+                retval = string.Format("<link type=\"text/css\" rel=\"stylesheet\" href=\"GetFile.aspx?File=/Keeper.Garrett.Formatters/Tables/TableStyle.css\"></link>");
                 retval = string.Format("{0}\n<table id=\"{1}\">{2}\n\n\t<tbody>", retval, (string.IsNullOrEmpty(_style) == true ? "default" : _style), tableHeader);
 
                 //Each row

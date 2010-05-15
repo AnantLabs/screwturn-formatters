@@ -19,8 +19,6 @@ namespace Keeper.Garrett.ScrewTurn.QueryTableFormatter
         private static readonly Regex ConfigRegex = new Regex(@"\{(?<dblink>(.*?))=(?<dbtype>(.*?)),(?<connstr>(.*?))\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
         private static Dictionary<string, DatabaseConfiguration> m_Connections = new Dictionary<string, DatabaseConfiguration>();
 
-        private string m_DateTimeFormat = "";
-
         private static readonly Regex TagRegex = new Regex(@"\{QTable(?<arguments>(.*?))\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
 
         // Key#Query#Heading#ColumnOrder#Headers#TdblFormat#HeadFormat#RowFormat
@@ -36,6 +34,8 @@ namespace Keeper.Garrett.ScrewTurn.QueryTableFormatter
             {
                 base.Init(_host, _config, Help.HelpPages);
 
+                StoreFiles(_host);
+
                 ParseConfigurationString(_config);
 
                 VerifyConnections();
@@ -49,6 +49,18 @@ namespace Keeper.Garrett.ScrewTurn.QueryTableFormatter
             }
 
             LogEntry(logMessage, logType);
+        }
+
+        private void StoreFiles(IHostV30 _host)
+        {
+            try
+            {
+                XHtmlTableGenerator.StoreFiles(_host, "FileListFormatter");
+            }
+            catch (Exception e)
+            {
+                LogEntry(string.Format("FileListFormatter - StoreFiles - Error: {0}", e.Message), LogEntryType.Error);
+            }
         }
 
         private void ParseConfigurationString(string _config)

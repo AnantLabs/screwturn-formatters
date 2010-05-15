@@ -69,10 +69,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Theme\Images\BlogPostBackground.jpg" />
-    <None Include="Theme\Images\BlogPostComments.gif" />
-    <None Include="Theme\Images\BlogPostReadMore.gif" />
-    <None Include="Theme\BlogDefault.css" />
+    <EmbeddedResource Include="Theme\Images\BlogPostBackground.jpg" />
+    <EmbeddedResource Include="Theme\Images\BlogPostComments.gif" />
+    <EmbeddedResource Include="Theme\Images\BlogPostReadMore.gif" />
+    <EmbeddedResource Include="Theme\BlogDefault.css" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

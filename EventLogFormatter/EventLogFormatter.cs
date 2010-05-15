@@ -43,37 +43,27 @@ namespace Keeper.Garrett.ScrewTurn.EventLogFormatter
         public override void Init(IHostV30 _host, string _config)
         {
             base.Init(_host, _config, Help.HelpPages);
-            StoreIcons();
+            StoreFiles(_host);
             LogEntry("EventLogFormatter - Init success", LogEntryType.General);
         }
 
-        private void StoreIcons()
+        private void StoreFiles(IHostV30 _host)
         {
             try
             {
-                var files = new List<string>() { "Information.png", "Error.png", "Warning.png" };
+                var persister = new FilePersister("EventLogFormatter");
+                persister.AddDir("Images");
+                persister.AddFile("Images", "Error.png", "Keeper.Garrett.ScrewTurn.EventLogFormatter.Resources.Images.Error.png");
+                persister.AddFile("Images", "Information.png", "Keeper.Garrett.ScrewTurn.EventLogFormatter.Resources.Images.Information.png");
+                persister.AddFile("Images", "Warning.png", "Keeper.Garrett.ScrewTurn.EventLogFormatter.Resources.Images.Warning.png");
+                persister.StoreFiles(_host); 
 
-                var fileDictionary = new Dictionary<string, MemoryStream>();
-
-                foreach (var file in files)
-                {
-
-                    Assembly myAssembly = Assembly.GetExecutingAssembly();
-                    Stream stream = myAssembly.GetManifestResourceStream(
-                        string.Format("Keeper.Garrett.ScrewTurn.EventLogFormatter.Images.{0}",file));
-                    Bitmap image = new Bitmap(stream);
-                    
-                    var memoryStream = new MemoryStream();
-                    image.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Png);
-                    memoryStream.Position = 0;
-                    fileDictionary.Add(file, memoryStream);
-                }
-
-                StoreFiles("EventLogFormatter", fileDictionary);
+                //Store standard files
+                XHtmlTableGenerator.StoreFiles(_host, "EventLogFormatter");
             }
             catch (Exception e)
             {
-                LogEntry(string.Format("Error creating default icon images during init.\r\n{0}", e.Message), LogEntryType.Error);
+                LogEntry(string.Format("EventLogFormatter - StoreFiles - Error: {0}", e.Message), LogEntryType.Error);
             }
         }
 
@@ -379,14 +369,14 @@ namespace Keeper.Garrett.ScrewTurn.EventLogFormatter
             switch(type)
             {
                 case "Warning":
-                    retval = string.Format("[image||{{UP}}/Keeper.Garrett.Formatters/EventLogFormatter/Warning.png|Warning] {0}", type);
+                    retval = string.Format("[image||{{UP}}/Keeper.Garrett.Formatters/EventLogFormatter/Images/Warning.png|Warning] {0}", type);
                     break;
                 case "Error":
-                    retval = string.Format("[image||{{UP}}/Keeper.Garrett.Formatters/EventLogFormatter/Error.png|Error] {0}", type);
+                    retval = string.Format("[image||{{UP}}/Keeper.Garrett.Formatters/EventLogFormatter/Images/Error.png|Error] {0}", type);
                     break;
                 case "Information":
                 default:
-                    retval = string.Format("[image||{{UP}}/Keeper.Garrett.Formatters/EventLogFormatter/Information.png|Information] {0}", type);
+                    retval = string.Format("[image||{{UP}}/Keeper.Garrett.Formatters/EventLogFormatter/Images/Information.png|Information] {0}", type);
                     break;
             }
             return retval;

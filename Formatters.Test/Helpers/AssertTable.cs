@@ -24,7 +24,7 @@ namespace Formatters.Tests
 
         private static void VerifyCSS(string _source)
         {
-            Assert.AreEqual(true, _source.Contains("<link type=\"text/css\" rel=\"stylesheet\" href=\"/public/Plugins/Keeper.Garrett.ScrewTurn.Formatters/TableStyle.css\"></link>"), "Style error");
+            Assert.AreEqual(true, _source.Contains("<link type=\"text/css\" rel=\"stylesheet\" href=\"GetFile.aspx?File=/Keeper.Garrett.Formatters/Tables/TableStyle.css\"></link>"), "Style error");
         }
 
         private static void VerifyTable(string _source, string _style)

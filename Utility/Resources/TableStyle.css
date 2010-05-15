@@ -14,7 +14,8 @@ body
 {
 	font-size: 16px;
     color: #000000;
-    text-align: left;
+	background: #ffffff;
+	text-align: left;
 }
 
 #hor-minimalist-a
@@ -71,7 +72,8 @@ body
 {
 	font-size: 16px;
     color: #000000;
-    text-align: left;
+	background: #ffffff;
+	text-align: left;
     border: 0;
 }
 
@@ -130,7 +132,8 @@ body
 {
 	font-size: 16px;
     color: #000000;
-    text-align: left;
+	background: #ffffff;
+	text-align: left;
     border: 0;
 }
 
@@ -333,7 +336,8 @@ body
 {
 	font-size: 16px;
     color: #86be36;
-    text-align: left;
+	background: #ffffff;
+	text-align: left;
     border: 0;
 }
 
@@ -393,25 +397,13 @@ body
 }
 
 /*********************************/
-/*
-    	<col class="col-odd" /> 
-    	<col class="col-even" /> 
-heading
-            <th scope="col" class="first-head">Company</th> 
-            <th scope="col" class="standard-head">Company</th> 
-            <th scope="col" class="last-head">Company</th> 
-            <td class="first-foot">Company</th> 
-            <td class="standard-foot">Company</th> 
-            <td class="last-foot">Company</th> 
-    	<tr class="row-odd"> 
-        <tr class="row-even"> 
-*/
 
 #ver-zebra-a td.heading
 {
 	font-size: 16px;
     color: #86be36;
-    text-align: left;
+	background: #ffffff;
+	text-align: left;
     border: 0;
     background-color: #ffffff;
 }
@@ -445,7 +437,6 @@ heading
 #ver-zebra-a .col-odd
 {
 	background: #f4ffd6;
-/*	background: #eff2ff;*/
 }
 #ver-zebra-a .col-even
 {
@@ -612,7 +603,7 @@ heading
 }
 #rounded-corner th.first-head
 {
-	background: #86be36 url('images/left.png') left -1px no-repeat;
+	background: #86be36 url('GetFile.aspx?File=/Keeper.Garrett.Formatters/Tables/Images/left.png') left -1px no-repeat;
 }
 #rounded-corner th.standard-head
 {
@@ -620,7 +611,7 @@ heading
 }
 #rounded-corner th.last-head
 {
-	background: #86be36 url('images/right.png') right -1px no-repeat;
+	background: #86be36 url('GetFile.aspx?File=/Keeper.Garrett.Formatters/Tables/Images/right.png') right -1px no-repeat;
 }
 #rounded-corner th
 {
@@ -639,7 +630,7 @@ heading
 }
 #rounded-corner td.first-foot
 {
-	background: #f4ffd6 url('images/botleft.png') left bottom no-repeat;
+	background: #f4ffd6 url('GetFile.aspx?File=/Keeper.Garrett.Formatters/Tables/Images/botleft.png') left bottom no-repeat;
 	color: #000000;
 	font-style: italic;
 	text-align: left;
@@ -653,7 +644,7 @@ heading
 }
 #rounded-corner td.last-foot
 {
-	background: #f4ffd6 url('images/botright.png') right bottom no-repeat;
+	background: #f4ffd6 url('GetFile.aspx?File=/Keeper.Garrett.Formatters/Tables/Images/botright.png') right bottom no-repeat;
 	color: #000000;
 	font-style: italic;
 	text-align: left;
@@ -671,9 +662,9 @@ heading
 {
 	font-size: 16px;
     color: #86be36;
-    text-align: left;
+	background: #ffffff;
+	text-align: left;
     border: 0;
-    background-color: #ffffff;
 }
 
 #background-image
@@ -684,7 +675,7 @@ heading
 	width: 480px;
 	text-align: left;
 	border-collapse: collapse;
-	background: url('images/blurry.jpg') 330px 59px no-repeat;
+	background: url('GetFile.aspx?File=/Keeper.Garrett.Formatters/Tables/Images/blurry.jpg') 330px 59px no-repeat;
 }
 #background-image th
 {
@@ -716,7 +707,7 @@ heading
 		YOUR STYLESHEET
 	   ----------------------------
 	*/
-	filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/back.png',sizingMethod='crop');
+	filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='GetFile.aspx?File=/Keeper.Garrett.Formatters/Tables/Images/back.png',sizingMethod='crop');
 	background: none;
 }	
 #background-image tbody tr:hover td
@@ -771,7 +762,7 @@ heading
 	font-size: 13px;
 	font-weight: normal;
 	padding: 8px;
-	background: #b9c9fe url('images/gradhead.png') repeat-x;
+	background: #b9c9fe url('GetFile.aspx?File=/Keeper.Garrett.Formatters/Tables/Images/gradhead.png') repeat-x;
 	border-top: 2px solid #d3ddff;
 	border-bottom: 1px solid #fff;
 	color: #000000;
@@ -782,7 +773,7 @@ heading
 	border-bottom: 1px solid #fff;
 	color: #669;
 	border-top: 1px solid #fff;
-	background: #e8edff url('images/gradback.png') repeat-x;
+	background: #e8edff url('GetFile.aspx?File=/Keeper.Garrett.Formatters/Tables/Images/gradback.png') repeat-x;
 }
 #gradient-style tfoot tr td
 {
@@ -792,7 +783,7 @@ heading
 }
 #gradient-style tbody tr:hover td
 {
-	background: #d0dafd url('images/gradhover.png') repeat-x;
+	background: #d0dafd url('GetFile.aspx?File=/Keeper.Garrett.Formatters/Tables/Images/gradhover.png') repeat-x;
 	color: #000000;
 }
 

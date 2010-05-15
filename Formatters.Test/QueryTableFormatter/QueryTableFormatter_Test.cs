@@ -88,7 +88,7 @@ namespace Formatters.Tests
             int generalCount = 0;
             GetLogCounts(out warnCount, out errorCount, out generalCount, args);
             Assert.AreEqual(0, warnCount);
-            Assert.AreEqual(3, errorCount);
+            Assert.AreEqual(4, errorCount);
             Assert.AreEqual(1, generalCount);
         }
 
@@ -121,7 +121,7 @@ namespace Formatters.Tests
             int generalCount = 0;
             GetLogCounts(out warnCount, out errorCount, out generalCount, args);
             Assert.AreEqual(0, warnCount);
-            Assert.AreEqual(2, errorCount);
+            Assert.AreEqual(3, errorCount);
             Assert.AreEqual(1, generalCount);
         }
 
@@ -171,8 +171,8 @@ namespace Formatters.Tests
             int generalCount = 0;
             GetLogCounts(out warnCount, out errorCount, out generalCount, args);
             Assert.AreEqual(0, warnCount);
-            Assert.AreEqual(2, errorCount);
-            Assert.AreEqual(1, generalCount);
+            Assert.AreEqual(4, errorCount);
+            Assert.AreEqual(0, generalCount);
         }
 
         [Test]
@@ -205,7 +205,7 @@ namespace Formatters.Tests
             int generalCount = 0;
             GetLogCounts(out warnCount, out errorCount, out generalCount, args);
             Assert.AreEqual(0, warnCount);
-            Assert.AreEqual(0, errorCount);
+            Assert.AreEqual(1, errorCount);
             Assert.AreEqual(1, generalCount);
         }
 
@@ -239,7 +239,7 @@ namespace Formatters.Tests
             int generalCount = 0;
             GetLogCounts(out warnCount, out errorCount, out generalCount, args);
             Assert.AreEqual(0, warnCount);
-            Assert.AreEqual(0, errorCount);
+            Assert.AreEqual(1, errorCount);
             Assert.AreEqual(1, generalCount);
         }
 
@@ -270,7 +270,7 @@ namespace Formatters.Tests
             int generalCount = 0;
             GetLogCounts(out warnCount, out errorCount, out generalCount, args);
             Assert.AreEqual(0, warnCount);
-            Assert.AreEqual(0, errorCount);
+            Assert.AreEqual(1, errorCount);
             Assert.AreEqual(1, generalCount);
         }
 
@@ -302,7 +302,7 @@ namespace Formatters.Tests
             int generalCount = 0;
             GetLogCounts(out warnCount, out errorCount, out generalCount, args);
             Assert.AreEqual(0, warnCount);
-            Assert.AreEqual(0, errorCount);
+            Assert.AreEqual(1, errorCount);
             Assert.AreEqual(1, generalCount);
         }
 
@@ -337,7 +337,7 @@ namespace Formatters.Tests
             int generalCount = 0;
             GetLogCounts(out warnCount, out errorCount, out generalCount, args);
             Assert.AreEqual(0, warnCount);
-            Assert.AreEqual(0, errorCount);
+            Assert.AreEqual(1, errorCount);
             Assert.AreEqual(1, generalCount);
         }
 
@@ -372,7 +372,7 @@ namespace Formatters.Tests
             int generalCount = 0;
             GetLogCounts(out warnCount, out errorCount, out generalCount, args);
             Assert.AreEqual(0, warnCount);
-            Assert.AreEqual(0, errorCount);
+            Assert.AreEqual(1, errorCount);
             Assert.AreEqual(1, generalCount);
         }
 
@@ -407,7 +407,7 @@ namespace Formatters.Tests
             int generalCount = 0;
             GetLogCounts(out warnCount, out errorCount, out generalCount, args);
             Assert.AreEqual(0, warnCount);
-            Assert.AreEqual(0, errorCount);
+            Assert.AreEqual(1, errorCount);
             Assert.AreEqual(1, generalCount);
         }
 
@@ -442,7 +442,7 @@ namespace Formatters.Tests
             int generalCount = 0;
             GetLogCounts(out warnCount, out errorCount, out generalCount, args);
             Assert.AreEqual(0, warnCount);
-            Assert.AreEqual(0, errorCount);
+            Assert.AreEqual(1, errorCount);
             Assert.AreEqual(1, generalCount);
         }
 
@@ -478,7 +478,7 @@ namespace Formatters.Tests
             int generalCount = 0;
             GetLogCounts(out warnCount, out errorCount, out generalCount, args);
             Assert.AreEqual(0, warnCount);
-            Assert.AreEqual(0, errorCount);
+            Assert.AreEqual(1, errorCount);
             Assert.AreEqual(1, generalCount);
         }
 
@@ -514,7 +514,7 @@ namespace Formatters.Tests
             int generalCount = 0;
             GetLogCounts(out warnCount, out errorCount, out generalCount, args);
             Assert.AreEqual(0, warnCount);
-            Assert.AreEqual(0, errorCount);
+            Assert.AreEqual(1, errorCount);
             Assert.AreEqual(1, generalCount);
         }
 
@@ -550,7 +550,7 @@ namespace Formatters.Tests
             int generalCount = 0;
             GetLogCounts(out warnCount, out errorCount, out generalCount, args);
             Assert.AreEqual(0, warnCount);
-            Assert.AreEqual(0, errorCount);
+            Assert.AreEqual(1, errorCount);
             Assert.AreEqual(1, generalCount);
         }
 
@@ -586,7 +586,7 @@ namespace Formatters.Tests
             int generalCount = 0;
             GetLogCounts(out warnCount, out errorCount, out generalCount, args);
             Assert.AreEqual(0, warnCount);
-            Assert.AreEqual(0, errorCount);
+            Assert.AreEqual(1, errorCount);
             Assert.AreEqual(1, generalCount);
         }
 
@@ -622,7 +622,7 @@ namespace Formatters.Tests
             int generalCount = 0;
             GetLogCounts(out warnCount, out errorCount, out generalCount, args);
             Assert.AreEqual(0, warnCount);
-            Assert.AreEqual(0, errorCount);
+            Assert.AreEqual(1, errorCount);
             Assert.AreEqual(1, generalCount);
         }
 
@@ -658,7 +658,7 @@ namespace Formatters.Tests
             int generalCount = 0;
             GetLogCounts(out warnCount, out errorCount, out generalCount, args);
             Assert.AreEqual(0, warnCount);
-            Assert.AreEqual(0, errorCount);
+            Assert.AreEqual(1, errorCount);
             Assert.AreEqual(1, generalCount);
         }
 
@@ -693,7 +693,7 @@ namespace Formatters.Tests
             int generalCount = 0;
             GetLogCounts(out warnCount, out errorCount, out generalCount, args);
             Assert.AreEqual(0, warnCount);
-            Assert.AreEqual(0, errorCount);
+            Assert.AreEqual(1, errorCount);
             Assert.AreEqual(1, generalCount);
         }
 
@@ -735,7 +735,7 @@ namespace Formatters.Tests
             int generalCount = 0;
             GetLogCounts(out warnCount, out errorCount, out generalCount, args);
             Assert.AreEqual(0, warnCount);
-            Assert.AreEqual(0, errorCount);
+            Assert.AreEqual(1, errorCount);
             Assert.AreEqual(1, generalCount);
         }
 
@@ -769,7 +769,7 @@ namespace Formatters.Tests
             int generalCount = 0;
             GetLogCounts(out warnCount, out errorCount, out generalCount, args);
             Assert.AreEqual(0, warnCount);
-            Assert.AreEqual(0, errorCount);
+            Assert.AreEqual(1, errorCount);
             Assert.AreEqual(1, generalCount);
         }
 
@@ -803,7 +803,7 @@ namespace Formatters.Tests
             int generalCount = 0;
             GetLogCounts(out warnCount, out errorCount, out generalCount, args);
             Assert.AreEqual(0, warnCount);
-            Assert.AreEqual(0, errorCount);
+            Assert.AreEqual(1, errorCount);
             Assert.AreEqual(1, generalCount);
         }
 
@@ -837,207 +837,10 @@ namespace Formatters.Tests
             int generalCount = 0;
             GetLogCounts(out warnCount, out errorCount, out generalCount, args);
             Assert.AreEqual(0, warnCount);
-            Assert.AreEqual(0, errorCount);
+            Assert.AreEqual(1, errorCount);
             Assert.AreEqual(1, generalCount);
         }
-  /*      [Test]
-        public void Query_Pass_Format_Style_BlackWhite([Values(Oralce, MsSql, MySql, SqLite)] string _connectionString)
-        {
-            //Arrange
-            var host = GenerateMockedHost();
-            var formatter = new QueryTableFormatter();
-
-            //Host
-            host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
-
-            //                           Key ,Query ,Heading ,ColumnOrder ,Headers ,TdblFormat ,HeadFormat ,RowFormat
-            string input = "bla bla bla {QTable conn=MyLink query='select * from schedule',,,,'bw','bw','bw')} bla bla bla";
-
-            //Dict page
-            var context = new ContextInformation(false, false, FormattingContext.PageContent, null, "", HttpContext.Current, "", new string[] { "" });
-
-            //Act
-            formatter.Init(host, _connectionString);
-            var retval = formatter.Format(input, context, FormattingPhase.Phase1);
-
-
-            //Assert  
-            Assert.AreEqual("bla bla bla {| border=\"0\" cellpadding=\"2\" cellspacing=\"0\" align=\"center\" style=\"background-color: #EEEEEE;\" \n|+  \n|- align=\"center\" style=\"background-color: #000000; color: #FFFFFF; font-weight: bold;\" \n| ID || RUNTIME || REASON || UPDAT \n|- align=\"center\" style=\"color: #000000;\" \n| 1 || 01-01-2010 00:00:00 || dsadasdasd || 01-01-2010 00:00:00 \n|} bla bla bla", retval);
-            var args = host.GetArgumentsForCallsMadeOn(x => x.LogEntry("", LogEntryType.Error, "", null));
-            int warnCount = 0;
-            int errorCount = 0;
-            int generalCount = 0;
-            GetLogCounts(out warnCount, out errorCount, out generalCount, args);
-            Assert.AreEqual(0, warnCount);
-            Assert.AreEqual(0, errorCount);
-            Assert.AreEqual(1, generalCount);
-        }
-
-        [Test]
-        public void Query_Pass_Format_Style_BlackGrey([Values(Oralce, MsSql, MySql, SqLite)] string _connectionString)
-        {
-            //Arrange
-            var host = GenerateMockedHost();
-            var formatter = new QueryTableFormatter();
-
-            //Host
-            host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
-
-            //                           Key ,Query ,Heading ,ColumnOrder ,Headers ,TdblFormat ,HeadFormat ,RowFormat
-            string input = "bla bla bla {QTable conn=MyLink query='select * from schedule',,,,'bg','bg','bg')} bla bla bla";
-
-            //Dict page
-            var context = new ContextInformation(false, false, FormattingContext.PageContent, null, "", HttpContext.Current, "", new string[] { "" });
-
-            //Act
-            formatter.Init(host, _connectionString);
-            var retval = formatter.Format(input, context, FormattingPhase.Phase1);
-
-
-            //Assert  
-            Assert.AreEqual("bla bla bla {| border=\"0\" cellpadding=\"2\" cellspacing=\"0\" align=\"center\" style=\"background-color: #EEEEEE;\" \n|+  \n|- align=\"center\" style=\"background-color: #000000; color: #CCCCCC; font-weight: bold;\" \n| ID || RUNTIME || REASON || UPDAT \n|- align=\"center\" \n| 1 || 01-01-2010 00:00:00 || dsadasdasd || 01-01-2010 00:00:00 \n|} bla bla bla", retval);
-            var args = host.GetArgumentsForCallsMadeOn(x => x.LogEntry("", LogEntryType.Error, "", null));
-            int warnCount = 0;
-            int errorCount = 0;
-            int generalCount = 0;
-            GetLogCounts(out warnCount, out errorCount, out generalCount, args);
-            Assert.AreEqual(0, warnCount);
-            Assert.AreEqual(0, errorCount);
-            Assert.AreEqual(1, generalCount);
-        }
-
-        [Test]
-        public void Query_Pass_Format_Style_GreenBlack([Values(Oralce, MsSql, MySql, SqLite)] string _connectionString)
-        {
-            //Arrange
-            var host = GenerateMockedHost();
-            var formatter = new QueryTableFormatter();
-
-            //Host
-            host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
-
-            //                           Key ,Query ,Heading ,ColumnOrder ,Headers ,TdblFormat ,HeadFormat ,RowFormat
-            string input = "bla bla bla {QTable conn=MyLink query='select * from schedule',,,,'gb','gb','gb')} bla bla bla";
-
-            //Dict page
-            var context = new ContextInformation(false, false, FormattingContext.PageContent, null, "", HttpContext.Current, "", new string[] { "" });
-
-            //Act
-            formatter.Init(host, _connectionString);
-            var retval = formatter.Format(input, context, FormattingPhase.Phase1);
-
-
-            //Assert  
-            Assert.AreEqual("bla bla bla {| border=\"0\" cellpadding=\"2\" cellspacing=\"0\" align=\"center\" style=\"background-color: #EEEEEE;\" \n|+  \n|- align=\"center\" style=\"background-color: #88CC33; color: #000000; font-weight: bold;\" \n| ID || RUNTIME || REASON || UPDAT \n|- align=\"center\" style=\"color: #000000;\" \n| 1 || 01-01-2010 00:00:00 || dsadasdasd || 01-01-2010 00:00:00 \n|} bla bla bla", retval);
-            var args = host.GetArgumentsForCallsMadeOn(x => x.LogEntry("", LogEntryType.Error, "", null));
-            int warnCount = 0;
-            int errorCount = 0;
-            int generalCount = 0;
-            GetLogCounts(out warnCount, out errorCount, out generalCount, args);
-            Assert.AreEqual(0, warnCount);
-            Assert.AreEqual(0, errorCount);
-            Assert.AreEqual(1, generalCount);
-        }
-
-        [Test]
-        public void Query_Pass_Format_Custom_Tabel_Style([Values(Oralce, MsSql, MySql, SqLite)] string _connectionString)
-        {
-            //Arrange
-            var host = GenerateMockedHost();
-            var formatter = new QueryTableFormatter();
-
-            //Host
-            host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
-
-            //                           Key ,Query ,Heading ,ColumnOrder ,Headers ,TdblFormat ,HeadFormat ,RowFormat
-            string input = "bla bla bla {QTable conn=MyLink query='select * from schedule',,,,'border=\"0\" cellpadding=\"2\" cellspacing=\"1\" align=\"center\" style=\"background-color: #EEEEEE;\"',,)} bla bla bla";
-
-            //Dict page
-            var context = new ContextInformation(false, false, FormattingContext.PageContent, null, "", HttpContext.Current, "", new string[] { "" });
-
-            //Act
-            formatter.Init(host, _connectionString);
-            var retval = formatter.Format(input, context, FormattingPhase.Phase1);
-
-
-            //Assert  
-            Assert.AreEqual("bla bla bla {| border=\"0\" cellpadding=\"2\" cellspacing=\"1\" align=\"center\" style=\"background-color: #EEEEEE;\" \n|+  \n! ID !! RUNTIME !! REASON !! UPDAT \n|-  \n| 1 || 01-01-2010 00:00:00 || dsadasdasd || 01-01-2010 00:00:00 \n|} bla bla bla", retval);
-            var args = host.GetArgumentsForCallsMadeOn(x => x.LogEntry("", LogEntryType.Error, "", null));
-            int warnCount = 0;
-            int errorCount = 0;
-            int generalCount = 0;
-            GetLogCounts(out warnCount, out errorCount, out generalCount, args);
-            Assert.AreEqual(0, warnCount);
-            Assert.AreEqual(0, errorCount);
-            Assert.AreEqual(1, generalCount);
-        }
-
-        [Test]
-        public void Query_Pass_Format_Custom_Head_Style([Values(Oralce, MsSql, MySql, SqLite)] string _connectionString)
-        {
-            //Arrange
-            var host = GenerateMockedHost();
-            var formatter = new QueryTableFormatter();
-
-            //Host
-            host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
-
-            //                           Key ,Query ,Heading ,ColumnOrder ,Headers ,TdblFormat ,HeadFormat ,RowFormat
-            string input = "bla bla bla {QTable conn=MyLink query='select * from schedule',,,,,'border=\"0\" cellpadding=\"2\" cellspacing=\"1\" align=\"center\" style=\"background-color: #EEEEEE;\"',)} bla bla bla";
-
-            //Dict page
-            var context = new ContextInformation(false, false, FormattingContext.PageContent, null, "", HttpContext.Current, "", new string[] { "" });
-
-            //Act
-            formatter.Init(host, _connectionString);
-            var retval = formatter.Format(input, context, FormattingPhase.Phase1);
-
-
-            //Assert  
-            Assert.AreEqual("bla bla bla {|  \n|+  \n|- border=\"0\" cellpadding=\"2\" cellspacing=\"1\" align=\"center\" style=\"background-color: #EEEEEE;\" \n| ID || RUNTIME || REASON || UPDAT \n|-  \n| 1 || 01-01-2010 00:00:00 || dsadasdasd || 01-01-2010 00:00:00 \n|} bla bla bla", retval);
-            var args = host.GetArgumentsForCallsMadeOn(x => x.LogEntry("", LogEntryType.Error, "", null));
-            int warnCount = 0;
-            int errorCount = 0;
-            int generalCount = 0;
-            GetLogCounts(out warnCount, out errorCount, out generalCount, args);
-            Assert.AreEqual(0, warnCount);
-            Assert.AreEqual(0, errorCount);
-            Assert.AreEqual(1, generalCount);
-        }
-
-        [Test]
-        public void Query_Pass_Format_Custom_Row_Style([Values(Oralce, MsSql, MySql, SqLite)] string _connectionString)
-        {
-            //Arrange
-            var host = GenerateMockedHost();
-            var formatter = new QueryTableFormatter();
-
-            //Host
-            host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
-
-            //                           Key ,Query ,Heading ,ColumnOrder ,Headers ,TdblFormat ,HeadFormat ,RowFormat
-            string input = "bla bla bla {QTable conn=MyLink query='select * from schedule',,,,,,'border=\"0\" cellpadding=\"2\" cellspacing=\"1\" align=\"center\" style=\"background-color: #EEEEEE;\"')} bla bla bla";
-
-            //Dict page
-            var context = new ContextInformation(false, false, FormattingContext.PageContent, null, "", HttpContext.Current, "", new string[] { "" });
-
-            //Act
-            formatter.Init(host, _connectionString);
-            var retval = formatter.Format(input, context, FormattingPhase.Phase1);
-
-
-            //Assert  
-            Assert.AreEqual("bla bla bla {|  \n|+  \n! ID !! RUNTIME !! REASON !! UPDAT \n|- border=\"0\" cellpadding=\"2\" cellspacing=\"1\" align=\"center\" style=\"background-color: #EEEEEE;\" \n| 1 || 01-01-2010 00:00:00 || dsadasdasd || 01-01-2010 00:00:00 \n|} bla bla bla", retval);
-            var args = host.GetArgumentsForCallsMadeOn(x => x.LogEntry("", LogEntryType.Error, "", null));
-            int warnCount = 0;
-            int errorCount = 0;
-            int generalCount = 0;
-            GetLogCounts(out warnCount, out errorCount, out generalCount, args);
-            Assert.AreEqual(0, warnCount);
-            Assert.AreEqual(0, errorCount);
-            Assert.AreEqual(1, generalCount);
-        }*/
-
+  
         #endregion
     }
 }

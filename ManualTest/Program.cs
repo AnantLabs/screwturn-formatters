@@ -50,6 +50,14 @@ if (captures.Length < 3)
 //                var TagRegex = new Regex(@"\{Blog\(""(?<blog>(.*?)"") ((\/.*="".*"")*\)\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
 //                var TagRegex = new Regex(@"\{Blog\(""(?<blog>(.*?)"") [\?&](?<name>[^&=]+)=(?<value>[^&=]+)\)\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
 
+                string storeName = string.Format("/Keeper.Garrett.Formatters/{0}", "TestDir/Images");
+
+                    var dirs = storeName.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+                    var lastDir = "";
+                    foreach (var dir in dirs)
+                    {
+                        lastDir = string.Format("{0}/{1}", lastDir, dir);
+                    }
 
                 var TagRegex = new Regex(@"\{Blog (?<args>(.*?))\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
 

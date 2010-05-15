@@ -75,6 +75,9 @@
     <Compile Include="..\Utility\ArgumentParser.cs">
       <Link>Shared\ArgumentParser.cs</Link>
     </Compile>
+    <Compile Include="..\Utility\FilePersister.cs">
+      <Link>Shared\FilePersister.cs</Link>
+    </Compile>
     <Compile Include="..\Utility\XHtmlTableGenerator.cs">
       <Link>Shared\XHtmlTableGenerator.cs</Link>
     </Compile>
@@ -99,6 +102,42 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="..\Utility\Resources\images\back.png">
+      <Link>Resources\Tables\Images\back.png</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Utility\Resources\images\blurry.jpg">
+      <Link>Resources\Tables\Images\blurry.jpg</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Utility\Resources\images\botleft.png">
+      <Link>Resources\Tables\Images\botleft.png</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Utility\Resources\images\botright.png">
+      <Link>Resources\Tables\Images\botright.png</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Utility\Resources\images\gradback.png">
+      <Link>Resources\Tables\Images\gradback.png</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Utility\Resources\images\gradhead.png">
+      <Link>Resources\Tables\Images\gradhead.png</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Utility\Resources\images\gradhover.png">
+      <Link>Resources\Tables\Images\gradhover.png</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Utility\Resources\images\left.png">
+      <Link>Resources\Tables\Images\left.png</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Utility\Resources\images\right.png">
+      <Link>Resources\Tables\Images\right.png</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Utility\Resources\table-examples.html">
+      <Link>Resources\Tables\table-examples.html</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Utility\Resources\TableStyle.css">
+      <Link>Resources\Tables\TableStyle.css</Link>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
