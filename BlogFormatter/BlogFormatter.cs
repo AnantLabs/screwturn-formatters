@@ -30,7 +30,27 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
         {
             base.Init(_host, _config, Help.HelpPages);
 
+            StoreFiles(_host);
+
             LogEntry("BlogFormatter - Init success", LogEntryType.General);
+        }
+
+        private void StoreFiles(IHostV30 _host)
+        {
+            try
+            {
+                var persister = new FilePersister("BlogFormatter");
+                persister.AddDir("Images");
+                persister.AddFile("/", "BlogStyle.css",               "Keeper.Garrett.ScrewTurn.BlogFormatter.Resources.BlogStyle.css");
+                persister.AddFile("Images", "BlogPostBackground.jpg", "Keeper.Garrett.ScrewTurn.BlogFormatter.Resources.Images.BlogPostBackground.jpg");
+                persister.AddFile("Images", "BlogPostComments.gif",   "Keeper.Garrett.ScrewTurn.BlogFormatter.Resources.Images.BlogPostComments.gif");
+                persister.AddFile("Images", "BlogPostReadMore.gif",   "Keeper.Garrett.ScrewTurn.BlogFormatter.Resources.Images.BlogPostReadMore.gif");
+                persister.StoreFiles(_host);
+            }
+            catch (Exception e)
+            {
+                LogEntry(string.Format("BlogFormatter - StoreFiles - Error: {0}", e.Message), LogEntryType.Error);
+            }
         }
 
         public override string Format(string raw, ContextInformation context, FormattingPhase phase)
@@ -90,8 +110,8 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
                                     bottom = (args.ContainsKey("bottom") == true ? args["bottom"] : null);
 
                                     //Get style
-                                    stylesheet = (args.ContainsKey("css") == true ? args["css"] : "BlogDefault.css");
-                                    stylesheet = string.Format("<link type=\"text/css\" rel=\"stylesheet\" href=\"/Themes/Blog/{0}\"></link> ", stylesheet);
+                                    stylesheet = (args.ContainsKey("css") == true ? args["css"] : "BlogStyle.css");
+                                    stylesheet = string.Format("<link type=\"text/css\" rel=\"stylesheet\" href=\"GetFile.aspx?File=/Keeper.Garrett.Formatters/BlogFormatter/{0}\"></link> ", stylesheet);
 
                                     //Security check that the page with the {Blog} tag itself do not have the category Blog.
                                     bool abortToAvoidSelfReferencing = false;

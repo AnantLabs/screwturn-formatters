@@ -60,6 +60,9 @@
     <Compile Include="..\Utility\Avatar.cs">
       <Link>Shared\Avatar.cs</Link>
     </Compile>
+    <Compile Include="..\Utility\FilePersister.cs">
+      <Link>Shared\FilePersister.cs</Link>
+    </Compile>
     <Compile Include="..\Utility\ReverseDateComparer.cs">
       <Link>Shared\ReverseDateComparer.cs</Link>
     </Compile>
@@ -69,11 +72,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Theme\Images\BlogPostBackground.jpg" />
-    <EmbeddedResource Include="Theme\Images\BlogPostComments.gif" />
-    <EmbeddedResource Include="Theme\Images\BlogPostReadMore.gif" />
-    <EmbeddedResource Include="Theme\BlogDefault.css" />
+    <EmbeddedResource Include="Resources\Images\BlogPostBackground.jpg" />
+    <EmbeddedResource Include="Resources\Images\BlogPostComments.gif" />
+    <EmbeddedResource Include="Resources\Images\BlogPostReadMore.gif" />
+    <EmbeddedResource Include="Resources\BlogStyle.css" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
