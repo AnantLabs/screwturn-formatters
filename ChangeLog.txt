@@ -6,6 +6,7 @@ New Formatters:
 New Features:
 	All formatters now use arguments in their syntax, and the syntax can be in random order and random count
 	All formatters now store thier files in the default filestorage provider (images, css, etc)
+	Help pages are now automatically updated when new versions are installed. Version no. check.
 	Complete rewrite of table display:
 		Tables are now XHTML compliant (I hope :))
 		Everything is now CSS and easily customizable.
