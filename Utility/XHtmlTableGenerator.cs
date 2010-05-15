@@ -18,13 +18,14 @@ namespace Keeper.Garrett.ScrewTurn.Utility
             persister.AddDir("Images");
             persister.AddFile("/", "TableStyle.css",        string.Format("{0}.TableStyle.css",resourcePath));
             persister.AddFile("/", "table-examples.html",   string.Format("{0}.table-examples.html", resourcePath));
+            persister.AddFile("Images", "back.png",         string.Format("{0}.Images.back.png", resourcePath));
             persister.AddFile("Images", "left.png",         string.Format("{0}.Images.left.png", resourcePath));
             persister.AddFile("Images", "blurry.jpg",       string.Format("{0}.Images.blurry.jpg", resourcePath));
             persister.AddFile("Images", "botleft.png",      string.Format("{0}.Images.botleft.png",resourcePath));
             persister.AddFile("Images", "botright.png",     string.Format("{0}.Images.botright.png",resourcePath));
             persister.AddFile("Images", "gradback.png",     string.Format("{0}.Images.gradback.png",resourcePath));
             persister.AddFile("Images", "gradhead.png",     string.Format("{0}.Images.gradhead.png",resourcePath));
-            persister.AddFile("Images", "gradhover.png",     string.Format("{0}.Images.gradhover.png",resourcePath));
+            persister.AddFile("Images", "gradhover.png",    string.Format("{0}.Images.gradhover.png",resourcePath));
             persister.AddFile("Images", "left.png",         string.Format("{0}.Images.left.png",resourcePath));
             persister.AddFile("Images", "right.png",        string.Format("{0}.Images.right.png", resourcePath));
             persister.StoreFiles(_host);
