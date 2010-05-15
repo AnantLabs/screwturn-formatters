@@ -119,7 +119,10 @@ namespace Keeper.Garrett.ScrewTurn.Core
                     var provider = GetDefaultPageStorageProvider(m_Host);
 
                     var version = Assembly.GetExecutingAssembly().GetName().Version;
-                    int versionNo = (version.Major * 1000) + (version.Minor * 100) + (version.Build * 10) + (version.Revision);
+                    int versionNo =   (version.Major * 1000) 
+                                    + (version.Minor * 100) 
+                                    + (version.Build * 10) 
+                                    + (version.Revision);
                     
                     //Page created yet?
                     if (pInfo == null)
