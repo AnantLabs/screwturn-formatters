@@ -9,6 +9,7 @@ using System.Collections;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Configuration.Install;
+using System.Reflection;
 
 namespace ManualTest
 {
@@ -49,6 +50,24 @@ if (captures.Length < 3)
 
 //                var TagRegex = new Regex(@"\{Blog\(""(?<blog>(.*?)"") ((\/.*="".*"")*\)\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
 //                var TagRegex = new Regex(@"\{Blog\(""(?<blog>(.*?)"") [\?&](?<name>[^&=]+)=(?<value>[^&=]+)\)\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
+
+                Trace.WriteLine(Assembly.GetExecutingAssembly().GetName().Version.ToString());
+
+
+                Match m = Regex.Match(null, @"Version: (?<major>\d{1,3})\.(?<minor>\d{1,3})\.(?<build>\d{1,3})\.(?<revision>\d{1,3})");
+
+                if (m.Success == true)
+                {
+                    int versionNo = int.Parse(m.Groups["major"].Value) * 1000;
+                    versionNo += int.Parse(m.Groups["minor"].Value) * 100;
+                    versionNo += int.Parse(m.Groups["build"].Value) * 10;
+                    versionNo += int.Parse(m.Groups["revision"].Value);
+                }
+
+                foreach(var grp in m.Groups)
+                {
+                    Trace.WriteLine(grp);
+                }
 
                 string storeName = string.Format("/Keeper.Garrett.Formatters/{0}", "TestDir/Images");
 

@@ -5,6 +5,7 @@ using ScrewTurn.Wiki.PluginFramework;
 using System.Reflection;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Keeper.Garrett.ScrewTurn.Core
 {
@@ -15,6 +16,9 @@ namespace Keeper.Garrett.ScrewTurn.Core
         protected string m_Config;
 
         public string Configuration { get { return m_Config; } }
+
+        private static readonly Regex VersionRegex = new Regex(@"Version: (?<major>\d{1,3})\.(?<minor>\d{1,3})\.(?<build>\d{1,5})\.(?<revision>\d{1,5})", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
+
 
         #region IFormatterProviderV30 Members
 
@@ -112,29 +116,65 @@ namespace Keeper.Garrett.ScrewTurn.Core
                 {
                     var pInfo = m_Host.FindPage(page.Fullname);
 
+                    var provider = GetDefaultPageStorageProvider(m_Host);
+
+                    var version = Assembly.GetExecutingAssembly().GetName().Version;
+                    int versionNo = (version.Major * 1000) + (version.Minor * 100) + (version.Build * 10) + (version.Revision);
+                    
                     //Page created yet?
                     if (pInfo == null)
                     {
-                        //Find the default provider and create pages
-                        var defaultProvider = m_Host.GetDefaultProvider(typeof(IPagesStorageProviderV30));
-                        var providers = m_Host.GetPagesStorageProviders(true);
-                        IPagesStorageProviderV30 provider = null;
-                        foreach(var prov in providers)
+                        pInfo = provider.AddPage(null, page.Fullname, DateTime.Now);
+
+                        var pageContent = new PageContent(pInfo, page.Title, this.GetType().Name, DateTime.Now, string.Format("Version: {0}", version.ToString()), page.Content, page.Keywords, page.Description);
+                        var result = provider.ModifyPage(pInfo, page.Title, this.GetType().Name, DateTime.Now, string.Format("Version: {0}", version.ToString()), page.Content, page.Keywords, page.Description, SaveMode.Normal);
+
+                        m_Host.LogEntry(string.Format("{0} - {1} page {2}, {3}"
+                                            , this.GetType().Name
+                                            , (result == true ? "Created" : "Unable to create")
+                                            , page.Fullname
+                                            , string.Format("Version: {0}", version.ToString())
+                                            )
+                                        , LogEntryType.General, this.GetType().Name, this);
+                    }
+                    else
+                    {
+                        var existingPageContent = m_Host.GetPageContent(pInfo);
+
+                        //Retreive version no
+                        var matchVersion = VersionRegex.Match((string.IsNullOrEmpty(existingPageContent.Comment) == false ? existingPageContent.Comment : "Version: 0.0.0.0"));
+
+                        int pageVersionNo = 0;
+                        if (matchVersion.Success == true)
                         {
-                            if(prov.GetType().FullName == defaultProvider)
-                            {
-                                provider = prov;
-                            }
+                            pageVersionNo += int.Parse(matchVersion.Groups["major"].Value) * 1000;
+                            pageVersionNo += int.Parse(matchVersion.Groups["minor"].Value) * 100;
+                            pageVersionNo += int.Parse(matchVersion.Groups["build"].Value) * 10;
+                            pageVersionNo += int.Parse(matchVersion.Groups["revision"].Value);
                         }
 
-                        if (provider != null)
+                        //Overwrite
+                        if(pageVersionNo < versionNo)
                         {
-                            pInfo = provider.AddPage(null, page.Fullname, DateTime.Now);
+                            //Save the page and overwrite the old one
+                            var result = provider.ModifyPage(pInfo
+                                , page.Title
+                                , this.GetType().Name
+                                , DateTime.Now
+                                , string.Format("Version: {0}", version.ToString()) //Set new version
+                                , page.Content
+                                , page.Keywords
+                                , page.Description
+                                , SaveMode.Normal);
 
-                            var pageContent = new PageContent(pInfo, page.Title, this.GetType().Name, DateTime.Now, "", page.Content, page.Keywords, page.Description);
-                            var result = provider.ModifyPage(pInfo, page.Title, this.GetType().Name, DateTime.Now, "", page.Content, page.Keywords, page.Description, SaveMode.Normal);
-
-                            m_Host.LogEntry(string.Format("{0} - {1} page {2}", this.GetType().Name, (result == true ? "Created" : "Unable to create"), page.Fullname), LogEntryType.General, this.GetType().Name, this);
+                            m_Host.LogEntry(string.Format("{0} - {1} page {2} from {3} to {4}"
+                                                , this.GetType().Name
+                                                , (result == true ? "Updated" : "Unable to update")
+                                                , page.Fullname
+                                                , matchVersion.Groups[0]
+                                                , string.Format("Version: {0}", version.ToString())
+                                                )
+                                            , LogEntryType.General, this.GetType().Name, this);
                         }
                     }
                 }
@@ -143,6 +183,24 @@ namespace Keeper.Garrett.ScrewTurn.Core
                     m_Host.LogEntry(string.Format("{0} - Init warning: Error creating page {1}\r\n{2}", this.GetType().Name, page.Fullname , e.Message), LogEntryType.Error, this.GetType().Name, this);
                 }
             }
+        }
+
+        private IPagesStorageProviderV30 GetDefaultPageStorageProvider(IHostV30 _host)
+        {
+            string defaultPageStorageProviderName = _host.GetSettingValue(SettingName.DefaultPagesStorageProvider);
+
+            var providers = _host.GetPagesStorageProviders(true);
+            //Find matching provider, use default if none
+            IPagesStorageProviderV30 retval = null;
+            foreach (var prov in providers)
+            {
+                if (prov.GetType().FullName == defaultPageStorageProviderName)
+                {
+                    retval = prov;
+                    break;
+                }
+            }
+            return retval;
         }
 
         private string GetUserName()
