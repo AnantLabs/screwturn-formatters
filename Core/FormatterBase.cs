@@ -19,7 +19,6 @@ namespace Keeper.Garrett.ScrewTurn.Core
 
         private static readonly Regex VersionRegex = new Regex(@"Version: (?<major>\d{1,3})\.(?<minor>\d{1,3})\.(?<build>\d{1,5})\.(?<revision>\d{1,5})", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
 
-
         #region IFormatterProviderV30 Members
 
         private int m_ExecutionPriority = 50;
@@ -123,61 +122,64 @@ namespace Keeper.Garrett.ScrewTurn.Core
                                     + (version.Minor * 100) 
                                     + (version.Build * 10) 
                                     + (version.Revision);
-                    
-                    //Page created yet?
-                    if (pInfo == null)
+
+                    if (provider != null)
                     {
-                        pInfo = provider.AddPage(null, page.Fullname, DateTime.Now);
-
-                        var pageContent = new PageContent(pInfo, page.Title, this.GetType().Name, DateTime.Now, string.Format("Version: {0}", version.ToString()), page.Content, page.Keywords, page.Description);
-                        var result = provider.ModifyPage(pInfo, page.Title, this.GetType().Name, DateTime.Now, string.Format("Version: {0}", version.ToString()), page.Content, page.Keywords, page.Description, SaveMode.Normal);
-
-                        m_Host.LogEntry(string.Format("{0} - {1} page {2}, {3}"
-                                            , this.GetType().Name
-                                            , (result == true ? "Created" : "Unable to create")
-                                            , page.Fullname
-                                            , string.Format("Version: {0}", version.ToString())
-                                            )
-                                        , LogEntryType.General, this.GetType().Name, this);
-                    }
-                    else
-                    {
-                        var existingPageContent = m_Host.GetPageContent(pInfo);
-
-                        //Retreive version no
-                        var matchVersion = VersionRegex.Match((string.IsNullOrEmpty(existingPageContent.Comment) == false ? existingPageContent.Comment : "Version: 0.0.0.0"));
-
-                        int pageVersionNo = 0;
-                        if (matchVersion.Success == true)
+                        //Page created yet?
+                        if (pInfo == null)
                         {
-                            pageVersionNo += int.Parse(matchVersion.Groups["major"].Value) * 1000;
-                            pageVersionNo += int.Parse(matchVersion.Groups["minor"].Value) * 100;
-                            pageVersionNo += int.Parse(matchVersion.Groups["build"].Value) * 10;
-                            pageVersionNo += int.Parse(matchVersion.Groups["revision"].Value);
-                        }
+                            pInfo = provider.AddPage(null, page.Fullname, DateTime.Now);
 
-                        //Overwrite
-                        if(pageVersionNo < versionNo)
-                        {
-                            //Save the page and overwrite the old one
-                            var result = provider.ModifyPage(pInfo
-                                , page.Title
-                                , this.GetType().Name
-                                , DateTime.Now
-                                , string.Format("Version: {0}", version.ToString()) //Set new version
-                                , page.Content
-                                , page.Keywords
-                                , page.Description
-                                , SaveMode.Normal);
+                            var pageContent = new PageContent(pInfo, page.Title, this.GetType().Name, DateTime.Now, string.Format("Version: {0}", version.ToString()), page.Content, page.Keywords, page.Description);
+                            var result = provider.ModifyPage(pInfo, page.Title, this.GetType().Name, DateTime.Now, string.Format("Version: {0}", version.ToString()), page.Content, page.Keywords, page.Description, SaveMode.Normal);
 
-                            m_Host.LogEntry(string.Format("{0} - {1} page {2} from {3} to {4}"
+                            m_Host.LogEntry(string.Format("{0} - {1} page {2}, {3}"
                                                 , this.GetType().Name
-                                                , (result == true ? "Updated" : "Unable to update")
+                                                , (result == true ? "Created" : "Unable to create")
                                                 , page.Fullname
-                                                , matchVersion.Groups[0]
                                                 , string.Format("Version: {0}", version.ToString())
                                                 )
                                             , LogEntryType.General, this.GetType().Name, this);
+                        }
+                        else
+                        {
+                            var existingPageContent = m_Host.GetPageContent(pInfo);
+
+                            //Retreive version no
+                            var matchVersion = VersionRegex.Match((string.IsNullOrEmpty(existingPageContent.Comment) == false ? existingPageContent.Comment : "Version: 0.0.0.0"));
+
+                            int pageVersionNo = 0;
+                            if (matchVersion.Success == true)
+                            {
+                                pageVersionNo += int.Parse(matchVersion.Groups["major"].Value) * 1000;
+                                pageVersionNo += int.Parse(matchVersion.Groups["minor"].Value) * 100;
+                                pageVersionNo += int.Parse(matchVersion.Groups["build"].Value) * 10;
+                                pageVersionNo += int.Parse(matchVersion.Groups["revision"].Value);
+                            }
+
+                            //Overwrite
+                            if (pageVersionNo < versionNo)
+                            {
+                                //Save the page and overwrite the old one
+                                var result = provider.ModifyPage(pInfo
+                                    , page.Title
+                                    , this.GetType().Name
+                                    , DateTime.Now
+                                    , string.Format("Version: {0}", version.ToString()) //Set new version
+                                    , page.Content
+                                    , page.Keywords
+                                    , page.Description
+                                    , SaveMode.Normal);
+
+                                m_Host.LogEntry(string.Format("{0} - {1} page {2} from {3} to {4}"
+                                                    , this.GetType().Name
+                                                    , (result == true ? "Updated" : "Unable to update")
+                                                    , page.Fullname
+                                                    , matchVersion.Groups[0]
+                                                    , string.Format("Version: {0}", version.ToString())
+                                                    )
+                                                , LogEntryType.General, this.GetType().Name, this);
+                            }
                         }
                     }
                 }
