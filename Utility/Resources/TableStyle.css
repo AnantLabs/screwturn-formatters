@@ -90,6 +90,7 @@ body
 }
 #hor-minimalist-b th
 {
+    background-color: transparent;
 	font-size: 14px;
 	font-weight: normal;
 	color: #759f29;
@@ -149,6 +150,7 @@ body
 }
 #ver-minimalist th
 {
+    background-color: transparent;
 	padding: 8px 2px;
 	font-weight: normal;
 	font-size: 14px;
@@ -353,6 +355,7 @@ body
 }
 #hor-zebra th
 {
+    background-color: transparent;
 	font-size: 14px;
 	font-weight: normal;
 	padding: 10px 8px;
@@ -420,6 +423,7 @@ body
 }
 #ver-zebra-a th
 {
+    background-color: transparent;
 	font-size: 14px;
 	font-weight: normal;
 	padding: 12px 15px;
@@ -519,7 +523,7 @@ body
 	border-left: 1px solid #fff;
 	border-bottom: 1px solid #000000;
 	color: #000000;
-	background: #ffffff;
+    background-color: transparent;
 }
 #ver-zebra-b td
 {
@@ -690,6 +694,7 @@ body
 	padding: 9px 12px;
 	color: #669;
 	border-top: 1px solid #fff;
+	background: url('GetFile.aspx?File=/Keeper.Garrett.Formatters/Tables/Images/back.png');
 }
 #background-image tfoot td
 {
