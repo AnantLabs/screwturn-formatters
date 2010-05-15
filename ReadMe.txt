@@ -8,14 +8,22 @@ However it is assumed that they will work with all 3.0.X.X versions of ScrewTurn
 
 Beyond that there are now special requirements.
 
+Note: The formatters creates files in your default storage provider and creates a set of help pages, all which will be rewritten if deleted. 
+      They can all however be modified without being overwritten as along as they maintain thier original location and name.
+
 
 
 Installation
 -------------------------------------------
-BlogFormatter:
-	Requires that the Binaries/Themes/Blog folder is copied to the ScrewTurn /Themes/ directory
+All formatters are installed using the Administration interface.
 
-All other formatters are installed using the Administration interface.
+
+
+Upgrading from previous version
+-------------------------------------------
+Upgrading from version 1.0.1.0:
+	All versions after this are a major rewrite. Upgrading WILL require you to rewrite all tags on all pages as the syntax has been altered.
+	Original Help+Test pages should be deleted or will be automatically overwritten by never versions of the plugins.
 
 
 

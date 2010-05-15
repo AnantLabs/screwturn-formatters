@@ -21,10 +21,6 @@ namespace Keeper.Garrett.ScrewTurn.QueryTableFormatter
 
         private static readonly Regex TagRegex = new Regex(@"\{QTable(?<arguments>(.*?))\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
 
-        // Key#Query#Heading#ColumnOrder#Headers#TdblFormat#HeadFormat#RowFormat
-//        private static readonly Regex TagRegex = new Regex(@"\{QTable\((?<key>(.*?)),('(?<query>(.*?))')?,('(?<heading>(.*?))')?,('(?<columns>(.*?))')?,('(?<headers>(.*?))')?,('(?<tblFormat>(.*?))')?,('(?<headFormat>(.*?))')?,('(?<rowFormat>(.*?))')?\)\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
-
-
         public override void Init(IHostV30 _host, string _config)
         {
             string logMessage = "";

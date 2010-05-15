@@ -1,7 +1,29 @@
-[Version 1.0.2.0 - May 2 - 2010]
-FileListFormatter:
-	Bug fix -	Default provider now works when specifiyng '' or ,, , BUT the default provider is now always the LAST active provider detected, 
+
+[Version 1.1.0.0 - May 15 - 2010]
+New Formatters:
+	FileContentFormatter added. Supports display of html and raw txt files only inside a page, ex display a coverage report!
+
+New Features:
+	All formatters now use arguments in their syntax, and the syntax can be in random order and random count
+	All formatters now store thier files in the default filestorage provider (images, css, etc)
+	Complete rewrite of table display:
+		Tables are now XHTML compliant (I hope :))
+		Everything is now CSS and easily customizable.
+		11 predefined styles are included for all formatters, to encourage the use of customization
+	CategoryListFormatter:
+		Added all avaliable page info / page content info fields:
+			"comment", "content", "summary", "keywords", "lastmodified", "linkedpages", "createtime", "pagename", "user", "creator"
+		
+Bug fixes:
+	FileListFormatter:
+				Default provider now works when specifiyng '' or ,, , BUT the default provider is now always the LAST active provider detected, 
 				which in most cases will be SQL provider due to the alphabetic order (Local Files, MySql Provider, Oracle Provider, SQL Provider)
+	EventLogFormatter:
+				Test page has been cut down to 1 simple example as running many examples where to heavy on the server, could kill it.
+				NOTE: EventLogFormatter should always be used with causion as the EventLog system is very slow when scanning.
+
+Other:
+	Major refactoring and reordering of projects, unittests, coverage, etc.
 
 
 [Version 1.0.1.0 - May 2 - 2010]
