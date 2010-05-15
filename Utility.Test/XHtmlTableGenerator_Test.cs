@@ -23,7 +23,7 @@ namespace Utility.Tests
             var provider = MockRepository.GenerateStub<IFilesStorageProviderV30>();
 
             provider.Expect(x => x.Information).Return(new ComponentInformation("SomeProvider", "", "", "", ""));
-            host.Expect(x => x.GetSettingValue(SettingName.DefaultFilesStorageProvider)).IgnoreArguments().Return("SomeProvider");
+            host.Expect(x => x.GetSettingValue(SettingName.DefaultFilesStorageProvider)).IgnoreArguments().Return(provider.GetType().FullName);
             host.Expect(x => x.GetFilesStorageProviders(true)).IgnoreArguments().Return(new IFilesStorageProviderV30[] { provider });
 
             //Dirs
@@ -53,7 +53,7 @@ namespace Utility.Tests
             var provider = MockRepository.GenerateStub<IFilesStorageProviderV30>();
 
             provider.Expect(x => x.Information).Return(new ComponentInformation("SomeProvider", "", "", "", ""));
-            host.Expect(x => x.GetSettingValue(SettingName.DefaultFilesStorageProvider)).IgnoreArguments().Return("SomeProvider");
+            host.Expect(x => x.GetSettingValue(SettingName.DefaultFilesStorageProvider)).IgnoreArguments().Return(provider.GetType().FullName);
             host.Expect(x => x.GetFilesStorageProviders(true)).IgnoreArguments().Return(new IFilesStorageProviderV30[] { provider });
 
             //Dirs

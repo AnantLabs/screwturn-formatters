@@ -30,6 +30,7 @@ body
 }
 #hor-minimalist-a th
 {
+    background-color: transparent;
 	font-size: 14px;
 	font-weight: normal;
 	color: #759f29; 
@@ -696,7 +697,7 @@ body
 }
 #background-image tbody td
 {
-	background: url('images/back.png');
+	background: url('GetFile.aspx?File=/Keeper.Garrett.Formatters/Tables/Images/back.png');
 }
 * html #background-image tbody td
 {

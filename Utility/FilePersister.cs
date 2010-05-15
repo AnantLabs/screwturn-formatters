@@ -40,9 +40,12 @@ namespace Keeper.Garrett.ScrewTurn.Utility
         {
             var provider = GetDefaultFilesStorageProvider(_host);
 
-            CreateDirs(provider);
+            if (provider != null)
+            {
+                CreateDirs(provider);
 
-            CreateFiles(provider);
+                CreateFiles(provider);
+            }
         }
 
         private IFilesStorageProviderV30 GetDefaultFilesStorageProvider(IHostV30 _host)
@@ -51,15 +54,16 @@ namespace Keeper.Garrett.ScrewTurn.Utility
 
             var providers = _host.GetFilesStorageProviders(true);
             //Find matching provider, use default if none
+            IFilesStorageProviderV30 retval = null;
             foreach (var prov in providers)
             {
-                if (prov.Information.Name == defaultFilesStorageProviderName)
+                if (prov.GetType().FullName == defaultFilesStorageProviderName)
                 {
-                    return prov;
+                    retval = prov;
+                    break;
                 }
             }
-
-            return null;// _host.GetFilesStorageProviders(true).First(p => p.GetType().FullName == defaultFilesStorageProviderName);
+            return retval;
         }
 
         private void CreateDirs(IFilesStorageProviderV30 _provider)
