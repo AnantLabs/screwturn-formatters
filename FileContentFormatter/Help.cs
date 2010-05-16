@@ -295,7 +295,7 @@ You may need to adjust the path/pattern and provider for each test, to match exi
 {FileCont file='/Keeper.Garrett.Formatters/Tables/*.*' width=540 height=400}
 
 ===Display Content of all files in /Tables/ No Embedding ===
-{FileCont file='/Keeper.Garrett.Formatters/Tables/*.*' width=540 height=400}
+{FileCont file='/Keeper.Garrett.Formatters/Tables/*.*'}
 ",
             Description = "FileContentFormatter Test",
             Keywords = new string[] { "FileContentFormatter", "Test" }
