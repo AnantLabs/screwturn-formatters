@@ -285,11 +285,19 @@ Depends on your chosen theme. {BR}
 You may need to adjust the path/pattern and provider for each test, to match existing files in your wiki.{BR}
 {TOC}
 {BR}
-===Display Content of table-examples.html===
+===Display Content of table-examples.html Embedded===
 {FileCont file='/Keeper.Garrett.Formatters/Tables/*.html' width=540 height=400}
 
+===Display Content of TableStyles.css Embedded===
+{FileCont file='/Keeper.Garrett.Formatters/Tables/*.css' width=540 height=400}
+
 ===Display Content of TableStyles.css===
-{FileCont file='/Keeper.Garrett.Formatters/Tables/*.html' width=540 height=400}
+{FileCont file='/Keeper.Garrett.Formatters/Tables/*.css'}
+
+===Display Content of TableStyles.css using tags to avoid formatting===
+@@
+{FileCont file='/Keeper.Garrett.Formatters/Tables/*.css'}
+@@
 
 ===Display Content of all files in /Tables/===
 {FileCont file='/Keeper.Garrett.Formatters/Tables/*.*' width=540 height=400}
