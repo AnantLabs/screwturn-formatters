@@ -67,7 +67,7 @@ namespace Formatters.Tests
             int generalCount = 0;
             GetLogCounts(out warnCount, out errorCount, out generalCount, args);
             Assert.AreEqual(0, warnCount);
-            Assert.AreEqual(3, errorCount);
+            Assert.AreEqual(4, errorCount);
             Assert.AreEqual(1, generalCount);
         }
 
