@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Keeper.Garrett.ScrewTurn.Core;
+using Keeper.Garrett.ScrewTurn.Utility;
 
 namespace Keeper.Garrett.ScrewTurn.FileListFormatter
 {
@@ -482,7 +483,10 @@ You may need to adjust the path/pattern and provider for each test, to match exi
 ",
             Description = "FileListFormatter Test",
             Keywords = new string[] { "FileListFormatter", "Test" }
-        }
+        },
+
+        XHtmlTableGenerator.HelpPage
+
         };
     }
 }

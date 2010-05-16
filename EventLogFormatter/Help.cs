@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Keeper.Garrett.ScrewTurn.Core;
+using Keeper.Garrett.ScrewTurn.Utility;
 
 namespace Keeper.Garrett.ScrewTurn.EventLogFormatter
 {
@@ -433,7 +434,9 @@ Page for verifying the EventLogFormatter.{BR}
 {BR}",
             Description = "EventLogFormatter Test",
             Keywords = new string[] { "EventLogFormatter", "Test" }
-        }
+        },
+
+        XHtmlTableGenerator.HelpPage
         };
     }
 }

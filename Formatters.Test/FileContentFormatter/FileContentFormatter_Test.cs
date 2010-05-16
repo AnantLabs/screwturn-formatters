@@ -265,7 +265,7 @@ namespace Formatters.Tests
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert         
-            Assert.AreEqual("bla bla bla 123 \n 123 bla bla bla", retval);
+            Assert.AreEqual("bla bla bla 123 <br></br> 123 bla bla bla", retval);
         }
 
         [Test]
@@ -285,7 +285,7 @@ namespace Formatters.Tests
             host.Expect(x => x.GetSettingValue(SettingName.DefaultFilesStorageProvider)).Return("Local Storage Provider");
             provider.Expect(x => x.Information).Return(new ComponentInformation("Local Storage Provider", "", "", "", ""));
 
-            provider.Expect(x => x.ListFiles(null)).IgnoreArguments().Return(new string[] { "file1.exe", "file2.exe", "file1.txt" });
+            provider.Expect(x => x.ListFiles(null)).IgnoreArguments().Return(new string[] { "/file1.exe", "/file2.exe", "/file1.txt" });
 
             provider.Expect(x => x.RetrieveFile("", null, false)).IgnoreArguments().Return(true).WhenCalled(y => (y.Arguments[1] as MemoryStream).Write(new byte[] { 49, 50, 51 }, 0, 3));
 
@@ -318,7 +318,7 @@ namespace Formatters.Tests
             host.Expect(x => x.GetSettingValue(SettingName.DefaultFilesStorageProvider)).Return("Local Storage Provider");
             provider.Expect(x => x.Information).Return(new ComponentInformation("Local Storage Provider", "", "", "", ""));
 
-            provider.Expect(x => x.ListFiles(null)).IgnoreArguments().Return(new string[] { "file1.exe", "file2.exe", "file1.txt" });
+            provider.Expect(x => x.ListFiles(null)).IgnoreArguments().Return(new string[] { "/file1.exe", "/file2.exe", "/file1.txt" });
 
             provider.Expect(x => x.RetrieveFile("", null, false)).IgnoreArguments().Return(true).WhenCalled(y => (y.Arguments[1] as MemoryStream).Write(new byte[] { 49, 50, 51 }, 0, 3));
 
@@ -351,7 +351,7 @@ namespace Formatters.Tests
             host.Expect(x => x.GetSettingValue(SettingName.DefaultFilesStorageProvider)).Return("Local Storage Provider");
             provider.Expect(x => x.Information).Return(new ComponentInformation("Local Storage Provider", "", "", "", ""));
 
-            provider.Expect(x => x.ListFiles(null)).IgnoreArguments().Return(new string[] { "file1.exe", "file2.exe", "file1.txt" });
+            provider.Expect(x => x.ListFiles(null)).IgnoreArguments().Return(new string[] { "/file1.exe", "/file2.exe", "/file1.txt" });
 
             provider.Expect(x => x.RetrieveFile("", null, false)).IgnoreArguments().Return(true).WhenCalled(y => (y.Arguments[1] as MemoryStream).Write(new byte[] { 49, 50, 51 }, 0, 3));
 
@@ -384,7 +384,7 @@ namespace Formatters.Tests
             host.Expect(x => x.GetSettingValue(SettingName.DefaultFilesStorageProvider)).Return("Local Storage Provider");
             provider.Expect(x => x.Information).Return(new ComponentInformation("Local Storage Provider", "", "", "", ""));
 
-            provider.Expect(x => x.ListFiles(null)).IgnoreArguments().Return(new string[] { "file1.exe", "file2.exe", "file1.txt" });
+            provider.Expect(x => x.ListFiles(null)).IgnoreArguments().Return(new string[] { "/file1.exe", "/file2.exe", "/file1.txt" });
 
             provider.Expect(x => x.RetrieveFile("", null, false)).IgnoreArguments().Return(true).WhenCalled(y => (y.Arguments[1] as MemoryStream).Write(new byte[] { 49, 50, 51 }, 0, 3));
 
@@ -397,7 +397,7 @@ namespace Formatters.Tests
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert         
-            Assert.AreEqual("bla bla bla <embed src=\"GetFile.aspx?File=/file1.exe\" height=\"200\" width=\"400\" /> \n <embed src=\"GetFile.aspx?File=/file2.exe\" height=\"200\" width=\"400\" /> bla bla bla", retval);
+            Assert.AreEqual("bla bla bla <embed src=\"GetFile.aspx?File=/file1.exe\" height=\"200\" width=\"400\" /> <br></br> <embed src=\"GetFile.aspx?File=/file2.exe\" height=\"200\" width=\"400\" /> bla bla bla", retval);
         }
 
         [Test]
@@ -417,7 +417,7 @@ namespace Formatters.Tests
             host.Expect(x => x.GetSettingValue(SettingName.DefaultFilesStorageProvider)).Return("Local Storage Provider");
             provider.Expect(x => x.Information).Return(new ComponentInformation("Local Storage Provider", "", "", "", ""));
 
-            provider.Expect(x => x.ListFiles(null)).IgnoreArguments().Return(new string[] { "file1.exe", "file2.exe", "file1.txt" });
+            provider.Expect(x => x.ListFiles(null)).IgnoreArguments().Return(new string[] { "/file1.exe", "/file2.exe", "/file1.txt" });
 
             provider.Expect(x => x.RetrieveFile("", null, false)).IgnoreArguments().Throw(new Exception("Tilt"));
 
@@ -459,7 +459,7 @@ namespace Formatters.Tests
             host.Expect(x => x.GetSettingValue(SettingName.DefaultFilesStorageProvider)).Return("Local Storage Provider");
             provider.Expect(x => x.Information).Return(new ComponentInformation("Local Storage Provider", "", "", "", ""));
 
-            provider.Expect(x => x.ListFiles(null)).IgnoreArguments().Return(new string[] { "file1.exe", "file2.exe", "file1.txt" });
+            provider.Expect(x => x.ListFiles(null)).IgnoreArguments().Return(new string[] { "/file1.exe", "/file2.exe", "/file1.txt" });
 
             provider.Expect(x => x.RetrieveFile("", null, false)).IgnoreArguments().Return(true).WhenCalled(y => (y.Arguments[1] as MemoryStream).Write(new byte[] { 49, 50, 51 }, 0, 3));
 

@@ -176,7 +176,7 @@ namespace Keeper.Garrett.ScrewTurn.FileContentFormatter
                         //Embedding
                         if (string.IsNullOrEmpty(_style) == false)
                         {
-                            fileContent = string.Format(@"<embed src=""GetFile.aspx?File=/{0}"" {1} />", file, _style);
+                            fileContent = string.Format(@"<embed src=""GetFile.aspx?File={0}"" {1} />", file, _style);
 
                         }//Raw insertion
                         else if (_provider.RetrieveFile(file, ms, false) == true)
@@ -193,7 +193,7 @@ namespace Keeper.Garrett.ScrewTurn.FileContentFormatter
                         {
                             if (string.IsNullOrEmpty(retval) == false)
                             {
-                                retval = string.Format("{0} \n {1}", retval, fileContent);
+                                retval = string.Format("{0} <br></br> {1}", retval, fileContent);
                             }
                             else
                             {

@@ -51,11 +51,11 @@ namespace Keeper.Garrett.ScrewTurn.QueryTableFormatter
         {
             try
             {
-                XHtmlTableGenerator.StoreFiles(_host, "FileListFormatter");
+                XHtmlTableGenerator.StoreFiles(_host, "QueryTableFormatter");
             }
             catch (Exception e)
             {
-                LogEntry(string.Format("FileListFormatter - StoreFiles - Error: {0}", e.Message), LogEntryType.Error);
+                LogEntry(string.Format("QueryTableFormatter - StoreFiles - Error: {0}", e.Message), LogEntryType.Error);
             }
         }
 

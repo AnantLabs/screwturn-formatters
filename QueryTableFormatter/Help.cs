@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Keeper.Garrett.ScrewTurn.Core;
+using Keeper.Garrett.ScrewTurn.Utility;
 
 namespace Keeper.Garrett.ScrewTurn.QueryTableFormatter
 {
@@ -420,7 +421,9 @@ Page for verifying the QueryTableFormatter. You may wish to match links and quer
 {BR}",
             Description = "QueryTableFormatter Test",
             Keywords = new string[] { "QueryTableFormatter", "Test" }
-        }
+        },
+
+        XHtmlTableGenerator.HelpPage
         };
     }
 }

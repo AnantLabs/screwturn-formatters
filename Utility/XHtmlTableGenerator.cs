@@ -4,11 +4,208 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Reflection;
 using ScrewTurn.Wiki.PluginFramework;
+using Keeper.Garrett.ScrewTurn.Core;
 
 namespace Keeper.Garrett.ScrewTurn.Utility
 {
     public class XHtmlTableGenerator
     {
+        #region Help Page
+        public static readonly Page HelpPage = new Page()
+        {
+            Description = "",
+            Fullname = "",
+            Keywords = new string[] { ""},
+            Title = "",
+            Content = @"=='''Table Styles'''==
+This page describes the usage of tables and their syntax when working with the [http://keeper.endoftheinternet.org|Keeper Garrett Formatters].{BR}
+{TOC}
+{BR}
+=== Support By ===
+Currently 4 of the formatters uses the table styles, they are:{BR}
+* [CategoryListFormatterHelp|CategoryListFormatter]
+* [EventLogFormatterHelp|EventLogFormatter]
+* [FileListFormatterHelp|FileListFormatter]
+* [QueryTableFormatterHelp|QueryTableFormatter]
+{BR}
+
+=== Markup Usage ===
+'''What can you do?'''{BR}
+* Add a heading to your table
+* Add a footer to your table
+* Show only specified columns
+* Change column order
+* Override column headers 
+* Use one of the 11 predefined styles 
+* Define your own style
+{BR}
+
+(((
+'''Usage:'''{BR}{BR}
+'''{SomeFormatter( ...Formatter_Specific_Args=XX... head=XXX foot=YYY cols=ZZZ colnames=XYZ style=ZXY}'''{BR}{BR}
+'''Where:''' {BR}
+* '''head''' - Heading of the table
+* '''foot''' - Footer of the table
+* '''cols''' - Name and order of the columns to show, must be seperated by ,. Ex. 'col1,col2,col3'
+* '''colnames''' - Custom column names, must be seperated by ,. Ex. 'col1,col2,col3'
+* '''style''' - Name of one of the predefined styles, if not specified the default wiki style is used.
+
+''All args which have a value that contains whitespaces, must be encapsulated in ' ', ex. 'My Heading'.''
+{BR}
+)))
+{BR}
+
+==== Add A Heading ====
+(((
+'''Markup:'''{BR}{BR}
+'''{SomeFormatter( ... head='My Heading'}''' {BR}{BR}
+'''Result:'''{BR}{BR}
+{|  
+|+ My Heading 
+! Col1 !! Col2  
+|-  
+| DataCell1 || DataCell2
+|}
+)))
+{BR}
+
+==== Add A Footer ====
+(((
+'''Markup:'''{BR}{BR}
+'''{SomeFormatter( ... foot='My Footer'}''' {BR}{BR}
+'''Result:'''{BR}{BR}
+{|  
+! Col1 !! Col2  
+|-  
+| DataCell1 || DataCell2
+|}
+)))
+{BR}
+
+==== Change Column Order and Display ====
+(((
+'''Markup:'''{BR}{BR}
+'''{SomeFormatter( ... cols='Col1,Col3,Col2'}''' {BR}{BR}
+'''Result:'''{BR}{BR}
+{|  
+|+ 
+! Col1 !! Col3 !! Col2
+|-  
+| DataCell1 || DataCell3 || DataCell2
+|}
+{BR}
+''Here a 4 column called Col4 is omitted since it is not mentioned.''
+)))
+{BR}
+
+==== Change Column Names ====
+(((
+'''Markup:'''{BR}{BR}
+'''{SomeFormatter( ... colnames='X,Y,Z'}''' {BR}{BR}
+'''Result:'''{BR}{BR}
+{|  
+|+ 
+! X !! Y !! Z
+|-  
+| DataCell1 || DataCell2 || DataCell3
+|}
+)))
+
+'''OR'''
+
+(((
+'''Markup:'''{BR}{BR}
+'''{SomeFormatter( ... cols='Col1,Col3,Col2' colnames='X,Y,Z'}''' {BR}{BR}
+'''Result:'''{BR}{BR}
+{|  
+|+ 
+! X !! Y !! Z
+|-  
+| DataCell1 || DataCell3 || DataCell2
+|}
+)))
+{BR}
+
+==== Table Styling ====
+(((
+'''Markup:'''{BR}{BR}
+'''{SomeFormatter( ... style='hor-minimalist-a'}''' {BR}{BR}
+'''Result:'''
+<link type=""text/css"" rel=""stylesheet"" href=""GetFile.aspx?File=/Keeper.Garrett.Formatters/Tables/TableStyle.css""></link>
+<table id=""hor-minimalist-a"" summary=""Summary""> 
+	<colgroup> 
+		<col class=""col-odd"" /> 
+		<col class=""col-even"" /> 
+		<col class=""col-odd"" /> 
+	</colgroup> 
+ 
+	<thead> 
+		<tr> 
+			<td colspan=""3"" class=""heading"">hor-minimalist-a</td> 
+		</tr> 
+		<tr> 
+			<th scope=""col"" class=""first-head"">Head1</th> 
+			<th scope=""col"" class=""standard-head"">Head2</th> 
+			<th scope=""col"" class=""last-head"">Head3</th> 
+		</tr> 
+	</thead> 
+ 
+	<tfoot> 
+		<tr> 
+			<td colspan=""2"" class=""first-foot"">My Footer</td> 
+			<td class=""last-foot""/> 
+		</tr> 
+	</tfoot> 
+ 
+	<tbody> 
+		<tr class=""row-odd""> 
+			<td>Col1</td> 
+			<td>Col2</td> 
+			<td>Col3</td> 
+		</tr> 
+		<tr class=""row-even""> 
+			<td>Col1</td> 
+			<td>Col2</td> 
+			<td>Col3</td> 
+		</tr> 
+		<tr class=""row-odd""> 
+			<td>Col1</td> 
+			<td>Col2</td> 
+			<td>Col3</td> 
+		</tr> 
+	</tbody> 
+</table> 
+)))
+{BR}
+If the style argument is not supplied the default wiki table style is used.{BR}
+There are 11 predefined styles which are bundled with all the formatters (which uses tables).{BR}{BR}
+'''Predefined table styles:'''
+# hor-minimalist-a
+# hor-minimalist-b
+# ver-minimalist
+# box-table-a
+# box-table-b
+# ver-zebra
+# hor-zebra-a
+# hor-zebra-b
+# rounded-corner
+# background-image
+# gradient-style
+
+'''All these styles are defined in the TableStyle.css file located in default file storage provider on the following path:'''{BR}
+[{UP}/Keeper.Garrett.Formatters/Tables/TableStyle.css|/Keeper.Garrett.Formatters/Tables/TableStyle.css] 
+{BR}
+'''So to create your own custom style simply add your CSS to this file.'''
+{BR}
+
+'''For a visual preview go here, or look further below (requires the FileContentFormatter):'''{BR}
+[{UP}/Keeper.Garrett.Formatters/Tables/table-examples.html|/Keeper.Garrett.Formatters/Tables/table-examples.html]
+{BR}
+'''Examples:'''{BR}
+{FileCont file='/Keeper.Garrett.Formatters/Tables/table-examples.html'}"
+        };
+        #endregion
+
         public static void StoreFiles(IHostV30 _host, string _formatter)
         {
             var resourcePath = string.Format("Keeper.Garrett.ScrewTurn.{0}.Resources.Tables",_formatter);

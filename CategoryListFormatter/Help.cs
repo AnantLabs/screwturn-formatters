@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Keeper.Garrett.ScrewTurn.Core;
+using Keeper.Garrett.ScrewTurn.Utility;
 
 namespace Keeper.Garrett.ScrewTurn.CategoryListFormatter
 {
@@ -308,7 +309,9 @@ You may need to adjust the category for each test, to match an existing category
 ",
             Description = "CategoryListFormatter Test",
             Keywords = new string[] { "CategoryListFormatter", "Test" }
-        }
+        },
+
+        XHtmlTableGenerator.HelpPage
         };
     }
 }
