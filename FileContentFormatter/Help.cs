@@ -279,7 +279,7 @@ Depends on your chosen theme. {BR}
 
         new Page()
         {
-            Fullname = "FileContentFormatterrTest",
+            Fullname = "FileContentFormatterTest",
             Title = "File Content Test",
             Content = @"== Page for testing and verifying the FileContentFormatter ==
 You may need to adjust the path/pattern and provider for each test, to match existing files in your wiki.{BR}
