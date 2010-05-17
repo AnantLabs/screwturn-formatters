@@ -44,10 +44,11 @@ No special actions required.{BR}{BR}
 * ''Required:''
 ** '''cat''' - Name of a valid category
 * ''Optional:''
-** '''type''' - Can be 1 of 4, '''*,#, or nothing which means table'''
+** '''type''' - Can be 1 of 4, '''*,#, or table'''
 *** '''""*""'''- Means unnumbered list
 *** '''""#""'''- Means numbered list
-*** '''""""''' - Means use table instead of list
+*** '''""table""''' - Means use table instead of list
+*** Default is *
 * To display additional columns use the [Keeper-Garrett-Table-Styles|table tags found here]. Simply use the values described above in the 'cols' argument.
 {BR}
 '' All args which have a value that contains whitespaces, must be encapsulated in ' ', ex. 'My Category'.  ''

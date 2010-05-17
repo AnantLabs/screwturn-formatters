@@ -36,7 +36,6 @@ You can verify that the formatter is working by [EventLogFormatterTest|opening t
 *** user
 *** computer
 *** description
-* [Keeper-Garrett-Table-Styles|Use tables instead of lists]
 {BR}
 
 (((

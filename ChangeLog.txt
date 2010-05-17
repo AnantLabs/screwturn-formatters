@@ -25,6 +25,7 @@ Bug fixes:
 
 Other:
 	Major refactoring and reordering of projects, unittests, coverage, etc.
+	Major rewrite of Help pages and test pages
 
 
 [Version 1.0.1.0 - May 2 - 2010]

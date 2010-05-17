@@ -74,33 +74,18 @@ Where: {BR}
 === Markup Usage ===
 '''What can you do?'''{BR}
 * Query the database
-* Add a heading to your table
-* Show only specified columns
-* Change column order
-* Override column headers and make them more ''user friendly'' 
-* Change table style
-* Change columns header style
-* Change row style
-* Use one of 3 predefined styles '''bw,bg,gb'''
-* Combine several of the above options
-{BR}
+* [Keeper-Garrett-Table-Styles|Make all sorts of visual changes to the table generated from the query]{BR}
 
 (((
 '''Usage:'''{BR}{BR}
-'''{QTable(Link,Query,TblHeading,Columns,Headers,TblStyle,HeadStyle,RowStyle)}'''{BR}{BR}
+'''{ QTable conn= query= }'''{BR}{BR}
 '''Where:''' {BR}
-* ''Required:''
-** '''Link''' - Must match a link created by the admin, '''ex. MyLink1''', ask your admin for further information.
-** '''Query''' - Sql query, '''must be encapsulated in ' ' ex. 'select * from myView' '''.
-* ''Optional:''
-** '''TblHeading''' - Heading of the table, must be encapsulated in ' ' '''ex. 'My Heading' '''
-** '''Columns''' - Columns and column order starting at 0, must be encapsulated in ' ' '''ex. 1,2,3 or 1,0,3'''. 
-** '''Headers''' - Columnheaders must match column order, must be encapsulated in ' ' '''ex. Head1,Head,Head3 or Head1,Head0,Head3'''.
-** '''TblStyle''' - Style format, must be encapsulated in ' ' '''ex. 'align=""center"" style=""color: #000000;""' '''.
-** '''HeadFStyle''' - Style format, must be encapsulated in ' ' '''ex. 'align=""center"" style=""color: #000000;""' '''.
-** '''RowStyle''' - Style format, must be encapsulated in ' ' '''ex. 'align=""center"" style=""color: #000000;""' '''.
+* '''conn''' - Must match a link created by the admin, '''ex. MyLink1''', ask your admin for further information.
+* '''query''' - Sql query, '''must be encapsulated in ' ' ex. 'select * from myView' '''.
+* To control and modify the display of columns use the [Keeper-Garrett-Table-Styles|table tags found here].
+
 {BR}
-* All ""''','''"" '''must''' always be included in the tag.
+'' All args which have a value that contains whitespaces, must be encapsulated in ' ', ex. 'select * from myView'.  ''
 )))
 {BR}
 
@@ -108,7 +93,7 @@ Where: {BR}
 This will create a table with the default style of your chosen wiki theme. {BR}
 (((
 '''Markup:'''{BR}{BR}
-'''{QTable(Link,Query,,,,,,) }''' {BR}{BR}
+'''{ QTable conn=MyLink query='select * from myView'}''' {BR}{BR}
 '''Result:'''{BR}{BR}
 {|  
 |+  
@@ -119,104 +104,8 @@ This will create a table with the default style of your chosen wiki theme. {BR}
 )))
 {BR}
 
-==== Styling ====
-'''Default style'''{BR}
-Depends on your chosen theme. {BR}
-(((
-'''Markup:'''{BR}{BR}
-'''{QTable(Link,Query,,,,,,) }''' {BR}{BR}
-'''Result:'''{BR}{BR}
-{|  
-|+  
-! ColName1 !! ColName2  
-|-  
-| DataCell1 || DataCell2
-|}
-)))
-{BR}
-
-'''Predefined style: ''Black and White'' '''{BR}
-(((
-'''Markup:'''{BR}{BR}
-'''{QTable(Link,Query,,,,'bw','bw','bw') }''' {BR}{BR}
-'''Result:'''{BR}{BR}
-{| border=""0"" cellpadding=""2"" cellspacing=""0"" align=""center"" style=""background-color: #EEEEEE;""
-|- align=""center"" style=""background-color: #000000; color: #FFFFFF; font-weight: bold;""  
-| ColName1 || ColName2  
-|- align=""center"" style=""color: #000000;""
-| DataCell1 || DataCell2
-|}
-)))
-{BR}
-
-'''Predefined style: ''Black and Grey'' '''{BR}
-(((
-'''Markup:'''{BR}{BR}
-'''{QTable(Link,Query,,,,'bg','bg','bg') }''' {BR}{BR}
-'''Result:'''{BR}{BR}
-{| border=""0"" cellpadding=""2"" cellspacing=""0"" align=""center"" style=""background-color: #EEEEEE;""
-|- align=""center"" style=""background-color: #000000; color: #CCCCCC; font-weight: bold;""  
-| ColName1 || ColName2  
-|- align=""center;""
-| DataCell1 || DataCell2
-|}
-)))
-{BR}
-
-'''Predefined style: ''Green and Black''' ''{BR}
-(((
-'''Markup:'''{BR}{BR}
-'''{QTable(Link,Query,,,,'gb','gb','gb') }''' {BR}{BR}
-'''Result:'''{BR}{BR}
-{| border=""0"" cellpadding=""2"" cellspacing=""0"" align=""center"" style=""background-color: #EEEEEE;""
-|- align=""center"" style=""background-color: #88CC33; color: #000000; font-weight: bold;""  
-| ColName1 || ColName2  
-|- align=""center"" style=""color: #000000;""
-| DataCell1 || DataCell2
-|}
-)))
-{BR}
-
-'''Custom style:'''{BR}
-(((
-'''Markup:'''{BR}{BR}
-'''{QTable(Link,Query,,,,'cellspacing=""10"" style=""background-color: #88CC33; color: #000000;""','style=""color: #00AAAA;""','style=""color: #BBBB00;""') }''' {BR}{BR}
-'''Result:'''{BR}{BR}
-{| cellspacing=""10"" style=""background-color: #88CC33; color: #000000;""
-|- style=""color: #00AAAA;""   
-| ColName1 || ColName2  
-|- style=""color: #BBBB00;""
-| DataCell1 || DataCell2
-|}
-)))
-{BR}
-
-'''Custom heading + headers:'''{BR}
-(((
-'''Markup:'''{BR}{BR}
-'''{QTable(Link,Query,'My heading','1,2','Head1,Head2',,,) }''' {BR}{BR}
-'''Result:'''{BR}{BR}
-{|  
-|+ My heading  
-! Head1 !! Head2
-|-  
-| DataCell1 || DataCell2
-|}
-)))
-{BR}
-
-'''Custom heading + headers + order:'''{BR}
-(((
-'''Markup:'''{BR}{BR}
-'''{QTable(Link,Query,'My heading','2,1','Head2,Head1',,,) }''' {BR}{BR}
-'''Result:'''{BR}{BR}
-{|  
-|+ My heading  
-! Head2 !! Head1
-|-  
-| DataCell2 || DataCell1
-|}
-)))
+==== Tables and Styling ====
+To use [Keeper-Garrett-Table-Styles|tables look here]. 
 {BR}
 ",
             Description = "QueryTableFormatter Help",
@@ -372,52 +261,21 @@ All words WILL be scanned for ALL types of DB's.{BR}{BR}
 Page for verifying the QueryTableFormatter. You may wish to match links and queries to your setup.{BR}
 {TOC}
 {BR}
-== Query ==
-===Default===
+==Default==
 {BR}
-{QTable(test,'select * from schedule',,,,,,)}
+{QTable conn=test query='select * from schedule'}
 {BR}
-===Empty Table===
+==Empty Table==
 {BR}
-{QTable(test,'select * from emptytable',,,,,,)}
+{QTable conn=test query='select * from emptytable'}
 {BR}
-===Illegal word===
+==Illegal word==
 {BR}
-{QTable(test,'delete * from emptytable',,,,,,)}
+{QTable conn=test query='delete * from emptytable'}
 {BR}
-===Illegal word in table name(ignore,table missing error)===
+==Illegal word in table name(ignore,table missing error)==
 {BR}
-{QTable(test,'select * from emptydeletetable',,,,,,)}
-{BR}
-{BR}
-== Styling ==
-===Default style==={BR}
-{BR}
-{QTable(test,'select * from schedule',,,,,,)}
-{BR}
-===Predefined style: ''Black and White'' ===
-{BR}
-{QTable(test,'select * from schedule',,,,'bw','bw','bw')}
-{BR}
-===Predefined style: ''Black and Grey'' ===
-{BR}
-{QTable(test,'select * from schedule',,,,'bg','bg','bg')}
-{BR}
-===Predefined style: ''Green and Black'' ===
-{BR}
-{QTable(test,'select * from schedule',,,,'gb','gb','gb')}
-{BR}
-===Custom style==={BR}
-{BR}
-{QTable(test,'select * from schedule',,,,'cellspacing=""10"" style=""background-color: #88CC33; color: #000000;""','style=""color: #00AAAA;""','style=""color: #BBBB00;""')}
-{BR}
-===Custom heading + headers==={BR}
-{BR}
-{QTable(test,'select * from schedule','My Heading',,'H1,H2,H3,H4',,,)}
-{BR}
-===Custom heading + headers + order==={BR}
-{BR}
-{QTable(test,'select * from schedule','My Heading','0,3,2,1','H0,H3,H2,H1',,,)}
+{QTable conn=test query='select * from emptydeletetable'}
 {BR}",
             Description = "QueryTableFormatter Test",
             Keywords = new string[] { "QueryTableFormatter", "Test" }

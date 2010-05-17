@@ -85,7 +85,7 @@ namespace Keeper.Garrett.ScrewTurn.CategoryListFormatter
                                     var category = (args.ContainsKey("cat") == true ? args["cat"] : "");
 
                                     var outputType = (args.ContainsKey("type") == true ? args["type"] : "");//Default is table
-                                    outputType = (outputType != "*" && outputType != "#" && outputType != "" ? "*" : outputType);
+                                    outputType = (outputType != "*" && outputType != "#" && outputType != "table" ? "*" : outputType);
 
                                     var head = (args.ContainsKey("head") == true ? args["head"] : "");
                                     var foot = (args.ContainsKey("foot") == true ? args["foot"] : "");
@@ -148,7 +148,7 @@ namespace Keeper.Garrett.ScrewTurn.CategoryListFormatter
 
                                     if (dict.Count > 0)
                                     {
-                                        if (outputType != "") //Use primitive style?
+                                        if (outputType != "table") //Use primitive style?
                                         {
                                             list = GeneratePrimitiveList(dict, outputType, newCols);
                                         }

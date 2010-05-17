@@ -217,7 +217,7 @@ namespace Formatters.Tests
             host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
 
             // Category,output,include,head,headers,tbl,head,row
-            string input = "bla bla bla {CategoryList cat=MyCategory} bla bla bla";
+            string input = "bla bla bla {CategoryList cat=MyCategory type=table} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -265,7 +265,7 @@ namespace Formatters.Tests
             host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
 
             // Category,output,include,head,headers,tbl,head,row
-            string input = "bla bla bla {CategoryList cat=MyCategory cols='pagename,summary'} bla bla bla";
+            string input = "bla bla bla {CategoryList cat=MyCategory type=table cols='pagename,summary'} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -313,7 +313,7 @@ namespace Formatters.Tests
             host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
 
             // Category,output,include,head,headers,tbl,head,row
-            string input = "bla bla bla {CategoryList cat=MyCategory} bla bla bla";
+            string input = "bla bla bla {CategoryList cat=MyCategory type=table} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -361,7 +361,7 @@ namespace Formatters.Tests
             host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
 
             // Category,output,include,head,headers,tbl,head,row
-            string input = "bla bla bla {CategoryList cat=MyCategory cols='pagename,summary' head='My Products' colnames='Product Name,Summary'} bla bla bla";
+            string input = "bla bla bla {CategoryList cat=MyCategory type=table cols='pagename,summary' head='My Products' colnames='Product Name,Summary'} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -409,7 +409,7 @@ namespace Formatters.Tests
             host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
 
             // Category,output,include,head,headers,tbl,head,row
-            string input = "bla bla bla {CategoryList cat=MyCategory cols=not head='My Products' colnames='Product Name,Summary' style='bw'} bla bla bla";
+            string input = "bla bla bla {CategoryList cat=MyCategory type=table cols=not head='My Products' colnames='Product Name,Summary' style='bw'} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -464,7 +464,7 @@ namespace Formatters.Tests
             host.Expect(x => x.FindUser("User")).Repeat.Any().Return(new UserInfo("User", "Garrett", "", true, DateTime.Now, null));
 
             // Category,output,include,head,headers,tbl,head,row
-            string input = "bla bla bla {CategoryList cat=MyCategory cols=all colnames=MyColHead head='My Products' style='bw'} bla bla bla";
+            string input = "bla bla bla {CategoryList cat=MyCategory type=table cols=all colnames=MyColHead head='My Products' style='bw'} bla bla bla";
 
             //Act
             formatter.Init(host, "");
