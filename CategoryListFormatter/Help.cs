@@ -50,7 +50,7 @@ No special actions required.{BR}{BR}
 *** '''""""''' - Means use table instead of list
 * To display additional columns use the [Keeper-Garrett-Table-Styles|table tags found here]. Simply use the values described above in the 'cols' argument.
 {BR}
-* All args which have a value that contains whitespaces, must be encapsulated in ' ', ex. 'My Category'.  
+'' All args which have a value that contains whitespaces, must be encapsulated in ' ', ex. 'My Category'.  ''
 )))
 {BR}
 

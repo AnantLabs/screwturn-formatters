@@ -26,24 +26,27 @@ You can verify that the formatter is working by [EventLogFormatterTest|opening t
 ** Filter eventlog by 1 or more of the following: Id, Type, Date, Time, Source, Category, Event, User, Computer and Description
 ** Contact remote machine's event logs (permission setup might be required)
 ** Limit your search result by setting an upper limit
-* Format your table
-** Add a table heading
-** Override column headers and make them more ''user friendly'' 
-** Change table style
-** Change columns header style
-** Change row style
-** Use one of 3 predefined styles '''bw,bg,gb'''
-** Combine several of the above options
+** Display one or more of the following eventlog properties:
+*** type
+*** date
+*** time
+*** source
+*** category
+*** event
+*** user
+*** computer
+*** description
+* [Keeper-Garrett-Table-Styles|Use tables instead of lists]
 {BR}
 
 (((
 '''Usage:'''{BR}{BR}
-'''{EventLog(Machine,Log,Filter,Results,Heading,Columns,Headers,TblStyle,HeadStyle,RowStyle)}'''{BR}{BR}
+'''{ EventLog machine= log= filter= results= }'''{BR}{BR}
 '''Where:''' {BR}
 * ''Data:''
-** '''Machine''' - Name/IP of a the machine to fetch the eventlog from. Leave blank for localhost.
-** '''Log''' - Name of the log, '''must be encapsulated in ' ' (ex. 'Application')'''.
-** '''Filter''' - Filter to limit the search results, '''must be encapsulated in ' ' (ex. 'type=error,id=1')'''. Use the following filters, seperate by "","".
+** '''machine''' - Name/IP of a the machine to fetch the eventlog from. Ommit for localhost.
+** '''log''' - Name of the log
+** '''filter''' - Filter to limit the search results. Use the following filters, seperate by "","".
 *** '''""Id""''' - Index id of the entry
 *** '''""Type""''' - Must be one of:
 **** Information
@@ -66,17 +69,9 @@ You can verify that the formatter is working by [EventLogFormatterTest|opening t
 *** '''""Description""''' - Actual eventlog entry description. When using this field a string search will be performed, so use keywords such as: MyApp, database or other.
 **** ""' '"" - does not apply to this field, search must match entry string to reveal results.
 ** '''Results''' - Number which limits the amount of results returned, use this with care since it may be '''VERY''' cpu intensive to query the eventlog and scan for matches. Default is 15 results.
-* ''Formatting:''
-** '''TblHeading''' - Heading of the table, must be encapsulated in ' ' '''ex. 'My Heading' '''
-** '''Columns''' - Columns and column order starting at 0, must be encapsulated in ' ' '''ex. 1,2,3 or 1,0,3'''. See the next 2 lines for special formatting of columns.
-*** If left blank, the 4 columns (Type,Date,Source,Description) will be shown.
-*** If valued 'all', all possible columns will be shown (10 in all)
-** '''Headers''' - Columnheaders will override default naming, '''must be encapsulated in ' ' ex. 'Head1,Head2' '''
-** '''TblStyle''' - Style format, '''must be encapsulated in ' ' ex. 'align=""center"" style=""color: #000000;""' '''
-** '''HeadFStyle''' - Style format, '''must be encapsulated in ' ' ex. 'align=""center"" style=""color: #000000;""' '''
-** '''RowStyle''' - Style format,'''must be encapsulated in ' ' ex. 'align=""center"" style=""color: #000000;""' '''
+* To display additional columns use the [Keeper-Garrett-Table-Styles|table tags found here]. Simply use the values described above in the 'cols' argument.
 {BR}
-* All ""''','''"" '''must''' always be included in the tag, at all times, even if the content is blank.
+''All args which have a value that contains whitespaces, must be encapsulated in ' ', ex. 'My Category'.  ''
 )))
 {BR}
 
@@ -86,272 +81,141 @@ All examples here contacts the local eventlog only for better readbility.
 '''Minimum'''
 (((
 '''Markup:'''{BR}{BR}
-'''{EventLog(,'Application',,3,,,,,,) }''' {BR}{BR}
+'''{ EventLog log='Application' results=3 }''' {BR}{BR}
 '''Result:'''{BR}{BR}
 {|
 |+
 ! Type !! Date !! Source !! Description   
 |-
-| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Information.png|Information] Information || 01-01-2010 01:00:00 || Winlogon || Description
+| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Images/Information.png|Information] Information || 01-01-2010 01:00:00 || Winlogon || Description
 |-
-| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Warning.png|Warning] Warning || 01-01-2010 01:00:00 || Winlogon || Description
+| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Images/Warning.png|Warning] Warning || 01-01-2010 01:00:00 || Winlogon || Description
 |-
-| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Error.png|Error] Error || 01-01-2010 01:00:00 || Winlogon || Description
+| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Images/Error.png|Error] Error || 01-01-2010 01:00:00 || Winlogon || Description
 |}
 )))
 {BR}
 '''All columns'''
 (((
 '''Markup:'''{BR}{BR}
-'''{EventLog(,'Application',,3,'all',,,,,,) }''' {BR}{BR}
+'''{ EventLog log='Application' results=3 cols=all}''' {BR}{BR}
 '''Result:'''{BR}{BR}
 {|
 |+
 ! Id !! Type !! Date !! Time !! Source !! Category !! Event !! User !! Computer !! Description   
 |-
-| 0 || [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Information.png|Information] Information || 01-01-2010 01:00:00 || 01-01-2010 01:00:00 || Winlogon || 0 || X || User || MyMachine || Description
+| 0 || [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Images/Information.png|Information] Information || 01-01-2010 01:00:00 || 01-01-2010 01:00:00 || Winlogon || 0 || X || User || MyMachine || Description
 |-
-| 1 || [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Warning.png|Warning] Warning || 01-01-2010 01:00:00 || 01-01-2010 01:00:00 || Winlogon || 0 || Y || User || MyMachine || Description
+| 1 || [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Images/Warning.png|Warning] Warning || 01-01-2010 01:00:00 || 01-01-2010 01:00:00 || Winlogon || 0 || Y || User || MyMachine || Description
 |-
-| 2 || [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Error.png|Error] Error || 01-01-2010 01:00:00 || 01-01-2010 01:00:00 || Winlogon || 0 || Z || User || MyMachine || Description
+| 2 || [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Images/Error.png|Error] Error || 01-01-2010 01:00:00 || 01-01-2010 01:00:00 || Winlogon || 0 || Z || User || MyMachine || Description
 |}
 )))
 {BR}
 '''Filter - Type 1'''
 (((
 '''Markup:'''{BR}{BR}
-'''{EventLog(,'Application','type=error',3,,,,,,) }''' {BR}{BR}
+'''{ EventLog log='Application' filter='type=error' results=3 }''' {BR}{BR}
 '''Result:'''{BR}{BR}
 {|
 |+
 ! Type !! Date !! Source !! Description   
 |-
-| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Error.png|Error] Error || 01-01-2010 01:00:01 || Winlogon || Description
+| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Images/Error.png|Error] Error || 01-01-2010 01:00:01 || Winlogon || Description
 |-
-| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Error.png|Error] Error || 01-01-2010 01:00:02 || Winlogon || Description
+| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Images/Error.png|Error] Error || 01-01-2010 01:00:02 || Winlogon || Description
 |-
-| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Error.png|Error] Error || 01-01-2010 01:00:03 || Winlogon || Description
+| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Images/Error.png|Error] Error || 01-01-2010 01:00:03 || Winlogon || Description
 |}
 )))
 {BR}
 '''Filter - Type 2'''
 (((
 '''Markup:'''{BR}{BR}
-'''{EventLog(,'Application','type=warnanderror',3,,,,,,) }''' {BR}{BR}
+'''{ EventLog log='Application' filter='type=warnanderror' results=3 }''' {BR}{BR}
 '''Result:'''{BR}{BR}
 {|
 |+
 ! Type !! Date !! Source !! Description   
 |-
-| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Error.png|Error] Error || 01-01-2010 01:00:01 || Winlogon || Description
+| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Images/Error.png|Error] Error || 01-01-2010 01:00:01 || Winlogon || Description
 |-
-| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Warning.png|Warning] Warning || 01-01-2010 01:00:02 || Winlogon || Description
+| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Images/Warning.png|Warning] Warning || 01-01-2010 01:00:02 || Winlogon || Description
 |-
-| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Error.png|Error] Error || 01-01-2010 01:00:03 || Winlogon || Description
+| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Images/Error.png|Error] Error || 01-01-2010 01:00:03 || Winlogon || Description
 |}
 )))
 {BR}
 '''Filter - Date 1'''
 (((
 '''Markup:'''{BR}{BR}
-'''{EventLog(,'Application','date=01-01-2010',3,,,,,,) }''' {BR}{BR}
+'''{ EventLog log='Application' filter='date=01-01-2010' results=3 }''' {BR}{BR}
 '''Result:'''{BR}{BR}
 {|
 |+
 ! Type !! Date !! Source !! Description   
 |-
-| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Information.png|Information] Information || 01-01-2010 00:00:00 || Winlogon || Description
+| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Images/Information.png|Information] Information || 01-01-2010 00:00:00 || Winlogon || Description
 |-
-| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Warning.png|Warning] Warning || 01-01-2010 01:00:00 || Winlogon || Description
+| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Images/Warning.png|Warning] Warning || 01-01-2010 01:00:00 || Winlogon || Description
 |-
-| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Error.png|Error] Error || 01-02-2010 02:00:00 || Winlogon || Description
+| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Images/Error.png|Error] Error || 01-02-2010 02:00:00 || Winlogon || Description
 |}
 )))
 {BR}
 '''Filter - Date 2'''
 (((
 '''Markup:'''{BR}{BR}
-'''{EventLog(,'Application','date=01-01-2010 01:00:00',3,,,,,,) }''' {BR}{BR}
+'''{ EventLog log='Application' filter='date=01-01-2010 01:00:00' results=3 }''' {BR}{BR}
 '''Result:'''{BR}{BR}
 {|
 |+
 ! Type !! Date !! Source !! Description   
 |-
-| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Information.png|Information] Information || 01-01-2010 01:00:00 || Winlogon || Description
+| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Images/Information.png|Information] Information || 01-01-2010 01:00:00 || Winlogon || Description
 |-
-| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Warning.png|Warning] Warning || 01-01-2010 02:00:00 || Winlogon || Description
+| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Images/Warning.png|Warning] Warning || 01-01-2010 02:00:00 || Winlogon || Description
 |-
-| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Error.png|Error] Error || 01-02-2010 03:00:00 || Winlogon || Description
+| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Images/Error.png|Error] Error || 01-02-2010 03:00:00 || Winlogon || Description
 |}
 )))
 {BR}
 '''Filter - Description'''
 (((
 '''Markup:'''{BR}{BR}
-'''{EventLog(,'Application','description=database',3,,,,,,) }''' {BR}{BR}
+'''{ EventLog log='Application' filter='description=database' results=3 }''' {BR}{BR}
 '''Result:'''{BR}{BR}
 {|
 |+
 ! Type !! Date !! Source !! Description   
 |-
-| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Information.png|Information] Information || 01-01-2010 01:00:00 || Winlogon || ....dataBase....
+| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Images/Information.png|Information] Information || 01-01-2010 01:00:00 || Winlogon || ....dataBase....
 |-
-| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Warning.png|Warning] Warning || 01-01-2010 02:00:00 || Winlogon || ....DATABase....
+| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Images/Warning.png|Warning] Warning || 01-01-2010 02:00:00 || Winlogon || ....DATABase....
 |-
-| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Error.png|Error] Error || 01-02-2010 03:00:00 || Winlogon || ....DataBase....
+| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Images/Error.png|Error] Error || 01-02-2010 03:00:00 || Winlogon || ....DataBase....
 |}
 )))
 {BR}
 '''Filter - Multiple filters'''
 (((
 '''Markup:'''{BR}{BR}
-'''{EventLog(,'Application','type=information,source=winlogon,description=license',3,,,,,,) }''' {BR}{BR}
+'''{ EventLog log='Application' filter='type=information,source=winlogon,description=license' results=3 }''' {BR}{BR}
 '''Result:'''{BR}{BR}
 {|
 |+
 ! Type !! Date !! Source !! Description   
 |-
-| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Information.png|Information] Information || 01-01-2010 01:00:00 || Winlogon || ....license....
+| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Images/Information.png|Information] Information || 01-01-2010 01:00:00 || Winlogon || ....license....
 |-
-| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Information.png|Information] Information || 01-01-2010 01:00:00 || Winlogon || ....license....
+| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Images/Information.png|Information] Information || 01-01-2010 01:00:00 || Winlogon || ....license....
 |-
-| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Information.png|Information] Information || 01-01-2010 01:00:00 || Winlogon || ....license....
+| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Images/Information.png|Information] Information || 01-01-2010 01:00:00 || Winlogon || ....license....
 |}
 )))
 {BR}
-==== Styling ====
-'''Default style'''{BR}
-Depends on your chosen theme. {BR}
-(((
-'''Markup:'''{BR}{BR}
-'''{EventLog(,'Application',,,,,,,,) }''' {BR}{BR}
-'''Result:'''{BR}{BR}
-{|  
-|+  
-! Type !! Date !! Source !! Description   
-|-  
-| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Information.png|Information] Information || 01-01-2010 01:00:00 || Winlogon || Description
-|-  
-| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Warning.png|Warning] Warning || 01-01-2010 01:00:00 || Winlogon || Description
-|-  
-| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Error.png|Error] Error || 01-01-2010 01:00:00 || Winlogon || Description
-|}
-)))
-{BR}
-
-'''Predefined style: ''Black and White'' '''{BR}
-(((
-'''Markup:'''{BR}{BR}
-'''{EventLog(,'Application',,,,,,'bw','bw','bw') }''' {BR}{BR}
-'''Result:'''{BR}{BR}
-{| border=""0"" cellpadding=""2"" cellspacing=""0"" align=""center"" style=""background-color: #EEEEEE;"" 
-|+
-|- align=""center"" style=""background-color: #000000; color: #FFFFFF; font-weight: bold;""    
-| Type || Date || Source || Description   
-|- align=""center"" style=""color: #000000;"" 
-| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Information.png|Information] Information || 01-01-2010 01:00:00 || Winlogon || Description
-|- align=""center"" style=""color: #000000;"" 
-| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Warning.png|Warning] Warning || 01-01-2010 01:00:00 || Winlogon || Description
-|- align=""center"" style=""color: #000000;"" 
-| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Error.png|Error] Error || 01-01-2010 01:00:00 || Winlogon || Description
-|}
-)))
-{BR}
-
-
-
-'''Predefined style: ''Black and Grey'' '''{BR}
-(((
-'''Markup:'''{BR}{BR}
-'''{EventLog(,'Application',,,,,,'bg','bg','bg') }''' {BR}{BR}
-'''Result:'''{BR}{BR}
-{| border=""0"" cellpadding=""2"" cellspacing=""0"" align=""center"" style=""background-color: #EEEEEE;"" 
-|+
-|- align=""center"" style=""background-color: #000000; color: #CCCCCC; font-weight: bold;""  
-| Type || Date || Source || Description      
-|- align=""center""
-| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Information.png|Information] Information || 01-01-2010 01:00:00 || Winlogon || Description
-|- align=""center""
-| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Warning.png|Warning] Warning || 01-01-2010 01:00:00 || Winlogon || Description
-|- align=""center"" 
-| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Error.png|Error] Error || 01-01-2010 01:00:00 || Winlogon || Description
-|}
-)))
-{BR}
-
-'''Predefined style: ''Green and Black''' ''{BR}
-(((
-'''Markup:'''{BR}{BR}
-'''{EventLog(,'Application',,,,,,'gb','gb','gb') }''' {BR}{BR}
-'''Result:'''{BR}{BR}
-{| border=""0"" cellpadding=""2"" cellspacing=""0"" align=""center"" style=""background-color: #EEEEEE;"" 
-|+
-|- align=""center"" style=""background-color: #88CC33; color: #000000; font-weight: bold;""  
-| Type || Date || Source || Description      
-|- align=""center"" style=""color: #000000;""
-| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Information.png|Information] Information || 01-01-2010 01:00:00 || Winlogon || Description
-|- align=""center"" style=""color: #000000;""
-| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Warning.png|Warning] Warning || 01-01-2010 01:00:00 || Winlogon || Description
-|- align=""center"" style=""color: #000000;"" 
-| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Error.png|Error] Error || 01-01-2010 01:00:00 || Winlogon || Description
-|}
-)))
-{BR}
-
-'''Custom style:'''{BR}
-(((
-'''Markup:'''{BR}{BR}
-'''{EventLog(,'Application',,,,,,'cellspacing=""10"" style=""background-color: #88CC33; color: #000000;""','style=""color: #00AAAA;""','style=""color: #BBBB00;""') }''' {BR}{BR}
-'''Result:'''{BR}{BR}
-{| cellspacing=""10"" style=""background-color: #88CC33; color: #000000;""
-|+
-|- style=""color: #00AAAA;""
-| Type || Date || Source || Description      
-|- style=""color: #BBBB00;""
-| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Information.png|Information] Information || 01-01-2010 01:00:00 || Winlogon || Description
-|- style=""color: #BBBB00;""
-| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Warning.png|Warning] Warning || 01-01-2010 01:00:00 || Winlogon || Description
-|- style=""color: #BBBB00;""
-| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Error.png|Error] Error || 01-01-2010 01:00:00 || Winlogon || Description
-|}
-)))
-{BR}
-
-'''Custom heading + headers:'''{BR}
-(((
-'''Markup:'''{BR}{BR}
-'''{EventLog(,'Application',,,'My Heading',,'H1,H2,H3,H4',,,) }''' {BR}{BR}
-'''Result:'''{BR}{BR}
-{| 
-|+ My Heading
-! H1 !! H2 !! H3 !! H4 
-|- 
-| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Information.png|Information] Information || 01-01-2010 01:00:00 || Winlogon || Description
-|- 
-| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Warning.png|Warning] Warning || 01-01-2010 01:00:00 || Winlogon || Description
-|- 
-| [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Error.png|Error] Error || 01-01-2010 01:00:00 || Winlogon || Description
-|}
-)))
-{BR}
-
-
-'''Custom heading + headers + order:'''{BR}
-(((
-'''Markup:'''{BR}{BR}
-'''{EventLog(,'Application',,,'My Heading','9,2,4,1','Dscr,When,From,Cat',,,) }''' {BR}{BR}
-'''Result:'''{BR}{BR}
-{| 
-|+ My Heading
-! Dscr !! When !! From !! Cat
-|- 
-| Description || 01-01-2010 01:00:00 || Winlogon || [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Information.png|Information] Information 
-|- 
-| Description || 01-01-2010 01:00:00 || Winlogon || [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Warning.png|Warning] Warning 
-|- 
-| Description || 01-01-2010 01:00:00 || Winlogon || [image||{UP}/Keeper.Garrett.Formatters/EventLogFormatter/Error.png|Error] Error 
-|}
-)))
+==== Tables and Styling ====
+To use [Keeper-Garrett-Table-Styles|tables look here]. 
 {BR}
 ",
             Description = "EventLogFormatter Help",
@@ -365,73 +229,16 @@ Depends on your chosen theme. {BR}
 Page for verifying the EventLogFormatter.{BR}
 {TOC}
 {BR}
-== Data ==
 ===Default===
-{BR}
-{EventLog(,'Application',,3,,,,,,)}
+{EventLog log='Application' results=3}
 {BR}
 ===All columns===
-{BR}
-{EventLog(,'Application',,3,,'all',,,,)}
+{EventLog log='Application' results=3 cols=all}
 {BR}
 ===Filter - Type 1===
+{EventLog log='Application' filter='type=error' results=3}
 {BR}
-{EventLog(,'Application','type=error',3,,,,,,)}
-{BR}
-===Filter - Type 2===
-{BR}
-{EventLog(,'Application','type=warnanderror',3,,,,,,)}
-{BR}
-===Filter - Date 1===
-{BR}
-{EventLog(,'Application','date=01-01-2010',3,,,,,,)}
-{BR}
-===Filter - Date 2===
-{BR}
-{EventLog(,'Application','date=01-01-2010 01:00:00',3,,,,,,)}
-{BR}
-===Filter - Date 3===
-{BR}
-{EventLog(,'Application','date=-1',3,,,,,,)}
-{BR}
-===Filter - Description===
-{BR}
-{EventLog(,'Application','description=service',3,,,,,,)}
-{BR}
-===Filter - Multiple filters===
-{BR}
-{EventLog(,'System','type=information,source=Service Control Manager,description=service',3,,,,,,)}
-{BR}
-{BR}
-== Styling ==
-===Default style==={BR}
-{BR}
-{EventLog(,'Application',,3,,,,,,)}
-{BR}
-===Predefined style: ''Black and White'' ===
-{BR}
-{EventLog(,'Application',,3,,,,'bw','bw','bw')}
-{BR}
-===Predefined style: ''Black and Grey'' ===
-{BR}
-{EventLog(,'Application',,3,,,,'bg','bg','bg')}
-{BR}
-===Predefined style: ''Green and Black'' ===
-{BR}
-{EventLog(,'Application',,3,,,,'gb','gb','gb')}
-{BR}
-===Custom style:==={BR}
-{BR}
-{EventLog(,'Application',,3,,,,'cellspacing=""10"" style=""background-color: #88CC33; color: #000000;""','style=""color: #00AAAA;""','style=""color: #BBBB00;""')}
-{BR}
-===Custom heading + headers:==={BR}
-{BR}
-{EventLog(,'Application',,3,'My Heading',,'H1,H2,H3,H4',,,)}
-{BR}
-===Custom heading + headers + order:==={BR}
-{BR}
-{EventLog(,'Application',,3,'My Heading','2,4,1,9','When,From,Cat,Dscr',,,)}
-{BR}",
+",
             Description = "EventLogFormatter Test",
             Keywords = new string[] { "EventLogFormatter", "Test" }
         },
