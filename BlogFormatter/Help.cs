@@ -18,10 +18,7 @@ You can verify that the formatter is working by [BlogFormatterTest|opening this 
 {TOC}
 {BR}
 === Administrators ===
-'''Installation'''
-* Unzip the BlogFormatter.zip
-* Place the folder 'Blog' in the '...\Themes\' folder.
-* Load the plugin into the wiki using the Administrator interface as with most other plugins.
+No special actions required.
 {BR}
 
 === Markup Usage ===
@@ -35,13 +32,13 @@ You can verify that the formatter is working by [BlogFormatterTest|opening this 
 ** Choose how many recent posts to list
 * Choose to display a bottom section
 * Choose custom layout using stylesheet and images
-* 1 predefined stylesupplied in ...Themes\Blog\BlogDefault.css
+* 1 predefined stylesupplied in \Keeper.Garrett.Formatters\BlogFormatter\BlogStyle.css
 {BR}
 
 '''How does it work?'''{BR}
 * Create a new page called ex. MyBlog. 
 ** '''Do not makes this page, the about page or the bottom page, a member of the MyBlogCategory, if you do you will create a self refering loop, which the BlogFormatter will detect, display a warning and deny blog generation.'''{BR}
-* Insert the Blog tag {Blog(MyBlogCategory,,,,) } and all posts shown in the blog will be pages marked with the category MyBlogCategory.{BR}
+* Insert the Blog tag { Blog cat=MyBlogCategory } and all posts shown in the blog will be pages marked with the category MyBlogCategory.{BR}
 * The keyword cloud is generated based on the ''keywords'' attached to each wiki page.{BR}
 That's it! :).{BR}
 The rest is purely customization of the look.
@@ -49,27 +46,27 @@ The rest is purely customization of the look.
 
 '''Usage:'''{BR}{BR}
 (((
-'''{Blog(Category,noOfPosts,noOfRecent,useLastModified,showGravatars,showCloud,showArchive,'aboutPage','bottomPage','stylesheet')}'''{BR}{BR}
+'''{ Blog cat= posts= recent= usemod= cloud= archive= avatar= about= bottom= css=}'''{BR}{BR}
 '''Where:''' {BR}
 * ''Required:''
-** '''Category''' - Name of a valid category, to generate Blog from
+** '''cat''' - Name of a valid category, to generate Blog from
 * ''Optional (applies only for tables as output):''
-** '''noOfPosts''' - No of posts to show, default 7
-** '''noOfRecent'''- No of most recent posts to show, default 15
-** '''useLastModified'''- Use last modified date instead of create date as post ordering, default false
+** '''posts''' - No of posts to show, default 7
+** '''recent'''- No of most recent posts to show, default 15
+** '''usemod'''- Use last modified date instead of create date as post ordering, default false
 *** If false create date and create user is used for post, if true latest mod date and mod user is displayed
-** '''showGravatars''' - Show gravatars for post creator, only works when DisplayGravatars have been enabled in the wiki configuration, default false
+** '''avatar''' - Show gravatars for post creator, only works when DisplayGravatars have been enabled in the wiki configuration, default false
 *** This feature only really make any meaning when used with Blogs where multiple users can create posts
-** '''showCloud''' - Show keyword cloud, default false
-** '''showArchive''' - Show archive (most recent blogs), default false
-** '''aboutPage''' - Name of page to include and display as the about section, must be encapsulated in ' ' '''ex. 'MyBlogAboutMe' '''
+** '''cloud''' - Show keyword cloud, default false
+** '''archive''' - Show archive (most recent blogs), default false
+** '''about''' - Name of page to include and display as the about section, must be encapsulated in ' ' '''ex. 'MyBlogAboutMe' '''
 *** If the about page is not being shown it is most likelly because you did not supply the correct, case-sentive page name in ' '
-** '''bottomPage''' - Name of page to include and display as the bottom section, must be encapsulated in ' ' '''ex. 'MyBlogBottom' '''
+** '''bottom''' - Name of page to include and display as the bottom section, must be encapsulated in ' ' '''ex. 'MyBlogBottom' '''
 *** If the bottom page is not being shown it is most likelly because you did not supply the correct, case-sentive page name in ' '
-** '''stylesheet''' - Name of stylesheet to use other than the default, must be encapsulated in ' ' '''ex. 'MyBlogCustomStylesheet.css' '''
-*** The stylesheet must be placed in at the ...Themes\Blog\ folder.
+** '''style''' - Name of stylesheet to use other than the default, must be encapsulated in ' ' '''ex. 'MyBlogCustomStylesheet.css' '''
+*** The stylesheet must be placed in at the \Keeper.Garrett.Formatters\BlogFormatter\ folder.
 {BR}
-* All ""''','''"" '''must''' always be included in the tag, at all times, even if the content is blank.
+* ''All args which have a value that contains whitespaces, must be encapsulated in ' ', ex. 'My About Page'. ''
 )))
 {BR}
 
@@ -80,7 +77,7 @@ A typical Blog would have the following setup:
 ===== Standard =====
 (((
 '''Markup:'''{BR}{BR}
-'''{Blog(MyBlogCat,7,15,false,false,true,true,'MyAboutPage','MyBottomPage',) }''' {BR}{BR}
+'''{ Blog cat=MyBlogCat posts=7 recent=15 cloud=true archive=true about='MyAboutPage' bottom='MyBottomPage' }''' {BR}{BR}
 '''Which will yeild:'''{BR}{BR}
 * At most 7 posts displayed
 * At most 15 recent posts displayed
@@ -96,7 +93,7 @@ A typical Blog would have the following setup:
 ===== Default =====
 (((
 '''Markup:'''{BR}{BR}
-'''{Blog(MyBlogCategory,,,,,,,,,) }''' {BR}{BR}
+'''{ Blog cat=MyBlogCategory }''' {BR}{BR}
 '''Result:'''{BR}{BR}
 * At most 7 posts displayed
 * No recent posts displayed
@@ -113,7 +110,7 @@ A typical Blog would have the following setup:
 ===== Max No Of Posts To Show =====
 (((
 '''Markup:'''{BR}{BR}
-'''{Blog(MyBlogCategory,3,,,,,,,,) }''' {BR}{BR}
+'''{ Blog cat=MyBlogCategory posts=3 }''' {BR}{BR}
 '''Result:'''{BR}{BR}
 * '''At most 3 posts displayed'''
 * No recent posts displayed
@@ -130,7 +127,7 @@ A typical Blog would have the following setup:
 ===== Max No Of Most Recent Posts To Show =====
 (((
 '''Markup:'''{BR}{BR}
-'''{Blog(MyBlogCategory,,3,,,,true,,,) }''' {BR}{BR}
+'''{ Blog cat=MyBlogCategory recent=3 archive=true }''' {BR}{BR}
 '''Result:'''{BR}{BR}
 * At most 7 posts displayed
 * '''At most 3 posts displayed'''
@@ -147,7 +144,7 @@ A typical Blog would have the following setup:
 ===== Use Modified Date+User To Display And Order Posts =====
 (((
 '''Markup:'''{BR}{BR}
-'''{Blog(MyBlogCategory,,,true,,,,,,) }''' {BR}{BR}
+'''{ Blog cat=MyBlogCategory usemod=true }''' {BR}{BR}
 '''Result:'''{BR}{BR}
 * At most 7 posts displayed
 * No recent posts displayed
@@ -164,7 +161,7 @@ A typical Blog would have the following setup:
 ===== Show Gravatars =====
 (((
 '''Markup:'''{BR}{BR}
-'''{Blog(MyBlogCategory,,,,true,,,,,) }''' {BR}{BR}
+'''{ Blog cat=MyBlogCategory avatar=true }''' {BR}{BR}
 '''Result:'''{BR}{BR}
 * At most 7 posts displayed
 * No recent posts displayed
@@ -181,7 +178,7 @@ A typical Blog would have the following setup:
 ===== Show Keyword Cloud =====
 (((
 '''Markup:'''{BR}{BR}
-'''{Blog(MyBlogCategory,,,,true,,,,,) }''' {BR}{BR}
+'''{ Blog cat=MyBlogCategory cloud=true }''' {BR}{BR}
 '''Result:'''{BR}{BR}
 * At most 7 posts displayed
 * No recent posts displayed
@@ -198,7 +195,7 @@ A typical Blog would have the following setup:
 ===== Show Archive =====
 (((
 '''Markup:'''{BR}{BR}
-'''{Blog(MyBlogCategory,,,,,,true,,,) }''' {BR}{BR}
+'''{ Blog cat=MyBlogCategory archive=true }''' {BR}{BR}
 '''Result:'''{BR}{BR}
 * At most 7 posts displayed
 * '''At most 15 posts displayed'''
@@ -215,7 +212,7 @@ A typical Blog would have the following setup:
 ===== Show About Section =====
 (((
 '''Markup:'''{BR}{BR}
-'''{Blog(MyBlogCategory,,,,,,,'AboutPage',,) }''' {BR}{BR}
+'''{ Blog cat=MyBlogCategory about='AboutPage' }''' {BR}{BR}
 '''Result:'''{BR}{BR}
 * At most 7 posts displayed
 * No recent posts displayed
@@ -232,7 +229,7 @@ A typical Blog would have the following setup:
 ===== Show Bottom Section =====
 (((
 '''Markup:'''{BR}{BR}
-'''{Blog(MyBlogCategory,,,,,,,,'BottomPage',) }''' {BR}{BR}
+'''{ Blog cat=MyBlogCategory bottom='BottomPage' }''' {BR}{BR}
 '''Result:'''{BR}{BR}
 * At most 7 posts displayed
 * No recent posts displayed
@@ -249,7 +246,7 @@ A typical Blog would have the following setup:
 ===== Use Custom Stylesheet =====
 (((
 '''Markup:'''{BR}{BR}
-'''{Blog(MyBlogCategory,,,,,,,,,'MyStyleSheet.css') }''' {BR}{BR}
+'''{ Blog cat=MyBlogCategory style='MyStyleSheet.css') }''' {BR}{BR}
 '''Result:'''{BR}{BR}
 * At most 7 posts displayed
 * No recent posts displayed
@@ -259,12 +256,12 @@ A typical Blog would have the following setup:
 * No Archive
 * No About
 * No Bottom
-* '''Custom stylesheet 'MyStyleSheet.css' placed in .../Themes/Blog is used for layout and design of the blog'''
+* '''Custom stylesheet 'MyStyleSheet.css' placed in /Keeper.Garrett.Formatter/BlogFormatter is used for layout and design of the blog'''
 )))
 {BR}
 
 ==== About styling ====
-To create a custom stylesheet examine the supplied BlogDefault.css stylesheet placed in .../Themes/Blog.
+To create a custom stylesheet examine the supplied BlogDefault.css stylesheet placed in /Keeper.Garrett.Formatter/BlogFormatter.
 This file contains all the nessasary div's tags etc to create your own style."
 ,
             Description = "BlogFormatter Help",
@@ -279,7 +276,7 @@ This file contains all the nessasary div's tags etc to create your own style."
 You may need to adjust the category for the test to get a view of the entire blog, as there is no default blog category supplied with the formatter.{BR}
 {BR}
 == Max 3 posts, max 3 recent, use create date, show gravatars, show cloud, show archive, show about, show bottom, no custom stylesheet==
-{Blog(MyBlog,3,3,false,true,true,true,'About','Bottom',)}
+{Blog cat=Blog posts=3 recent=3 usemod=false cloud=true archive=true avatar=true about='About' bottom='Bottom'}
 ",
             Description = "BlogFormatter Test",
             Keywords = new string[] { "BlogFormatter", "Test" }

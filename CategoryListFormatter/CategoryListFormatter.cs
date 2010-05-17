@@ -18,18 +18,17 @@ namespace Keeper.Garrett.ScrewTurn.CategoryListFormatter
         private Dictionary<string, int> m_ColumnDictionary = new Dictionary<string, int>()
         {
             { "comment", 0 },
-            { "content", 1 },
-            { "summary", 2 },
-            { "keywords", 3 },
-            { "lastmodified", 4 },
-            { "linkedpages", 5 },
-            { "createtime", 6 },
-            { "pagename", 7 },
-            { "user", 8 },
-            { "creator", 9 }
+            { "summary", 1 },
+            { "keywords", 2 },
+            { "lastmodified", 3 },
+            { "linkedpages", 4 },
+            { "createtime", 5 },
+            { "pagename", 6 },
+            { "user", 7 },
+            { "creator", 8 }
         };
 
-        private List<string> m_ColumnNames = new List<string>() { "Comment", "Content", "Summary", "Keywords", "Last Modified", "Linked Pages", "Created", "Page name", "Last Modified By", "Created By" };
+        private List<string> m_ColumnNames = new List<string>() { "Comment", "Summary", "Keywords", "Last Modified", "Linked Pages", "Created", "Page name", "Last Modified By", "Created By" };
         private string m_DefaultColumNames = "pagename";
         private string m_DateTimeFormat = "";
 
@@ -118,7 +117,7 @@ namespace Keeper.Garrett.ScrewTurn.CategoryListFormatter
                                                     var content = new PageDescription();
                                                     content.Content = m_Host.GetPageContent(pageInfo);
 
-                                                    if(newCols.Contains(9) == true) //Are they asking for creator, make another lookup (this is optimization, only make a lookup whne required)
+                                                    if(newCols.Contains(8) == true) //Are they asking for creator, make another lookup (this is optimization, only make a lookup whne required)
                                                     {
                                                         content.CreatorName = provider.GetBackupContent(pageInfo, 0).User;
                                                         var user = m_Host.FindUser(content.CreatorName);
@@ -236,13 +235,10 @@ namespace Keeper.Garrett.ScrewTurn.CategoryListFormatter
                 case 0://comment
                     retval = _page.Content.Comment;
                     break;
-                case 1://content
-                    retval = _page.Content.Content;
-                    break;
-                case 2://description
+                case 1://description
                     retval = _page.Content.Description;
                     break;
-                case 3://keywords
+                case 2://keywords
                     foreach (var word in _page.Content.Keywords)
                     {
                         retval = string.Format("{0},{1}",retval, word);
@@ -252,10 +248,10 @@ namespace Keeper.Garrett.ScrewTurn.CategoryListFormatter
                         retval = retval.Remove(0, 1);
                     }
                     break;
-                case 4://lastmodified
+                case 3://lastmodified
                     retval = _page.Content.LastModified.ToString(m_DateTimeFormat);
                     break;
-                case 5://linkedpages
+                case 4://linkedpages
                     foreach (var link in _page.Content.LinkedPages)
                     {
                         retval = string.Format("{0},[{1}]", retval, link);
@@ -265,16 +261,16 @@ namespace Keeper.Garrett.ScrewTurn.CategoryListFormatter
                         retval = retval.Remove(0, 1);
                     }
                     break;
-                case 6://createtime
+                case 5://createtime
                     retval = _page.Content.PageInfo.CreationDateTime.ToString(m_DateTimeFormat);
                     break;
-                case 7://title
+                case 6://title
                     retval = string.Format("[{0}|{1}]", _page.Content.PageInfo.FullName, _page.Content.Title);
                     break;
-                case 8://user
+                case 7://user
                     retval = string.Format("[User.aspx?Username={0}|{1}]", _page.UserName, _page.UserDisplayName); ;
                     break;
-                case 9://creator
+                case 8://creator
                     retval = string.Format("[User.aspx?Username={0}|{1}]", _page.CreatorName, _page.CreatorDisplayName); ;
                     break;
             }
