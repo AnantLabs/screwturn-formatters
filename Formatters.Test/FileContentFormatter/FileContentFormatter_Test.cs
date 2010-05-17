@@ -298,7 +298,7 @@ namespace Formatters.Tests
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert         
-            Assert.AreEqual("bla bla bla <embed src=\"GetFile.aspx?File=/file1.txt\" height=\"400\" /> bla bla bla", retval);
+            Assert.AreEqual("bla bla bla <object data=\"GetFile.aspx?File=/file1.txt\" type=\"text/html\" height=\"400\" /> bla bla bla", retval);
         }
 
         [Test]
@@ -331,7 +331,7 @@ namespace Formatters.Tests
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert         
-            Assert.AreEqual("bla bla bla <embed src=\"GetFile.aspx?File=/file1.txt\" width=\"400\" /> bla bla bla", retval);
+            Assert.AreEqual("bla bla bla <object data=\"GetFile.aspx?File=/file1.txt\" type=\"text/html\" width=\"400\" /> bla bla bla", retval);
         }
 
         [Test]
@@ -364,7 +364,7 @@ namespace Formatters.Tests
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert         
-            Assert.AreEqual("bla bla bla <embed src=\"GetFile.aspx?File=/file1.txt\" height=\"200\" width=\"400\" /> bla bla bla", retval);
+            Assert.AreEqual("bla bla bla <object data=\"GetFile.aspx?File=/file1.txt\" type=\"text/html\" height=\"200\" width=\"400\" /> bla bla bla", retval);
         }
 
         [Test]
@@ -397,7 +397,7 @@ namespace Formatters.Tests
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert         
-            Assert.AreEqual("bla bla bla <embed src=\"GetFile.aspx?File=/file1.exe\" height=\"200\" width=\"400\" /> <br></br> <embed src=\"GetFile.aspx?File=/file2.exe\" height=\"200\" width=\"400\" /> bla bla bla", retval);
+            Assert.AreEqual("bla bla bla <object data=\"GetFile.aspx?File=/file1.exe\" type=\"text/html\" height=\"200\" width=\"400\" /> <br></br> <object data=\"GetFile.aspx?File=/file2.exe\" type=\"text/html\" height=\"200\" width=\"400\" /> bla bla bla", retval);
         }
 
         [Test]
