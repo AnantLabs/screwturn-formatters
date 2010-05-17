@@ -14,7 +14,7 @@ namespace Keeper.Garrett.ScrewTurn.Utility
         public static readonly Page HelpPage = new Page()
         {
             Description = "Description of how to setup a table generation when using the Keeper.Garrett.Formatters ",
-            Fullname = "Keeper Garrett Table Styles",
+            Fullname = "Keeper-Garrett-Table-Styles",
             Keywords = new string[] { "Keeper", "Garrett", "Table", "Style", "Help", "Usage" },
             Title = "Keeper Garrett Table Styles",
             Content = @"=='''Table Styles'''==
