@@ -121,7 +121,7 @@ namespace Keeper.Garrett.ScrewTurn.Core
                     int versionNo =   (version.Major * 1000) 
                                     + (version.Minor * 100) 
                                     + (version.Build * 10) 
-                                    + (version.Revision);
+                                    + (int.Parse(string.Format("{0}",version.Revision.ToString()[0])));
 
                     if (provider != null)
                     {
@@ -154,7 +154,7 @@ namespace Keeper.Garrett.ScrewTurn.Core
                                 pageVersionNo += int.Parse(matchVersion.Groups["major"].Value) * 1000;
                                 pageVersionNo += int.Parse(matchVersion.Groups["minor"].Value) * 100;
                                 pageVersionNo += int.Parse(matchVersion.Groups["build"].Value) * 10;
-                                pageVersionNo += int.Parse(matchVersion.Groups["revision"].Value);
+                                pageVersionNo += int.Parse(string.Format("{0}", matchVersion.Groups["revision"].Value[0]));
                             }
 
                             //Overwrite

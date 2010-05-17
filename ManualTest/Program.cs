@@ -51,6 +51,10 @@ if (captures.Length < 3)
 //                var TagRegex = new Regex(@"\{Blog\(""(?<blog>(.*?)"") ((\/.*="".*"")*\)\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
 //                var TagRegex = new Regex(@"\{Blog\(""(?<blog>(.*?)"") [\?&](?<name>[^&=]+)=(?<value>[^&=]+)\)\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
 
+                int ms = int.Parse(Math.Round(1234.0, 1).ToString());
+
+                System.Console.WriteLine(ms);
+                /*
                 Trace.WriteLine(Assembly.GetExecutingAssembly().GetName().Version.ToString());
 
 
@@ -105,7 +109,7 @@ if (captures.Length < 3)
 //                var TagRegex = new Regex(@"\{Blog\(""(?<blog>(.*?)"") (?<argname>/\w+)=(?<argvalue>\w+)\)\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
                 
                 
-                var matches = TagRegex.Matches("{Blog asd=\"asf asd\" a=test)}");
+               /* var matches = TagRegex.Matches("{Blog asd=\"asf asd\" a=test)}");
 
                 var ret = ParseArgs(new string[] { "{Blog(\"MyBlog\" -a:test -b:test2)}" });
 
@@ -122,20 +126,20 @@ if (captures.Length < 3)
                 dict.Add(new DateTime(2010, 1, 1), "1");
                 dict.Add(new DateTime(2010, 2, 1), "2");
                 dict.Add(new DateTime(2010, 3, 1), "3");
-                dict.Add(new DateTime(2010, 4, 1), "4");
+                dict.Add(new DateTime(2010, 4, 1), "4");*/
 
                 //Sort to have latest first
 
 //                var d = dict.Reverse().Cast<SortedList<DateTime, string>>().;
 
-                var r = dict.Reverse().ToDictionary(x => x.Key, x => x.Value);
+               // var r = dict.Reverse().ToDictionary(x => x.Key, x => x.Value);
 //                dict = dict.Reverse().ToDictionary;
 
-                EventLog[] logs = EventLog.GetEventLogs(System.Environment.MachineName);
+         //       EventLog[] logs = EventLog.GetEventLogs(System.Environment.MachineName);
 //                EventLog[] logs = EventLog.GetEventLogs("savannah");
 
 
-                System.Console.WriteLine(DateTime.Now.ToUniversalTime());
+            /*    System.Console.WriteLine(DateTime.Now.ToUniversalTime());
                 System.Console.WriteLine(DateTime.Now.ToShortTimeString());
                 System.Console.WriteLine(DateTime.Now.ToShortDateString());
                 System.Console.WriteLine(DateTime.Now.ToLongTimeString());
@@ -156,7 +160,7 @@ if (captures.Length < 3)
                         
                         Trace.WriteLine("LogEntries: " + entry.Message);
                     }
-                }
+                }*/
             }
             catch (Exception e)
             {
