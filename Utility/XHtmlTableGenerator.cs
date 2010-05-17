@@ -13,10 +13,10 @@ namespace Keeper.Garrett.ScrewTurn.Utility
         #region Help Page
         public static readonly Page HelpPage = new Page()
         {
-            Description = "",
-            Fullname = "",
-            Keywords = new string[] { ""},
-            Title = "",
+            Description = "Description of how to setup a table generation when using the Keeper.Garrett.Formatters ",
+            Fullname = "Keeper Garrett Table Styles",
+            Keywords = new string[] { "Keeper", "Garrett", "Table", "Style", "Help", "Usage" },
+            Title = "Keeper Garrett Table Styles",
             Content = @"=='''Table Styles'''==
 This page describes the usage of tables and their syntax when working with the [http://keeper.endoftheinternet.org|Keeper Garrett Formatters].{BR}
 {TOC}
@@ -132,7 +132,7 @@ Currently 4 of the formatters uses the table styles, they are:{BR}
 '''{SomeFormatter( ... style='hor-minimalist-a'}''' {BR}{BR}
 '''Result:'''
 <link type=""text/css"" rel=""stylesheet"" href=""GetFile.aspx?File=/Keeper.Garrett.Formatters/Tables/TableStyle.css""></link>
-<table id=""hor-minimalist-a"" summary=""Summary""> 
+<table id=""hor-minimalist-a"" summary=""Table""> 
 	<colgroup> 
 		<col class=""col-odd"" /> 
 		<col class=""col-even"" /> 
@@ -185,7 +185,7 @@ There are 11 predefined styles which are bundled with all the formatters (which 
 # ver-minimalist
 # box-table-a
 # box-table-b
-# ver-zebra
+# hor-zebra
 # hor-zebra-a
 # hor-zebra-b
 # rounded-corner
