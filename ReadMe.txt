@@ -10,6 +10,7 @@ Beyond that there are now special requirements.
 
 Note: The formatters creates files in your default storage provider and creates a set of help pages, all which will be rewritten if deleted. 
       They can all however be modified without being overwritten as along as they maintain thier original location and name.
+	  If you modify the the pages and later update the plugin, the page will be replaced, however your changes will be there historically.
 
 
 

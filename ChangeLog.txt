@@ -1,7 +1,7 @@
 
-[Version 1.1.0.0 - May 15 - 2010]
+[Version 1.1.0.0 - May 18 - 2010]
 New Formatters:
-	FileContentFormatter added. Supports display of html and raw txt files only inside a page, ex display a coverage report!
+	FileContentFormatter added. Supports display of html and raw txt files only inside a page, ex. display a coverage report!
 
 New Features:
 	All formatters now use arguments in their syntax, and the syntax can be in random order and random count
