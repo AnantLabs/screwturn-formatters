@@ -297,8 +297,8 @@ namespace Formatters.Tests
             formatter.Init(host, "");
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
-            //Assert         
-            Assert.AreEqual("bla bla bla <object data=\"GetFile.aspx?File=/file1.txt\" type=\"text/html\" height=\"400\" /> bla bla bla", retval);
+            //Assert                   
+            Assert.AreEqual("bla bla bla <object data=\"GetFile.aspx?File=/file1.txt\" type=\"text/html\" height=\"400\" ><embed src=\"GetFile.aspx?File=/file1.txt\" type=\"text/html\" height=\"400\"></embed></object> bla bla bla", retval);
         }
 
         [Test]
@@ -331,7 +331,7 @@ namespace Formatters.Tests
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert         
-            Assert.AreEqual("bla bla bla <object data=\"GetFile.aspx?File=/file1.txt\" type=\"text/html\" width=\"400\" /> bla bla bla", retval);
+            Assert.AreEqual("bla bla bla <object data=\"GetFile.aspx?File=/file1.txt\" type=\"text/html\" width=\"400\" ><embed src=\"GetFile.aspx?File=/file1.txt\" type=\"text/html\" width=\"400\"></embed></object> bla bla bla", retval);
         }
 
         [Test]
@@ -364,7 +364,7 @@ namespace Formatters.Tests
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert         
-            Assert.AreEqual("bla bla bla <object data=\"GetFile.aspx?File=/file1.txt\" type=\"text/html\" height=\"200\" width=\"400\" /> bla bla bla", retval);
+            Assert.AreEqual("bla bla bla <object data=\"GetFile.aspx?File=/file1.txt\" type=\"text/html\" height=\"200\" width=\"400\" ><embed src=\"GetFile.aspx?File=/file1.txt\" type=\"text/html\" height=\"200\" width=\"400\"></embed></object> bla bla bla", retval);
         }
 
         [Test]
@@ -397,7 +397,7 @@ namespace Formatters.Tests
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert         
-            Assert.AreEqual("bla bla bla <object data=\"GetFile.aspx?File=/file1.exe\" type=\"text/html\" height=\"200\" width=\"400\" /> <br></br> <object data=\"GetFile.aspx?File=/file2.exe\" type=\"text/html\" height=\"200\" width=\"400\" /> bla bla bla", retval);
+            Assert.AreEqual("bla bla bla <object data=\"GetFile.aspx?File=/file1.exe\" type=\"text/html\" height=\"200\" width=\"400\" ><embed src=\"GetFile.aspx?File=/file1.exe\" type=\"text/html\" height=\"200\" width=\"400\"></embed></object> <br></br> <object data=\"GetFile.aspx?File=/file2.exe\" type=\"text/html\" height=\"200\" width=\"400\" ><embed src=\"GetFile.aspx?File=/file2.exe\" type=\"text/html\" height=\"200\" width=\"400\"></embed></object> bla bla bla", retval);
         }
 
         [Test]

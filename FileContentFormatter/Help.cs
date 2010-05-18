@@ -64,7 +64,7 @@ No special actions required.{BR}{BR}
 {BR}
 (((
 '''Markup:'''{BR}{BR}
-'''@@{ FileCont file='/Keeper.Garrett.Formatters/Tables/*.html' prov='Local Files Provider' width=200 height=200 }@@''' {BR}{BR}
+'''@ @ { FileCont file='/Keeper.Garrett.Formatters/Tables/*.html' prov='Local Files Provider' width=200 height=200 } @ @''' {BR}{BR}
 '''Result:'''{BR}{BR}
 @@
 {FileCont file='/Keeper.Garrett.Formatters/Tables/*.html'}
