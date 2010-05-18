@@ -1,4 +1,3 @@
-
 [Version 1.1.0.0 - May 18 - 2010]
 New Formatters:
 	FileContentFormatter added. Supports display of html and raw txt files only inside a page, ex. display a coverage report!
