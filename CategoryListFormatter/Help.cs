@@ -24,7 +24,7 @@ No special actions required.{BR}{BR}
 '''What can you do?'''{BR}
 * Generate a list/table of pages that match a certain category
 * Use numbered/unnumbered lists (# or *)
-* Choose wether to include among the following page properties:
+* Choose wether among the following page properties to display:
 ** comment
 ** summary
 ** keywords
@@ -60,7 +60,8 @@ The combinations of lists.{BR}
 (((
 '''Markup:'''{BR}{BR}
 '''{ CategoryList cat=MyCat type=* }''' {BR}{BR}
-'''Result:'''{BR}{BR}
+'''Result:'''{BR}
+
 * [Page1|Page Link1]
 * [Page2|Page Link2]
 * [Page3|Page Link3]
@@ -69,7 +70,8 @@ The combinations of lists.{BR}
 (((
 '''Markup:'''{BR}{BR}
 '''{ CategoryList cat=MyCat type=# }''' {BR}{BR}
-'''Result:'''{BR}{BR}
+'''Result:'''{BR}
+
 1. [Page1|Page Link1]
 2. [Page2|Page Link2]
 3. [Page3|Page Link3]
@@ -78,7 +80,8 @@ The combinations of lists.{BR}
 (((
 '''Markup:'''{BR}{BR}
 '''{ CategoryList cat=MyCat type=* cols=summary }''' {BR}{BR}
-'''Result:'''{BR}{BR}
+'''Result:'''{BR}
+
 * [Page1|Page Link1] - Page Summary
 * [Page2|Page Link2] - Page Summary
 * [Page3|Page Link3] - Page Summary
@@ -87,7 +90,8 @@ The combinations of lists.{BR}
 (((
 '''Markup:'''{BR}{BR}
 '''{ CategoryList cat=MyCat type=# cols='summary,user' }''' {BR}{BR}
-'''Result:'''{BR}{BR}
+'''Result:'''{BR}
+
 1. [Page1|Page Link1] - Page Summary - Username
 2. [Page2|Page Link2] - Page Summary - Username
 3. [Page3|Page Link3] - Page Summary - Username

@@ -78,7 +78,8 @@ No special actions required.{BR}{BR}
 (((
 '''Markup:'''{BR}{BR}
 '''{ FileList file='/*.*'}''' {BR}{BR}
-'''Result:'''{BR}{BR}
+'''Result:'''{BR}
+
 * File1
 * File2
 * File3
@@ -87,7 +88,8 @@ No special actions required.{BR}{BR}
 (((
 '''Markup:'''{BR}{BR}
 '''{ FileList file='/*.*' type=# }''' {BR}{BR}
-'''Result:'''{BR}{BR}
+'''Result:'''{BR}
+
 1. File1
 2. File2
 3. File3
@@ -96,7 +98,8 @@ No special actions required.{BR}{BR}
 (((
 '''Markup:'''{BR}{BR}
 '''{ FileList file='/*.*' dwnl=true }''' {BR}{BR}
-'''Result:'''{BR}{BR}
+'''Result:'''{BR}
+
 * [File1|File Link1]
 * [File2|File Link2]
 * [File3|File Link3]
@@ -105,7 +108,8 @@ No special actions required.{BR}{BR}
 (((
 '''Markup:'''{BR}{BR}
 '''{ FileList file='/*.*' sort='date,desc' dwnl=true }''' {BR}{BR}
-'''Result:'''{BR}{BR}
+'''Result:'''{BR}
+
 * [File1|File Link1]
 * [File2|File Link2]
 * [File3|File Link3]
@@ -114,7 +118,8 @@ No special actions required.{BR}{BR}
 (((
 '''Markup:'''{BR}{BR}
 '''{ FileListfile='/*.*' sort='date,desc' dwnl=true details='date,size,downloads' }''' {BR}{BR}
-'''Result:'''{BR}{BR}
+'''Result:'''{BR}
+
 * [File1|File Link1] (1-1-2010, 10 KB, 1 downloads)
 * [File2|File Link2] (1-2-2010, 20 KB, 2 downloads)
 * [File3|File Link3] (1-3-2010, 30 KB, 3 downloads)
@@ -123,7 +128,8 @@ No special actions required.{BR}{BR}
 (((
 '''Markup:'''{BR}{BR}
 '''{ FileListfile='/*.*' sort='date,asc' dwnl=true details='date,size,downloads' }''' {BR}{BR}
-'''Result:'''{BR}{BR}
+'''Result:'''{BR}
+
 * [File3|File Link3] (1-3-2010, 30 KB, 3 downloads)
 * [File2|File Link2] (1-2-2010, 20 KB, 2 downloads)
 * [File1|File Link1] (1-1-2010, 10 KB, 1 downloads)
@@ -132,7 +138,8 @@ No special actions required.{BR}{BR}
 (((
 '''Markup:'''{BR}{BR}
 '''{ FileListfile='/*.*' sort='downloads,asc' dwnl=true details='date,size,downloads' }''' {BR}{BR}
-'''Result:'''{BR}{BR}
+'''Result:'''{BR}
+
 * [File3|File Link3] (1-1-2010, 10 KB, 3 downloads)
 * [File2|File Link2] (1-2-2010, 20 KB, 2 downloads)
 * [File1|File Link1] (1-1-2010, 10 KB, 1 downloads)
