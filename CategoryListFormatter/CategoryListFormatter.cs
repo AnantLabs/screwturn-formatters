@@ -94,6 +94,7 @@ namespace Keeper.Garrett.ScrewTurn.CategoryListFormatter
                                     var colnames = (args.ContainsKey("colnames") == true ? args["colnames"] : "");
                                     var newCols = new List<int>();
                                     var newColNames = new List<string>();
+
                                     XHtmlTableGenerator.GenerateColumnsAndColumnNames(m_ColumnDictionary, m_ColumnNames, m_DefaultColumNames, cols, colnames, out newCols, out newColNames);
 
                                     m_DateTimeFormat = m_Host.GetSettingValue(SettingName.DateTimeFormat); //Update datetime format
@@ -119,7 +120,17 @@ namespace Keeper.Garrett.ScrewTurn.CategoryListFormatter
 
                                                     if(newCols.Contains(8) == true) //Are they asking for creator, make another lookup (this is optimization, only make a lookup whne required)
                                                     {
-                                                        content.CreatorName = provider.GetBackupContent(pageInfo, 0).User;
+                                                        var revs = provider.GetBackups(pageInfo);
+
+                                                        if(revs.Length > 0)
+                                                        {
+                                                            content.CreatorName = provider.GetBackupContent(pageInfo, 0).User;
+                                                        }
+                                                        else
+                                                        {
+                                                            content.CreatorName = content.Content.User;
+                                                        }
+
                                                         var user = m_Host.FindUser(content.CreatorName);
                                                         if (user != null)
                                                         {
@@ -182,7 +193,7 @@ namespace Keeper.Garrett.ScrewTurn.CategoryListFormatter
             }
             catch (Exception e)
             {
-                LogEntry(string.Format("CategoryListFormatter error: {0} {1}", e.Message, e.StackTrace), LogEntryType.Error);
+                LogEntry(string.Format("CategoryListFormatter error: {0} {1}", e.StackTrace, e.StackTrace), LogEntryType.Error);
             }
 
             return raw;
