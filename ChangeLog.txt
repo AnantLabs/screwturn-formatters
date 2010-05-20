@@ -1,4 +1,4 @@
-[Version 1.1.1.0 - May 18 - 2010]
+[Version 1.1.0.1 - May 20 - 2010]
 Bug fix:
 	CategoryList formatter would fail to retreiving the creator of page which was at rev 0. This has been fixed.
 
