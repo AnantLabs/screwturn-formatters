@@ -1,3 +1,7 @@
+[Version 1.1.1.0 - May 18 - 2010]
+Bug fix:
+	CategoryList formatter would fail to retreiving the creator of page which was at rev 0. This has been fixed.
+
 [Version 1.1.0.0 - May 18 - 2010]
 New Formatters:
 	FileContentFormatter added. Supports display of html and raw txt files only inside a page, ex. display a coverage report!
