@@ -122,7 +122,7 @@ namespace Keeper.Garrett.ScrewTurn.CategoryListFormatter
                                                     {
                                                         var revs = provider.GetBackups(pageInfo);
 
-                                                        if(revs.Length > 0)
+                                                        if(revs != null && revs.Length > 0)
                                                         {
                                                             content.CreatorName = provider.GetBackupContent(pageInfo, 0).User;
                                                         }
