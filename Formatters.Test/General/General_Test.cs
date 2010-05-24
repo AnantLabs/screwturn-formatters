@@ -14,6 +14,7 @@ using Rhino.Mocks;
 using System.Web;
 using Keeper.Garrett.ScrewTurn.FileContentFormatter;
 using System.Reflection;
+using Keeper.Garrett.ScrewTurn.MessageFormatter;
 
 namespace Formatters.Tests
 {
@@ -70,6 +71,9 @@ namespace Formatters.Tests
                 case 6:
                     retval = new FileContentFormatter();
                     break;
+                case 7:
+                    retval = new MessageFormatter();
+                    break;
             }
 
             return retval;
@@ -99,13 +103,16 @@ namespace Formatters.Tests
                 case 6:
                     retval = "bla bla bla {FileCont file='/*.*'} bla bla bla";
                     break;
+                case 7:
+                    retval = "bla bla bla <msg>Test Message</msg> bla bla bla";
+                    break;
             }
 
             return retval;
         }
 
         [Test]
-        public void VerifyPhaseSetup([Values(1, 2, 3, 4, 5, 6)] int _formatter)
+        public void VerifyPhaseSetup([Values(1, 2, 3, 4, 5, 6,7)] int _formatter)
         {
             //Arrange
             var formatter = GetFormatter(_formatter);
@@ -122,7 +129,7 @@ namespace Formatters.Tests
         }
 
         [Test]
-        public void ForcePhase2([Values(1, 2, 3, 4, 5, 6)] int _formatter)
+        public void ForcePhase2([Values(1, 2, 3, 4, 5, 6,7)] int _formatter)
         {
             //Arrange
             var formatter = GetFormatter(_formatter);
@@ -142,7 +149,7 @@ namespace Formatters.Tests
         }
 
         [Test]
-        public void ForcePhase3([Values(1, 2, 3, 4, 5, 6)] int _formatter)
+        public void ForcePhase3([Values(1, 2, 3, 4, 5, 6,7)] int _formatter)
         {
             //Arrange
             var formatter = GetFormatter(_formatter);
@@ -162,7 +169,7 @@ namespace Formatters.Tests
         }
 
         [Test]
-        public void ForcePhaseX([Values(1, 2, 3, 4, 5, 6)] int _formatter)
+        public void ForcePhaseX([Values(1, 2, 3, 4, 5, 6,7)] int _formatter)
         {
             //Arrange
             var formatter = GetFormatter(_formatter);
