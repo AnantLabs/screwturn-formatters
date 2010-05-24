@@ -39,6 +39,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Formatters.Test", "Formatte
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageFormatter", "MessageFormatter\MessageFormatter.csproj", "{D71FF96F-DD41-489E-81C3-0A6A12544C60}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Version Updates", "Version Updates", "{1D946B99-F999-48E5-AA64-F2B171905F77}"
+	ProjectSection(SolutionItems) = preProject
+		Version Updates\BlogFormatter.txt = Version Updates\BlogFormatter.txt
+		Version Updates\CategoryListFormatter.txt = Version Updates\CategoryListFormatter.txt
+		Version Updates\EventLogFormatter.txt = Version Updates\EventLogFormatter.txt
+		Version Updates\FileContentFormatter.txt = Version Updates\FileContentFormatter.txt
+		Version Updates\FileListFormatter.txt = Version Updates\FileListFormatter.txt
+		Version Updates\MessageFormatter.txt = Version Updates\MessageFormatter.txt
+		Version Updates\QueryTableFormatter.txt = Version Updates\QueryTableFormatter.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

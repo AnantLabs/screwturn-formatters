@@ -1,6 +1,16 @@
 ReadMe
 
 
+Honours:
+-------------------------------------------
+These formatters could not have been made without the assistance of:
+	fam fam fam icons - http://www.famfamfam.com
+	fat cow icons - http://www.fatcow.com/free-icon
+	R. Christie stylesheets- http://www.smashingmagazine.com/2008/08/13/top-10-css-table-designs
+	boxstart Admontion plugin - http://www.screwturn.eu/forum/viewtopic.php?f=23&t=7804&sid=95ff256e9f5cf871821638e8f512e164
+	and of course - ScrewTurn :)
+
+
 Requirements:
 -------------------------------------------
 Theses formatters are ONLY guarenteed to work with ScrewTurn 3.0.2.509 and .Net Framework 3.5. 

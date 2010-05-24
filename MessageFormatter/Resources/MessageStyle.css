@@ -78,15 +78,15 @@ yel:F8CA00
 }
 /***************************************/
 .information {
-	border: 1px dotted #438CCD;
+	border: 1px dotted #B8DDF8;
 }
 
 .information td.image-col {
-	background: url('GetFile.aspx?File=/Keeper.Garrett.Formatters/MessageFormatter/Images-24x24/information_blue.png') 1px 1px no-repeat;
+	background: url('GetFile.aspx?File=/Keeper.Garrett.Formatters/MessageFormatter/Images-24x24/information_lightblue.png') 1px 1px no-repeat;
 }
 
 .information td.head-col{
-	background-color: #438CCD;
+	background-color: #B8DDF8;
 }
 /***************************************/
 .note {
@@ -102,15 +102,15 @@ yel:F8CA00
 }
 /***************************************/
 .important {
-	border: 1px solid #438CCD;
+	border: 1px solid #B8DDF8;
 }
 
 .important td.image-col {
-	background: url('GetFile.aspx?File=/Keeper.Garrett.Formatters/MessageFormatter/Images-24x24/exclamation_blue.png') 1px 1px no-repeat;
+	background: url('GetFile.aspx?File=/Keeper.Garrett.Formatters/MessageFormatter/Images-24x24/exclamation_lightblue.png') 1px 1px no-repeat;
 }
 
 .important td.head-col{
-	background-color: #438CCD;
+	background-color: #B8DDF8;
 }
 /***************************************/
 .caution {
