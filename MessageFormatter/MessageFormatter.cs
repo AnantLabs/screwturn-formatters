@@ -10,7 +10,7 @@ using System.IO;
 using System.Globalization;
 using Keeper.Garrett.ScrewTurn.Utility;
 
-namespace Keeper.Garrett.ScrewTurn.FileContentFormatter
+namespace Keeper.Garrett.ScrewTurn.MessageFormatter
 {
     public class MessageFormatter : FormatterBase
     {
@@ -18,7 +18,7 @@ namespace Keeper.Garrett.ScrewTurn.FileContentFormatter
         public override bool PerformPhase2 { get { return false; } }
         public override bool PerformPhase3 { get { return false; } }
 
-        private static readonly Regex TagRegex = new Regex(@"\<msg(?<attributes>((.|\n|\r)+?))\>(?<msg>((.|\n|\r)+?))\</msg\>", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
+        private static readonly Regex TagRegex = new Regex(@"\<msg(?<attributes>((.|\n|\r)+?))?\>(?<msg>((.|\n|\r)+?))?\</msg\>", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
 
         public override ComponentInformation  Information
         {
@@ -190,7 +190,7 @@ namespace Keeper.Garrett.ScrewTurn.FileContentFormatter
                                     var args = new ArgumentParser().Parse(match.Groups["attributes"].Value);
 
                                     //Get args
-                                    var style = (args.ContainsKey("type") == true ? args["type"] : "info");
+                                    var style = (args.ContainsKey("type") == true ? args["type"] : "information");
                                     var head = (args.ContainsKey("head") == true ? args["head"] : "");
                                     string msg = match.Groups["msg"].Value;
 
@@ -200,7 +200,7 @@ namespace Keeper.Garrett.ScrewTurn.FileContentFormatter
 
                                     if (string.IsNullOrEmpty(head) == false)
                                     {
-                                        content = string.Format("{0}\n<tr><td class=\"image-col\"></td><td class=\"head-col\">{1}</td</tr>", content, CultureInfo.CurrentCulture.TextInfo.ToTitleCase(head));
+                                        content = string.Format("{0}\n<tr><td class=\"image-col\"></td><td class=\"head-col\">{1}</td</tr>", content, head);
                                     }
                                     else
                                     {

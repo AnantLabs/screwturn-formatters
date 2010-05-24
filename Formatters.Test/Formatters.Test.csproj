@@ -39,6 +39,7 @@
     <Compile Include="FileListFormatter\FileListFormatter_Test.cs" />
     <Compile Include="General\General_Test.cs" />
     <Compile Include="Helpers\AssertTable.cs" />
+    <Compile Include="MessageFormatter\MessageFormatter_Test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueryTableFormatter\QueryTableFormatter_Configuration_Test.cs" />
     <Compile Include="QueryTableFormatter\QueryTableFormatter_Test.cs" />
@@ -95,6 +96,10 @@
     <ProjectReference Include="..\FileListFormatter\FileListFormatter.csproj">
       <Project>{70F795AF-2CD6-4D8D-B856-75095CB573B7}</Project>
       <Name>FileListFormatter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MessageFormatter\MessageFormatter.csproj">
+      <Project>{D71FF96F-DD41-489E-81C3-0A6A12544C60}</Project>
+      <Name>MessageFormatter</Name>
     </ProjectReference>
     <ProjectReference Include="..\QueryTableFormatter\QueryTableFormatter.csproj">
       <Project>{29660E60-5366-4CDA-9DD1-F8BFA89E86FD}</Project>

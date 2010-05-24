@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Keeper.Garrett.ScrewTurn.Core;
 
-namespace Keeper.Garrett.ScrewTurn.FileContentFormatter
+namespace Keeper.Garrett.ScrewTurn.MessageFormatter
 {
     public class Help
     {
