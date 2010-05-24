@@ -49,61 +49,75 @@ if (captures.Length < 3)
 //                var TagRegex = new Regex(@"\{Blog\((?<blog>(.*?)),(?<noOfPostsToShow>(.*?)),(?<noOfRecentPostsToShow>(.*?)),(?<useLastModified>(.*?)),(?<useCreateUserAsPostUser>(.*?)),(?<showGravatar>(.*?)),(?<showCloud>(.*?)),(?<showArchive>(.*?)),('(?<aboutPage>(.*?))')?,('(?<bottomPage>(.*?))')?,('(?<stylesheet>(.*?))')?\)\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
 
 //                var TagRegex = new Regex(@"\{Blog\(""(?<blog>(.*?)"") ((\/.*="".*"")*\)\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
-//                var TagRegex = new Regex(@"\{Blog\(""(?<blog>(.*?)"") [\?&](?<name>[^&=]+)=(?<value>[^&=]+)\)\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
-
-                int ms = int.Parse(Math.Round(1234.0, 1).ToString());
-
-                System.Console.WriteLine(ms);
-                /*
-                Trace.WriteLine(Assembly.GetExecutingAssembly().GetName().Version.ToString());
+                var TagRegex = new Regex(@"\<msg(?<attributes>((.|\n|\r)+?))\>(?<msg>((.|\n|\r)+?))\</msg\>", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
 
 
-                Match m = Regex.Match(null, @"Version: (?<major>\d{1,3})\.(?<minor>\d{1,3})\.(?<build>\d{1,3})\.(?<revision>\d{1,3})");
-
-                if (m.Success == true)
-                {
-                    int versionNo = int.Parse(m.Groups["major"].Value) * 1000;
-                    versionNo += int.Parse(m.Groups["minor"].Value) * 100;
-                    versionNo += int.Parse(m.Groups["build"].Value) * 10;
-                    versionNo += int.Parse(m.Groups["revision"].Value);
-                }
-
-                foreach(var grp in m.Groups)
-                {
-                    Trace.WriteLine(grp);
-                }
-
-                string storeName = string.Format("/Keeper.Garrett.Formatters/{0}", "TestDir/Images");
-
-                    var dirs = storeName.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
-                    var lastDir = "";
-                    foreach (var dir in dirs)
-                    {
-                        lastDir = string.Format("{0}/{1}", lastDir, dir);
-                    }
-
-                var TagRegex = new Regex(@"\{Blog (?<args>(.*?))\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
-
-                var parser = new CommandParser();
 
 
-                var result1 = parser.Parse("fghfghfgh a='dfgdfg ækæ ' c='ffdgdfgklm' b='!#¤%&/()=?`'");
+//                <table  style="background-color: #DDDDFF; border-top: solid thin #A0A0FF; border-bottom: solid thin #A0A0FF; margin-top: 5px; margin-bottom: 5px;" width="100%"><tr><td style="vertical-align: top" width="50"><img src="GetFile.aspx?file=/admonitionresources/warning-32.png" /></td><td style="vertical-align: top">My warning balb alb al balb lab lab alb alb</td></tr></table> 
 
-                var result2 = parser.Parse("a='dfgdfg ækæ ' c='ffdgdfgklm' b='!#¤%&/()=?`'");
+                 var matches = TagRegex.Matches("<msg type=tip>sdflskjfslkfjsldksj</msg>");
 
-                var result3 = parser.Parse(" a=' ' c=   b='!#¤%&/()=?`' ");
+                 foreach (Match match in matches)
+                 {
+                     for (int i = 0; i < match.Groups.Count; i++ )
+                         Trace.WriteLine(string.Format("Grp {0} - {1}", 1, match.Groups[i]));
+                 }
+                 
 
-                var result4 = parser.Parse(" a='dfgdfg ækæ ' c='ffdgdfgklm' ='!#¤%&/()=?`'");
+                 int ms = int.Parse(Math.Round(1234.0, 1).ToString());
 
-                var result5 = parser.Parse("a=dfgdfg ækæ  c='ffdgdfgklm' b=!#¤%&/()=?`");
+                 System.Console.WriteLine(ms);
+                 /*
+                 Trace.WriteLine(Assembly.GetExecutingAssembly().GetName().Version.ToString());
 
 
-/*                var ctx = new InstallContext();
-                ctx.
+                 Match m = Regex.Match(null, @"Version: (?<major>\d{1,3})\.(?<minor>\d{1,3})\.(?<build>\d{1,3})\.(?<revision>\d{1,3})");
 
-                string argss = "a='' b='' c=''";
+                 if (m.Success == true)
+                 {
+                     int versionNo = int.Parse(m.Groups["major"].Value) * 1000;
+                     versionNo += int.Parse(m.Groups["minor"].Value) * 100;
+                     versionNo += int.Parse(m.Groups["build"].Value) * 10;
+                     versionNo += int.Parse(m.Groups["revision"].Value);
+                 }
 
-                argss.Split(' ');*/
+                 foreach(var grp in m.Groups)
+                 {
+                     Trace.WriteLine(grp);
+                 }
+
+                 string storeName = string.Format("/Keeper.Garrett.Formatters/{0}", "TestDir/Images");
+
+                     var dirs = storeName.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+                     var lastDir = "";
+                     foreach (var dir in dirs)
+                     {
+                         lastDir = string.Format("{0}/{1}", lastDir, dir);
+                     }
+
+                 var TagRegex = new Regex(@"\{Blog (?<args>(.*?))\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
+
+                 var parser = new CommandParser();
+
+
+                 var result1 = parser.Parse("fghfghfgh a='dfgdfg ækæ ' c='ffdgdfgklm' b='!#¤%&/()=?`'");
+
+                 var result2 = parser.Parse("a='dfgdfg ækæ ' c='ffdgdfgklm' b='!#¤%&/()=?`'");
+
+                 var result3 = parser.Parse(" a=' ' c=   b='!#¤%&/()=?`' ");
+
+                 var result4 = parser.Parse(" a='dfgdfg ækæ ' c='ffdgdfgklm' ='!#¤%&/()=?`'");
+
+                 var result5 = parser.Parse("a=dfgdfg ækæ  c='ffdgdfgklm' b=!#¤%&/()=?`");
+
+
+ /*                var ctx = new InstallContext();
+                 ctx.
+
+                 string argss = "a='' b='' c=''";
+
+                 argss.Split(' ');*/
 
                 
 //                var TagRegex = new Regex(@"\{Blog\(""(?<blog>(.*?)"") (?<argname>/\w+)=(?<argvalue>\w+)\)\}", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);

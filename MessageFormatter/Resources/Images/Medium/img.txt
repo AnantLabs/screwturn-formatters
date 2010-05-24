@@ -1,0 +1,65 @@
+ Volume in drive D is Storage
+ Volume Serial Number is D06A-715E
+
+ Directory of D:\My Documents\Visual Studio 2010\Projects\ScrewTurn - Formatters\MessageFormatter\Resources\Images 24x24
+
+24-05-2010  11:21    <DIR>          .
+24-05-2010  11:21    <DIR>          ..
+24-05-2010  11:17             1.572 add_blue.png
+24-05-2010  11:17             1.364 add_green.png
+24-05-2010  11:17             1.296 add_grey.png
+24-05-2010  11:17             1.373 add_lightblue.png
+24-05-2010  11:17             1.590 add_red.png
+24-05-2010  11:17             1.106 add_yellow.png
+24-05-2010  11:17             1.498 delete_blue.png
+24-05-2010  11:17             1.268 delete_green.png
+24-05-2010  11:17             1.223 delete_grey.png
+24-05-2010  11:17             1.288 delete_lightblue.png
+24-05-2010  11:17             1.528 delete_red.png
+24-05-2010  11:17             1.020 delete_yellow.png
+24-05-2010  11:17             1.485 empty_blue.png
+24-05-2010  11:17             1.238 empty_green.png
+24-05-2010  11:17             1.184 empty_grey.png
+24-05-2010  11:17             1.267 empty_lightblue.png
+24-05-2010  11:17             1.537 empty_red.png
+24-05-2010  11:17               991 empty_yellow.png
+24-05-2010  11:17             1.704 error_blue.png
+24-05-2010  11:17             1.531 error_green.png
+24-05-2010  11:17             1.453 error_grey.png
+24-05-2010  11:17             1.537 error_lightblue.png
+24-05-2010  11:17             1.711 error_red.png
+24-05-2010  11:17             1.263 error_yellow.png
+24-05-2010  11:17             1.580 exclamation_blue.png
+24-05-2010  11:17             1.366 exclamation_green.png
+24-05-2010  11:17             1.301 exclamation_grey.png
+24-05-2010  11:17             1.382 exclamation_lightblue.png
+24-05-2010  11:17             1.610 exclamation_red.png
+24-05-2010  11:17             1.101 exclamation_yellow.png
+24-05-2010  11:21                 0 img.txt
+24-05-2010  11:17             1.574 information_blue.png
+24-05-2010  11:17             1.345 information_green.png
+24-05-2010  11:17             1.293 information_grey.png
+24-05-2010  11:17             1.365 information_lightblue.png
+24-05-2010  11:17             1.591 information_red.png
+24-05-2010  11:17             1.078 information_yellow.png
+24-05-2010  11:17             1.584 left_blue.png
+24-05-2010  11:17             1.362 left_green.png
+24-05-2010  11:17             1.281 left_grey.png
+24-05-2010  11:17             1.372 left_lightblue.png
+24-05-2010  11:17             1.600 left_red.png
+24-05-2010  11:17             1.123 left_yellow.png
+24-05-2010  11:17             1.662 question_blue.png
+24-05-2010  11:17             1.456 question_green.png
+24-05-2010  11:17             1.396 question_grey.png
+24-05-2010  11:17             1.468 question_lightblue.png
+24-05-2010  11:17             1.693 question_red.png
+24-05-2010  11:17             1.199 question_yellow.png
+24-05-2010  11:17             1.572 right_blue.png
+24-05-2010  11:17             1.352 right_green.png
+24-05-2010  11:17             1.284 right_grey.png
+24-05-2010  11:17             1.364 right_lightblue.png
+24-05-2010  11:17             1.598 right_red.png
+24-05-2010  11:17             1.124 right_yellow.png
+24-05-2010  11:17               917 warning.png
+              56 File(s)         76.020 bytes
+               2 Dir(s)  25.457.123.328 bytes free
