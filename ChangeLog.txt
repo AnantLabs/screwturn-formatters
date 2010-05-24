@@ -1,8 +1,6 @@
 [Version 1.2.0.0 - May 20 - 2010]
 New Features:
 	MessageFormatter added. Inspired by the Admontion plugin by boxstart: http://www.screwturn.eu/forum/viewtopic.php?f=23&t=7804&sid=95ff256e9f5cf871821638e8f512e164
-
-Bug fix:
 	Added Update url to formatters.
 
 
