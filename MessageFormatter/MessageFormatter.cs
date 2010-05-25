@@ -200,11 +200,11 @@ namespace Keeper.Garrett.ScrewTurn.MessageFormatter
 
                                     if (string.IsNullOrEmpty(head) == false)
                                     {
-                                        content = string.Format("{0}\n<tr><td class=\"image-col\"></td><td class=\"head-col\">{1}</td</tr>", content, head);
+                                        content = string.Format("{0}\n<tr><td class=\"image-col\"></td><td class=\"head-col\">\n{1}\n</td</tr>", content, head);
                                     }
                                     else
                                     {
-                                        content = string.Format("{0}\n<tr><td class=\"image-col\"></td><td class=\"head-col\">{1}</td</tr>", content, CultureInfo.CurrentCulture.TextInfo.ToTitleCase(style));
+                                        content = string.Format("{0}\n<tr><td class=\"image-col\"></td><td class=\"head-col\">\n{1}\n</td</tr>", content, CultureInfo.CurrentCulture.TextInfo.ToTitleCase(style));
                                     }
 
                                     if (string.IsNullOrEmpty(msg) == false)

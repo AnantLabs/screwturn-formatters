@@ -57,7 +57,7 @@ namespace Formatters.Tests
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual("bla bla bla <link type=\"text/css\" rel=\"stylesheet\" href=\"GetFile.aspx?File=/Keeper.Garrett.Formatters/MessageFormatter/MessageStyle.css\"></link>\n<table class=\"information\"><tbody>\n<tr><td class=\"image-col\"></td><td class=\"head-col\">Information</td</tr>\n<tr><td></td><td class=\"content\">Message</td></tr></tbody></table> bla bla bla", retval);
+            Assert.AreEqual("bla bla bla <link type=\"text/css\" rel=\"stylesheet\" href=\"GetFile.aspx?File=/Keeper.Garrett.Formatters/MessageFormatter/MessageStyle.css\"></link>\n<table class=\"information\"><tbody>\n<tr><td class=\"image-col\"></td><td class=\"head-col\">\nInformation\n</td</tr>\n<tr><td></td><td class=\"content\">Message</td></tr></tbody></table> bla bla bla", retval);
         }
 
         [Test]
@@ -80,7 +80,7 @@ namespace Formatters.Tests
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual("bla bla bla <link type=\"text/css\" rel=\"stylesheet\" href=\"GetFile.aspx?File=/Keeper.Garrett.Formatters/MessageFormatter/MessageStyle.css\"></link>\n<table class=\"information\"><tbody>\n<tr><td class=\"image-col\"></td><td class=\"head-col\">Information</td</tr>\n<tr><td></td><td class=\"content\">Message</td></tr></tbody></table> bla bla bla", retval);
+            Assert.AreEqual("bla bla bla <link type=\"text/css\" rel=\"stylesheet\" href=\"GetFile.aspx?File=/Keeper.Garrett.Formatters/MessageFormatter/MessageStyle.css\"></link>\n<table class=\"information\"><tbody>\n<tr><td class=\"image-col\"></td><td class=\"head-col\">\nInformation\n</td</tr>\n<tr><td></td><td class=\"content\">Message</td></tr></tbody></table> bla bla bla", retval);
         }
 
         [Test]
@@ -103,7 +103,7 @@ namespace Formatters.Tests
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual("bla bla bla <link type=\"text/css\" rel=\"stylesheet\" href=\"GetFile.aspx?File=/Keeper.Garrett.Formatters/MessageFormatter/MessageStyle.css\"></link>\n<table class=\"tip\"><tbody>\n<tr><td class=\"image-col\"></td><td class=\"head-col\">Tip</td</tr>\n<tr><td></td><td class=\"content\">Message</td></tr></tbody></table> bla bla bla", retval);
+            Assert.AreEqual("bla bla bla <link type=\"text/css\" rel=\"stylesheet\" href=\"GetFile.aspx?File=/Keeper.Garrett.Formatters/MessageFormatter/MessageStyle.css\"></link>\n<table class=\"tip\"><tbody>\n<tr><td class=\"image-col\"></td><td class=\"head-col\">\nTip\n</td</tr>\n<tr><td></td><td class=\"content\">Message</td></tr></tbody></table> bla bla bla", retval);
         }
 
         [Test]
@@ -126,7 +126,7 @@ namespace Formatters.Tests
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual("bla bla bla <link type=\"text/css\" rel=\"stylesheet\" href=\"GetFile.aspx?File=/Keeper.Garrett.Formatters/MessageFormatter/MessageStyle.css\"></link>\n<table class=\"tip\"><tbody>\n<tr><td class=\"image-col\"></td><td class=\"head-col\">MyHead</td</tr>\n<tr><td></td><td class=\"content\">Message</td></tr></tbody></table> bla bla bla", retval);
+            Assert.AreEqual("bla bla bla <link type=\"text/css\" rel=\"stylesheet\" href=\"GetFile.aspx?File=/Keeper.Garrett.Formatters/MessageFormatter/MessageStyle.css\"></link>\n<table class=\"tip\"><tbody>\n<tr><td class=\"image-col\"></td><td class=\"head-col\">\nMyHead\n</td</tr>\n<tr><td></td><td class=\"content\">Message</td></tr></tbody></table> bla bla bla", retval);
         }
 
         [Test]
@@ -149,7 +149,7 @@ namespace Formatters.Tests
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual("bla bla bla <link type=\"text/css\" rel=\"stylesheet\" href=\"GetFile.aspx?File=/Keeper.Garrett.Formatters/MessageFormatter/MessageStyle.css\"></link>\n<table class=\"tip\"><tbody>\n<tr><td class=\"image-col\"></td><td class=\"head-col\">Tip</td</tr>\n<tr><td></td><td class=\"content\">Message</td></tr></tbody></table> bla bla bla", retval);
+            Assert.AreEqual("bla bla bla <link type=\"text/css\" rel=\"stylesheet\" href=\"GetFile.aspx?File=/Keeper.Garrett.Formatters/MessageFormatter/MessageStyle.css\"></link>\n<table class=\"tip\"><tbody>\n<tr><td class=\"image-col\"></td><td class=\"head-col\">\nTip\n</td</tr>\n<tr><td></td><td class=\"content\">Message</td></tr></tbody></table> bla bla bla", retval);
         }
 
         [Test]
@@ -172,7 +172,7 @@ namespace Formatters.Tests
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual("bla bla bla <link type=\"text/css\" rel=\"stylesheet\" href=\"GetFile.aspx?File=/Keeper.Garrett.Formatters/MessageFormatter/MessageStyle.css\"></link>\n<table class=\"tip\"><tbody>\n<tr><td class=\"image-col\"></td><td class=\"head-col\">Tip</td</tr></tbody></table> bla bla bla", retval);
+            Assert.AreEqual("bla bla bla <link type=\"text/css\" rel=\"stylesheet\" href=\"GetFile.aspx?File=/Keeper.Garrett.Formatters/MessageFormatter/MessageStyle.css\"></link>\n<table class=\"tip\"><tbody>\n<tr><td class=\"image-col\"></td><td class=\"head-col\">\nTip\n</td</tr></tbody></table> bla bla bla", retval);
         }
 
         [Test]
