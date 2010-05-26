@@ -452,20 +452,20 @@ namespace Keeper.Garrett.ScrewTurn.FileContentFormatter
 
             if (m_MediaPlayerTypes.Contains(extension) == true)
             {
-                retval = string.Format(@"<object {0} classid=""CLSID:6BF52A52-394A-11d3-B153-00C04F79FAA6"" VIEWASTEXT>\n
-                                        <param name=""autoStart"" value=""False""></param>\n
-                                        <param name=""URL"" value=""GetFile.aspx?File={1}&NoHit=1""></param>\n
-                                        <param name=""enabled"" value=""True""></param>\n
-                                        <param name=""balance"" value=""0""></param>\n
-                                        <param name=""currentPosition"" value=""0""></param>\n
-                                        <param name=""enableContextMenu"" value=""False""></param>\n
-                                        <param name=""fullScreen"" value=""False""></param>\n
-                                        <param name=""mute"" value=""False""></param>\n
-                                        <param name=""playCount"" value=""1""></param>\n
-                                        <param name=""rate"" value=""1""></param>\n
-                                        <param name=""stretchToFit"" value=""False""></param>\n
-                                        <param name=""uiMode"" value=""full""></param>\n
-                                        </object>", 
+                retval = string.Format(@"<object {0} classid=""CLSID:6BF52A52-394A-11d3-B153-00C04F79FAA6"" VIEWASTEXT>\n" +
+                                        @"<param name=""autoStart"" value=""False""></param>\n" +
+                                        @"<param name=""URL"" value=""GetFile.aspx?File={1}&NoHit=1""></param>\n" +
+                                        @"<param name=""enabled"" value=""True""></param>\n" +
+                                        @"<param name=""balance"" value=""0""></param>\n" +
+                                        @"<param name=""currentPosition"" value=""0""></param>\n" +
+                                        @"<param name=""enableContextMenu"" value=""False""></param>\n" +
+                                        @"<param name=""fullScreen"" value=""False""></param>\n" +
+                                        @"<param name=""mute"" value=""False""></param>\n" +
+                                        @"<param name=""playCount"" value=""1""></param>\n" +
+                                        @"<param name=""rate"" value=""1""></param>\n" +
+                                        @"<param name=""stretchToFit"" value=""False""></param>\n" +
+                                        @"<param name=""uiMode"" value=""full""></param>\n" +
+                                        @"</object>", 
                                         (string.IsNullOrEmpty(_style) == true ? "" : _style),
                                         encodedFile);
             }

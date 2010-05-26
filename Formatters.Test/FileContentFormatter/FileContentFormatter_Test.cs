@@ -474,5 +474,71 @@ namespace Formatters.Tests
             //Assert         
             Assert.AreEqual("bla bla bla {{123}} bla bla bla", retval);
         }
+
+        [Test]
+        public void Find_1_MediaFile_Embedding_Both()
+        {
+            //Arrange
+            var formatter = new FileContentFormatter();
+            var host = MockRepository.GenerateStub<IHostV30>();
+            var provider = MockRepository.GenerateStub<IFilesStorageProviderV30>();
+
+            var pageProvider = MockRepository.GenerateStub<IPagesStorageProviderV30>();
+            var currentPageInfo = new PageInfo("MyPage", pageProvider, DateTime.Now);
+            var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });
+
+            //Expect
+            host.Expect(x => x.GetFilesStorageProviders(true)).Return(new IFilesStorageProviderV30[] { provider });
+            host.Expect(x => x.GetSettingValue(SettingName.DefaultFilesStorageProvider)).Return("Local Storage Provider");
+            provider.Expect(x => x.Information).Return(new ComponentInformation("Local Storage Provider", "", "", "", ""));
+
+            provider.Expect(x => x.ListFiles(null)).IgnoreArguments().Return(new string[] { "/file1.exe", "/file2.wmv", "/file1.txt" });
+
+            provider.Expect(x => x.RetrieveFile("", null, false)).IgnoreArguments().Return(true).WhenCalled(y => (y.Arguments[1] as MemoryStream).Write(new byte[] { 49, 50, 51 }, 0, 3));
+
+            // Category,output,include,head,headers,tbl,head,row
+            // {FileList('filePattern','storageProvider',outputType,sortMethod,asLinks,showDownloadCount,'heading'?,'headers'?,'tblFormat'?,'headFormat'?,'rowFormat'? )
+            string input = "bla bla bla {FileCont file='/*.wmv' height=200 width=400} bla bla bla";
+
+            //Act
+            formatter.Init(host, "");
+            var retval = formatter.Format(input, context, FormattingPhase.Phase1);
+
+            //Assert         
+            Assert.AreEqual("bla bla bla <object height=\"200\" width=\"400\" classid=\"CLSID:6BF52A52-394A-11d3-B153-00C04F79FAA6\" VIEWASTEXT>\\n<param name=\"autoStart\" value=\"False\"></param>\\n<param name=\"URL\" value=\"GetFile.aspx?File=%2ffile2.wmv&NoHit=1\"></param>\\n<param name=\"enabled\" value=\"True\"></param>\\n<param name=\"balance\" value=\"0\"></param>\\n<param name=\"currentPosition\" value=\"0\"></param>\\n<param name=\"enableContextMenu\" value=\"False\"></param>\\n<param name=\"fullScreen\" value=\"False\"></param>\\n<param name=\"mute\" value=\"False\"></param>\\n<param name=\"playCount\" value=\"1\"></param>\\n<param name=\"rate\" value=\"1\"></param>\\n<param name=\"stretchToFit\" value=\"False\"></param>\\n<param name=\"uiMode\" value=\"full\"></param>\\n</object> bla bla bla", retval);
+        }
+
+        [Test]
+        public void Find_1_File_Embedding_Raw()
+        {
+            //Arrange
+            var formatter = new FileContentFormatter();
+            var host = MockRepository.GenerateStub<IHostV30>();
+            var provider = MockRepository.GenerateStub<IFilesStorageProviderV30>();
+
+            var pageProvider = MockRepository.GenerateStub<IPagesStorageProviderV30>();
+            var currentPageInfo = new PageInfo("MyPage", pageProvider, DateTime.Now);
+            var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });
+
+            //Expect
+            host.Expect(x => x.GetFilesStorageProviders(true)).Return(new IFilesStorageProviderV30[] { provider });
+            host.Expect(x => x.GetSettingValue(SettingName.DefaultFilesStorageProvider)).Return("Local Storage Provider");
+            provider.Expect(x => x.Information).Return(new ComponentInformation("Local Storage Provider", "", "", "", ""));
+
+            provider.Expect(x => x.ListFiles(null)).IgnoreArguments().Return(new string[] { "/file1.exe", "/file2.exe", "/file1.txt" });
+
+            provider.Expect(x => x.RetrieveFile("", null, false)).IgnoreArguments().Return(true).WhenCalled(y => (y.Arguments[1] as MemoryStream).Write(new byte[] { 49, 50, 51 }, 0, 3));
+
+            // Category,output,include,head,headers,tbl,head,row
+            // {FileList('filePattern','storageProvider',outputType,sortMethod,asLinks,showDownloadCount,'heading'?,'headers'?,'tblFormat'?,'headFormat'?,'rowFormat'? )
+            string input = "bla bla bla {FileCont file='/*.txt' raw=true rows=200 cols=400} bla bla bla";
+
+            //Act
+            formatter.Init(host, "");
+            var retval = formatter.Format(input, context, FormattingPhase.Phase1);
+
+            //Assert         
+            Assert.AreEqual("bla bla bla <textarea rows=\"200\" cols=\"400\"><nowiki><nobr>123</nobr></nowiki></textarea> bla bla bla", retval);
+        }
     }
 }
