@@ -99,7 +99,7 @@ namespace Formatters.Tests
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual("bla bla bla 123 bla bla bla", retval);
+            Assert.AreEqual("bla bla bla <object data=\"GetFile.aspx?File=file1.exe\" type=\"application/octet-stream\"><embed src=\"GetFile.aspx?File=file1.exe\" type=\"application/octet-stream\"></embed></object> bla bla bla", retval);
         }
 
         [Test]
@@ -125,7 +125,7 @@ namespace Formatters.Tests
 
             provider2.Expect(x => x.RetrieveFile("", null, false)).IgnoreArguments().Return(true).WhenCalled(y => (y.Arguments[1] as MemoryStream).Write(new byte[] { 49, 50, 51 }, 0, 3));
 
-            string input = "bla bla bla {FileCont file='*.*' prov='Local Storage Provider 2'} bla bla bla";
+            string input = "bla bla bla {FileCont file='*.*' prov='Local Storage Provider 2' raw=true} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -165,7 +165,7 @@ namespace Formatters.Tests
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert         
-            Assert.AreEqual("bla bla bla 123 bla bla bla", retval);
+            Assert.AreEqual("bla bla bla <object data=\"GetFile.aspx?File=file1.exe\" type=\"application/octet-stream\"><embed src=\"GetFile.aspx?File=file1.exe\" type=\"application/octet-stream\"></embed></object> bla bla bla", retval);
         }
 
         [Test]
@@ -258,7 +258,7 @@ namespace Formatters.Tests
 
             // Category,output,include,head,headers,tbl,head,row
             // {FileList('filePattern','storageProvider',outputType,sortMethod,asLinks,showDownloadCount,'heading'?,'headers'?,'tblFormat'?,'headFormat'?,'rowFormat'? )
-            string input = "bla bla bla {FileCont file='/*.exe'} bla bla bla";
+            string input = "bla bla bla {FileCont file='/*.exe' raw=true} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -298,7 +298,7 @@ namespace Formatters.Tests
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert                   
-            Assert.AreEqual("bla bla bla <object data=\"GetFile.aspx?File=/file1.txt\" type=\"text/html\" height=\"400\" ><embed src=\"GetFile.aspx?File=/file1.txt\" type=\"text/html\" height=\"400\"></embed></object> bla bla bla", retval);
+            Assert.AreEqual("bla bla bla <object data=\"GetFile.aspx?File=%2ffile1.txt\" type=\"text/plain\" height=\"400\" ><embed src=\"GetFile.aspx?File=%2ffile1.txt\" type=\"text/plain\" height=\"400\"></embed></object> bla bla bla", retval);
         }
 
         [Test]
@@ -331,7 +331,7 @@ namespace Formatters.Tests
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert         
-            Assert.AreEqual("bla bla bla <object data=\"GetFile.aspx?File=/file1.txt\" type=\"text/html\" width=\"400\" ><embed src=\"GetFile.aspx?File=/file1.txt\" type=\"text/html\" width=\"400\"></embed></object> bla bla bla", retval);
+            Assert.AreEqual("bla bla bla <object data=\"GetFile.aspx?File=%2ffile1.txt\" type=\"text/plain\" width=\"400\" ><embed src=\"GetFile.aspx?File=%2ffile1.txt\" type=\"text/plain\" width=\"400\"></embed></object> bla bla bla", retval);
         }
 
         [Test]
@@ -364,7 +364,7 @@ namespace Formatters.Tests
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert         
-            Assert.AreEqual("bla bla bla <object data=\"GetFile.aspx?File=/file1.txt\" type=\"text/html\" height=\"200\" width=\"400\" ><embed src=\"GetFile.aspx?File=/file1.txt\" type=\"text/html\" height=\"200\" width=\"400\"></embed></object> bla bla bla", retval);
+            Assert.AreEqual("bla bla bla <object data=\"GetFile.aspx?File=%2ffile1.txt\" type=\"text/plain\" height=\"200\" width=\"400\" ><embed src=\"GetFile.aspx?File=%2ffile1.txt\" type=\"text/plain\" height=\"200\" width=\"400\"></embed></object> bla bla bla", retval);
         }
 
         [Test]
@@ -397,7 +397,7 @@ namespace Formatters.Tests
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert         
-            Assert.AreEqual("bla bla bla <object data=\"GetFile.aspx?File=/file1.exe\" type=\"text/html\" height=\"200\" width=\"400\" ><embed src=\"GetFile.aspx?File=/file1.exe\" type=\"text/html\" height=\"200\" width=\"400\"></embed></object> <br></br> <object data=\"GetFile.aspx?File=/file2.exe\" type=\"text/html\" height=\"200\" width=\"400\" ><embed src=\"GetFile.aspx?File=/file2.exe\" type=\"text/html\" height=\"200\" width=\"400\"></embed></object> bla bla bla", retval);
+            Assert.AreEqual("bla bla bla <object data=\"GetFile.aspx?File=%2ffile1.exe\" type=\"application/octet-stream\" height=\"200\" width=\"400\" ><embed src=\"GetFile.aspx?File=%2ffile1.exe\" type=\"application/octet-stream\" height=\"200\" width=\"400\"></embed></object> <br></br> <object data=\"GetFile.aspx?File=%2ffile2.exe\" type=\"application/octet-stream\" height=\"200\" width=\"400\" ><embed src=\"GetFile.aspx?File=%2ffile2.exe\" type=\"application/octet-stream\" height=\"200\" width=\"400\"></embed></object> bla bla bla", retval);
         }
 
         [Test]
@@ -423,7 +423,7 @@ namespace Formatters.Tests
 
             // Category,output,include,head,headers,tbl,head,row
             // {FileList('filePattern','storageProvider',outputType,sortMethod,asLinks,showDownloadCount,'heading'?,'headers'?,'tblFormat'?,'headFormat'?,'rowFormat'? )
-            string input = "bla bla bla {FileCont file='/*.txt'} bla bla bla";
+            string input = "bla bla bla {FileCont file='/*.txt' raw=true} bla bla bla";
 
             //Act
             formatter.Init(host, "");
@@ -465,7 +465,7 @@ namespace Formatters.Tests
 
             // Category,output,include,head,headers,tbl,head,row
             // {FileList('filePattern','storageProvider',outputType,sortMethod,asLinks,showDownloadCount,'heading'?,'headers'?,'tblFormat'?,'headFormat'?,'rowFormat'? )
-            string input = "bla bla bla {{{FileCont file='/*.txt'}}} bla bla bla";
+            string input = "bla bla bla {{{FileCont file='/*.txt' raw=true}}} bla bla bla";
 
             //Act
             formatter.Init(host, "");
