@@ -33,13 +33,16 @@ No special actions required.
 * Choose to display a bottom section
 * Choose custom layout using stylesheet and images
 * 1 predefined stylesupplied in \Keeper.Garrett.Formatters\BlogFormatter\BlogStyle.css
+* Choose one or more Namespaces to fetch posts from, all must have the same category
 {BR}
 
 '''How does it work?'''{BR}
 * Create a new page called ex. MyBlog. 
 ** '''Do not makes this page, the about page or the bottom page, a member of the MyBlogCategory, if you do you will create a self refering loop, which the BlogFormatter will detect, display a warning and deny blog generation.'''{BR}
 * Insert the Blog tag { Blog cat=MyBlogCategory } and all posts shown in the blog will be pages marked with the category MyBlogCategory.{BR}
+** Default the current Namespace is used to fetch pages from.
 * The keyword cloud is generated based on the ''keywords'' attached to each wiki page.{BR}
+
 That's it! :).{BR}
 The rest is purely customization of the look.
 {BR}
@@ -51,6 +54,8 @@ The rest is purely customization of the look.
 * ''Required:''
 ** '''cat''' - Name of a valid category, to generate Blog from
 * ''Optional (applies only for tables as output):''
+** '''ns''' - Namespace(s) to search for posts in, ex. ns=root or ns='root,ProjectX'.
+*** Default the current Namespace is used
 ** '''posts''' - No of posts to show, default 7
 ** '''recent'''- No of most recent posts to show, default 15
 ** '''usemod'''- Use last modified date instead of create date as post ordering, default false
@@ -79,6 +84,40 @@ A typical Blog would have the following setup:
 '''Markup:'''{BR}{BR}
 '''{ Blog cat=MyBlogCat posts=7 recent=15 cloud=true archive=true about='MyAboutPage' bottom='MyBottomPage' }''' {BR}{BR}
 '''Which will yeild:'''{BR}{BR}
+* At most 7 posts displayed
+* At most 15 recent posts displayed
+* Posts are displayed and ordered using create date
+* No Gravatars
+* Cloud shown
+* Archive shown
+* About shown
+* Bottom shown
+* No custom stylesheet
+)))
+
+===== Standard Draw From Another Namespace Than The Current =====
+(((
+'''Markup:'''{BR}{BR}
+'''{ Blog cat=MyBlogCat ns=ProjectX posts=7 recent=15 cloud=true archive=true about='MyAboutPage' bottom='MyBottomPage' }''' {BR}{BR}
+'''Which will yeild:'''{BR}{BR}
+* In this Namespace posts will be fetched from Namespace 'ProjectX'
+* At most 7 posts displayed
+* At most 15 recent posts displayed
+* Posts are displayed and ordered using create date
+* No Gravatars
+* Cloud shown
+* Archive shown
+* About shown
+* Bottom shown
+* No custom stylesheet
+)))
+
+===== Standard Draw From Several Namespaces Other Than The Current =====
+(((
+'''Markup:'''{BR}{BR}
+'''{ Blog cat=MyBlogCat ns='ProjectX,ProjectY' posts=7 recent=15 cloud=true archive=true about='MyAboutPage' bottom='MyBottomPage' }''' {BR}{BR}
+'''Which will yeild:'''{BR}{BR}
+* In this Namespace posts will be fetched from Namespaces 'ProjectX' and 'ProjectY'
 * At most 7 posts displayed
 * At most 15 recent posts displayed
 * Posts are displayed and ordered using create date

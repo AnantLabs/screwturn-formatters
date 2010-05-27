@@ -34,6 +34,7 @@ No special actions required.{BR}{BR}
 ** pagename
 ** user
 ** creator
+* Choose one or more Namespaces to search in, the namespace must of course contain the same category
 * [Keeper-Garrett-Table-Styles|Use tables instead of lists]
 {BR}
 
@@ -44,6 +45,8 @@ No special actions required.{BR}{BR}
 * ''Required:''
 ** '''cat''' - Name of a valid category
 * ''Optional:''
+** '''ns''' - Namespace(s) to search for pages in, ex. ns=root or ns='root,ProjectX'.
+*** Default the current Namespace is used
 ** '''type''' - Can be 1 of 4, '''*,#, or table'''
 *** '''""*""'''- Means unnumbered list
 *** '''""#""'''- Means numbered list
@@ -92,11 +95,22 @@ The combinations of lists.{BR}
 '''{ CategoryList cat=MyCat type=# cols='summary,user' }''' {BR}{BR}
 '''Result:'''{BR}
 
-1. [Page1|Page Link1] - Page Summary - Username
-2. [Page2|Page Link2] - Page Summary - Username
-3. [Page3|Page Link3] - Page Summary - Username
+1. [Page1|Page Link1] - Page Summary - Username{BR}
+2. [Page2|Page Link2] - Page Summary - Username{BR}
+3. [Page3|Page Link3] - Page Summary - Username{BR}
 )))
 {BR}
+(((
+'''Markup:'''{BR}{BR}
+'''{ CategoryList cat=MyCat ns=ProjectX type=# cols='summary,user' }''' {BR}{BR}
+'''Result:'''{BR}
+
+1. [ProjectX.Page1|Page Link1] - Page Summary - Username{BR}
+2. [ProjectX.Page2|Page Link2] - Page Summary - Username{BR}
+3. [ProjectX.Page3|Page Link3] - Page Summary - Username{BR}
+)))
+{BR}
+
 
 ==== Tables and Styling ====
 To use [Keeper-Garrett-Table-Styles|tables look here]. 
