@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using ScrewTurn.Wiki.PluginFramework;
 using Keeper.Garrett.ScrewTurn.Utility;
 using System.Reflection;
+using System.Web;
 
 namespace Keeper.Garrett.ScrewTurn.CategoryListFormatter
 {
@@ -87,6 +88,8 @@ namespace Keeper.Garrett.ScrewTurn.CategoryListFormatter
                                     var outputType = (args.ContainsKey("type") == true ? args["type"] : "");//Default is table
                                     outputType = (outputType != "*" && outputType != "#" && outputType != "table" ? "*" : outputType);
 
+                                    var ns = (args.ContainsKey("ns") == true ? args["ns"] : "");
+
                                     var head = (args.ContainsKey("head") == true ? args["head"] : "");
                                     var foot = (args.ContainsKey("foot") == true ? args["foot"] : "");
 
@@ -106,15 +109,16 @@ namespace Keeper.Garrett.ScrewTurn.CategoryListFormatter
                                 
                                     if(string.IsNullOrEmpty(category) == false && provider != null)
                                     {
-                                        var catInfo = provider.GetCategory(category);
+                                        var currentNs = NameTools.GetNamespace(context.Page.FullName);
+                                        var catInfos = GetCategoryInformation(provider, category, currentNs, ns);
 
-                                        if (catInfo != null)
+                                        foreach(var catInfo in catInfos)
                                         {
                                             foreach (var page in catInfo.Pages)
                                             {
                                                 var pageInfo = m_Host.FindPage(page);
                                                 if (pageInfo != null)
-                                                {
+                                                { 
                                                     var content = new PageDescription();
                                                     content.Content = m_Host.GetPageContent(pageInfo);
 
@@ -148,7 +152,8 @@ namespace Keeper.Garrett.ScrewTurn.CategoryListFormatter
                                                             content.UserDisplayName = user.DisplayName;
                                                         }
 
-                                                        dict.Add(content.Content.Title, content);
+                                                        //Key must be unique
+                                                        dict.Add(string.Format("{0} - {1}",content.Content.Title,content.Content.PageInfo.FullName), content);
                                                     }
                                                 }
                                             }
@@ -197,6 +202,72 @@ namespace Keeper.Garrett.ScrewTurn.CategoryListFormatter
             }
 
             return raw;
+        }
+
+        private List<CategoryInfo> GetCategoryInformation(IPagesStorageProviderV30 _provider, string _category, string _currentNS, string _ns)
+        {
+            var retval = new List<CategoryInfo>();
+            //Get current NS
+            var nsInfo = m_Host.FindNamespace(_currentNS);
+
+            //No override -> use current ns
+            if (string.IsNullOrEmpty(_ns) == true)
+            {
+                var cat = GetCategoryFromNamespace(_provider, nsInfo, _category);
+                if (cat != null)
+                {
+                    retval.Add(cat);
+                }
+            }
+            else
+            {
+                var namespaces = _ns.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (var ns in namespaces)
+                {
+                    NamespaceInfo namespaceInfo = null;
+                    if (ns.ToLower() != "root") //Root is alwyas null
+                    {
+                        namespaceInfo = m_Host.FindNamespace(ns);
+                    }
+
+                    var cat = GetCategoryFromNamespace(_provider, namespaceInfo, _category);
+
+                    if (cat != null)
+                    {
+                        retval.Add(cat);
+                    }
+                }
+            }
+
+            return retval;
+        }
+
+        private CategoryInfo GetCategoryFromNamespace(IPagesStorageProviderV30 _provider, NamespaceInfo _nsInfo, string _category)
+        {
+            CategoryInfo retval = null;
+
+            //If root we are done allready
+            if (_nsInfo == null)
+            {
+                retval = _provider.GetCategory(_category);
+            }
+            else
+            {
+                //Get all cats for the ns
+                var cats = _provider.GetCategories(_nsInfo);
+
+                //Find the correct cat and add
+                foreach (var cat in cats)
+                {
+                    if (cat.FullName == _category)
+                    {
+                        retval = cat;
+                        break;
+                    }
+                }
+            }
+
+            return retval;
         }
 
         private string GeneratePrimitiveList(SortedDictionary<string, PageDescription> _list, string _outputType, List<int> _cols)
