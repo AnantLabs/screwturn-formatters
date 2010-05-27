@@ -1,7 +1,11 @@
-[Version 1.2.0.0 - May 20 - 2010]
+[Version 1.2.0.0 - May 27 - 2010]
 New Features:
-	MessageFormatter added. Inspired by the Admontion plugin by boxstart: http://www.screwturn.eu/forum/viewtopic.php?f=23&t=7804&sid=95ff256e9f5cf871821638e8f512e164
+	MessageFormatter added - Inspired by the Admontion plugin by boxstart: http://www.screwturn.eu/forum/viewtopic.php?f=23&t=7804&sid=95ff256e9f5cf871821638e8f512e164
+	CategoryListFormatter - Added Namespace support
+	BlogFormatter - Added Namespace support
 	Added Update url to formatters.
+Bug fix:
+	CategoryListFormatter - Minor reference fixed 
 
 
 [Version 1.1.0.1 - May 20 - 2010]
