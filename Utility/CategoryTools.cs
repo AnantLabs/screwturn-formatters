@@ -46,7 +46,7 @@ namespace Keeper.Garrett.ScrewTurn.Utility
             return retval;
         }
 
-        public static CategoryInfo GetCategoryFromNamespace(IPagesStorageProviderV30 _provider, NamespaceInfo _nsInfo, string _category)
+        private static CategoryInfo GetCategoryFromNamespace(IPagesStorageProviderV30 _provider, NamespaceInfo _nsInfo, string _category)
         {
             CategoryInfo retval = null;
 

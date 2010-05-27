@@ -34,6 +34,7 @@
   <ItemGroup>
     <Compile Include="ArgumentParser_Test.cs" />
     <Compile Include="Avatar_Test.cs" />
+    <Compile Include="CategoryTools_Test.cs" />
     <Compile Include="ReverseDataComparer_Test.cs" />
     <Compile Include="XHtmlTableGenerator_Test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
