@@ -60,10 +60,11 @@ namespace Keeper.Garrett.ScrewTurn.Utility
                 //Get all cats for the ns
                 var cats = _provider.GetCategories(_nsInfo);
 
+                var categoryToFind = string.Format("{0}.{1}", _nsInfo.Name, _category);
                 //Find the correct cat and add
                 foreach (var cat in cats)
                 {
-                    if (cat.FullName == _category)
+                    if (cat.FullName == categoryToFind)
                     {
                         retval = cat;
                         break;

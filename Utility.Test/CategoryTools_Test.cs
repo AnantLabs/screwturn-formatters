@@ -50,8 +50,8 @@ namespace Utility.Tests
             var host = MockRepository.GenerateMock<IHostV30>();
             var provider = MockRepository.GenerateStub<IPagesStorageProviderV30>();
 
-            var catInfo1 = MockRepository.GenerateStub<CategoryInfo>("Test1", provider);
-            var catInfo2 = MockRepository.GenerateStub<CategoryInfo>("Test2", provider);
+            var catInfo1 = MockRepository.GenerateStub<CategoryInfo>("TestNamespace.Test1", provider);
+            var catInfo2 = MockRepository.GenerateStub<CategoryInfo>("TestNamespace.Test2", provider);
 
             NamespaceInfo rootNs = null;
             NamespaceInfo testNs = new NamespaceInfo("TestNamespace", provider, null);
@@ -67,7 +67,7 @@ namespace Utility.Tests
 
             //Assert
             Assert.AreEqual(1, cats.Count);
-            Assert.AreEqual("Test2", cats[0].FullName);
+            Assert.AreEqual("TestNamespace.Test2", cats[0].FullName);
         }
 
         [Test]
@@ -104,7 +104,7 @@ namespace Utility.Tests
             var provider = MockRepository.GenerateStub<IPagesStorageProviderV30>();
 
             var catInfo1 = MockRepository.GenerateStub<CategoryInfo>("Test2", provider);
-            var catInfo2 = MockRepository.GenerateStub<CategoryInfo>("Test2", provider);
+            var catInfo2 = MockRepository.GenerateStub<CategoryInfo>("TestNamespace.Test2", provider);
 
             NamespaceInfo rootNs = null;
             NamespaceInfo testNs = new NamespaceInfo("TestNamespace", provider, null);
@@ -120,7 +120,7 @@ namespace Utility.Tests
 
             //Assert
             Assert.AreEqual(1, cats.Count);
-            Assert.AreEqual("Test2", cats[0].FullName);
+            Assert.AreEqual("TestNamespace.Test2", cats[0].FullName);
         }
 
         [Test]
@@ -131,7 +131,7 @@ namespace Utility.Tests
             var provider = MockRepository.GenerateStub<IPagesStorageProviderV30>();
 
             var catInfo1 = MockRepository.GenerateStub<CategoryInfo>("Test2", provider);
-            var catInfo2 = MockRepository.GenerateStub<CategoryInfo>("Test2", provider);
+            var catInfo2 = MockRepository.GenerateStub<CategoryInfo>("TestNamespace.Test2", provider);
 
             NamespaceInfo rootNs = null;
             NamespaceInfo testNs = new NamespaceInfo("TestNamespace", provider, null);
@@ -148,7 +148,7 @@ namespace Utility.Tests
 
             //Assert
             Assert.AreEqual(2, cats.Count);
-            Assert.AreEqual("Test2", cats[0].FullName);
+            Assert.AreEqual("TestNamespace.Test2", cats[0].FullName);
             Assert.AreEqual("Test2", cats[1].FullName);
         }
     }

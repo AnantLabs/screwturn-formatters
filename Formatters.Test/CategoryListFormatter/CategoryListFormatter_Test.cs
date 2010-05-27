@@ -534,8 +534,8 @@ namespace Formatters.Tests
             var currentPageInfo = new PageInfo("Test.MyPage", provider, DateTime.Now);
             var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });  //MockRepository.GenerateStub<ContextInformation>();
 
-            var catInfo1 = MockRepository.GenerateStub<CategoryInfo>("MyCategory1", provider);
-            var catInfo2 = MockRepository.GenerateStub<CategoryInfo>("MyCategory2", provider);
+            var catInfo1 = MockRepository.GenerateStub<CategoryInfo>("Test.MyCategory1", provider);
+            var catInfo2 = MockRepository.GenerateStub<CategoryInfo>("Test.MyCategory2", provider);
             var pages = new string[] { "MyPage1", "MyPage2", "MyPage3" };
             var pageInfo1 = new PageInfo("MyPage1", provider, DateTime.Now);
             var pageInfo2 = new PageInfo("MyPage2", provider, DateTime.Now);
@@ -582,8 +582,8 @@ namespace Formatters.Tests
             var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });  //MockRepository.GenerateStub<ContextInformation>();
 
             var catInfo1 = MockRepository.GenerateStub<CategoryInfo>("MyCategory1", provider);
-            var catInfo2 = MockRepository.GenerateStub<CategoryInfo>("MyCategory2", provider);
-            var catInfo3 = MockRepository.GenerateStub<CategoryInfo>("MyCategory1", provider);
+            var catInfo2 = MockRepository.GenerateStub<CategoryInfo>("Test.MyCategory2", provider);
+            var catInfo3 = MockRepository.GenerateStub<CategoryInfo>("Test.MyCategory1", provider);
             var pages1 = new string[] { "MyPage1", "MyPage2", "MyPage3" };
             var pages2 = new string[] { "MyPage4", "MyPage5" };
             var pageInfo1 = new PageInfo("MyPage1", provider, DateTime.Now);
@@ -644,8 +644,8 @@ namespace Formatters.Tests
             var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });  //MockRepository.GenerateStub<ContextInformation>();
 
             var catInfo1 = MockRepository.GenerateStub<CategoryInfo>("MyCategory1", provider);
-            var catInfo2 = MockRepository.GenerateStub<CategoryInfo>("MyCategory2", provider);
-            var catInfo3 = MockRepository.GenerateStub<CategoryInfo>("MyCategory1", provider);
+            var catInfo2 = MockRepository.GenerateStub<CategoryInfo>("Test.MyCategory2", provider);
+            var catInfo3 = MockRepository.GenerateStub<CategoryInfo>("Test.MyCategory1", provider);
             var pages1 = new string[] { "MyPage1", "MyPage2", "MyPage3" };
             var pages2 = new string[] { "MyPage4", "MyPage5" };
             var pageInfo1 = new PageInfo("MyPage1", provider, DateTime.Now);
@@ -706,8 +706,8 @@ namespace Formatters.Tests
             var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });  //MockRepository.GenerateStub<ContextInformation>();
 
             var catInfo1 = MockRepository.GenerateStub<CategoryInfo>("MyCategory1", provider);
-            var catInfo2 = MockRepository.GenerateStub<CategoryInfo>("MyCategory2", provider);
-            var catInfo3 = MockRepository.GenerateStub<CategoryInfo>("MyCategory1", provider);
+            var catInfo2 = MockRepository.GenerateStub<CategoryInfo>("Test.MyCategory2", provider);
+            var catInfo3 = MockRepository.GenerateStub<CategoryInfo>("Test.MyCategory1", provider);
             var pages1 = new string[] { "MyPage1", "MyPage2", "MyPage3" };
             var pages2 = new string[] { "Test.MyPage1", "Test.MyPage2" };
             var pageInfo1 = new PageInfo("MyPage1", provider, DateTime.Now);
@@ -768,8 +768,8 @@ namespace Formatters.Tests
             var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });  //MockRepository.GenerateStub<ContextInformation>();
 
             var catInfo1 = MockRepository.GenerateStub<CategoryInfo>("MyCategory1", provider);
-            var catInfo2 = MockRepository.GenerateStub<CategoryInfo>("MyCategory2", provider);
-            var catInfo3 = MockRepository.GenerateStub<CategoryInfo>("MyCategory1", provider);
+            var catInfo2 = MockRepository.GenerateStub<CategoryInfo>("Test.MyCategory2", provider);
+            var catInfo3 = MockRepository.GenerateStub<CategoryInfo>("Test.MyCategory1", provider);
             var pages1 = new string[] { "MyPage1", "MyPage2", "MyPage3" };
             var pages2 = new string[] { "MyPage4", "MyPage5" };
             var pageInfo1 = new PageInfo("MyPage1", provider, DateTime.Now);
