@@ -12,7 +12,7 @@ namespace Keeper.Garrett.ScrewTurn.MessageFormatter
             new Page() {
             Fullname = "MessageFormatterHelp",
             Title = "Message Formatter Help",
-            Content = @"Displays a message as highlighted item, usefull for displaying warnings,information, notes etc.{BR}
+            Content = @"Displays a message as highlighted item, usefull for displaying warnings,information, notes etc. It was originally inspired by boxstart's plugin found [http://www.screwturn.eu/forum/viewtopic.php?f=23&t=7804&sid=95ff256e9f5cf871821638e8f512e164|here].{BR}
 You can verify that the formatter is working by [MessageFormatterTest|opening this test page].{BR}
 {TOC}
 {BR}
