@@ -13,5 +13,7 @@ namespace Keeper.Garrett.ScrewTurn.CategoryListFormatter
         public string CreatorDisplayName { get; set; }
         public string UserName { get; set; }
         public string UserDisplayName { get; set; }
+        public CategoryInfo[] Categories { get; set; }
+        public string Namespace { get; set; }
     }
 }
