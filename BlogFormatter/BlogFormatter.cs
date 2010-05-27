@@ -145,7 +145,6 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
 
                                         foreach(var catInfo in catInfos)
                                         {
-
                                             foreach (var page in catInfo.Pages)
                                             {
                                                 var pageInfo = m_Host.FindPage(page);

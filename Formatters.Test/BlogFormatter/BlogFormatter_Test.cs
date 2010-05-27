@@ -246,7 +246,7 @@ namespace Formatters.Tests
         }
 
         [Test]
-        public void BlogPost_3_Posts()
+        public void BlogPost_3_Posts_RootNs()
         {
             //Arrange
             var formatter = new BlogFormatter();
@@ -289,6 +289,299 @@ namespace Formatters.Tests
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
+            Assert.AreEqual(true, retval.Contains("<h1 class=\"blogtitle\"><a href=\"MyPage3.ashx\">Page 3</a></h1>"));
+            Assert.AreEqual(true, retval.Contains("<h1 class=\"blogtitle\"><a href=\"MyPage2.ashx\">Page 2</a></h1>"));
+            Assert.AreEqual(true, retval.Contains("<h1 class=\"blogtitle\"><a href=\"MyPage1.ashx\">Page 1</a></h1>"));
+        }
+
+        [Test]
+        public void BlogPost_3_Posts_TestNS()
+        {
+            //Arrange
+            var formatter = new BlogFormatter();
+            var host = MockRepository.GenerateStub<IHostV30>();
+            var settings = MockRepository.GenerateStub<ISettingsStorageProviderV30>();
+            var provider = MockRepository.GenerateStub<IPagesStorageProviderV30>();
+            var currentPageInfo = new PageInfo("Test.BlogPage", provider, DateTime.Now);
+            var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });
+
+            var catInfo = new CategoryInfo[1] { MockRepository.GenerateStub<CategoryInfo>("Blog", provider) };
+            catInfo[0].Pages = new string[] { "Test.MyPage1", "Test.MyPage2", "Test.MyPage3" };
+            var pageInfo1 = new PageInfo("Test.MyPage1", provider, new DateTime(2010, 1, 1));
+            var pageInfo2 = new PageInfo("Test.MyPage2", provider, new DateTime(2010, 1, 2));
+            var pageInfo3 = new PageInfo("Test.MyPage3", provider, new DateTime(2010, 1, 3));
+            var pageContent1 = MockRepository.GenerateStub<PageContent>(pageInfo1, "Page 1", "User", new DateTime(2010, 1, 1), "", "Content 1", null, "My Description 1");
+            var pageContent2 = MockRepository.GenerateStub<PageContent>(pageInfo2, "Page 2", "User", new DateTime(2010, 1, 2), "", "Content 2", null, "My Description 2");
+            var pageContent3 = MockRepository.GenerateStub<PageContent>(pageInfo3, "Page 3", "User", new DateTime(2010, 1, 3), "", "Content 3", null, "My Description 3");
+
+            //Expect
+            provider.Expect(x => x.GetCategoriesForPage(null)).IgnoreArguments().Return(catInfo);
+            provider.Expect(x => x.GetCategory(null)).IgnoreArguments().Return(catInfo[0]);
+            provider.Expect(x => x.GetMessageCount(null)).IgnoreArguments().Return(3).Repeat.Any();
+
+            host.Expect(x => x.FindPage("Test.MyPage1")).Return(pageInfo1);
+            host.Expect(x => x.FindPage("Test.MyPage2")).Return(pageInfo2);
+            host.Expect(x => x.FindPage("Test.MyPage3")).Return(pageInfo3);
+            host.Expect(x => x.GetPageContent(pageInfo1)).Return(pageContent1);
+            host.Expect(x => x.GetPageContent(pageInfo2)).Return(pageContent2);
+            host.Expect(x => x.GetPageContent(pageInfo3)).Return(pageContent3);
+
+            host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
+            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("yes");
+            host.Expect(x => x.FindUser("User")).Repeat.Any().Return(new UserInfo("User", "Garrett", "", true, DateTime.Now, null));
+
+            // Blog, NoPosts, NoRecent, lastMod, avatar, cloud,archive,about,bottom,style
+            string input = "bla bla bla {Blog cat=MyBlog posts=3 recent=3} bla bla bla";
+
+            //Act
+            formatter.Init(host, "");
+            var retval = formatter.Format(input, context, FormattingPhase.Phase1);
+
+            //Assert
+            Assert.AreEqual(true, retval.Contains("<h1 class=\"blogtitle\"><a href=\"Test.MyPage3.ashx\">Page 3</a></h1>"));
+            Assert.AreEqual(true, retval.Contains("<h1 class=\"blogtitle\"><a href=\"Test.MyPage2.ashx\">Page 2</a></h1>"));
+            Assert.AreEqual(true, retval.Contains("<h1 class=\"blogtitle\"><a href=\"Test.MyPage1.ashx\">Page 1</a></h1>"));
+        }
+
+  /*      [Test]
+        public void BlogPost_3_Posts_TestNS_BlogRoot()
+        {
+            //Arrange
+            var formatter = new BlogFormatter();
+            var host = MockRepository.GenerateStub<IHostV30>();
+            var settings = MockRepository.GenerateStub<ISettingsStorageProviderV30>();
+            var provider = MockRepository.GenerateStub<IPagesStorageProviderV30>();
+            var currentPageInfo = new PageInfo("Test.BlogPage", provider, DateTime.Now);
+            var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });
+
+            var catInfo = new CategoryInfo[1] { MockRepository.GenerateStub<CategoryInfo>("Blog", provider) };
+            catInfo[0].Pages = new string[] { "MyPage1", "MyPage2", "MyPage3" };
+            var pageInfo1 = new PageInfo("MyPage1", provider, new DateTime(2010, 1, 1));
+            var pageInfo2 = new PageInfo("MyPage2", provider, new DateTime(2010, 1, 2));
+            var pageInfo3 = new PageInfo("MyPage3", provider, new DateTime(2010, 1, 3));
+            var pageContent1 = MockRepository.GenerateStub<PageContent>(pageInfo1, "Page 1", "User", new DateTime(2010, 1, 1), "", "Content 1", null, "My Description 1");
+            var pageContent2 = MockRepository.GenerateStub<PageContent>(pageInfo2, "Page 2", "User", new DateTime(2010, 1, 2), "", "Content 2", null, "My Description 2");
+            var pageContent3 = MockRepository.GenerateStub<PageContent>(pageInfo3, "Page 3", "User", new DateTime(2010, 1, 3), "", "Content 3", null, "My Description 3");
+
+            //Expect
+            provider.Expect(x => x.GetCategoriesForPage(null)).IgnoreArguments().Return(catInfo);
+            provider.Expect(x => x.GetCategory(null)).IgnoreArguments().Return(catInfo[0]);
+            provider.Expect(x => x.GetMessageCount(null)).IgnoreArguments().Return(3).Repeat.Any();
+
+            host.Expect(x => x.FindPage("MyPage1")).Return(pageInfo1);
+            host.Expect(x => x.FindPage("MyPage2")).Return(pageInfo2);
+            host.Expect(x => x.FindPage("MyPage3")).Return(pageInfo3);
+            host.Expect(x => x.GetPageContent(pageInfo1)).Return(pageContent1);
+            host.Expect(x => x.GetPageContent(pageInfo2)).Return(pageContent2);
+            host.Expect(x => x.GetPageContent(pageInfo3)).Return(pageContent3);
+
+            host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
+            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("yes");
+            host.Expect(x => x.FindUser("User")).Repeat.Any().Return(new UserInfo("User", "Garrett", "", true, DateTime.Now, null));
+
+            // Blog, NoPosts, NoRecent, lastMod, avatar, cloud,archive,about,bottom,style
+            string input = "bla bla bla {Blog cat=MyBlog posts=3 recent=3 ns=root} bla bla bla";
+
+            //Act
+            formatter.Init(host, "");
+            var retval = formatter.Format(input, context, FormattingPhase.Phase1);
+
+            //Assert
+            Assert.AreEqual(true, retval.Contains("<h1 class=\"blogtitle\"><a href=\"MyPage3.ashx\">Page 3</a></h1>"));
+            Assert.AreEqual(true, retval.Contains("<h1 class=\"blogtitle\"><a href=\"MyPage2.ashx\">Page 2</a></h1>"));
+            Assert.AreEqual(true, retval.Contains("<h1 class=\"blogtitle\"><a href=\"MyPage1.ashx\">Page 1</a></h1>"));
+        }*/
+
+        [Test]
+        public void BlogPost_3_Posts_RootNS_BlogTest()
+        {
+            //Arrange
+            var formatter = new BlogFormatter();
+            var host = MockRepository.GenerateStub<IHostV30>();
+            var settings = MockRepository.GenerateStub<ISettingsStorageProviderV30>();
+            var provider = MockRepository.GenerateStub<IPagesStorageProviderV30>();
+            var currentPageInfo = new PageInfo("BlogPage", provider, DateTime.Now);
+            var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });
+
+            var catInfo1 = new CategoryInfo[1] { MockRepository.GenerateStub<CategoryInfo>("Blog", provider) };
+            var catInfo2 = new CategoryInfo[1] { MockRepository.GenerateStub<CategoryInfo>("MyBlog", provider) };
+            catInfo2[0].Pages = new string[] { "Test.MyPage1", "Test.MyPage2", "Test.MyPage3" };
+            var pageInfo1 = new PageInfo("Test.MyPage1", provider, new DateTime(2010, 1, 1));
+            var pageInfo2 = new PageInfo("Test.MyPage2", provider, new DateTime(2010, 1, 2));
+            var pageInfo3 = new PageInfo("Test.MyPage3", provider, new DateTime(2010, 1, 3));
+            var pageContent1 = MockRepository.GenerateStub<PageContent>(pageInfo1, "Page 1", "User", new DateTime(2010, 1, 1), "", "Content 1", null, "My Description 1");
+            var pageContent2 = MockRepository.GenerateStub<PageContent>(pageInfo2, "Page 2", "User", new DateTime(2010, 1, 2), "", "Content 2", null, "My Description 2");
+            var pageContent3 = MockRepository.GenerateStub<PageContent>(pageInfo3, "Page 3", "User", new DateTime(2010, 1, 3), "", "Content 3", null, "My Description 3");
+
+            NamespaceInfo rootNs = null;
+            NamespaceInfo testNs = new NamespaceInfo("Test", provider, currentPageInfo);
+
+            host.Expect(x => x.FindNamespace(null)).Return(rootNs);
+            host.Expect(x => x.FindNamespace("Test")).Return(testNs);
+
+            //Expect
+            provider.Expect(x => x.GetCategories(testNs)).Return(catInfo2);
+
+            //Expect
+            provider.Expect(x => x.GetCategoriesForPage(null)).IgnoreArguments().Return(catInfo1);
+            provider.Expect(x => x.GetMessageCount(null)).IgnoreArguments().Return(3).Repeat.Any();
+
+            host.Expect(x => x.FindPage("Test.MyPage1")).Return(pageInfo1);
+            host.Expect(x => x.FindPage("Test.MyPage2")).Return(pageInfo2);
+            host.Expect(x => x.FindPage("Test.MyPage3")).Return(pageInfo3);
+            host.Expect(x => x.GetPageContent(pageInfo1)).Return(pageContent1);
+            host.Expect(x => x.GetPageContent(pageInfo2)).Return(pageContent2);
+            host.Expect(x => x.GetPageContent(pageInfo3)).Return(pageContent3);
+
+            host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
+            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("yes");
+            host.Expect(x => x.FindUser("User")).Repeat.Any().Return(new UserInfo("User", "Garrett", "", true, DateTime.Now, null));
+
+            // Blog, NoPosts, NoRecent, lastMod, avatar, cloud,archive,about,bottom,style
+            string input = "bla bla bla {Blog cat=MyBlog posts=3 recent=3 ns=Test} bla bla bla";
+
+            //Act
+            formatter.Init(host, "");
+            var retval = formatter.Format(input, context, FormattingPhase.Phase1);
+
+            //Assert
+            Assert.AreEqual(true, retval.Contains("<h1 class=\"blogtitle\"><a href=\"Test.MyPage3.ashx\">Page 3</a></h1>"));
+            Assert.AreEqual(true, retval.Contains("<h1 class=\"blogtitle\"><a href=\"Test.MyPage2.ashx\">Page 2</a></h1>"));
+            Assert.AreEqual(true, retval.Contains("<h1 class=\"blogtitle\"><a href=\"Test.MyPage1.ashx\">Page 1</a></h1>"));
+        }
+
+        [Test]
+        public void BlogPost_3_Posts_TestNS_BlogRoot()
+        {
+            //Arrange
+            var formatter = new BlogFormatter();
+            var host = MockRepository.GenerateStub<IHostV30>();
+            var settings = MockRepository.GenerateStub<ISettingsStorageProviderV30>();
+            var provider = MockRepository.GenerateStub<IPagesStorageProviderV30>();
+            var currentPageInfo = new PageInfo("Test.BlogPage", provider, DateTime.Now);
+            var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });
+
+            var catInfo1 = new CategoryInfo[1] { MockRepository.GenerateStub<CategoryInfo>("Blog", provider) };
+            var catInfo2 = new CategoryInfo[1] { MockRepository.GenerateStub<CategoryInfo>("MyBlog", provider) };
+            catInfo2[0].Pages = new string[] { "MyPage1", "MyPage2", "MyPage3" };
+            var pageInfo1 = new PageInfo("MyPage1", provider, new DateTime(2010, 1, 1));
+            var pageInfo2 = new PageInfo("MyPage2", provider, new DateTime(2010, 1, 2));
+            var pageInfo3 = new PageInfo("MyPage3", provider, new DateTime(2010, 1, 3));
+            var pageContent1 = MockRepository.GenerateStub<PageContent>(pageInfo1, "Page 1", "User", new DateTime(2010, 1, 1), "", "Content 1", null, "My Description 1");
+            var pageContent2 = MockRepository.GenerateStub<PageContent>(pageInfo2, "Page 2", "User", new DateTime(2010, 1, 2), "", "Content 2", null, "My Description 2");
+            var pageContent3 = MockRepository.GenerateStub<PageContent>(pageInfo3, "Page 3", "User", new DateTime(2010, 1, 3), "", "Content 3", null, "My Description 3");
+
+            NamespaceInfo rootNs = null;
+            NamespaceInfo testNs = new NamespaceInfo("Test", provider, currentPageInfo);
+
+            host.Expect(x => x.FindNamespace(null)).Return(rootNs);
+            host.Expect(x => x.FindNamespace("Test")).Return(testNs);
+
+            //Expect
+            provider.Expect(x => x.GetCategory("MyBlog")).Return(catInfo2[0]);
+            provider.Expect(x => x.GetCategories(testNs)).Return(catInfo2);
+
+            //Expect
+            provider.Expect(x => x.GetCategoriesForPage(null)).IgnoreArguments().Return(catInfo1);
+            provider.Expect(x => x.GetMessageCount(null)).IgnoreArguments().Return(3).Repeat.Any();
+
+            host.Expect(x => x.FindPage("MyPage1")).Return(pageInfo1);
+            host.Expect(x => x.FindPage("MyPage2")).Return(pageInfo2);
+            host.Expect(x => x.FindPage("MyPage3")).Return(pageInfo3);
+            host.Expect(x => x.GetPageContent(pageInfo1)).Return(pageContent1);
+            host.Expect(x => x.GetPageContent(pageInfo2)).Return(pageContent2);
+            host.Expect(x => x.GetPageContent(pageInfo3)).Return(pageContent3);
+
+            host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
+            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("yes");
+            host.Expect(x => x.FindUser("User")).Repeat.Any().Return(new UserInfo("User", "Garrett", "", true, DateTime.Now, null));
+
+            // Blog, NoPosts, NoRecent, lastMod, avatar, cloud,archive,about,bottom,style
+            string input = "bla bla bla {Blog cat=MyBlog posts=3 recent=3 ns=root} bla bla bla";
+
+            //Act
+            formatter.Init(host, "");
+            var retval = formatter.Format(input, context, FormattingPhase.Phase1);
+
+            //Assert
+            Assert.AreEqual(true, retval.Contains("<h1 class=\"blogtitle\"><a href=\"MyPage3.ashx\">Page 3</a></h1>"));
+            Assert.AreEqual(true, retval.Contains("<h1 class=\"blogtitle\"><a href=\"MyPage2.ashx\">Page 2</a></h1>"));
+            Assert.AreEqual(true, retval.Contains("<h1 class=\"blogtitle\"><a href=\"MyPage1.ashx\">Page 1</a></h1>"));
+        }
+
+        [Test]
+        public void BlogPost_3_Posts_RootNS_BlogRootAndTest()
+        {
+            //Arrange
+            var formatter = new BlogFormatter();
+            var host = MockRepository.GenerateStub<IHostV30>();
+            var settings = MockRepository.GenerateStub<ISettingsStorageProviderV30>();
+            var provider = MockRepository.GenerateStub<IPagesStorageProviderV30>();
+            var currentPageInfo = new PageInfo("BlogPage", provider, DateTime.Now);
+            var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });
+
+            var catInfo1 = new CategoryInfo[1] { MockRepository.GenerateStub<CategoryInfo>("Blog", provider) };
+
+            var catInfo2 = new CategoryInfo[1] { MockRepository.GenerateStub<CategoryInfo>("MyBlog", provider) };
+            catInfo2[0].Pages = new string[] { "MyPage1", "MyPage2", "MyPage3" };
+            var pageInfo1 = new PageInfo("MyPage1", provider, new DateTime(2010, 1, 1));
+            var pageInfo2 = new PageInfo("MyPage2", provider, new DateTime(2010, 1, 2));
+            var pageInfo3 = new PageInfo("MyPage3", provider, new DateTime(2010, 1, 3));
+            var pageContent1 = MockRepository.GenerateStub<PageContent>(pageInfo1, "Page 1", "User", new DateTime(2010, 1, 1), "", "Content 1", null, "My Description 1");
+            var pageContent2 = MockRepository.GenerateStub<PageContent>(pageInfo2, "Page 2", "User", new DateTime(2010, 1, 2), "", "Content 2", null, "My Description 2");
+            var pageContent3 = MockRepository.GenerateStub<PageContent>(pageInfo3, "Page 3", "User", new DateTime(2010, 1, 3), "", "Content 3", null, "My Description 3");
+
+            var catInfo3 = new CategoryInfo[1] { MockRepository.GenerateStub<CategoryInfo>("MyBlog", provider) };
+            catInfo3[0].Pages = new string[] { "Test.MyPage1", "Test.MyPage2", "Test.MyPage3" };
+            var pageInfoT1 = new PageInfo("Test.MyPage1", provider, new DateTime(2010, 1, 4));
+            var pageInfoT2 = new PageInfo("Test.MyPage2", provider, new DateTime(2010, 1, 5));
+            var pageInfoT3 = new PageInfo("Test.MyPage3", provider, new DateTime(2010, 1, 6));
+            var pageContentT1 = MockRepository.GenerateStub<PageContent>(pageInfoT1, "Page 1", "User", new DateTime(2010, 1, 4), "", "Content 1", null, "My Description 1");
+            var pageContentT2 = MockRepository.GenerateStub<PageContent>(pageInfoT2, "Page 2", "User", new DateTime(2010, 1, 5), "", "Content 2", null, "My Description 2");
+            var pageContentT3 = MockRepository.GenerateStub<PageContent>(pageInfoT3, "Page 3", "User", new DateTime(2010, 1, 6), "", "Content 3", null, "My Description 3");
+
+            NamespaceInfo rootNs = null;
+            NamespaceInfo testNs = new NamespaceInfo("Test", provider, currentPageInfo);
+
+            host.Expect(x => x.FindNamespace(null)).Return(rootNs);
+            host.Expect(x => x.FindNamespace("Test")).Return(testNs);
+
+            //Expect
+            provider.Expect(x => x.GetCategory("MyBlog")).Return(catInfo2[0]);
+            provider.Expect(x => x.GetCategories(testNs)).Return(catInfo3);
+
+            //Expect
+            provider.Expect(x => x.GetCategoriesForPage(null)).IgnoreArguments().Return(catInfo1);
+            provider.Expect(x => x.GetMessageCount(null)).IgnoreArguments().Return(3).Repeat.Any();
+
+            host.Expect(x => x.FindPage("MyPage1")).Return(pageInfo1);
+            host.Expect(x => x.FindPage("MyPage2")).Return(pageInfo2);
+            host.Expect(x => x.FindPage("MyPage3")).Return(pageInfo3);
+            host.Expect(x => x.GetPageContent(pageInfo1)).Return(pageContent1);
+            host.Expect(x => x.GetPageContent(pageInfo2)).Return(pageContent2);
+            host.Expect(x => x.GetPageContent(pageInfo3)).Return(pageContent3);
+            host.Expect(x => x.FindPage("Test.MyPage1")).Return(pageInfoT1);
+            host.Expect(x => x.FindPage("Test.MyPage2")).Return(pageInfoT2);
+            host.Expect(x => x.FindPage("Test.MyPage3")).Return(pageInfoT3);
+            host.Expect(x => x.GetPageContent(pageInfoT1)).Return(pageContentT1);
+            host.Expect(x => x.GetPageContent(pageInfoT2)).Return(pageContentT2);
+            host.Expect(x => x.GetPageContent(pageInfoT3)).Return(pageContentT3);
+
+            host.Expect(x => x.GetSettingsStorageProvider()).Return(settings);
+            settings.Expect(x => x.GetSetting("DisplayGravatars")).Return("yes");
+            host.Expect(x => x.FindUser("User")).Repeat.Any().Return(new UserInfo("User", "Garrett", "", true, DateTime.Now, null));
+
+            // Blog, NoPosts, NoRecent, lastMod, avatar, cloud,archive,about,bottom,style
+            string input = "bla bla bla {Blog cat=MyBlog posts=6 recent=6 ns='root,Test'} bla bla bla";
+
+            //Act
+            formatter.Init(host, "");
+            var retval = formatter.Format(input, context, FormattingPhase.Phase1);
+
+            //Assert
+            Assert.AreEqual(true, retval.Contains("<h1 class=\"blogtitle\"><a href=\"Test.MyPage3.ashx\">Page 3</a></h1>"));
+            Assert.AreEqual(true, retval.Contains("<h1 class=\"blogtitle\"><a href=\"Test.MyPage2.ashx\">Page 2</a></h1>"));
+            Assert.AreEqual(true, retval.Contains("<h1 class=\"blogtitle\"><a href=\"Test.MyPage1.ashx\">Page 1</a></h1>"));
             Assert.AreEqual(true, retval.Contains("<h1 class=\"blogtitle\"><a href=\"MyPage3.ashx\">Page 3</a></h1>"));
             Assert.AreEqual(true, retval.Contains("<h1 class=\"blogtitle\"><a href=\"MyPage2.ashx\">Page 2</a></h1>"));
             Assert.AreEqual(true, retval.Contains("<h1 class=\"blogtitle\"><a href=\"MyPage1.ashx\">Page 1</a></h1>"));
