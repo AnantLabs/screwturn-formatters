@@ -6,6 +6,7 @@ New Features:
 	Added Update url to formatters.
 Bug fix:
 	CategoryListFormatter - Minor reference fixed 
+	All table are no encapsulated in <nobr></nobr> to avoid to much white space.
 
 
 [Version 1.1.0.1 - May 20 - 2010]

@@ -167,7 +167,7 @@ namespace Utility.Tests
             var result = XHtmlTableGenerator.GenerateTable(data, null, null, new List<int>(), new List<string>(), new List<string>() { "Head1","Head2","Head3" },null);
              
             //Assert
-            Assert.AreEqual("<link type=\"text/css\" rel=\"stylesheet\" href=\"GetFile.aspx?File=/Keeper.Garrett.Formatters/Tables/TableStyle.css\"></link>\n<table id=\"default\">\n\t<colgroup>\n\t</colgroup>\n\n\t<thead>\n\t\t<tr>\n\t\t</tr>\n\t</thead>\n\n\t<tfoot>\n\t\t<tr>\n\t\t</tr>\n\t</tfoot>\n\n\t<tbody>\n\t\t<tr class=\"row-odd\">\n\t\t</tr>\n\t\t<tr class=\"row-even\">\n\t\t</tr>\n\t\t<tr class=\"row-odd\">\n\t\t</tr>\n\t</tbody>\n</table>", result);
+            Assert.AreEqual("<nobr>\n<link type=\"text/css\" rel=\"stylesheet\" href=\"GetFile.aspx?File=/Keeper.Garrett.Formatters/Tables/TableStyle.css\"></link>\n<table id=\"default\">\n\t<colgroup>\n\t</colgroup>\n\n\t<thead>\n\t\t<tr>\n\t\t</tr>\n\t</thead>\n\n\t<tfoot>\n\t\t<tr>\n\t\t</tr>\n\t</tfoot>\n\n\t<tbody>\n\t\t<tr class=\"row-odd\">\n\t\t</tr>\n\t\t<tr class=\"row-even\">\n\t\t</tr>\n\t\t<tr class=\"row-odd\">\n\t\t</tr>\n\t</tbody>\n</table>\n</nobr>", result);
         }
 
 

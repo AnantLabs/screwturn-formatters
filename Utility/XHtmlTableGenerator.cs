@@ -238,7 +238,8 @@ There are 11 predefined styles which are bundled with all the formatters (which 
                 string tableHeader = GenerateTableHeaders(_columnsToShow, _customHeaders, _actualHeaders, _tblHeading, _tblFooter);
 
                 //Start building table                                                   
-                retval = string.Format("<link type=\"text/css\" rel=\"stylesheet\" href=\"GetFile.aspx?File=/Keeper.Garrett.Formatters/Tables/TableStyle.css\"></link>");
+                retval = string.Format("<nobr>\n");
+                retval = string.Format("{0}<link type=\"text/css\" rel=\"stylesheet\" href=\"GetFile.aspx?File=/Keeper.Garrett.Formatters/Tables/TableStyle.css\"></link>",retval);
                 retval = string.Format("{0}\n<table id=\"{1}\">{2}\n\n\t<tbody>", retval, (string.IsNullOrEmpty(_style) == true ? "default" : _style), tableHeader);
 
                 //Each row
@@ -271,7 +272,7 @@ There are 11 predefined styles which are bundled with all the formatters (which 
                 }
 
                 //Close table
-                retval = string.Format("{0}\n\t</tbody>\n</table>", retval);
+                retval = string.Format("{0}\n\t</tbody>\n</table>\n</nobr>", retval);
             }
 
             return retval;
