@@ -160,7 +160,7 @@ namespace Keeper.Garrett.ScrewTurn.CategoryListFormatter
                                         }
                                     }
 
-                                    string list = string.Format("(((No category name \"{0}\" found or an error occured.)))", category);
+                                    string list = string.Format("(((No category name \"{0}\" found, category has no pages yet or an error occured.)))", category);
 
                                     if (dict.Count > 0)
                                     {
