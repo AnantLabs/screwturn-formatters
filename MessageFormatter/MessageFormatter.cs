@@ -20,14 +20,6 @@ namespace Keeper.Garrett.ScrewTurn.MessageFormatter
 
         private static readonly Regex TagRegex = new Regex(@"\<msg(?<attributes>((.|\n|\r)+?))?\>(?<msg>((.|\n|\r)+?))?\</msg\>", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant);
 
-        public override ComponentInformation  Information
-        {
-            get
-            {
-                return new ComponentInformation(this.GetType().Name, "Christian Hollerup Mikkelsen", string.Format("{0}", this.GetType().Assembly.GetName().Version), "http://keeper.endoftheinternet.org/", "http://keeper.endoftheinternet.org/GetFile.aspx?File=%2fScrewTurn%20-%20Formatters%20-%20Releases%2fScrewTurn%203.0.2.509%2fUpdates%2fMessageFormatter.txt&AsStreamAttachment=1&Provider=ScrewTurn.Wiki.FilesStorageProvider&NoHit=1");
-            }
-        }
-
         public override void Init(IHostV30 _host, string _config)
         {
             base.Init(_host, _config, 55, Help.HelpPages);

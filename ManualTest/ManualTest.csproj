@@ -58,6 +58,24 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Common\Drivers\Oracle\10.2.0\Oracle.DataAccess.dll</HintPath>
     </Reference>
+    <Reference Include="ScrewTurn.Wiki">
+      <HintPath>..\Common\ScrewTurn 3.0.2.509\ScrewTurn.Wiki.dll</HintPath>
+    </Reference>
+    <Reference Include="ScrewTurn.Wiki.AclEngine, Version=3.0.2.509, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Common\ScrewTurn 3.0.2.509\ScrewTurn.Wiki.AclEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="ScrewTurn.Wiki.Core">
+      <HintPath>..\Common\ScrewTurn 3.0.2.509\ScrewTurn.Wiki.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="ScrewTurn.Wiki.PluginFramework, Version=3.0.2.509, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Common\ScrewTurn 3.0.2.509\ScrewTurn.Wiki.PluginFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="ScrewTurn.Wiki.SearchEngine, Version=3.0.2.509, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Common\ScrewTurn 3.0.2.509\ScrewTurn.Wiki.SearchEngine.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Data" />
@@ -74,6 +92,10 @@
     <ProjectReference Include="..\EventLogFormatter\EventLogFormatter.csproj">
       <Project>{A2728443-6C37-4CB2-A569-38D7F0649F9C}</Project>
       <Name>EventLogFormatter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MessageFormatter\MessageFormatter.csproj">
+      <Project>{D71FF96F-DD41-489E-81C3-0A6A12544C60}</Project>
+      <Name>MessageFormatter</Name>
     </ProjectReference>
     <ProjectReference Include="..\QueryTableFormatter\QueryTableFormatter.csproj">
       <Project>{29660E60-5366-4CDA-9DD1-F8BFA89E86FD}</Project>

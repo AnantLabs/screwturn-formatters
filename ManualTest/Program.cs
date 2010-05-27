@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Configuration.Install;
 using System.Reflection;
+using Keeper.Garrett.ScrewTurn.MessageFormatter;
 
 namespace ManualTest
 {
@@ -20,6 +21,23 @@ namespace ManualTest
             //Machine/IP - Log - Filter - Begrænsning
             try
             {
+
+                var der = new EventLogFormatter();
+                var der2 = new MessageFormatter();
+
+                Trace.WriteLine("{0}", der.Information.Author);
+                Trace.WriteLine("{0}", der.Information.Name);
+                Trace.WriteLine("{0}", der.Information.UpdateUrl);
+                Trace.WriteLine("{0}", der.Information.Url);
+                Trace.WriteLine("{0}", der.Information.Version);
+
+                Trace.WriteLine("{0}", der2.Information.Author);
+                Trace.WriteLine("{0}", der2.Information.Name);
+                Trace.WriteLine("{0}", der2.Information.UpdateUrl);
+                Trace.WriteLine("{0}", der2.Information.Url);
+                Trace.WriteLine("{0}", der2.Information.Version);
+
+
 /*                var db = new Keeper.Garrett.ScrewTurn.QueryTableFormatter.Database.Oracle("User Id=wiki;Password=myretuefest;Data Source=(DESCRIPTION = (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.1.100)(PORT = 1521)) )(CONNECT_DATA = (SERVER = DEDICATED) (SERVICE_NAME = XE)));");
                 db.Connect();
                 var result = db.Query("select * from wiki.schedule");*/
