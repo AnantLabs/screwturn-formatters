@@ -696,6 +696,68 @@ namespace Formatters.Tests
         }
 
         [Test]
+        public void PrimitiveList_StraightOrder_List_RootNS_And_TestNS_FromTest_Dub_Names_Test()
+        {
+            //Arrange
+            var formatter = new CategoryListFormatter();
+            var host = MockRepository.GenerateStub<IHostV30>();
+            var provider = MockRepository.GenerateStub<IPagesStorageProviderV30>();
+            var currentPageInfo = new PageInfo("Test.MyPage", provider, DateTime.Now);
+            var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });  //MockRepository.GenerateStub<ContextInformation>();
+
+            var catInfo1 = MockRepository.GenerateStub<CategoryInfo>("MyCategory1", provider);
+            var catInfo2 = MockRepository.GenerateStub<CategoryInfo>("MyCategory2", provider);
+            var catInfo3 = MockRepository.GenerateStub<CategoryInfo>("MyCategory1", provider);
+            var pages1 = new string[] { "MyPage1", "MyPage2", "MyPage3" };
+            var pages2 = new string[] { "Test.MyPage1", "Test.MyPage2" };
+            var pageInfo1 = new PageInfo("MyPage1", provider, DateTime.Now);
+            var pageInfo2 = new PageInfo("MyPage2", provider, DateTime.Now);
+            var pageInfo3 = new PageInfo("MyPage3", provider, DateTime.Now);
+            var pageInfo4 = new PageInfo("Test.MyPage1", provider, DateTime.Now);
+            var pageInfo5 = new PageInfo("Test.MyPage2", provider, DateTime.Now);
+            var pageContent1 = MockRepository.GenerateStub<PageContent>(pageInfo1, "Page 1", "", DateTime.Now, "", "", null, "My Description 1");
+            var pageContent2 = MockRepository.GenerateStub<PageContent>(pageInfo2, "Page 2", "", DateTime.Now, "", "", null, "My Description 2");
+            var pageContent3 = MockRepository.GenerateStub<PageContent>(pageInfo3, "Page 3", "", DateTime.Now, "", "", null, "My Description 3");
+            var pageContent4 = MockRepository.GenerateStub<PageContent>(pageInfo4, "Page 1", "", DateTime.Now, "", "", null, "My Description 1");
+            var pageContent5 = MockRepository.GenerateStub<PageContent>(pageInfo5, "Page 2", "", DateTime.Now, "", "", null, "My Description 2");
+
+            NamespaceInfo rootNs = null;
+            NamespaceInfo testNs = new NamespaceInfo("Test", provider, currentPageInfo);
+
+            //Expect
+            provider.Expect(x => x.GetCategory(null)).IgnoreArguments().Return(catInfo1);
+            provider.Expect(x => x.GetCategories(testNs)).IgnoreArguments().Return(new CategoryInfo[2] { catInfo2, catInfo3 });
+            catInfo1.Pages = pages1;
+            catInfo2.Pages = pages2;
+            catInfo3.Pages = pages2;
+
+            host.Expect(x => x.FindNamespace(null)).Return(rootNs);
+            host.Expect(x => x.FindNamespace("Test")).Return(testNs);
+            host.Expect(x => x.FindPage("MyPage1")).Return(pageInfo1).Repeat.Any();
+            host.Expect(x => x.FindPage("MyPage2")).Return(pageInfo2).Repeat.Any();
+            host.Expect(x => x.FindPage("MyPage3")).Return(pageInfo3).Repeat.Any();
+            host.Expect(x => x.FindPage("Test.MyPage1")).Return(pageInfo4).Repeat.Any();
+            host.Expect(x => x.FindPage("Test.MyPage2")).Return(pageInfo5).Repeat.Any();
+            host.Expect(x => x.GetPageContent(pageInfo1)).Return(pageContent1).Repeat.Any();
+            host.Expect(x => x.GetPageContent(pageInfo2)).Return(pageContent2).Repeat.Any();
+            host.Expect(x => x.GetPageContent(pageInfo3)).Return(pageContent3).Repeat.Any();
+            host.Expect(x => x.GetPageContent(pageInfo4)).Return(pageContent4).Repeat.Any();
+            host.Expect(x => x.GetPageContent(pageInfo5)).Return(pageContent5).Repeat.Any();
+
+            host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
+
+            // Category,output,include,head,headers,tbl,head,row
+            string input = "bla bla bla {CategoryList ns='root,Test' cat=MyCategory1 type=*} bla bla bla";
+
+            //Act
+            formatter.Init(host, "");
+            var retval = formatter.Format(input, context, FormattingPhase.Phase1);
+
+            //Assert
+            Assert.AreEqual("bla bla bla  \n* [MyPage1|Page 1] \n* [Test.MyPage1|Page 1] \n* [MyPage2|Page 2] \n* [Test.MyPage2|Page 2] \n* [MyPage3|Page 3] \n bla bla bla", retval);
+        }
+
+        [Test]
         public void PrimitiveList_StraightOrder_List_TestNS_Only_FromRoot_Test()
         {
             //Arrange
