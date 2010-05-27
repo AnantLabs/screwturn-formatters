@@ -92,6 +92,8 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
                                     //Get params 
                                     blog = (args.ContainsKey("cat") == true ? args["cat"] : "");
 
+                                    var ns = (args.ContainsKey("ns") == true ? args["ns"] : "");
+
                                     int.TryParse( (args.ContainsKey("posts") == true ? args["posts"] : "7"), out noOfPostsToShow);
                                     noOfPostsToShow = (noOfPostsToShow <= 0 ? 7 : noOfPostsToShow);
 
@@ -138,8 +140,10 @@ namespace Keeper.Garrett.ScrewTurn.BlogFormatter
                                         && provider != null 
                                         && abortToAvoidSelfReferencing == false)
                                     {
-                                        var catInfo = provider.GetCategory(blog);
-                                        if (catInfo != null)
+                                        var currentNs = NameTools.GetNamespace(context.Page.FullName);
+                                        var catInfos = CategoryTools.GetCategoryInformation(m_Host,provider, blog, currentNs, ns);
+
+                                        foreach(var catInfo in catInfos)
                                         {
 
                                             foreach (var page in catInfo.Pages)

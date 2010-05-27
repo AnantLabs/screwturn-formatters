@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArgumentParser.cs" />
+    <Compile Include="CategoryTools.cs" />
     <Compile Include="FilePersister.cs" />
     <Compile Include="XHtmlTableGenerator.cs" />
     <Compile Include="Avatar.cs" />

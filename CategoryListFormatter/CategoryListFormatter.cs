@@ -110,7 +110,7 @@ namespace Keeper.Garrett.ScrewTurn.CategoryListFormatter
                                     if(string.IsNullOrEmpty(category) == false && provider != null)
                                     {
                                         var currentNs = NameTools.GetNamespace(context.Page.FullName);
-                                        var catInfos = GetCategoryInformation(provider, category, currentNs, ns);
+                                        var catInfos = CategoryTools.GetCategoryInformation(m_Host, provider, category, currentNs, ns);
 
                                         foreach(var catInfo in catInfos)
                                         {

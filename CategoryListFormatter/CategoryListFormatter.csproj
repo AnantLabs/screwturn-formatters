@@ -76,6 +76,9 @@
     <Compile Include="..\Utility\ArgumentParser.cs">
       <Link>Shared\ArgumentParser.cs</Link>
     </Compile>
+    <Compile Include="..\Utility\CategoryTools.cs">
+      <Link>Shared\CategoryTools.cs</Link>
+    </Compile>
     <Compile Include="..\Utility\FilePersister.cs">
       <Link>Shared\FilePersister.cs</Link>
     </Compile>

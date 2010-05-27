@@ -60,6 +60,9 @@
     <Compile Include="..\Utility\Avatar.cs">
       <Link>Shared\Avatar.cs</Link>
     </Compile>
+    <Compile Include="..\Utility\CategoryTools.cs">
+      <Link>Shared\CategoryTools.cs</Link>
+    </Compile>
     <Compile Include="..\Utility\FilePersister.cs">
       <Link>Shared\FilePersister.cs</Link>
     </Compile>
