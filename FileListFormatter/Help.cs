@@ -186,17 +186,17 @@ You may need to adjust the path/pattern and provider for each test, to match exi
 
 ===Primitive Unnumbered All Details===
 {BR}
-{FileList file='/*.*' dwnl=true'/*.*' details='date,size,downloads'}
+{FileList file='/*.*' dwnl=true details='date,size,downloads'}
 {BR}
 
 ===Primitive Numbered No Details===
 {BR}
-{FileList file='/*.*' type=# dwnl=true'/*.*'}
+{FileList file='/*.*' type=# dwnl=true}
 {BR}
 
 ===Primitive Numbered All Details===
 {BR}
-{FileList file='/*.*' type=# dwnl=true'/*.*' details='date,size,downloads'}
+{FileList file='/*.*' type=# dwnl=true details='date,size,downloads'}
 {BR}
 
 ===Primitive Sort Method 0===
