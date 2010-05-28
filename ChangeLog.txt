@@ -1,3 +1,8 @@
+[Version 1.2.0.1 - May 28 - 2010]
+Bug fixes:
+	TablesStyles.css had by mistake a body element, this has been removed
+	FileListFormatter test page have been fixed.
+	
 [Version 1.2.0.0 - May 27 - 2010]
 New Features:
 	MessageFormatter added - Inspired by the Admontion plugin by boxstart: http://www.screwturn.eu/forum/viewtopic.php?f=23&t=7804&sid=95ff256e9f5cf871821638e8f512e164
