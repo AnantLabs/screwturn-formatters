@@ -32,6 +32,9 @@ All formatters are installed using the Administration interface.
 
 Upgrading from previous version
 -------------------------------------------
+Upgrading styles:
+	CSS file such as TableStyle.css, which controls the table layout styles, must be delete manually before new styles included in never versions are applied.
+
 Upgrading from version 1.0.1.0:
 	All versions after this are a major rewrite. Upgrading WILL require you to rewrite all tags on all pages as the syntax has been altered.
 	Original Help+Test pages should be deleted or will be automatically overwritten by never versions of the plugins.

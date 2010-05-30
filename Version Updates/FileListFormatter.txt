@@ -1,2 +1,2 @@
-1.0.1.0|1.1.0.0|1.1.0.1|1.2.0.0|1.2.0.1
+1.0.1.0|1.1.0.0|1.1.0.1|1.2.0.0|1.2.0.1|1.2.0.2
 http://keeper.endoftheinternet.org/GetFile.aspx?File=%2fScrewTurn%20-%20Formatters%20-%20Releases%2fScrewTurn%203.0.2.509%2fUpdates%2fKeeper.Garrett.ScrewTurn.FileListFormatter.dll&AsStreamAttachment=1&Provider=ScrewTurn.Wiki.FilesStorageProvider&NoHit=0

@@ -1,3 +1,6 @@
+[Version 1.2.0.2 - May 28 - 2010]
+	TablesStyles.css - tables now use 90% of avaliable width by default instead of the 480px they used before
+
 [Version 1.2.0.1 - May 28 - 2010]
 Bug fixes:
 	TablesStyles.css had by mistake a body element, this has been removed
