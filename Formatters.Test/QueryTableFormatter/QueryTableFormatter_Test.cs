@@ -555,6 +555,42 @@ namespace Formatters.Tests
         }
 
         [Test]
+        public void Query_Pass_Format_TableStyle_Generic([Values(Oralce, MsSql, MySql, SqLite)] string _connectionString)
+        {
+            //Arrange
+            var host = GenerateMockedHost();
+            var formatter = new QueryTableFormatter();
+
+            //Host
+            host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
+
+            //                           Key ,Query ,Heading ,ColumnOrder ,Headers ,TdblFormat ,HeadFormat ,RowFormat
+            string input = "bla bla bla {QTable conn=MyLink query='select * from schedule' style=generic} bla bla bla";
+
+            //Dict page
+            var context = new ContextInformation(false, false, FormattingContext.PageContent, null, "", HttpContext.Current, "", new string[] { "" });
+
+            //Act
+            formatter.Init(host, _connectionString);
+            var retval = formatter.Format(input, context, FormattingPhase.Phase1);
+
+
+            //Assert        
+            AssertTable.VerifyTable(retval, "generic", null, "", new List<string>() { "ID", "RUNTIME", "REASON", "UPDAT" }, new Dictionary<int, List<string>>()
+            {
+                { 0, new List<string>() { "1", "01-01-2010 00:00:00", "dsadasdasd", "01-01-2010 00:00:00"  } }
+            });
+            var args = host.GetArgumentsForCallsMadeOn(x => x.LogEntry("", LogEntryType.Error, "", null));
+            int warnCount = 0;
+            int errorCount = 0;
+            int generalCount = 0;
+            GetLogCounts(out warnCount, out errorCount, out generalCount, args);
+            Assert.AreEqual(0, warnCount);
+            Assert.AreEqual(1, errorCount);
+            Assert.AreEqual(1, generalCount);
+        }
+
+        [Test]
         public void Query_Pass_Format_TableHeaders([Values(Oralce, MsSql, MySql, SqLite)] string _connectionString)
         {
             //Arrange

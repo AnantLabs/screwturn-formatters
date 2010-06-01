@@ -464,14 +464,14 @@ namespace Formatters.Tests
             host.Expect(x => x.FindUser("User")).Repeat.Any().Return(new UserInfo("User", "Garrett", "", true, DateTime.Now, null));
 
             // Category,output,include,head,headers,tbl,head,row
-            string input = "bla bla bla {CategoryList cat=MyCategory type=table cols=all colnames=MyColHead head='My Products' style='bw'} bla bla bla";
+            string input = "bla bla bla {CategoryList cat=MyCategory type=table cols=all colnames=MyColHead head='My Products' style='generic'} bla bla bla";
 
             //Act
             formatter.Init(host, "");
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
             
             //Assert
-            AssertTable.VerifyTable(retval, "bw", "My Products", "", new List<string>() { "MyColHead", "Summary", "Keywords", "Last Modified", "Linked Pages", "Created", "Page name", "Last Modified By", "Created By" }, new Dictionary<int, List<string>>()
+            AssertTable.VerifyTable(retval, "generic", "My Products", "", new List<string>() { "MyColHead", "Summary", "Keywords", "Last Modified", "Linked Pages", "Created", "Page name", "Last Modified By", "Created By" }, new Dictionary<int, List<string>>()
             {
                 //                       "Comment",  "Content",  "Summary",         "Keywords", "Last Modified",      "Linked Pages", "Created",            "Page name",        "Last Modified By",                 "Created By" };
                 {0, new List<string>() { "Comment 1","My Description 1","w1,w2",    "27-04-2010 00:00:00","[PageLink1]",             "27-04-1980 00:00:00","[MyPage1|Page 1]", "[User.aspx?Username=User|Garrett]","[User.aspx?Username=User|Garrett]" }},

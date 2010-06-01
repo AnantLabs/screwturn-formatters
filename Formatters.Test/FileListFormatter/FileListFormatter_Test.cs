@@ -1159,14 +1159,14 @@ namespace Formatters.Tests
 
             // Category,output,include,head,headers,tbl,head,row
             // {FileList('filePattern','storageProvider',outputType,sortMethod,asLinks,showDownloadCount,'heading'?,'headers'?,'tblFormat'?,'headFormat'?,'rowFormat'? )
-            string input = "bla bla bla {FileList file='*.*' type=table sort='name,asc' cols='all'} bla bla bla";
+            string input = "bla bla bla {FileList file='*.*' type=table sort='name,asc' cols='all' style=generic} bla bla bla";
 
             //Act
             formatter.Init(host, "");
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert         
-            AssertTable.VerifyTable(retval, null, null, "", new List<string>() { "Name", "Downloads", "Size", "Last Modified" }, new Dictionary<int, List<string>>()
+            AssertTable.VerifyTable(retval, "generic", null, "", new List<string>() { "Name", "Downloads", "Size", "Last Modified" }, new Dictionary<int, List<string>>()
             {
                 { 0, new List<string>() { "[GetFile.aspx?File=file1.exe|file1.exe]", "300", "3 KB", "02-01-2010 00:00:00" } },
                 { 1, new List<string>() { "[GetFile.aspx?File=file2.txt|file2.txt]", "200", "2 KB", "03-01-2010 00:00:00" } },

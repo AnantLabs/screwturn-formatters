@@ -167,9 +167,26 @@ namespace Utility.Tests
             var result = XHtmlTableGenerator.GenerateTable(data, null, null, new List<int>(), new List<string>(), new List<string>() { "Head1","Head2","Head3" },null);
              
             //Assert
-            Assert.AreEqual("<nobr>\n<link type=\"text/css\" rel=\"stylesheet\" href=\"GetFile.aspx?File=/Keeper.Garrett.Formatters/Tables/TableStyle.css\"></link>\n<table id=\"default\">\n\t<colgroup>\n\t</colgroup>\n\n\t<thead>\n\t\t<tr>\n\t\t</tr>\n\t</thead>\n\n\t<tfoot>\n\t\t<tr>\n\t\t</tr>\n\t</tfoot>\n\n\t<tbody>\n\t\t<tr class=\"row-odd\">\n\t\t</tr>\n\t\t<tr class=\"row-even\">\n\t\t</tr>\n\t\t<tr class=\"row-odd\">\n\t\t</tr>\n\t</tbody>\n</table>\n</nobr>", result);
+            Assert.AreEqual("<table id=\"default\"><colgroup></colgroup><thead><tr></tr></thead><tbody><tr class=\"row-odd\"></tr><tr class=\"row-even\"></tr><tr class=\"row-odd\"></tr></tbody></table>", result);
         }
 
+        [Test]
+        public void GenericStyle()
+        {
+            //Arrange
+            var data = new Dictionary<int, List<string>>()
+            {
+                {0, new List<string>() { "Col1","Col2","Col3" } },
+                {1, new List<string>() { "Col1","Col2","Col3" } },
+                {2, new List<string>() { "Col1","Col2","Col3" } },
+            };
+
+            //Act
+            var result = XHtmlTableGenerator.GenerateTable(data, null, null, new List<int>(), new List<string>(), new List<string>() { "Head1", "Head2", "Head3" }, "generic");
+
+            //Assert
+            Assert.AreEqual("<table id=\"generic\"><colgroup></colgroup><thead><tr></tr></thead><tbody><tr class=\"tablerow\"></tr><tr class=\"tablerowalternate\"></tr><tr class=\"tablerow\"></tr></tbody></table>", result);
+        }
 
         [Test]
         public void NoOfColoumns_1()
@@ -186,10 +203,10 @@ namespace Utility.Tests
             var result = XHtmlTableGenerator.GenerateTable(data, null, null, new List<int>() { 0 }, new List<string>(), new List<string>() { "Head1" }, null);
 
             //Assert
-            Assert.AreEqual(true, result.Contains("<colgroup>\n\t\t<col class=\"col-odd\" />\n\t</colgroup>"));
-            Assert.AreEqual(true, result.Contains("<thead>\n\t\t<tr>\n\t\t\t<th scope=\"col\" class=\"standard-head\">Head1</th>\n\t\t</tr>\n\t</thead>"));
-            Assert.AreEqual(true, result.Contains("<tfoot>\n\t\t<tr>\n\t\t\t<td class=\"standard-foot\"></td>\n\t\t</tr>\n\t</tfoot>"));
-            Assert.AreEqual(true, result.Contains("<tbody>\n\t\t<tr class=\"row-odd\">\n\t\t\t<td>Col1</td>\n\t\t</tr>\n\t\t<tr class=\"row-even\">\n\t\t\t<td>Col1</td>\n\t\t</tr>\n\t\t<tr class=\"row-odd\">\n\t\t\t<td>Col1</td>\n\t\t</tr>\n\t</tbody>"));
+            Assert.AreEqual(true, result.Contains("<colgroup><col class=\"col-odd\"/></colgroup>"));
+            Assert.AreEqual(true, result.Contains("<thead><tr><th scope=\"col\" class=\"standard-head\">Head1</th></tr></thead>"));
+            Assert.AreEqual(false, result.Contains("<tfoot><tr><td class=\"standard-foot\"></td></tr></tfoot>"));
+            Assert.AreEqual(true, result.Contains("<tbody><tr class=\"row-odd\"><td>Col1</td></tr><tr class=\"row-even\"><td>Col1</td></tr><tr class=\"row-odd\"><td>Col1</td></tr></tbody>"));
         }
 
         [Test]
@@ -207,10 +224,10 @@ namespace Utility.Tests
             var result = XHtmlTableGenerator.GenerateTable(data, null, null, new List<int>() { 0,1 }, new List<string>(), new List<string>() { "Head1", "Head2" }, null);
 
             //Assert
-            Assert.AreEqual(true, result.Contains("<colgroup>\n\t\t<col class=\"col-odd\" />\n\t\t<col class=\"col-even\" />\n\t</colgroup>"));
-            Assert.AreEqual(true, result.Contains("<thead>\n\t\t<tr>\n\t\t\t<th scope=\"col\" class=\"first-head\">Head1</th>\n\t\t\t<th scope=\"col\" class=\"last-head\">Head2</th>\n\t\t</tr>\n\t</thead>"));
-            Assert.AreEqual(true, result.Contains("<tfoot>\n\t\t<tr>\n\t\t\t<td colspan=\"1\" class=\"first-foot\"></td>\n\t\t\t<td class=\"last-foot\"/>\n\t\t</tr>\n\t</tfoot>"));
-            Assert.AreEqual(true, result.Contains("<tbody>\n\t\t<tr class=\"row-odd\">\n\t\t\t<td>Col1</td>\n\t\t\t<td>Col2</td>\n\t\t</tr>\n\t\t<tr class=\"row-even\">\n\t\t\t<td>Col1</td>\n\t\t\t<td>Col2</td>\n\t\t</tr>\n\t\t<tr class=\"row-odd\">\n\t\t\t<td>Col1</td>\n\t\t\t<td>Col2</td>\n\t\t</tr>\n\t</tbody>"));
+            Assert.AreEqual(true, result.Contains("<colgroup><col class=\"col-odd\"/><col class=\"col-even\"/></colgroup>"));
+            Assert.AreEqual(true, result.Contains("<thead><tr><th scope=\"col\" class=\"first-head\">Head1</th><th scope=\"col\" class=\"last-head\">Head2</th></tr></thead>"));
+            Assert.AreEqual(false, result.Contains("<tfoot><tr><td colspan=\"1\" class=\"first-foot\"></td><td class=\"last-foot\"/></tr></tfoot>"));
+            Assert.AreEqual(true, result.Contains("<tbody><tr class=\"row-odd\"><td>Col1</td><td>Col2</td></tr><tr class=\"row-even\"><td>Col1</td><td>Col2</td></tr><tr class=\"row-odd\"><td>Col1</td><td>Col2</td></tr></tbody>"));
         }
 
         [Test]
@@ -228,10 +245,10 @@ namespace Utility.Tests
             var result = XHtmlTableGenerator.GenerateTable(data, null, null, new List<int>() { 0,1,2 }, new List<string>(), new List<string>() { "Head1", "Head2", "Head3" }, null);
 
             //Assert
-            Assert.AreEqual(true, result.Contains("<colgroup>\n\t\t<col class=\"col-odd\" />\n\t\t<col class=\"col-even\" />\n\t\t<col class=\"col-odd\" />\n\t</colgroup>"));
-            Assert.AreEqual(true, result.Contains("<thead>\n\t\t<tr>\n\t\t\t<th scope=\"col\" class=\"first-head\">Head1</th>\n\t\t\t<th scope=\"col\" class=\"standard-head\">Head2</th>\n\t\t\t<th scope=\"col\" class=\"last-head\">Head3</th>\n\t\t</tr>\n\t</thead>"));
-            Assert.AreEqual(true, result.Contains("<tfoot>\n\t\t<tr>\n\t\t\t<td colspan=\"2\" class=\"first-foot\"></td>\n\t\t\t<td class=\"last-foot\"/>\n\t\t</tr>\n\t</tfoot>"));
-            Assert.AreEqual(true, result.Contains("<tbody>\n\t\t<tr class=\"row-odd\">\n\t\t\t<td>Col1</td>\n\t\t\t<td>Col2</td>\n\t\t\t<td>Col3</td>\n\t\t</tr>\n\t\t<tr class=\"row-even\">\n\t\t\t<td>Col1</td>\n\t\t\t<td>Col2</td>\n\t\t\t<td>Col3</td>\n\t\t</tr>\n\t\t<tr class=\"row-odd\">\n\t\t\t<td>Col1</td>\n\t\t\t<td>Col2</td>\n\t\t\t<td>Col3</td>\n\t\t</tr>\n\t</tbody>"));
+            Assert.AreEqual(true, result.Contains("<colgroup><col class=\"col-odd\"/><col class=\"col-even\"/><col class=\"col-odd\"/></colgroup>"));
+            Assert.AreEqual(true, result.Contains("<thead><tr><th scope=\"col\" class=\"first-head\">Head1</th><th scope=\"col\" class=\"standard-head\">Head2</th><th scope=\"col\" class=\"last-head\">Head3</th></tr></thead>"));
+            Assert.AreEqual(false, result.Contains("<tfoot><tr><td colspan=\"2\" class=\"first-foot\"></td><td class=\"last-foot\"/></tr></tfoot>"));
+            Assert.AreEqual(true, result.Contains("<tbody><tr class=\"row-odd\"><td>Col1</td><td>Col2</td><td>Col3</td></tr><tr class=\"row-even\"><td>Col1</td><td>Col2</td><td>Col3</td></tr><tr class=\"row-odd\"><td>Col1</td><td>Col2</td><td>Col3</td></tr></tbody>"));
         }
 
         [Test]
@@ -249,10 +266,10 @@ namespace Utility.Tests
             var result = XHtmlTableGenerator.GenerateTable(data, null, null, new List<int>() { 0,1,2,3 }, new List<string>(), new List<string>() { "Head1", "Head2", "Head3", "Head4" }, null);
 
             //Assert
-            Assert.AreEqual(true, result.Contains("<colgroup>\n\t\t<col class=\"col-odd\" />\n\t\t<col class=\"col-even\" />\n\t\t<col class=\"col-odd\" />\n\t\t<col class=\"col-even\" />\n\t</colgroup>"));
-            Assert.AreEqual(true, result.Contains("<thead>\n\t\t<tr>\n\t\t\t<th scope=\"col\" class=\"first-head\">Head1</th>\n\t\t\t<th scope=\"col\" class=\"standard-head\">Head2</th>\n\t\t\t<th scope=\"col\" class=\"standard-head\">Head3</th>\n\t\t\t<th scope=\"col\" class=\"last-head\">Head4</th>\n\t\t</tr>\n\t</thead>"));
-            Assert.AreEqual(true, result.Contains("<tfoot>\n\t\t<tr>\n\t\t\t<td colspan=\"3\" class=\"first-foot\"></td>\n\t\t\t<td class=\"last-foot\"/>\n\t\t</tr>\n\t</tfoot>"));
-            Assert.AreEqual(true, result.Contains("<tbody>\n\t\t<tr class=\"row-odd\">\n\t\t\t<td>Col1</td>\n\t\t\t<td>Col2</td>\n\t\t\t<td>Col3</td>\n\t\t</tr>\n\t\t<tr class=\"row-even\">\n\t\t\t<td>Col1</td>\n\t\t\t<td>Col2</td>\n\t\t\t<td>Col3</td>\n\t\t</tr>\n\t\t<tr class=\"row-odd\">\n\t\t\t<td>Col1</td>\n\t\t\t<td>Col2</td>\n\t\t\t<td>Col3</td>\n\t\t</tr>\n\t</tbody>"));
+            Assert.AreEqual(true, result.Contains("<colgroup><col class=\"col-odd\"/><col class=\"col-even\"/><col class=\"col-odd\"/><col class=\"col-even\"/></colgroup>"));
+            Assert.AreEqual(true, result.Contains("<thead><tr><th scope=\"col\" class=\"first-head\">Head1</th><th scope=\"col\" class=\"standard-head\">Head2</th><th scope=\"col\" class=\"standard-head\">Head3</th><th scope=\"col\" class=\"last-head\">Head4</th></tr></thead>"));
+            Assert.AreEqual(false, result.Contains("<tfoot><tr><td colspan=\"3\" class=\"first-foot\"></td><td class=\"last-foot\"/></tr></tfoot>"));
+            Assert.AreEqual(true, result.Contains("<tbody><tr class=\"row-odd\"><td>Col1</td><td>Col2</td><td>Col3</td></tr><tr class=\"row-even\"><td>Col1</td><td>Col2</td><td>Col3</td></tr><tr class=\"row-odd\"><td>Col1</td><td>Col2</td><td>Col3</td></tr></tbody>"));
         }
 
         [Test]
@@ -270,10 +287,10 @@ namespace Utility.Tests
             var result = XHtmlTableGenerator.GenerateTable(data, "My Heading", null, new List<int>() { 0 }, new List<string>(), new List<string>() { "Head1" }, null);
 
             //Assert
-            Assert.AreEqual(true, result.Contains("<colgroup>\n\t\t<col class=\"col-odd\" />\n\t</colgroup>"));
-            Assert.AreEqual(true, result.Contains("<thead>\n\t\t<tr>\n\t\t\t<td colspan=\"1\" class=\"heading\">My Heading</td>\n\t\t</tr>\n\t\t<tr>\n\t\t\t<th scope=\"col\" class=\"standard-head\">Head1</th>\n\t\t</tr>\n\t</thead>"));
-            Assert.AreEqual(true, result.Contains("<tfoot>\n\t\t<tr>\n\t\t\t<td class=\"standard-foot\"></td>\n\t\t</tr>\n\t</tfoot>"));
-            Assert.AreEqual(true, result.Contains("<tbody>\n\t\t<tr class=\"row-odd\">\n\t\t\t<td>Col1</td>\n\t\t</tr>\n\t\t<tr class=\"row-even\">\n\t\t\t<td>Col1</td>\n\t\t</tr>\n\t\t<tr class=\"row-odd\">\n\t\t\t<td>Col1</td>\n\t\t</tr>\n\t</tbody>"));
+            Assert.AreEqual(true, result.Contains("<colgroup><col class=\"col-odd\"/></colgroup>"));
+            Assert.AreEqual(true, result.Contains("<thead><tr><td colspan=\"1\" class=\"heading\">My Heading</td></tr><tr><th scope=\"col\" class=\"standard-head\">Head1</th></tr></thead>"));
+            Assert.AreEqual(false, result.Contains("<tfoot><tr><td class=\"standard-foot\"></td></tr></tfoot>"));
+            Assert.AreEqual(true, result.Contains("<tbody><tr class=\"row-odd\"><td>Col1</td></tr><tr class=\"row-even\"><td>Col1</td></tr><tr class=\"row-odd\"><td>Col1</td></tr></tbody>"));
         }
 
         [Test]
@@ -291,10 +308,10 @@ namespace Utility.Tests
             var result = XHtmlTableGenerator.GenerateTable(data, "My Heading", null, new List<int>() { 0, 1, 2, 3 }, new List<string>(), new List<string>() { "Head1", "Head2", "Head3", "Head4" }, null);
 
             //Assert
-            Assert.AreEqual(true, result.Contains("<colgroup>\n\t\t<col class=\"col-odd\" />\n\t\t<col class=\"col-even\" />\n\t\t<col class=\"col-odd\" />\n\t\t<col class=\"col-even\" />\n\t</colgroup>"));
-            Assert.AreEqual(true, result.Contains("<thead>\n\t\t<tr>\n\t\t\t<td colspan=\"4\" class=\"heading\">My Heading</td>\n\t\t</tr>\n\t\t<tr>\n\t\t\t<th scope=\"col\" class=\"first-head\">Head1</th>\n\t\t\t<th scope=\"col\" class=\"standard-head\">Head2</th>\n\t\t\t<th scope=\"col\" class=\"standard-head\">Head3</th>\n\t\t\t<th scope=\"col\" class=\"last-head\">Head4</th>\n\t\t</tr>\n\t</thead>"));
-            Assert.AreEqual(true, result.Contains("<tfoot>\n\t\t<tr>\n\t\t\t<td colspan=\"3\" class=\"first-foot\"></td>\n\t\t\t<td class=\"last-foot\"/>\n\t\t</tr>\n\t</tfoot>"));
-            Assert.AreEqual(true, result.Contains("<tbody>\n\t\t<tr class=\"row-odd\">\n\t\t\t<td>Col1</td>\n\t\t\t<td>Col2</td>\n\t\t\t<td>Col3</td>\n\t\t</tr>\n\t\t<tr class=\"row-even\">\n\t\t\t<td>Col1</td>\n\t\t\t<td>Col2</td>\n\t\t\t<td>Col3</td>\n\t\t</tr>\n\t\t<tr class=\"row-odd\">\n\t\t\t<td>Col1</td>\n\t\t\t<td>Col2</td>\n\t\t\t<td>Col3</td>\n\t\t</tr>\n\t</tbody>"));
+            Assert.AreEqual(true, result.Contains("<colgroup><col class=\"col-odd\"/><col class=\"col-even\"/><col class=\"col-odd\"/><col class=\"col-even\"/></colgroup>"));
+            Assert.AreEqual(true, result.Contains("<thead><tr><td colspan=\"4\" class=\"heading\">My Heading</td></tr><tr><th scope=\"col\" class=\"first-head\">Head1</th><th scope=\"col\" class=\"standard-head\">Head2</th><th scope=\"col\" class=\"standard-head\">Head3</th><th scope=\"col\" class=\"last-head\">Head4</th></tr></thead>"));
+            Assert.AreEqual(false, result.Contains("<tfoot><tr><td colspan=\"3\" class=\"first-foot\"></td><td class=\"last-foot\"/></tr></tfoot>"));
+            Assert.AreEqual(true, result.Contains("<tbody><tr class=\"row-odd\"><td>Col1</td><td>Col2</td><td>Col3</td></tr><tr class=\"row-even\"><td>Col1</td><td>Col2</td><td>Col3</td></tr><tr class=\"row-odd\"><td>Col1</td><td>Col2</td><td>Col3</td></tr></tbody>"));
         }
 
         [Test]
@@ -312,10 +329,10 @@ namespace Utility.Tests
             var result = XHtmlTableGenerator.GenerateTable(data, null, "My Footer", new List<int>() { 0 }, new List<string>(), new List<string>() { "Head1" }, null);
 
             //Assert
-            Assert.AreEqual(true, result.Contains("<colgroup>\n\t\t<col class=\"col-odd\" />\n\t</colgroup>"));
-            Assert.AreEqual(true, result.Contains("<thead>\n\t\t<tr>\n\t\t\t<th scope=\"col\" class=\"standard-head\">Head1</th>\n\t\t</tr>\n\t</thead>"));
-            Assert.AreEqual(true, result.Contains("<tfoot>\n\t\t<tr>\n\t\t\t<td class=\"standard-foot\">My Footer</td>\n\t\t</tr>\n\t</tfoot>"));
-            Assert.AreEqual(true, result.Contains("<tbody>\n\t\t<tr class=\"row-odd\">\n\t\t\t<td>Col1</td>\n\t\t</tr>\n\t\t<tr class=\"row-even\">\n\t\t\t<td>Col1</td>\n\t\t</tr>\n\t\t<tr class=\"row-odd\">\n\t\t\t<td>Col1</td>\n\t\t</tr>\n\t</tbody>"));
+            Assert.AreEqual(true, result.Contains("<colgroup><col class=\"col-odd\"/></colgroup>"));
+            Assert.AreEqual(true, result.Contains("<thead><tr><th scope=\"col\" class=\"standard-head\">Head1</th></tr></thead>"));
+            Assert.AreEqual(true, result.Contains("<tfoot><tr><td class=\"standard-foot\">My Footer</td></tr></tfoot>"));
+            Assert.AreEqual(true, result.Contains("<tbody><tr class=\"row-odd\"><td>Col1</td></tr><tr class=\"row-even\"><td>Col1</td></tr><tr class=\"row-odd\"><td>Col1</td></tr></tbody>"));
         }
 
         [Test]
@@ -333,10 +350,10 @@ namespace Utility.Tests
             var result = XHtmlTableGenerator.GenerateTable(data, null, "My Footer", new List<int>() { 0,1,2,3 }, new List<string>(), new List<string>() { "Head1", "Head2", "Head3", "Head4" }, null);
 
             //Assert
-            Assert.AreEqual(true, result.Contains("<colgroup>\n\t\t<col class=\"col-odd\" />\n\t\t<col class=\"col-even\" />\n\t\t<col class=\"col-odd\" />\n\t\t<col class=\"col-even\" />\n\t</colgroup>"));
-            Assert.AreEqual(true, result.Contains("<thead>\n\t\t<tr>\n\t\t\t<th scope=\"col\" class=\"first-head\">Head1</th>\n\t\t\t<th scope=\"col\" class=\"standard-head\">Head2</th>\n\t\t\t<th scope=\"col\" class=\"standard-head\">Head3</th>\n\t\t\t<th scope=\"col\" class=\"last-head\">Head4</th>\n\t\t</tr>\n\t</thead>"));
-            Assert.AreEqual(true, result.Contains("<tfoot>\n\t\t<tr>\n\t\t\t<td colspan=\"3\" class=\"first-foot\">My Footer</td>\n\t\t\t<td class=\"last-foot\"/>\n\t\t</tr>\n\t</tfoot>"));
-            Assert.AreEqual(true, result.Contains("<tbody>\n\t\t<tr class=\"row-odd\">\n\t\t\t<td>Col1</td>\n\t\t\t<td>Col2</td>\n\t\t\t<td>Col3</td>\n\t\t</tr>\n\t\t<tr class=\"row-even\">\n\t\t\t<td>Col1</td>\n\t\t\t<td>Col2</td>\n\t\t\t<td>Col3</td>\n\t\t</tr>\n\t\t<tr class=\"row-odd\">\n\t\t\t<td>Col1</td>\n\t\t\t<td>Col2</td>\n\t\t\t<td>Col3</td>\n\t\t</tr>\n\t</tbody>"));
+            Assert.AreEqual(true, result.Contains("<colgroup><col class=\"col-odd\"/><col class=\"col-even\"/><col class=\"col-odd\"/><col class=\"col-even\"/></colgroup>"));
+            Assert.AreEqual(true, result.Contains("<thead><tr><th scope=\"col\" class=\"first-head\">Head1</th><th scope=\"col\" class=\"standard-head\">Head2</th><th scope=\"col\" class=\"standard-head\">Head3</th><th scope=\"col\" class=\"last-head\">Head4</th></tr></thead>"));
+            Assert.AreEqual(true, result.Contains("<tfoot><tr><td colspan=\"3\" class=\"first-foot\">My Footer</td><td class=\"last-foot\"/></tr></tfoot>"));
+            Assert.AreEqual(true, result.Contains("<tbody><tr class=\"row-odd\"><td>Col1</td><td>Col2</td><td>Col3</td></tr><tr class=\"row-even\"><td>Col1</td><td>Col2</td><td>Col3</td></tr><tr class=\"row-odd\"><td>Col1</td><td>Col2</td><td>Col3</td></tr></tbody>"));
         }
 
         [Test]
@@ -354,10 +371,10 @@ namespace Utility.Tests
             var result = XHtmlTableGenerator.GenerateTable(data, "My Heading", "My Footer", new List<int>() { 0 }, new List<string>(), new List<string>() { "Head1" }, null);
 
             //Assert
-            Assert.AreEqual(true, result.Contains("<colgroup>\n\t\t<col class=\"col-odd\" />\n\t</colgroup>"));
-            Assert.AreEqual(true, result.Contains("<thead>\n\t\t<tr>\n\t\t\t<td colspan=\"1\" class=\"heading\">My Heading</td>\n\t\t</tr>\n\t\t<tr>\n\t\t\t<th scope=\"col\" class=\"standard-head\">Head1</th>\n\t\t</tr>\n\t</thead>"));
-            Assert.AreEqual(true, result.Contains("<tfoot>\n\t\t<tr>\n\t\t\t<td class=\"standard-foot\">My Footer</td>\n\t\t</tr>\n\t</tfoot>"));
-            Assert.AreEqual(true, result.Contains("<tbody>\n\t\t<tr class=\"row-odd\">\n\t\t\t<td>Col1</td>\n\t\t</tr>\n\t\t<tr class=\"row-even\">\n\t\t\t<td>Col1</td>\n\t\t</tr>\n\t\t<tr class=\"row-odd\">\n\t\t\t<td>Col1</td>\n\t\t</tr>\n\t</tbody>"));
+            Assert.AreEqual(true, result.Contains("<colgroup><col class=\"col-odd\"/></colgroup>"));
+            Assert.AreEqual(true, result.Contains("<thead><tr><td colspan=\"1\" class=\"heading\">My Heading</td></tr><tr><th scope=\"col\" class=\"standard-head\">Head1</th></tr></thead>"));
+            Assert.AreEqual(true, result.Contains("<tfoot><tr><td class=\"standard-foot\">My Footer</td></tr></tfoot>"));
+            Assert.AreEqual(true, result.Contains("<tbody><tr class=\"row-odd\"><td>Col1</td></tr><tr class=\"row-even\"><td>Col1</td></tr><tr class=\"row-odd\"><td>Col1</td></tr></tbody>"));
         }
 
         [Test]
@@ -375,10 +392,10 @@ namespace Utility.Tests
             var result = XHtmlTableGenerator.GenerateTable(data, "My Heading", "My Footer", new List<int>() { 0, 1, 2, 3 }, new List<string>(), new List<string>() { "Head1", "Head2", "Head3", "Head4" }, null);
 
             //Assert
-            Assert.AreEqual(true, result.Contains("<colgroup>\n\t\t<col class=\"col-odd\" />\n\t\t<col class=\"col-even\" />\n\t\t<col class=\"col-odd\" />\n\t\t<col class=\"col-even\" />\n\t</colgroup>"));
-            Assert.AreEqual(true, result.Contains("<thead>\n\t\t<tr>\n\t\t\t<td colspan=\"4\" class=\"heading\">My Heading</td>\n\t\t</tr>\n\t\t<tr>\n\t\t\t<th scope=\"col\" class=\"first-head\">Head1</th>\n\t\t\t<th scope=\"col\" class=\"standard-head\">Head2</th>\n\t\t\t<th scope=\"col\" class=\"standard-head\">Head3</th>\n\t\t\t<th scope=\"col\" class=\"last-head\">Head4</th>\n\t\t</tr>\n\t</thead>"));
-            Assert.AreEqual(true, result.Contains("<tfoot>\n\t\t<tr>\n\t\t\t<td colspan=\"3\" class=\"first-foot\">My Footer</td>\n\t\t\t<td class=\"last-foot\"/>\n\t\t</tr>\n\t</tfoot>"));
-            Assert.AreEqual(true, result.Contains("<tbody>\n\t\t<tr class=\"row-odd\">\n\t\t\t<td>Col1</td>\n\t\t\t<td>Col2</td>\n\t\t\t<td>Col3</td>\n\t\t</tr>\n\t\t<tr class=\"row-even\">\n\t\t\t<td>Col1</td>\n\t\t\t<td>Col2</td>\n\t\t\t<td>Col3</td>\n\t\t</tr>\n\t\t<tr class=\"row-odd\">\n\t\t\t<td>Col1</td>\n\t\t\t<td>Col2</td>\n\t\t\t<td>Col3</td>\n\t\t</tr>\n\t</tbody>"));
+            Assert.AreEqual(true, result.Contains("<colgroup><col class=\"col-odd\"/><col class=\"col-even\"/><col class=\"col-odd\"/><col class=\"col-even\"/></colgroup>"));
+            Assert.AreEqual(true, result.Contains("<thead><tr><td colspan=\"4\" class=\"heading\">My Heading</td></tr><tr><th scope=\"col\" class=\"first-head\">Head1</th><th scope=\"col\" class=\"standard-head\">Head2</th><th scope=\"col\" class=\"standard-head\">Head3</th><th scope=\"col\" class=\"last-head\">Head4</th></tr></thead>"));
+            Assert.AreEqual(true, result.Contains("<tfoot><tr><td colspan=\"3\" class=\"first-foot\">My Footer</td><td class=\"last-foot\"/></tr></tfoot>"));
+            Assert.AreEqual(true, result.Contains("<tbody><tr class=\"row-odd\"><td>Col1</td><td>Col2</td><td>Col3</td></tr><tr class=\"row-even\"><td>Col1</td><td>Col2</td><td>Col3</td></tr><tr class=\"row-odd\"><td>Col1</td><td>Col2</td><td>Col3</td></tr></tbody>"));
         }
 
         [Test]
@@ -433,10 +450,10 @@ namespace Utility.Tests
             var result = XHtmlTableGenerator.GenerateTable(data, null, null, new List<int>() { 0, 2}, new List<string>(), new List<string>() { "Head1", "Head2", "Head3" }, null);
 
             //Assert
-            Assert.AreEqual(true, result.Contains("<colgroup>\n\t\t<col class=\"col-odd\" />\n\t\t<col class=\"col-even\" />\n\t</colgroup>"));
-            Assert.AreEqual(true, result.Contains("<thead>\n\t\t<tr>\n\t\t\t<th scope=\"col\" class=\"first-head\">Head1</th>\n\t\t\t<th scope=\"col\" class=\"last-head\">Head3</th>\n\t\t</tr>\n\t</thead>"));
-            Assert.AreEqual(true, result.Contains("<tfoot>\n\t\t<tr>\n\t\t\t<td colspan=\"1\" class=\"first-foot\"></td>\n\t\t\t<td class=\"last-foot\"/>\n\t\t</tr>\n\t</tfoot>"));
-            Assert.AreEqual(true, result.Contains("<tbody>\n\t\t<tr class=\"row-odd\">\n\t\t\t<td>Col1</td>\n\t\t\t<td>Col3</td>\n\t\t</tr>\n\t\t<tr class=\"row-even\">\n\t\t\t<td>Col1</td>\n\t\t\t<td>Col3</td>\n\t\t</tr>\n\t\t<tr class=\"row-odd\">\n\t\t\t<td>Col1</td>\n\t\t\t<td>Col3</td>\n\t\t</tr>\n\t</tbody>"));
+            Assert.AreEqual(true, result.Contains("<colgroup><col class=\"col-odd\"/><col class=\"col-even\"/></colgroup>"));
+            Assert.AreEqual(true, result.Contains("<thead><tr><th scope=\"col\" class=\"first-head\">Head1</th><th scope=\"col\" class=\"last-head\">Head3</th></tr></thead>"));
+            Assert.AreEqual(false, result.Contains("<tfoot><tr><td colspan=\"1\" class=\"first-foot\"></td><td class=\"last-foot\"/></tr></tfoot>"));
+            Assert.AreEqual(true, result.Contains("<tbody><tr class=\"row-odd\"><td>Col1</td><td>Col3</td></tr><tr class=\"row-even\"><td>Col1</td><td>Col3</td></tr><tr class=\"row-odd\"><td>Col1</td><td>Col3</td></tr></tbody>"));
         }
 
         [Test]
@@ -454,10 +471,10 @@ namespace Utility.Tests
             var result = XHtmlTableGenerator.GenerateTable(data, null, null, new List<int>() { 1 }, new List<string>(), new List<string>() { "Head1", "Head2", "Head3" }, null);
 
             //Assert
-            Assert.AreEqual(true, result.Contains("<colgroup>\n\t\t<col class=\"col-odd\" />\n\t</colgroup>"));
-            Assert.AreEqual(true, result.Contains("<thead>\n\t\t<tr>\n\t\t\t<th scope=\"col\" class=\"standard-head\">Head2</th>\n\t\t</tr>\n\t</thead>"));
-            Assert.AreEqual(true, result.Contains("<tfoot>\n\t\t<tr>\n\t\t\t<td class=\"standard-foot\"></td>\n\t\t</tr>\n\t</tfoot>"));
-            Assert.AreEqual(true, result.Contains("<tbody>\n\t\t<tr class=\"row-odd\">\n\t\t\t<td>Col2</td>\n\t\t</tr>\n\t\t<tr class=\"row-even\">\n\t\t\t<td>Col2</td>\n\t\t</tr>\n\t\t<tr class=\"row-odd\">\n\t\t\t<td>Col2</td>\n\t\t</tr>\n\t</tbody>"));
+            Assert.AreEqual(true, result.Contains("<colgroup><col class=\"col-odd\"/></colgroup>"));
+            Assert.AreEqual(true, result.Contains("<thead><tr><th scope=\"col\" class=\"standard-head\">Head2</th></tr></thead>"));
+            Assert.AreEqual(false, result.Contains("<tfoot><tr><td class=\"standard-foot\"></td></tr></tfoot>"));
+            Assert.AreEqual(true, result.Contains("<tbody><tr class=\"row-odd\"><td>Col2</td></tr><tr class=\"row-even\"><td>Col2</td></tr><tr class=\"row-odd\"><td>Col2</td></tr></tbody>"));
         }
 
         [Test]
@@ -475,10 +492,10 @@ namespace Utility.Tests
             var result = XHtmlTableGenerator.GenerateTable(data, null, null, new List<int>() { 0,1,2,3 }, new List<string>(), new List<string>() { "Head1", "Head2", "Head3" }, null);
 
             //Assert
-            Assert.AreEqual(true, result.Contains("<colgroup>\n\t\t<col class=\"col-odd\" />\n\t\t<col class=\"col-even\" />\n\t\t<col class=\"col-odd\" />\n\t\t<col class=\"col-even\" />\n\t</colgroup>"));
-            Assert.AreEqual(true, result.Contains("<thead>\n\t\t<tr>\n\t\t\t<th scope=\"col\" class=\"first-head\">Head1</th>\n\t\t\t<th scope=\"col\" class=\"standard-head\">Head2</th>\n\t\t\t<th scope=\"col\" class=\"standard-head\">Head3</th>\n\t\t\t<th scope=\"col\" class=\"last-head\">?Missing Header?</th>\n\t\t</tr>\n\t</thead>"));
-            Assert.AreEqual(true, result.Contains("<tfoot>\n\t\t<tr>\n\t\t\t<td colspan=\"3\" class=\"first-foot\"></td>\n\t\t\t<td class=\"last-foot\"/>\n\t\t</tr>\n\t</tfoot>"));
-            Assert.AreEqual(true, result.Contains("<tbody>\n\t\t<tr class=\"row-odd\">\n\t\t\t<td>Col1</td>\n\t\t\t<td>Col2</td>\n\t\t\t<td>Col3</td>\n\t\t</tr>\n\t\t<tr class=\"row-even\">\n\t\t\t<td>Col1</td>\n\t\t\t<td>Col2</td>\n\t\t\t<td>Col3</td>\n\t\t</tr>\n\t\t<tr class=\"row-odd\">\n\t\t\t<td>Col1</td>\n\t\t\t<td>Col2</td>\n\t\t\t<td>Col3</td>\n\t\t</tr>\n\t</tbody>"));
+            Assert.AreEqual(true, result.Contains("<colgroup><col class=\"col-odd\"/><col class=\"col-even\"/><col class=\"col-odd\"/><col class=\"col-even\"/></colgroup>"));
+            Assert.AreEqual(true, result.Contains("<thead><tr><th scope=\"col\" class=\"first-head\">Head1</th><th scope=\"col\" class=\"standard-head\">Head2</th><th scope=\"col\" class=\"standard-head\">Head3</th><th scope=\"col\" class=\"last-head\">?Missing Header?</th></tr></thead>"));
+            Assert.AreEqual(false, result.Contains("<tfoot><tr><td colspan=\"3\" class=\"first-foot\"></td><td class=\"last-foot\"/></tr></tfoot>"));
+            Assert.AreEqual(true, result.Contains("<tbody><tr class=\"row-odd\"><td>Col1</td><td>Col2</td><td>Col3</td></tr><tr class=\"row-even\"><td>Col1</td><td>Col2</td><td>Col3</td></tr><tr class=\"row-odd\"><td>Col1</td><td>Col2</td><td>Col3</td></tr></tbody>"));
         }
 
         [Test]
@@ -496,10 +513,10 @@ namespace Utility.Tests
             var result = XHtmlTableGenerator.GenerateTable(data, null, null, new List<int>() { 3, 2, 1, 0 }, new List<string>(), new List<string>() { "Head1", "Head2", "Head3" }, null);
 
             //Assert
-            Assert.AreEqual(true, result.Contains("<colgroup>\n\t\t<col class=\"col-odd\" />\n\t\t<col class=\"col-even\" />\n\t\t<col class=\"col-odd\" />\n\t\t<col class=\"col-even\" />\n\t</colgroup>"));
-            Assert.AreEqual(true, result.Contains("<thead>\n\t\t<tr>\n\t\t\t<th scope=\"col\" class=\"first-head\">?Missing Header?</th>\n\t\t\t<th scope=\"col\" class=\"standard-head\">Head3</th>\n\t\t\t<th scope=\"col\" class=\"standard-head\">Head2</th>\n\t\t\t<th scope=\"col\" class=\"last-head\">Head1</th>\n\t\t</tr>\n\t</thead>"));
-            Assert.AreEqual(true, result.Contains("<tfoot>\n\t\t<tr>\n\t\t\t<td colspan=\"3\" class=\"first-foot\"></td>\n\t\t\t<td class=\"last-foot\"/>\n\t\t</tr>\n\t</tfoot>"));
-            Assert.AreEqual(true, result.Contains("<tbody>\n\t\t<tr class=\"row-odd\">\n\t\t\t<td>Col3</td>\n\t\t\t<td>Col2</td>\n\t\t\t<td>Col1</td>\n\t\t</tr>\n\t\t<tr class=\"row-even\">\n\t\t\t<td>Col3</td>\n\t\t\t<td>Col2</td>\n\t\t\t<td>Col1</td>\n\t\t</tr>\n\t\t<tr class=\"row-odd\">\n\t\t\t<td>Col3</td>\n\t\t\t<td>Col2</td>\n\t\t\t<td>Col1</td>\n\t\t</tr>\n\t</tbody>"));
+            Assert.AreEqual(true, result.Contains("<colgroup><col class=\"col-odd\"/><col class=\"col-even\"/><col class=\"col-odd\"/><col class=\"col-even\"/></colgroup>"));
+            Assert.AreEqual(true, result.Contains("<thead><tr><th scope=\"col\" class=\"first-head\">?Missing Header?</th><th scope=\"col\" class=\"standard-head\">Head3</th><th scope=\"col\" class=\"standard-head\">Head2</th><th scope=\"col\" class=\"last-head\">Head1</th></tr></thead>"));
+            Assert.AreEqual(false, result.Contains("<tfoot><tr><td colspan=\"3\" class=\"first-foot\"></td><td class=\"last-foot\"/></tr></tfoot>"));
+            Assert.AreEqual(true, result.Contains("<tbody><tr class=\"row-odd\"><td>Col3</td><td>Col2</td><td>Col1</td></tr><tr class=\"row-even\"><td>Col3</td><td>Col2</td><td>Col1</td></tr><tr class=\"row-odd\"><td>Col3</td><td>Col2</td><td>Col1</td></tr></tbody>"));
         }
         #endregion
 
@@ -519,10 +536,10 @@ namespace Utility.Tests
             var result = XHtmlTableGenerator.GenerateTable(data, null, null, new List<int>() { 0, 1, 2 }, new List<string>() { "H1", "H2", "H3" }, new List<string>() { "Head1", "Head2", "Head3" }, null);
 
             //Assert
-            Assert.AreEqual(true, result.Contains("<colgroup>\n\t\t<col class=\"col-odd\" />\n\t\t<col class=\"col-even\" />\n\t\t<col class=\"col-odd\" />\n\t</colgroup>"));
-            Assert.AreEqual(true, result.Contains("<thead>\n\t\t<tr>\n\t\t\t<th scope=\"col\" class=\"first-head\">H1</th>\n\t\t\t<th scope=\"col\" class=\"standard-head\">H2</th>\n\t\t\t<th scope=\"col\" class=\"last-head\">H3</th>\n\t\t</tr>\n\t</thead>"));
-            Assert.AreEqual(true, result.Contains("<tfoot>\n\t\t<tr>\n\t\t\t<td colspan=\"2\" class=\"first-foot\"></td>\n\t\t\t<td class=\"last-foot\"/>\n\t\t</tr>\n\t</tfoot>"));
-            Assert.AreEqual(true, result.Contains("<tbody>\n\t\t<tr class=\"row-odd\">\n\t\t\t<td>Col1</td>\n\t\t\t<td>Col2</td>\n\t\t\t<td>Col3</td>\n\t\t</tr>\n\t\t<tr class=\"row-even\">\n\t\t\t<td>Col1</td>\n\t\t\t<td>Col2</td>\n\t\t\t<td>Col3</td>\n\t\t</tr>\n\t\t<tr class=\"row-odd\">\n\t\t\t<td>Col1</td>\n\t\t\t<td>Col2</td>\n\t\t\t<td>Col3</td>\n\t\t</tr>\n\t</tbody>"));
+            Assert.AreEqual(true, result.Contains("<colgroup><col class=\"col-odd\"/><col class=\"col-even\"/><col class=\"col-odd\"/></colgroup>"));
+            Assert.AreEqual(true, result.Contains("<thead><tr><th scope=\"col\" class=\"first-head\">H1</th><th scope=\"col\" class=\"standard-head\">H2</th><th scope=\"col\" class=\"last-head\">H3</th></tr></thead>"));
+            Assert.AreEqual(false, result.Contains("<tfoot><tr><td colspan=\"2\" class=\"first-foot\"></td><td class=\"last-foot\"/></tr></tfoot>"));
+            Assert.AreEqual(true, result.Contains("<tbody><tr class=\"row-odd\"><td>Col1</td><td>Col2</td><td>Col3</td></tr><tr class=\"row-even\"><td>Col1</td><td>Col2</td><td>Col3</td></tr><tr class=\"row-odd\"><td>Col1</td><td>Col2</td><td>Col3</td></tr></tbody>"));
         }
 
         [Test]
@@ -540,10 +557,10 @@ namespace Utility.Tests
             var result = XHtmlTableGenerator.GenerateTable(data, null, null, new List<int>() { 0, 1, 2 }, new List<string>() { "H1", "H2" }, new List<string>() { "Head1", "Head2", "Head3" }, null);
 
             //Assert
-            Assert.AreEqual(true, result.Contains("<colgroup>\n\t\t<col class=\"col-odd\" />\n\t\t<col class=\"col-even\" />\n\t\t<col class=\"col-odd\" />\n\t</colgroup>"));
-            Assert.AreEqual(true, result.Contains("<thead>\n\t\t<tr>\n\t\t\t<th scope=\"col\" class=\"first-head\">H1</th>\n\t\t\t<th scope=\"col\" class=\"standard-head\">H2</th>\n\t\t\t<th scope=\"col\" class=\"last-head\">Head3</th>\n\t\t</tr>\n\t</thead>"));
-            Assert.AreEqual(true, result.Contains("<tfoot>\n\t\t<tr>\n\t\t\t<td colspan=\"2\" class=\"first-foot\"></td>\n\t\t\t<td class=\"last-foot\"/>\n\t\t</tr>\n\t</tfoot>"));
-            Assert.AreEqual(true, result.Contains("<tbody>\n\t\t<tr class=\"row-odd\">\n\t\t\t<td>Col1</td>\n\t\t\t<td>Col2</td>\n\t\t\t<td>Col3</td>\n\t\t</tr>\n\t\t<tr class=\"row-even\">\n\t\t\t<td>Col1</td>\n\t\t\t<td>Col2</td>\n\t\t\t<td>Col3</td>\n\t\t</tr>\n\t\t<tr class=\"row-odd\">\n\t\t\t<td>Col1</td>\n\t\t\t<td>Col2</td>\n\t\t\t<td>Col3</td>\n\t\t</tr>\n\t</tbody>"));
+            Assert.AreEqual(true, result.Contains("<colgroup><col class=\"col-odd\"/><col class=\"col-even\"/><col class=\"col-odd\"/></colgroup>"));
+            Assert.AreEqual(true, result.Contains("<thead><tr><th scope=\"col\" class=\"first-head\">H1</th><th scope=\"col\" class=\"standard-head\">H2</th><th scope=\"col\" class=\"last-head\">Head3</th></tr></thead>"));
+            Assert.AreEqual(false, result.Contains("<tfoot><tr><td colspan=\"2\" class=\"first-foot\"></td><td class=\"last-foot\"/></tr></tfoot>"));
+            Assert.AreEqual(true, result.Contains("<tbody><tr class=\"row-odd\"><td>Col1</td><td>Col2</td><td>Col3</td></tr><tr class=\"row-even\"><td>Col1</td><td>Col2</td><td>Col3</td></tr><tr class=\"row-odd\"><td>Col1</td><td>Col2</td><td>Col3</td></tr></tbody>"));
         }
 
         [Test]
@@ -561,10 +578,10 @@ namespace Utility.Tests
             var result = XHtmlTableGenerator.GenerateTable(data, null, null, new List<int>() { 1 }, new List<string>() { "H1", "H2", "H3" }, new List<string>() { "Head1", "Head2", "Head3" }, null);
 
             //Assert
-            Assert.AreEqual(true, result.Contains("<colgroup>\n\t\t<col class=\"col-odd\" />\n\t</colgroup>"));
-            Assert.AreEqual(true, result.Contains("<thead>\n\t\t<tr>\n\t\t\t<th scope=\"col\" class=\"standard-head\">H2</th>\n\t\t</tr>\n\t</thead>"));
-            Assert.AreEqual(true, result.Contains("<tfoot>\n\t\t<tr>\n\t\t\t<td class=\"standard-foot\"></td>\n\t\t</tr>\n\t</tfoot>"));
-            Assert.AreEqual(true, result.Contains("<tbody>\n\t\t<tr class=\"row-odd\">\n\t\t\t<td>Col2</td>\n\t\t</tr>\n\t\t<tr class=\"row-even\">\n\t\t\t<td>Col2</td>\n\t\t</tr>\n\t\t<tr class=\"row-odd\">\n\t\t\t<td>Col2</td>\n\t\t</tr>\n\t</tbody>"));
+            Assert.AreEqual(true, result.Contains("<colgroup><col class=\"col-odd\"/></colgroup>"));
+            Assert.AreEqual(true, result.Contains("<thead><tr><th scope=\"col\" class=\"standard-head\">H2</th></tr></thead>"));
+            Assert.AreEqual(false, result.Contains("<tfoot><tr><td class=\"standard-foot\"></td></tr></tfoot>"));
+            Assert.AreEqual(true, result.Contains("<tbody><tr class=\"row-odd\"><td>Col2</td></tr><tr class=\"row-even\"><td>Col2</td></tr><tr class=\"row-odd\"><td>Col2</td></tr></tbody>"));
         }
 
         [Test]
@@ -582,10 +599,10 @@ namespace Utility.Tests
             var result = XHtmlTableGenerator.GenerateTable(data, null, null, new List<int>() { 0,2 }, new List<string>() { "H1", "H2", "H3" }, new List<string>() { "Head1", "Head2", "Head3" }, null);
 
             //Assert
-            Assert.AreEqual(true, result.Contains("<colgroup>\n\t\t<col class=\"col-odd\" />\n\t\t<col class=\"col-even\" />\n\t</colgroup>"));
-            Assert.AreEqual(true, result.Contains("<thead>\n\t\t<tr>\n\t\t\t<th scope=\"col\" class=\"first-head\">H1</th>\n\t\t\t<th scope=\"col\" class=\"last-head\">H3</th>\n\t\t</tr>\n\t</thead>"));
-            Assert.AreEqual(true, result.Contains("<tfoot>\n\t\t<tr>\n\t\t\t<td colspan=\"1\" class=\"first-foot\"></td>\n\t\t\t<td class=\"last-foot\"/>\n\t\t</tr>\n\t</tfoot>"));
-            Assert.AreEqual(true, result.Contains("<tbody>\n\t\t<tr class=\"row-odd\">\n\t\t\t<td>Col1</td>\n\t\t\t<td>Col3</td>\n\t\t</tr>\n\t\t<tr class=\"row-even\">\n\t\t\t<td>Col1</td>\n\t\t\t<td>Col3</td>\n\t\t</tr>\n\t\t<tr class=\"row-odd\">\n\t\t\t<td>Col1</td>\n\t\t\t<td>Col3</td>\n\t\t</tr>\n\t</tbody>"));
+            Assert.AreEqual(true, result.Contains("<colgroup><col class=\"col-odd\"/><col class=\"col-even\"/></colgroup>"));
+            Assert.AreEqual(true, result.Contains("<thead><tr><th scope=\"col\" class=\"first-head\">H1</th><th scope=\"col\" class=\"last-head\">H3</th></tr></thead>"));
+            Assert.AreEqual(false, result.Contains("<tfoot><tr><td colspan=\"1\" class=\"first-foot\"></td><td class=\"last-foot\"/></tr></tfoot>"));
+            Assert.AreEqual(true, result.Contains("<tbody><tr class=\"row-odd\"><td>Col1</td><td>Col3</td></tr><tr class=\"row-even\"><td>Col1</td><td>Col3</td></tr><tr class=\"row-odd\"><td>Col1</td><td>Col3</td></tr></tbody>"));
         }
 
 
@@ -604,10 +621,10 @@ namespace Utility.Tests
             var result = XHtmlTableGenerator.GenerateTable(data, null, null, new List<int>() { 2 }, new List<string>() { "H1", "H2" }, new List<string>() { "Head1", "Head2", "Head3" }, null);
 
             //Assert
-            Assert.AreEqual(true, result.Contains("<colgroup>\n\t\t<col class=\"col-odd\" />\n\t</colgroup>"));
-            Assert.AreEqual(true, result.Contains("<thead>\n\t\t<tr>\n\t\t\t<th scope=\"col\" class=\"standard-head\">Head3</th>\n\t\t</tr>\n\t</thead>"));
-            Assert.AreEqual(true, result.Contains("<tfoot>\n\t\t<tr>\n\t\t\t<td class=\"standard-foot\"></td>\n\t\t</tr>\n\t</tfoot>"));
-            Assert.AreEqual(true, result.Contains("<tbody>\n\t\t<tr class=\"row-odd\">\n\t\t\t<td>Col3</td>\n\t\t</tr>\n\t\t<tr class=\"row-even\">\n\t\t\t<td>Col3</td>\n\t\t</tr>\n\t\t<tr class=\"row-odd\">\n\t\t\t<td>Col3</td>\n\t\t</tr>\n\t</tbody>"));
+            Assert.AreEqual(true, result.Contains("<colgroup><col class=\"col-odd\"/></colgroup>"));
+            Assert.AreEqual(true, result.Contains("<thead><tr><th scope=\"col\" class=\"standard-head\">Head3</th></tr></thead>"));
+            Assert.AreEqual(false, result.Contains("<tfoot><tr><td class=\"standard-foot\"></td></tr></tfoot>"));
+            Assert.AreEqual(true, result.Contains("<tbody><tr class=\"row-odd\"><td>Col3</td></tr><tr class=\"row-even\"><td>Col3</td></tr><tr class=\"row-odd\"><td>Col3</td></tr></tbody>"));
         }
 
         [Test]
@@ -625,10 +642,10 @@ namespace Utility.Tests
             var result = XHtmlTableGenerator.GenerateTable(data, null, null, new List<int>() { 2 }, new List<string>() { "H1", "H2" }, new List<string>() { "Head1", "Head2" }, null);
 
             //Assert
-            Assert.AreEqual(true, result.Contains("<colgroup>\n\t\t<col class=\"col-odd\" />\n\t</colgroup>"));
-            Assert.AreEqual(true, result.Contains("<thead>\n\t\t<tr>\n\t\t\t<th scope=\"col\" class=\"standard-head\">?Missing Header?</th>\n\t\t</tr>\n\t</thead>"));
-            Assert.AreEqual(true, result.Contains("<tfoot>\n\t\t<tr>\n\t\t\t<td class=\"standard-foot\"></td>\n\t\t</tr>\n\t</tfoot>"));
-            Assert.AreEqual(true, result.Contains("<tbody>\n\t\t<tr class=\"row-odd\">\n\t\t</tr>\n\t\t<tr class=\"row-even\">\n\t\t</tr>\n\t\t<tr class=\"row-odd\">\n\t\t</tr>\n\t</tbody>"));
+            Assert.AreEqual(true, result.Contains("<colgroup><col class=\"col-odd\"/></colgroup>"));
+            Assert.AreEqual(true, result.Contains("<thead><tr><th scope=\"col\" class=\"standard-head\">?Missing Header?</th></tr></thead>"));
+            Assert.AreEqual(false, result.Contains("<tfoot><tr><td class=\"standard-foot\"></td></tr></tfoot>"));
+            Assert.AreEqual(true, result.Contains("<tbody><tr class=\"row-odd\"></tr><tr class=\"row-even\"></tr><tr class=\"row-odd\"></tr></tbody>"));
         }
         #endregion
     }

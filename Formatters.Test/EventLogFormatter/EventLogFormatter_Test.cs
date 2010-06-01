@@ -708,5 +708,29 @@ namespace Formatters.Tests
             //Assert
             Assert.AreEqual(true, retval.Contains("<table id=\"gb\">"));
         }
+
+        [Test]
+        public void Formatting_Style_Generic()
+        {
+            //Arrange
+            var formatter = new EventLogFormatter();
+            var host = MockRepository.GenerateStub<IHostV30>();
+            var provider = MockRepository.GenerateStub<IPagesStorageProviderV30>();
+            var currentPageInfo = new PageInfo("MyPage", provider, DateTime.Now);
+            var context = new ContextInformation(false, false, FormattingContext.PageContent, currentPageInfo, "", HttpContext.Current, "", new string[] { "" });  //MockRepository.GenerateStub<ContextInformation>();
+
+            host.Expect(x => x.GetCurrentUser()).Repeat.Any().Return(new UserInfo("Garrett", "Garrett", "", true, DateTime.Now, null));
+
+            //                         Filter options: "Id","Type","Date","Time","Source","Category","Event","User","Computer", "Description"
+            //                                         machine,log,filter,results,heading,cols,headers,tbl,head,row
+            string input = "bla bla bla {EventLog log='Application' style='generic'} bla bla bla";
+
+            //Act
+            formatter.Init(host, "");
+            var retval = formatter.Format(input, context, FormattingPhase.Phase1);
+
+            //Assert
+            Assert.AreEqual(true, retval.Contains("<table id=\"generic\">"));
+        }
     }
 }

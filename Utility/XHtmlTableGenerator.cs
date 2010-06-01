@@ -240,9 +240,8 @@ There are 11 predefined styles which are bundled with all the formatters (which 
                 string tableHeader = GenerateTableHeaders(_columnsToShow, _customHeaders, _actualHeaders, _tblHeading, _tblFooter, styleLookup);
 
                 //Start building table                                                   
-                retval = string.Format("<nobr>\n");
                 retval = string.Format("{0}{1}", retval, styleLookup["link"]);
-                retval = string.Format("{0}\n<table id=\"{1}\">{2}\n\n\t<tbody>", retval, (string.IsNullOrEmpty(_style) == true ? "default" : _style), tableHeader);
+                retval = string.Format("{0}<table id=\"{1}\">{2}<tbody>", retval, (string.IsNullOrEmpty(_style) == true ? "default" : _style), tableHeader);
 
                 //Each row
                 for (int i = 0; i < _result.Values.Count; i++)
@@ -251,11 +250,11 @@ There are 11 predefined styles which are bundled with all the formatters (which 
 
                     if (i % 2 == 0)
                     {
-                        retval = string.Format("{0}\n\t\t<tr {1}>", retval, styleLookup["row-odd"]);
+                        retval = string.Format("{0}<tr {1}>", retval, styleLookup["row-odd"]);
                     }
                     else
                     {
-                        retval = string.Format("{0}\n\t\t<tr {1}>", retval, styleLookup["row-even"]);
+                        retval = string.Format("{0}<tr {1}>", retval, styleLookup["row-even"]);
                     }
 
                     //Each Column requested (all or custom)
@@ -265,16 +264,16 @@ There are 11 predefined styles which are bundled with all the formatters (which 
                         //Add only value if in range of the columns to show
                         if (columnToUse < row.Count)
                         {
-                            retval = string.Format("{0}\n\t\t\t<td>{1}</td>", retval, row[columnToUse]);
+                            retval = string.Format("{0}<td>{1}</td>", retval, row[columnToUse]);
                         }
                     }
 
                     //Close tr
-                    retval = string.Format("{0}\n\t\t</tr>", retval);
+                    retval = string.Format("{0}</tr>", retval);
                 }
 
                 //Close table
-                retval = string.Format("{0}\n\t</tbody>\n</table>\n</nobr>", retval);
+                retval = string.Format("{0}</tbody></table>", retval);
             }
 
             return retval;
@@ -310,9 +309,9 @@ There are 11 predefined styles which are bundled with all the formatters (which 
 
                     retval["heading"] = "class=\"tableheader\"";
 
-                    retval["first-head"] = "scope=\"col\" class=\"tableheader\"";
-                    retval["standard-head"] = "scope=\"col\" class=\"tableheader\"";
-                    retval["last-head"] = "scope=\"col\" class=\"tableheader\"";
+                    retval["first-head"] = "class=\"tableheader\"";
+                    retval["standard-head"] = "class=\"tableheader\"";
+                    retval["last-head"] = "class=\"tableheader\"";
 
                     retval["first-foot"] = "";
                     retval["standard-foot"] = "";
@@ -367,63 +366,63 @@ There are 11 predefined styles which are bundled with all the formatters (which 
             //heading
             if (string.IsNullOrEmpty(_heading) == false)
             {
-                heading = string.Format("\n\t\t<tr>\n\t\t\t<td colspan=\"{0}\" {1}>{2}</td>\n\t\t</tr>", headers.Count, _styleLookup["heading"], _heading);
+                heading = string.Format("<tr><td colspan=\"{0}\" {1}>{2}</td></tr>", headers.Count, _styleLookup["heading"], _heading);
             }
 
             //colgroup
-            colGroup = "\n\t<colgroup>";
+            colGroup = "<colgroup>";
             //thead
-            headerGroup = "\n\t<thead>";
-            headerGroup = string.Format("{0}{1}\n\t\t<tr>", headerGroup, (string.IsNullOrEmpty(heading) == false ? heading : ""));
+            headerGroup = "<thead>";
+            headerGroup = string.Format("{0}{1}<tr>", headerGroup, (string.IsNullOrEmpty(heading) == false ? heading : ""));
             //tfoot
-            footerGroup = "\n\t<tfoot>";
-            footerGroup = string.Format("{0}\n\t\t<tr>", footerGroup);
+            footerGroup = "<tfoot>";
+            footerGroup = string.Format("{0}<tr>", footerGroup);
 
             for(int i = 0; i < headers.Count; i++)
             {
                 //First header AND we have at least 2
                 if (i == 0 && headers.Count >= 2)
                 {
-                    headerGroup = string.Format("{0}\n\t\t\t<th {1}>{2}</th>", headerGroup, _styleLookup["first-head"], headers[i]);
+                    headerGroup = string.Format("{0}<th {1}>{2}</th>", headerGroup, _styleLookup["first-head"], headers[i]);
 
-                    footerGroup = string.Format("{0}\n\t\t\t<td colspan=\"{1}\" {2}>{3}</td>", footerGroup, headers.Count - 1, _styleLookup["first-foot"], _footer);
+                    footerGroup = string.Format("{0}<td colspan=\"{1}\" {2}>{3}</td>", footerGroup, headers.Count - 1, _styleLookup["first-foot"], _footer);
                 }//Last header
                 else if (i == (headers.Count - 1) && headers.Count >= 2)
                 {
-                    headerGroup = string.Format("{0}\n\t\t\t<th {1}>{2}</th>", headerGroup, _styleLookup["last-head"], headers[i]);
+                    headerGroup = string.Format("{0}<th {1}>{2}</th>", headerGroup, _styleLookup["last-head"], headers[i]);
 
-                    footerGroup = string.Format("{0}\n\t\t\t<td {1}/>", footerGroup, _styleLookup["last-foot"]);
+                    footerGroup = string.Format("{0}<td {1}/>", footerGroup, _styleLookup["last-foot"]);
                 }//All else AND if only 1
                 else
                 {
-                    headerGroup = string.Format("{0}\n\t\t\t<th {1}>{2}</th>", headerGroup, _styleLookup["standard-head"], headers[i]);
+                    headerGroup = string.Format("{0}<th {1}>{2}</th>", headerGroup, _styleLookup["standard-head"], headers[i]);
 
                     if (i == 0 && headers.Count == 1)
                     {
-                        footerGroup = string.Format("{0}\n\t\t\t<td {1}>{2}</td>", footerGroup, _styleLookup["standard-foot"], _footer);
+                        footerGroup = string.Format("{0}<td {1}>{2}</td>", footerGroup, _styleLookup["standard-foot"], _footer);
                     }
                 }
 
                 if (i % 2 == 0)
                 {
-                    colGroup = string.Format("{0}\n\t\t<col {1} />", colGroup, _styleLookup["col-odd"]);
+                    colGroup = string.Format("{0}<col {1}/>", colGroup, _styleLookup["col-odd"]);
                 }
                 else
                 {
-                    colGroup = string.Format("{0}\n\t\t<col {1} />", colGroup, _styleLookup["col-even"]);
+                    colGroup = string.Format("{0}<col {1}/>", colGroup, _styleLookup["col-even"]);
                 }
             }
             //colgroup
-            colGroup = string.Format("{0}\n\t</colgroup>", colGroup);
+            colGroup = string.Format("{0}</colgroup>", colGroup);
             //thead
-            headerGroup = string.Format("{0}\n\t\t</tr>", headerGroup);
-            headerGroup = string.Format("{0}\n\t</thead>", headerGroup);
+            headerGroup = string.Format("{0}</tr>", headerGroup);
+            headerGroup = string.Format("{0}</thead>", headerGroup);
             //tfoot
-            footerGroup = string.Format("{0}\n\t\t</tr>", footerGroup);
-            footerGroup = string.Format("{0}\n\t</tfoot>", footerGroup);
+            footerGroup = string.Format("{0}</tr>", footerGroup);
+            footerGroup = string.Format("{0}</tfoot>", footerGroup);
 
             //Combine
-            return string.Format("{0}\n{1}\n{2}", colGroup, headerGroup, (string.IsNullOrEmpty(_footer) == false ? footerGroup : ""));
+            return string.Format("{0}{1}{2}", colGroup, headerGroup, (string.IsNullOrEmpty(_footer) == false ? footerGroup : ""));
         }
 
         public static void GenerateColumnsAndColumnNames(Dictionary<string, int> _colsKeyNamesDict, List<string> _allColNames, string _defaultColNames, string _cols, string _colNames, out List<int> _newCols, out List<string> _newColNames)
