@@ -281,7 +281,7 @@ namespace Keeper.Garrett.ScrewTurn.CategoryListFormatter
                     retval = _page.Content.PageInfo.CreationDateTime.ToString(m_DateTimeFormat);
                     break;
                 case 6://title
-                    retval = string.Format("[{0}|{1}]", _page.Content.PageInfo.FullName, _page.Content.Title);
+                    retval = string.Format("[++{0}|{1}]", _page.Content.PageInfo.FullName, _page.Content.Title);
                     break;
                 case 7://user
                     retval = string.Format("[User.aspx?Username={0}|{1}]", _page.UserName, _page.UserDisplayName); ;

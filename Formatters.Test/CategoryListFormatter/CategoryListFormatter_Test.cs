@@ -54,7 +54,7 @@ namespace Formatters.Tests
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual("bla bla bla  \n* [MyPage1|Page 1] \n* [MyPage2|Page 2] \n* [MyPage3|Page 3] \n bla bla bla", retval);
+            Assert.AreEqual("bla bla bla  \n* [++MyPage1|Page 1] \n* [++MyPage2|Page 2] \n* [++MyPage3|Page 3] \n bla bla bla", retval);
         }
 
         [Test]
@@ -97,7 +97,7 @@ namespace Formatters.Tests
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual("bla bla bla  \n# [MyPage1|Page 1] \n# [MyPage2|Page 2] \n# [MyPage3|Page 3] \n bla bla bla", retval);
+            Assert.AreEqual("bla bla bla  \n# [++MyPage1|Page 1] \n# [++MyPage2|Page 2] \n# [++MyPage3|Page 3] \n bla bla bla", retval);
         }
 
         [Test]
@@ -139,7 +139,7 @@ namespace Formatters.Tests
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual("bla bla bla  \n* [MyPage0|aaa] \n* [aaa|BBB] \n* [MyPage3|Page 0] \n bla bla bla", retval);
+            Assert.AreEqual("bla bla bla  \n* [++MyPage0|aaa] \n* [++aaa|BBB] \n* [++MyPage3|Page 0] \n bla bla bla", retval);
         }
 
         [Test]
@@ -181,7 +181,7 @@ namespace Formatters.Tests
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual("bla bla bla  \n* [MyPage1|Page 1] - My Description 1 \n* [MyPage2|Page 2] - My Description 2 \n* [MyPage3|Page 3] - My Description 3 \n bla bla bla", retval);
+            Assert.AreEqual("bla bla bla  \n* [++MyPage1|Page 1] - My Description 1 \n* [++MyPage2|Page 2] - My Description 2 \n* [++MyPage3|Page 3] - My Description 3 \n bla bla bla", retval);
         }
 
         [Test]
@@ -226,9 +226,9 @@ namespace Formatters.Tests
             //Assert
             AssertTable.VerifyTable(retval, null, null, "", new List<string>() { "Page name" }, new Dictionary<int, List<string>>()
             {
-                {0, new List<string>() { "[MyPage1|Page 1]" }},
-                {1, new List<string>() { "[MyPage2|Page 2]" }},
-                {2, new List<string>() { "[MyPage3|Page 3]" }}
+                {0, new List<string>() { "[++MyPage1|Page 1]" }},
+                {1, new List<string>() { "[++MyPage2|Page 2]" }},
+                {2, new List<string>() { "[++MyPage3|Page 3]" }}
             });
         }
 
@@ -274,9 +274,9 @@ namespace Formatters.Tests
             //Assert         
             AssertTable.VerifyTable(retval, null, null, "", new List<string>() { "Page name", "Summary" }, new Dictionary<int, List<string>>()
             {
-                {0, new List<string>() { "[MyPage1|Page 1]", "My Description 1" }},
-                {1, new List<string>() { "[MyPage2|Page 2]", "My Description 2" }},
-                {2, new List<string>() { "[MyPage3|Page 3]", "My Description 3" }}
+                {0, new List<string>() { "[++MyPage1|Page 1]", "My Description 1" }},
+                {1, new List<string>() { "[++MyPage2|Page 2]", "My Description 2" }},
+                {2, new List<string>() { "[++MyPage3|Page 3]", "My Description 3" }}
             });
         }
 
@@ -322,9 +322,9 @@ namespace Formatters.Tests
             //Assert    
             AssertTable.VerifyTable(retval, null, null, "", new List<string>() { "Page name" }, new Dictionary<int, List<string>>()
             {
-                {0, new List<string>() { "[MyPage0|aaa]" }},
-                {1, new List<string>() { "[aaa|BBB]" }},
-                {2, new List<string>() { "[MyPage3|Page 0]" }}
+                {0, new List<string>() { "[++MyPage0|aaa]" }},
+                {1, new List<string>() { "[++aaa|BBB]" }},
+                {2, new List<string>() { "[++MyPage3|Page 0]" }}
             });
         }
 
@@ -370,9 +370,9 @@ namespace Formatters.Tests
             //Assert
             AssertTable.VerifyTable(retval, null, "My Products", "", new List<string>() { "Product Name", "Summary" }, new Dictionary<int, List<string>>()
             {
-                {0, new List<string>() { "[MyPage1|Page 1]", "My Description 1" }},
-                {1, new List<string>() { "[MyPage2|Page 2]", "My Description 2" }},
-                {2, new List<string>() { "[MyPage3|Page 3]", "My Description 3" }}
+                {0, new List<string>() { "[++MyPage1|Page 1]", "My Description 1" }},
+                {1, new List<string>() { "[++MyPage2|Page 2]", "My Description 2" }},
+                {2, new List<string>() { "[++MyPage3|Page 3]", "My Description 3" }}
             }); 
         }
 
@@ -418,9 +418,9 @@ namespace Formatters.Tests
             //Assert
             AssertTable.VerifyTable(retval, "bw", "My Products", "", new List<string>() { "Product Name" }, new Dictionary<int, List<string>>()
             {
-                {0, new List<string>() { "[MyPage1|Page 1]" }},
-                {1, new List<string>() { "[MyPage2|Page 2]" }},
-                {2, new List<string>() { "[MyPage3|Page 3]" }}
+                {0, new List<string>() { "[++MyPage1|Page 1]" }},
+                {1, new List<string>() { "[++MyPage2|Page 2]" }},
+                {2, new List<string>() { "[++MyPage3|Page 3]" }}
             }); 
         }
 
@@ -474,9 +474,9 @@ namespace Formatters.Tests
             AssertTable.VerifyTable(retval, "generic", "My Products", "", new List<string>() { "MyColHead", "Summary", "Keywords", "Last Modified", "Linked Pages", "Created", "Page name", "Last Modified By", "Created By" }, new Dictionary<int, List<string>>()
             {
                 //                       "Comment",  "Content",  "Summary",         "Keywords", "Last Modified",      "Linked Pages", "Created",            "Page name",        "Last Modified By",                 "Created By" };
-                {0, new List<string>() { "Comment 1","My Description 1","w1,w2",    "27-04-2010 00:00:00","[PageLink1]",             "27-04-1980 00:00:00","[MyPage1|Page 1]", "[User.aspx?Username=User|Garrett]","[User.aspx?Username=User|Garrett]" }},
-                {1, new List<string>() { "Comment 2","My Description 2","w1,w2",    "27-04-2010 00:00:00","[PageLink1],[PageLink2]", "27-04-1980 00:00:00","[MyPage2|Page 2]", "[User.aspx?Username=User|Garrett]","[User.aspx?Username=User|Garrett]" }},
-                {2, new List<string>() { "Comment 3","My Description 3","w1,w2",    "27-04-2010 00:00:00","[PageLink2],[PageLink3]", "27-04-1980 00:00:00","[MyPage3|Page 3]", "[User.aspx?Username=User|Garrett]","[User.aspx?Username=User|Garrett]" }},
+                {0, new List<string>() { "Comment 1","My Description 1","w1,w2",    "27-04-2010 00:00:00","[PageLink1]",             "27-04-1980 00:00:00","[++MyPage1|Page 1]", "[User.aspx?Username=User|Garrett]","[User.aspx?Username=User|Garrett]" }},
+                {1, new List<string>() { "Comment 2","My Description 2","w1,w2",    "27-04-2010 00:00:00","[PageLink1],[PageLink2]", "27-04-1980 00:00:00","[++MyPage2|Page 2]", "[User.aspx?Username=User|Garrett]","[User.aspx?Username=User|Garrett]" }},
+                {2, new List<string>() { "Comment 3","My Description 3","w1,w2",    "27-04-2010 00:00:00","[PageLink2],[PageLink3]", "27-04-1980 00:00:00","[++MyPage3|Page 3]", "[User.aspx?Username=User|Garrett]","[User.aspx?Username=User|Garrett]" }},
             });
         }
 
@@ -521,7 +521,7 @@ namespace Formatters.Tests
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual("bla bla bla  \n* [MyPage1|Page 1] \n* [MyPage2|Page 2] \n* [MyPage3|Page 3] \n bla bla bla", retval);
+            Assert.AreEqual("bla bla bla  \n* [++MyPage1|Page 1] \n* [++MyPage2|Page 2] \n* [++MyPage3|Page 3] \n bla bla bla", retval);
         }
 
         [Test]
@@ -567,7 +567,7 @@ namespace Formatters.Tests
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual("bla bla bla  \n* [MyPage1|Page 1] \n* [MyPage2|Page 2] \n* [MyPage3|Page 3] \n bla bla bla", retval);
+            Assert.AreEqual("bla bla bla  \n* [++MyPage1|Page 1] \n* [++MyPage2|Page 2] \n* [++MyPage3|Page 3] \n bla bla bla", retval);
         }
 
 
@@ -630,7 +630,7 @@ namespace Formatters.Tests
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual("bla bla bla  \n* [MyPage1|Page 1] \n* [MyPage2|Page 2] \n* [MyPage3|Page 3] \n* [Test.MyPage4|Page 4] \n* [Test.MyPage5|Page 5] \n bla bla bla", retval);
+            Assert.AreEqual("bla bla bla  \n* [++MyPage1|Page 1] \n* [++MyPage2|Page 2] \n* [++MyPage3|Page 3] \n* [++Test.MyPage4|Page 4] \n* [++Test.MyPage5|Page 5] \n bla bla bla", retval);
         }
 
         [Test]
@@ -692,7 +692,7 @@ namespace Formatters.Tests
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual("bla bla bla  \n* [MyPage1|Page 1] \n* [MyPage2|Page 2] \n* [MyPage3|Page 3] \n* [Test.MyPage4|Page 4] \n* [Test.MyPage5|Page 5] \n bla bla bla", retval);
+            Assert.AreEqual("bla bla bla  \n* [++MyPage1|Page 1] \n* [++MyPage2|Page 2] \n* [++MyPage3|Page 3] \n* [++Test.MyPage4|Page 4] \n* [++Test.MyPage5|Page 5] \n bla bla bla", retval);
         }
 
         [Test]
@@ -754,7 +754,7 @@ namespace Formatters.Tests
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual("bla bla bla  \n* [MyPage1|Page 1] \n* [Test.MyPage1|Page 1] \n* [MyPage2|Page 2] \n* [Test.MyPage2|Page 2] \n* [MyPage3|Page 3] \n bla bla bla", retval);
+            Assert.AreEqual("bla bla bla  \n* [++MyPage1|Page 1] \n* [++Test.MyPage1|Page 1] \n* [++MyPage2|Page 2] \n* [++Test.MyPage2|Page 2] \n* [++MyPage3|Page 3] \n bla bla bla", retval);
         }
 
         [Test]
@@ -816,7 +816,7 @@ namespace Formatters.Tests
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual("bla bla bla  \n* [Test.MyPage4|Page 4] \n* [Test.MyPage5|Page 5] \n bla bla bla", retval);
+            Assert.AreEqual("bla bla bla  \n* [++Test.MyPage4|Page 4] \n* [++Test.MyPage5|Page 5] \n bla bla bla", retval);
         }
 
         [Test]
@@ -878,7 +878,7 @@ namespace Formatters.Tests
             var retval = formatter.Format(input, context, FormattingPhase.Phase1);
 
             //Assert
-            Assert.AreEqual("bla bla bla  \n* [MyPage1|Page 1] \n* [MyPage2|Page 2] \n* [MyPage3|Page 3] \n bla bla bla", retval);
+            Assert.AreEqual("bla bla bla  \n* [++MyPage1|Page 1] \n* [++MyPage2|Page 2] \n* [++MyPage3|Page 3] \n bla bla bla", retval);
         }
     }
 }
