@@ -135,6 +135,8 @@ namespace Keeper.Garrett.ScrewTurn.CategoryListFormatter
                                                             content.CreatorName = content.Content.User;
                                                         }
 
+                                                        content.CreatorDisplayName = content.CreatorName;
+
                                                         var user = m_Host.FindUser(content.CreatorName);
                                                         if (user != null)
                                                         {
@@ -145,7 +147,11 @@ namespace Keeper.Garrett.ScrewTurn.CategoryListFormatter
                                                     //Build dict
                                                     if (content.Content != null)
                                                     {
+                                                        content.UserName = content.Content.User;
+                                                        content.UserDisplayName = content.Content.User;
+
                                                         var user = m_Host.FindUser(content.Content.User);
+
                                                         if (user != null)
                                                         {
                                                             content.UserName = user.Username;

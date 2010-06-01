@@ -3,6 +3,14 @@
    ------------------   */
 
 
+/*Uncomment this section 'generic' if you do not want you table to match the wiki AllPages style*/
+#generic 
+{
+    margin: 0px;
+    border-spacing: 0;
+    padding: 0;
+}
+
 /*********************************/
 #hor-minimalist-a td.heading
 {

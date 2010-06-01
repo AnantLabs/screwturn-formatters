@@ -184,6 +184,7 @@ There are 2 theme based styles and 11 predefined styles which are bundled with a
 '''Wiki Theme styles:'''
 # No style specified - will use the current theme's default style
 # generic - will use the current theme's generic style
+## There's a small section in the TableStyle.css which removes the generic padding so that the generic style mathces the one used in the wiki. Uncomment the generic section if you do not like this and save the TableStyle.css.
 
 
 '''Predefined table styles:'''
@@ -248,7 +249,7 @@ There are 2 theme based styles and 11 predefined styles which are bundled with a
 
                 //Start building table                                                   
                 retval = string.Format("{0}{1}", retval, styleLookup["link"]);
-                retval = string.Format("{0}<table id=\"{1}\">{2}<tbody>", retval, (string.IsNullOrEmpty(_style) == true ? "default" : _style), tableHeader);
+                retval = string.Format("{0}<table {1}>{2}<tbody>", retval, styleLookup["table"], tableHeader);
 
                 //Each row
                 for (int i = 0; i < _result.Values.Count; i++)
