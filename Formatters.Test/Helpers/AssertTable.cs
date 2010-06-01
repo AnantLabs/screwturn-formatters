@@ -13,7 +13,7 @@ namespace Formatters.Tests
 
         public static void VerifyTable(string _source, string _style, string _head, string _foot, List<string> _headers, Dictionary<int, List<string>> _rows)
         {
-            VerifyCSS(_source);
+            VerifyCSS(_source, _style);
             VerifyTable(_source, _style);
             VerifyColGroup(_source, _headers.Count);
             VerifyHeading(_source, _head, _headers.Count);
@@ -22,9 +22,23 @@ namespace Formatters.Tests
             VerifyRows(_source, _rows);
         }
 
-        private static void VerifyCSS(string _source)
+        private static void VerifyCSS(string _source, string _style)
         {
-            Assert.AreEqual(true, _source.Contains("<link type=\"text/css\" rel=\"stylesheet\" href=\"GetFile.aspx?File=/Keeper.Garrett.Formatters/Tables/TableStyle.css\"></link>"), "Style error");
+            if (string.IsNullOrEmpty(_style) == false)
+            {
+                if (_style.ToLower() == "generic")
+                {
+                    Assert.AreEqual(false, _source.Contains("<link type=\"text/css\" rel=\"stylesheet\" href=\"GetFile.aspx?File=/Keeper.Garrett.Formatters/Tables/TableStyle.css\"></link>"), "Style error");
+                }
+                else
+                {
+                    Assert.AreEqual(true, _source.Contains("<link type=\"text/css\" rel=\"stylesheet\" href=\"GetFile.aspx?File=/Keeper.Garrett.Formatters/Tables/TableStyle.css\"></link>"), "Style error");
+                }
+            }
+            else 
+            {
+                Assert.AreEqual(false, _source.Contains("<link type=\"text/css\" rel=\"stylesheet\" href=\"GetFile.aspx?File=/Keeper.Garrett.Formatters/Tables/TableStyle.css\"></link>"), "Style error");
+            }
         }
 
         private static void VerifyTable(string _source, string _style)
@@ -63,7 +77,7 @@ namespace Formatters.Tests
         private static void VerifyHeading(string _source, string _head, int _headerCount)
         {
             if (string.IsNullOrEmpty(_head) == false)
-            {
+            {                                                        
                 Assert.AreEqual(true, _source.Contains(string.Format("<thead>\n\t\t<tr>\n\t\t\t<td colspan=\"{0}\" class=\"heading\">{1}</td>\n\t\t</tr>", _headerCount, _head)), "Table Haading, error");
             }
         }
@@ -105,11 +119,25 @@ namespace Formatters.Tests
         {
             if (_headerCount == 1)
             {
-                Assert.AreEqual(true, _source.Contains(string.Format("<tfoot>\n\t\t<tr>\n\t\t\t<td class=\"standard-foot\">{0}</td>\n\t\t</tr>\n\t</tfoot>", _foot)), "Table Footer expected, error");
+                if (string.IsNullOrEmpty(_foot) == false)
+                {
+                    Assert.AreEqual(true, _source.Contains(string.Format("<tfoot>\n\t\t<tr>\n\t\t\t<td class=\"standard-foot\">{0}</td>\n\t\t</tr>\n\t</tfoot>", _foot)), "Table Footer expected, error");
+                }
+                else
+                {
+                    Assert.AreEqual(false, _source.Contains(string.Format("<tfoot>\n\t\t<tr>\n\t\t\t<td class=\"standard-foot\">{0}</td>\n\t\t</tr>\n\t</tfoot>", _foot)), "Table Footer expected, error");
+                }
             }
             else
             {
-                Assert.AreEqual(true, _source.Contains(string.Format("<tfoot>\n\t\t<tr>\n\t\t\t<td colspan=\"{0}\" class=\"first-foot\">{1}</td>\n\t\t\t<td class=\"last-foot\"/>\n\t\t</tr>\n\t</tfoot>", _headerCount - 1, _foot)), "Table Footer, error");
+                if (string.IsNullOrEmpty(_foot) == false)
+                {
+                    Assert.AreEqual(true, _source.Contains(string.Format("<tfoot>\n\t\t<tr>\n\t\t\t<td colspan=\"{0}\" class=\"first-foot\">{1}</td>\n\t\t\t<td class=\"last-foot\"/>\n\t\t</tr>\n\t</tfoot>", _headerCount - 1, _foot)), "Table Footer, error");
+                }
+                else
+                {
+                    Assert.AreEqual(false, _source.Contains(string.Format("<tfoot>\n\t\t<tr>\n\t\t\t<td colspan=\"{0}\" class=\"first-foot\">{1}</td>\n\t\t\t<td class=\"last-foot\"/>\n\t\t</tr>\n\t</tfoot>", _headerCount - 1, _foot)), "Table Footer, error");
+                }
             }
         }
 

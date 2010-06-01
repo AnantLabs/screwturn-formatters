@@ -209,7 +209,7 @@ There are 11 predefined styles which are bundled with all the formatters (which 
         public static void StoreFiles(IHostV30 _host, string _formatter)
         {
             var resourcePath = string.Format("Keeper.Garrett.ScrewTurn.{0}.Resources.Tables",_formatter);
-
+            
             //Setup store files
             var persister = new FilePersister("Tables");
             persister.AddDir("Images");
@@ -234,12 +234,14 @@ There are 11 predefined styles which are bundled with all the formatters (which 
 
             if (_result.Count > 0) //Only good data
             {
+                var styleLookup = GetStyleDictionary(_style);
+
                 //Update headers (with regards to the columns to show)
-                string tableHeader = GenerateTableHeaders(_columnsToShow, _customHeaders, _actualHeaders, _tblHeading, _tblFooter);
+                string tableHeader = GenerateTableHeaders(_columnsToShow, _customHeaders, _actualHeaders, _tblHeading, _tblFooter, styleLookup);
 
                 //Start building table                                                   
                 retval = string.Format("<nobr>\n");
-                retval = string.Format("{0}<link type=\"text/css\" rel=\"stylesheet\" href=\"GetFile.aspx?File=/Keeper.Garrett.Formatters/Tables/TableStyle.css\"></link>",retval);
+                retval = string.Format("{0}{1}", retval, styleLookup["link"]);
                 retval = string.Format("{0}\n<table id=\"{1}\">{2}\n\n\t<tbody>", retval, (string.IsNullOrEmpty(_style) == true ? "default" : _style), tableHeader);
 
                 //Each row
@@ -249,11 +251,11 @@ There are 11 predefined styles which are bundled with all the formatters (which 
 
                     if (i % 2 == 0)
                     {
-                        retval = string.Format("{0}\n\t\t<tr class=\"row-odd\">", retval);
+                        retval = string.Format("{0}\n\t\t<tr {1}>", retval, styleLookup["row-odd"]);
                     }
                     else
                     {
-                        retval = string.Format("{0}\n\t\t<tr class=\"row-even\">", retval);
+                        retval = string.Format("{0}\n\t\t<tr {1}>", retval, styleLookup["row-even"]);
                     }
 
                     //Each Column requested (all or custom)
@@ -278,7 +280,62 @@ There are 11 predefined styles which are bundled with all the formatters (which 
             return retval;
         }
 
-        private static string GenerateTableHeaders(List<int> _columnsToShow, List<string> _customHeaders, List<string> _actualHeaders, string _heading, string _footer)
+        private static Dictionary<string,string> GetStyleDictionary(string _style)
+        {
+            var retval = new Dictionary<string, string>()   {
+                                                                {"link", ""},
+                                                                {"table", ""},
+                                                                {"col-odd", "class=\"col-odd\""},
+                                                                {"col-even", "class=\"col-even\""},
+                                                                {"heading", "class=\"heading\""},
+                                                                {"first-head", "scope=\"col\" class=\"first-head\""},
+                                                                {"standard-head", "scope=\"col\" class=\"standard-head\""},
+                                                                {"last-head", "scope=\"col\" class=\"last-head\""},
+                                                                {"first-foot", "class=\"first-foot\""},
+                                                                {"standard-foot", "class=\"standard-foot\""},
+                                                                {"last-foot", "class=\"last-foot\""},
+                                                                {"row-odd", "class=\"row-odd\""},
+                                                                {"row-even", "class=\"row-even\""}
+                                                            };
+
+            if (string.IsNullOrEmpty(_style) == false)
+            {
+                if (_style.ToLower() == "generic")
+                {
+                    retval["link"] = "";
+                    retval["table"] = "id=\"generic\"";
+
+                    retval["col-odd"] = "";
+                    retval["col-even"] = "";
+
+                    retval["heading"] = "class=\"tableheader\"";
+
+                    retval["first-head"] = "scope=\"col\" class=\"tableheader\"";
+                    retval["standard-head"] = "scope=\"col\" class=\"tableheader\"";
+                    retval["last-head"] = "scope=\"col\" class=\"tableheader\"";
+
+                    retval["first-foot"] = "";
+                    retval["standard-foot"] = "";
+                    retval["last-foot"] = "";
+
+                    retval["row-odd"] = "class=\"tablerow\"";
+                    retval["row-even"] = "class=\"tablerowalternate\"";
+                }
+                else //All others
+                {
+                    retval["link"] = "<link type=\"text/css\" rel=\"stylesheet\" href=\"GetFile.aspx?File=/Keeper.Garrett.Formatters/Tables/TableStyle.css\"></link>";
+                    retval["table"] = string.Format("id=\"{0}\"", _style);
+                }
+            }
+            else// Default style
+            {
+                retval["table"] = "id=\"default\"";
+            }
+
+            return retval;
+        }
+
+        private static string GenerateTableHeaders(List<int> _columnsToShow, List<string> _customHeaders, List<string> _actualHeaders, string _heading, string _footer, Dictionary<string,string> _styleLookup)
         {
             var headers = new Dictionary<int,string>();
 
@@ -310,7 +367,7 @@ There are 11 predefined styles which are bundled with all the formatters (which 
             //heading
             if (string.IsNullOrEmpty(_heading) == false)
             {
-                heading = string.Format("\n\t\t<tr>\n\t\t\t<td colspan=\"{0}\" class=\"heading\">{1}</td>\n\t\t</tr>", headers.Count, _heading);
+                heading = string.Format("\n\t\t<tr>\n\t\t\t<td colspan=\"{0}\" {1}>{2}</td>\n\t\t</tr>", headers.Count, _styleLookup["heading"], _heading);
             }
 
             //colgroup
@@ -327,33 +384,33 @@ There are 11 predefined styles which are bundled with all the formatters (which 
                 //First header AND we have at least 2
                 if (i == 0 && headers.Count >= 2)
                 {
-                    headerGroup = string.Format("{0}\n\t\t\t<th scope=\"col\" class=\"first-head\">{1}</th>", headerGroup, headers[i]);
+                    headerGroup = string.Format("{0}\n\t\t\t<th {1}>{2}</th>", headerGroup, _styleLookup["first-head"], headers[i]);
 
-                    footerGroup = string.Format("{0}\n\t\t\t<td colspan=\"{1}\" class=\"first-foot\">{2}</td>", footerGroup, headers.Count - 1, _footer);
+                    footerGroup = string.Format("{0}\n\t\t\t<td colspan=\"{1}\" {2}>{3}</td>", footerGroup, headers.Count - 1, _styleLookup["first-foot"], _footer);
                 }//Last header
                 else if (i == (headers.Count - 1) && headers.Count >= 2)
                 {
-                    headerGroup = string.Format("{0}\n\t\t\t<th scope=\"col\" class=\"last-head\">{1}</th>", headerGroup, headers[i]);
+                    headerGroup = string.Format("{0}\n\t\t\t<th {1}>{2}</th>", headerGroup, _styleLookup["last-head"], headers[i]);
 
-                    footerGroup = string.Format("{0}\n\t\t\t<td class=\"last-foot\"/>", footerGroup);
+                    footerGroup = string.Format("{0}\n\t\t\t<td {1}/>", footerGroup, _styleLookup["last-foot"]);
                 }//All else AND if only 1
                 else
                 {
-                    headerGroup = string.Format("{0}\n\t\t\t<th scope=\"col\" class=\"standard-head\">{1}</th>", headerGroup, headers[i]);
+                    headerGroup = string.Format("{0}\n\t\t\t<th {1}>{2}</th>", headerGroup, _styleLookup["standard-head"], headers[i]);
 
                     if (i == 0 && headers.Count == 1)
                     {
-                        footerGroup = string.Format("{0}\n\t\t\t<td class=\"standard-foot\">{1}</td>", footerGroup, _footer);
+                        footerGroup = string.Format("{0}\n\t\t\t<td {1}>{2}</td>", footerGroup, _styleLookup["standard-foot"], _footer);
                     }
                 }
 
                 if (i % 2 == 0)
                 {
-                    colGroup = string.Format("{0}\n\t\t<col class=\"col-odd\" />", colGroup);
+                    colGroup = string.Format("{0}\n\t\t<col {1} />", colGroup, _styleLookup["col-odd"]);
                 }
                 else
                 {
-                    colGroup = string.Format("{0}\n\t\t<col class=\"col-even\" />", colGroup);
+                    colGroup = string.Format("{0}\n\t\t<col {1} />", colGroup, _styleLookup["col-even"]);
                 }
             }
             //colgroup
@@ -366,7 +423,7 @@ There are 11 predefined styles which are bundled with all the formatters (which 
             footerGroup = string.Format("{0}\n\t</tfoot>", footerGroup);
 
             //Combine
-            return string.Format("{0}\n{1}\n{2}", colGroup, headerGroup, footerGroup);
+            return string.Format("{0}\n{1}\n{2}", colGroup, headerGroup, (string.IsNullOrEmpty(_footer) == false ? footerGroup : ""));
         }
 
         public static void GenerateColumnsAndColumnNames(Dictionary<string, int> _colsKeyNamesDict, List<string> _allColNames, string _defaultColNames, string _cols, string _colNames, out List<int> _newCols, out List<string> _newColNames)
