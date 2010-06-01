@@ -1,3 +1,9 @@
+[Version 1.2.0.3 - June 1 - 2010]
+New Features
+	Table styles - Generic wiki theme style is now supported
+Bug fixes:
+	CategoryListFormatter - Referencing NS from NS would reference root, this has been fixed.
+
 [Version 1.2.0.2 - May 28 - 2010]
 	TablesStyles.css - tables now use 90% of avaliable width by default instead of the 480px they used before and 5% of margin indent left and right
 

@@ -38,6 +38,8 @@ Currently 4 of the formatters uses the table styles, they are:{BR}
 * Override column headers 
 * Use one of the 11 predefined styles 
 * Define your own style
+* Use the default wiki theme style
+* Use the default generic wiki theme style
 {BR}
 
 (((
@@ -178,7 +180,10 @@ Currently 4 of the formatters uses the table styles, they are:{BR}
 )))
 {BR}
 If the style argument is not supplied the default wiki table style is used.{BR}
-There are 11 predefined styles which are bundled with all the formatters (which uses tables).{BR}{BR}
+There are 2 theme based styles and 11 predefined styles which are bundled with all the formatters (which uses tables).{BR}{BR}
+'''Wiki Theme styles:'''
+# No style specified - will use the current theme's default style
+# generic - will use the current theme's generic style
 '''Predefined table styles:'''
 # hor-minimalist-a
 # hor-minimalist-b
