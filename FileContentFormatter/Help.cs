@@ -140,10 +140,12 @@ You may need to adjust the path/pattern and provider for each test, to match exi
 {FileCont file='/Keeper.Garrett.Formatters/Tables/*.html' width=540 height=400}
 
 ===Display Content of TableStyles.css Embedded===
-{FileCont file='/Keeper.Garrett.Formatters/Tables/*.css' width=540 height=400}
+{FileCont file='/Keeper.Garrett.Formatters/Tables/*.css' width=540 height=400 raw=true rows=10 cols=50}
+
 
 ===Display Content of TableStyles.css===
-{FileCont file='/Keeper.Garrett.Formatters/Tables/*.css'}
+{FileCont file='/Keeper.Garrett.Formatters/Tables/*.css' raw=true}
+
 
 ===Display Content of TableStyles.css using tags to avoid formatting===
 @@
@@ -151,10 +153,11 @@ You may need to adjust the path/pattern and provider for each test, to match exi
 @@
 
 ===Display Content of all files in /Tables/===
-{FileCont file='/Keeper.Garrett.Formatters/Tables/*.*' width=540 height=400}
+{FileCont file='/Keeper.Garrett.Formatters/Tables/*.*' width=540 height=400 raw=true rows=5 cols =50}
+
 
 ===Display Content of all files in /Tables/ No Embedding ===
-{FileCont file='/Keeper.Garrett.Formatters/Tables/*.*'}
+{FileCont file='/Keeper.Garrett.Formatters/Tables/*.*' raw=true}
 ",
             Description = "FileContentFormatter Test",
             Keywords = new string[] { "FileContentFormatter", "Test" }

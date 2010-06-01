@@ -184,6 +184,8 @@ There are 2 theme based styles and 11 predefined styles which are bundled with a
 '''Wiki Theme styles:'''
 # No style specified - will use the current theme's default style
 # generic - will use the current theme's generic style
+
+
 '''Predefined table styles:'''
 # hor-minimalist-a
 # hor-minimalist-b
