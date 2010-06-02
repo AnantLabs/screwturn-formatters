@@ -185,7 +185,7 @@ namespace Utility.Tests
             var result = XHtmlTableGenerator.GenerateTable(data, null, null, new List<int>(), new List<string>(), new List<string>() { "Head1", "Head2", "Head3" }, "generic");
 
             //Assert
-            Assert.AreEqual("<table id=\"generic\"><colgroup></colgroup><thead><tr></tr></thead><tbody><tr class=\"tablerow\"></tr><tr class=\"tablerowalternate\"></tr><tr class=\"tablerow\"></tr></tbody></table>", result);
+            Assert.AreEqual("<link type=\"text/css\" rel=\"stylesheet\" href=\"GetFile.aspx?File=/Keeper.Garrett.Formatters/Tables/TableStyle.css\"></link><table id=\"generic\"><colgroup></colgroup><thead><tr></tr></thead><tbody><tr class=\"tablerow\"></tr><tr class=\"tablerowalternate\"></tr><tr class=\"tablerow\"></tr></tbody></table>", result);
         }
 
         [Test]
