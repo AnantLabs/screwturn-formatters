@@ -181,7 +181,7 @@ namespace Formatters.Tests
         #region Generic
         private static void VerifyCSSGeneric(string _source, string _style)
         {
-            Assert.AreEqual(false, _source.Contains("<link type=\"text/css\" rel=\"stylesheet\" href=\"GetFile.aspx?File=/Keeper.Garrett.Formatters/Tables/TableStyle.css\"></link>"), "Style error");
+            Assert.AreEqual(true, _source.Contains("<link type=\"text/css\" rel=\"stylesheet\" href=\"GetFile.aspx?File=/Keeper.Garrett.Formatters/Tables/TableStyle.css\"></link>"), "Style error");
         }
 
         private static void VerifyTableGeneric(string _source, string _style)

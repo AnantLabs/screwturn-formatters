@@ -290,7 +290,7 @@ There are 2 theme based styles and 11 predefined styles which are bundled with a
         private static Dictionary<string,string> GetStyleDictionary(string _style)
         {
             var retval = new Dictionary<string, string>()   {
-                                                                {"link", ""},
+                                                                {"link", "<link type=\"text/css\" rel=\"stylesheet\" href=\"GetFile.aspx?File=/Keeper.Garrett.Formatters/Tables/TableStyle.css\"></link>"},
                                                                 {"table", ""},
                                                                 {"col-odd", "class=\"col-odd\""},
                                                                 {"col-even", "class=\"col-even\""},
@@ -309,7 +309,6 @@ There are 2 theme based styles and 11 predefined styles which are bundled with a
             {
                 if (_style.ToLower() == "generic")
                 {
-                    retval["link"] = "";
                     retval["table"] = "id=\"generic\"";
 
                     retval["col-odd"] = "";
@@ -330,12 +329,12 @@ There are 2 theme based styles and 11 predefined styles which are bundled with a
                 }
                 else //All others
                 {
-                    retval["link"] = "<link type=\"text/css\" rel=\"stylesheet\" href=\"GetFile.aspx?File=/Keeper.Garrett.Formatters/Tables/TableStyle.css\"></link>";
                     retval["table"] = string.Format("id=\"{0}\"", _style);
                 }
             }
             else// Default style
             {
+                retval["link"] = "";
                 retval["table"] = "id=\"default\"";
             }
 

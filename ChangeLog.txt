@@ -1,3 +1,7 @@
+[Version 1.2.0.4 - June 2 - 2010]
+Bug fixes:
+	Table Styles - Generic wiki theme style now uses the TableStyle.css correctly.
+
 [Version 1.2.0.3 - June 1 - 2010]
 New Features
 	Table styles - Generic wiki theme style is now supported
