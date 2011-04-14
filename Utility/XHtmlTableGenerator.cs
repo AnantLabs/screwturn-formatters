@@ -18,7 +18,7 @@ namespace Keeper.Garrett.ScrewTurn.Utility
             Keywords = new string[] { "Keeper", "Garrett", "Table", "Style", "Help", "Usage" },
             Title = "Keeper Garrett Table Styles",
             Content = @"=='''Table Styles'''==
-This page describes the usage of tables and their syntax when working with the [http://keeper.endoftheinternet.org|Keeper Garrett Formatters].{BR}
+This page describes the usage of tables and their syntax when working with the [https://code.google.com/p/screwturn-formatters/|Keeper Garrett Formatters].{BR}
 {TOC}
 {BR}
 === Support By ===

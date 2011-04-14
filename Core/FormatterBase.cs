@@ -15,8 +15,8 @@ namespace Keeper.Garrett.ScrewTurn.Core
         protected IHostV30 m_Host;
         protected string m_Config;
 
-        private readonly string m_UpdateUrl = "http://keeper.endoftheinternet.org/GetFile.aspx?File=%2fScrewTurn%20-%20Formatters%20-%20Releases%2fScrewTurn%203.0.2.509%2fUpdates%2f{0}.txt&AsStreamAttachment=1&Provider=ScrewTurn.Wiki.FilesStorageProvider&NoHit=1";
-        private readonly string m_SiteUrl = "http://keeper.endoftheinternet.org/";
+        private readonly string m_UpdateUrl = "https://code.google.com/p/screwturn-formatters/";//"http://keeper.endoftheinternet.org/GetFile.aspx?File=%2fScrewTurn%20-%20Formatters%20-%20Releases%2fScrewTurn%203.0.2.509%2fUpdates%2f{0}.txt&AsStreamAttachment=1&Provider=ScrewTurn.Wiki.FilesStorageProvider&NoHit=1";
+        private readonly string m_SiteUrl = "https://code.google.com/p/screwturn-formatters/";//"http://keeper.endoftheinternet.org/";
 
         public string Configuration { get { return m_Config; } }
 
@@ -64,7 +64,7 @@ namespace Keeper.Garrett.ScrewTurn.Core
 
         public virtual ComponentInformation Information
         {
-            get { return new ComponentInformation(this.GetType().Name, "Christian Hollerup Mikkelsen", string.Format("{0}", this.GetType().Assembly.GetName().Version), m_SiteUrl, string.Format(m_UpdateUrl,this.GetType().Name)); }
+            get { return new ComponentInformation(this.GetType().Name, "Christian Hollerup Mikkelsen", string.Format("{0}", this.GetType().Assembly.GetName().Version), m_SiteUrl, null /*string.Format(m_UpdateUrl,this.GetType().Name)*/); }
         }
 
         public virtual void Init(IHostV30 host, string config)
