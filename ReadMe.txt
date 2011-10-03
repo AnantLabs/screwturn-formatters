@@ -28,7 +28,7 @@ Installation
 -------------------------------------------
 All formatters are installed using the Administration interface.
 
-     
+         
 
 Upgrading from previous version
 -------------------------------------------
