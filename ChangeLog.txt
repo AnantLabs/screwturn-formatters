@@ -1,5 +1,5 @@
 [Version 1.2.1.10 - April 14 - 2011]
-Bug fixes:
+Bug fixes: 
 	Renamed all url's to point at the new Google Code project https://code.google.com/p/screwturn-formatters/.
 Reduction:
 	Disabled auto update, since there's are issues automating the *.dll download. Instead one must now go to the Google Code site and download the entire package.
