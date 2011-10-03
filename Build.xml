@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets"/>
+
+  <PropertyGroup>
+    <!-- Build -->
+    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+  </PropertyGroup>
+
+  <!-- Assign Assembly version numbers -->
+  <!--###########################################################################################################################################################-->
+  <Target Name="Version" BeforeTargets="Build">
+
+    <PropertyGroup>
+      <!-- Assembly Version -->
+      <AssemblyVersion>$(BUILD_NUMBER)</AssemblyVersion>
+    </PropertyGroup>
+    
+    <Message Text="#--------- Updating Versions to $(AssemblyVersion) ---------#" />
+    <ItemGroup>
+      <AssemblyInfoFiles Include="**/Properties/**/AssemblyInfo.cs;" />
+    </ItemGroup>
+
+    <FileUpdate Files="@(AssemblyInfoFiles)" Regex='AssemblyVersion\(".*"\)\]' ReplacementText='AssemblyVersion("$(AssemblyVersion)")]'></FileUpdate>
+    <FileUpdate Files="@(AssemblyInfoFiles)" Regex='AssemblyFileVersion\(".*"\)\]' ReplacementText='AssemblyFileVersion("$(AssemblyVersion)")]'></FileUpdate>
+  </Target>
+  
+  <!-- The actual build -->
+  <!--###########################################################################################################################################################-->
+  <Target Name="Build" AfterTargets="Version">
+    <Message Text="#--------- Building ---------#" />
+    <MSBuild Projects="ScrewTurn.sln" Targets="Rebuild" Properties="Configuration=$(Configuration)" />
+  </Target>
+</Project>

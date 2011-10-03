@@ -1,0 +1,76 @@
+[Version 1.2.1.10 - April 14 - 2011]
+Bug fixes: 
+	Renamed all url's to point at the new Google Code project https://code.google.com/p/screwturn-formatters/.
+Reduction:
+	Disabled auto update, since there's are issues automating the *.dll download. Instead one must now go to the Google Code site and download the entire package.
+
+[Version 1.2.0.4 - June 2 - 2010]
+Bug fixes:
+	Table Styles - Generic wiki theme style now uses the TableStyle.css correctly.
+
+[Version 1.2.0.3 - June 1 - 2010]
+New Features
+	Table styles - Generic wiki theme style is now supported
+Bug fixes:
+	CategoryListFormatter - Referencing NS from NS would reference root, this has been fixed.
+
+[Version 1.2.0.2 - May 28 - 2010]
+	TablesStyles.css - tables now use 90% of avaliable width by default instead of the 480px they used before and 5% of margin indent left and right
+
+[Version 1.2.0.1 - May 28 - 2010]
+Bug fixes:
+	TablesStyles.css had by mistake a body element, this has been removed
+	FileListFormatter test page have been fixed.
+	
+[Version 1.2.0.0 - May 27 - 2010]
+New Features:
+	MessageFormatter added - Inspired by the Admontion plugin by boxstart: http://www.screwturn.eu/forum/viewtopic.php?f=23&t=7804&sid=95ff256e9f5cf871821638e8f512e164
+	CategoryListFormatter - Added Namespace support
+	BlogFormatter - Added Namespace support
+	Added Update url to formatters.
+Bug fix:
+	CategoryListFormatter - Minor reference fixed 
+	All table are no encapsulated in <nobr></nobr> to avoid to much white space.
+
+
+[Version 1.1.0.1 - May 20 - 2010]
+Bug fix:
+	CategoryList formatter would fail to retreiving the creator of page which was at rev 0. This has been fixed.
+
+[Version 1.1.0.0 - May 18 - 2010]
+New Formatters:
+	FileContentFormatter added. Supports display of html and raw txt files only inside a page, ex. display a coverage report!
+
+New Features:
+	All formatters now use arguments in their syntax, and the syntax can be in random order and random count
+	All formatters now store thier files in the default filestorage provider (images, css, etc)
+	Help pages are now automatically updated when new versions are installed. Version no. check.
+	Complete rewrite of table display:
+		Tables are now XHTML compliant (I hope :))
+		Everything is now CSS and easily customizable.
+		11 predefined styles are included for all formatters, to encourage the use of customization
+	CategoryListFormatter:
+		Added all avaliable page info / page content info fields:
+			"comment", "content", "summary", "keywords", "lastmodified", "linkedpages", "createtime", "pagename", "user", "creator"
+		
+Bug fixes:
+	FileListFormatter:
+				Default provider now works when specifiyng '' or ,, , BUT the default provider is now always the LAST active provider detected, 
+				which in most cases will be SQL provider due to the alphabetic order (Local Files, MySql Provider, Oracle Provider, SQL Provider)
+	EventLogFormatter:
+				Test page has been cut down to 1 simple example as running many examples where to heavy on the server, could kill it.
+				NOTE: EventLogFormatter should always be used with causion as the EventLog system is very slow when scanning.
+
+Other:
+	Major refactoring and reordering of projects, unittests, coverage, etc.
+	Major rewrite of Help pages and test pages
+
+
+[Version 1.0.1.0 - May 2 - 2010]
+Initial release of formatters.
+Included:
+	BlogFormatter
+	CategoryFormatter
+	EventLogFormatter
+	FileListFormatter
+	QueryTableFormatter 

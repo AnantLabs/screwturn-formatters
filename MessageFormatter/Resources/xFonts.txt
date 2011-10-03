@@ -1,0 +1,6 @@
+Question: Arial 16, Bold, Smooth
+Cross: Verdana 14, Bold, Smooth
+
+Copied:
+	Information
+	Exclamation

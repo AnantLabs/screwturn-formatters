@@ -1,0 +1,806 @@
+/* ------------------
+ styling for the tables 
+   ------------------   */
+
+
+/*Uncomment this section 'generic' if you do not want you table to match the wiki AllPages style*/
+#generic 
+{
+    margin: 0px;
+    border-spacing: 0;
+    padding: 0;
+}
+
+/*********************************/
+#hor-minimalist-a td.heading
+{
+	font-size: 16px;
+    color: #000000;
+	background: #ffffff;
+	text-align: left;
+}
+
+#hor-minimalist-a
+{
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+	font-size: 12px;
+	background: #fff;
+	margin-left: 5%;
+	margin-right: 5%;
+	width: 90%;
+	border-collapse: collapse;
+	text-align: left;
+}
+#hor-minimalist-a th
+{
+    background-color: transparent;
+	font-size: 14px;
+	font-weight: normal;
+	color: #759f29; 
+	padding: 10px 8px;
+	border-bottom: 2px solid #000000;
+}
+#hor-minimalist-a td
+{
+	color: #669;
+	padding: 9px 8px 0px 8px;
+}
+#hor-minimalist-a tbody tr:hover td
+{
+    background-color: #f4ffd6;
+	color: #000;
+}
+
+#hor-minimalist-a td.first-foot 
+{
+	color: #D79B00;
+	font-style: italic;
+}
+
+#hor-minimalist-a td.standard-foot 
+{
+	color: #D79B00;
+	font-style: italic;
+}
+
+#hor-minimalist-a td.last-foot 
+{
+	color: #D79B00;
+	font-style: italic;
+}
+
+/*********************************/
+
+
+#hor-minimalist-b td.heading
+{
+	font-size: 16px;
+    color: #000000;
+	background: #ffffff;
+	text-align: left;
+    border: 0;
+}
+
+#hor-minimalist-b
+{
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+	font-size: 12px;
+	background: #fff;
+	margin-left: 5%;
+	margin-right: 5%;
+	width: 90%;
+	border-collapse: collapse;
+	text-align: left;
+}
+#hor-minimalist-b th
+{
+    background-color: transparent;
+	font-size: 14px;
+	font-weight: normal;
+	color: #759f29;
+	padding: 10px 8px;
+	border-bottom: 2px solid #000000;
+}
+#hor-minimalist-b td
+{
+	border-bottom: 1px solid #ccc;
+	color: #669;
+	padding: 6px 8px;
+}
+#hor-minimalist-b tbody tr:hover td
+{
+    background-color: #f4ffd6;
+	color: #000;
+}
+
+#hor-minimalist-b td.first-foot 
+{
+	color: #D79B00;
+	font-style: italic;
+}
+
+#hor-minimalist-b td.standard-foot 
+{
+	color: #D79B00;
+	font-style: italic;
+}
+
+#hor-minimalist-b td.last-foot 
+{
+	color: #D79B00;
+	font-style: italic;
+}
+
+/*********************************/
+
+
+#ver-minimalist td.heading
+{
+	font-size: 16px;
+    color: #000000;
+	background: #ffffff;
+	text-align: left;
+    border: 0;
+}
+
+#ver-minimalist
+{
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+	font-size: 12px;
+	margin-left: 5%;
+	margin-right: 5%;
+	width: 90%;
+	text-align: left;
+	border-collapse: collapse;
+}
+#ver-minimalist th
+{
+    background-color: transparent;
+	padding: 8px 2px;
+	font-weight: normal;
+	font-size: 14px;
+	border-bottom: 2px solid #000000;
+	border-right: 30px solid #fff;
+	border-left: 30px solid #fff;
+	color: #759f29;
+}
+#ver-minimalist td
+{
+	padding: 12px 2px 0px 2px;
+	border-right: 30px solid #fff;
+	border-left: 30px solid #fff;
+	color: #669;
+}
+#ver-minimalist tbody tr:hover td
+{
+    background-color: #f4ffd6;
+	color: #000;
+}
+
+#ver-minimalist td.first-foot 
+{
+	color: #D79B00;
+	font-style: italic;
+}
+
+#ver-minimalist td.standard-foot 
+{
+	color: #D79B00;
+	font-style: italic;
+}
+
+#ver-minimalist td.last-foot 
+{
+	color: #D79B00;
+	font-style: italic;
+}
+/*********************************/
+
+#box-table-a td.heading
+{
+	font-size: 16px;
+    color: #000000;
+    text-align: left;
+    border: 0;
+    background: #ffffff;
+}
+
+#box-table-a
+{
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+	font-size: 12px;
+	margin-left: 5%;
+	margin-right: 5%;
+	width: 90%;
+	text-align: left;
+	border-collapse: collapse;
+}
+#box-table-a th
+{
+	font-size: 14px;
+	font-weight: normal;
+	padding: 8px;
+	background: #86be36;/*b9c9fe;*/
+	border-top: 4px solid #000000;
+	border-bottom: 1px solid #fff;
+	color: #ffffff;/*039;*/
+}
+#box-table-a td
+{
+	padding: 8px;
+	background: #f4ffd6;/*e8edff; */
+	border-bottom: 1px solid #000;
+	color: #669;
+	border-top: 1px solid transparent;
+}
+#box-table-a tbody tr:hover td
+{
+	background: #e8edff;
+	color: #000000;
+}
+
+#box-table-a td.first-foot 
+{
+	color: #000000;
+	font-style: italic;
+	border: 0;
+}
+
+#box-table-a td.standard-foot 
+{
+	color: #000000;
+	font-style: italic;
+	border: 0;
+}
+
+#box-table-a td.last-foot 
+{
+	color: #000000;
+	font-style: italic;
+	border: 0;
+}
+
+/*********************************/
+
+#box-table-b td.heading
+{
+	font-size: 16px;
+    color: #000000;
+    text-align: center;
+    border: 0;
+    background: #ffffff;
+}
+
+#box-table-b
+{
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+	font-size: 12px;
+	margin-left: 5%;
+	margin-right: 5%;
+	width: 90%;
+	text-align: center;
+	border-collapse: collapse;
+	border-bottom: 7px solid #000000;
+}
+#box-table-b th
+{
+	font-size: 14px;
+	font-weight: normal;
+	padding: 8px;
+	background: #86be36;
+	border-top: 7px solid #000000;
+	border-right: 1px solid #000000;
+	border-left: 1px solid #000000;
+	color: #ffffff;
+}
+#box-table-b td
+{
+	padding: 8px;
+	background: #f4ffd6; 
+	border-right: 1px solid #000000;
+	border-left: 1px solid #000000;
+	color: #669;
+}
+
+#box-table-b tbody tr:hover td
+{
+	background: #e8edff;
+	color: #000000;
+}
+
+#box-table-b td.first-foot 
+{
+	color: #000000;
+	font-style: italic;
+	text-align: left;
+	border: 0;
+	border-top:  1px solid #000000;
+	border-left: 1px solid #000000;
+}
+
+#box-table-b td.standard-foot 
+{
+	color: #000000;
+	font-style: italic;
+	text-align: left;
+	border: 0;
+	border-top:  1px solid #000000;
+	border-right: 1px solid #000000;
+	border-left: 1px solid #000000;
+}
+
+#box-table-b td.last-foot 
+{
+	color: #000000;
+	font-style: italic;
+	text-align: left;
+	border: 0;
+	border-top:  1px solid #000000;
+	border-right: 1px solid #000000;
+}
+
+/*********************************/
+
+
+#hor-zebra td.heading
+{
+	font-size: 16px;
+    color: #86be36;
+	background: #ffffff;
+	text-align: left;
+    border: 0;
+}
+
+#hor-zebra
+{
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+	font-size: 12px;
+	margin-left: 5%;
+	margin-right: 5%;
+	width: 90%;
+	text-align: left;
+	border-collapse: collapse;
+}
+#hor-zebra th
+{
+    background-color: transparent;
+	font-size: 14px;
+	font-weight: normal;
+	padding: 10px 8px;
+	color: #000000;
+}
+#hor-zebra td
+{
+	padding: 8px;
+	color: #669;
+}
+#hor-zebra .row-odd
+{
+	background: #f4ffd6; 
+}
+
+#hor-zebra .row-even
+{
+	background: #ffffff; 
+}
+
+#hor-zebra tbody tr:hover td
+{
+	background: #e8edff;
+	color: #000000;
+}
+
+#hor-zebra td.first-foot 
+{
+	color: #D79B00;
+	font-style: italic;
+}
+
+#hor-zebra td.standard-foot 
+{
+	color: #D79B00;
+	font-style: italic;
+}
+
+#hor-zebra td.last-foot 
+{
+	color: #D79B00;
+	font-style: italic;
+}
+
+/*********************************/
+
+#ver-zebra-a td.heading
+{
+	font-size: 16px;
+    color: #86be36;
+	background: #ffffff;
+	text-align: left;
+    border: 0;
+    background-color: #ffffff;
+}
+
+#ver-zebra-a
+{
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+	font-size: 12px;
+	margin-left: 5%;
+	margin-right: 5%;
+	width: 90%;
+	text-align: left;
+	border-collapse: collapse;
+}
+#ver-zebra-a th
+{
+    background-color: transparent;
+	font-size: 14px;
+	font-weight: normal;
+	padding: 12px 15px;
+	border-right: 1px solid #fff;
+	border-left: 1px solid #fff;
+	border-bottom: 1px solid #000000;
+	color: #000000;
+}
+#ver-zebra-a td
+{
+	padding: 8px 15px;
+	border-right: 1px solid #fff;
+	border-left: 1px solid #fff;
+	color: #669;
+}
+#ver-zebra-a .col-odd
+{
+	background: #f4ffd6;
+}
+#ver-zebra-a .col-even
+{
+	background: #ffffff;
+}
+#ver-zebra-a #vzebra-adventure, #ver-zebra #vzebra-children
+{
+	background: #d0dafd;
+	border-bottom: 1px solid #c8d4fd;
+}
+#ver-zebra-a #vzebra-comedy, #ver-zebra #vzebra-action
+{
+	background: #dce4ff;
+	border-bottom: 1px solid #d6dfff;
+}
+
+#ver-zebra-a tbody tr:hover td
+{
+	background: #e8edff;
+	color: #111111;
+}
+
+#ver-zebra-a td.first-foot 
+{
+    background-color: #ffffff;
+	color: #D79B00;
+	font-style: italic;
+	text-align: left;
+	border: 0;
+	border-top:  1px solid #ffffff;
+}
+
+#ver-zebra-a td.standard-foot 
+{
+    background-color: #ffffff;
+	color: #D79B00;
+	font-style: italic;
+	text-align: left;
+	border: 0;
+	border-top:  1px solid #ffffff;
+}
+
+#ver-zebra-a td.last-foot 
+{
+    background-color: #ffffff;
+	color: #D79B00;
+	font-style: italic;
+	text-align: left;
+	border: 0;
+	border-top:  1px solid #ffffff;
+}
+
+/*********************************/
+
+#ver-zebra-b td.heading
+{
+	font-size: 16px;
+    color: #86be36;
+    text-align: left;
+    border: 0;
+    background-color: #ffffff;
+}
+
+#ver-zebra-b
+{
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+	font-size: 12px;
+	margin-left: 5%;
+	margin-right: 5%;
+	width: 90%;
+	text-align: left;
+	border-collapse: collapse;
+}
+#ver-zebra-b th
+{
+	font-size: 14px;
+	font-weight: normal;
+	padding: 12px 15px;
+	border-right: 1px solid #fff;
+	border-left: 1px solid #fff;
+	border-bottom: 1px solid #000000;
+	color: #000000;
+    background-color: #ffffff;
+}
+#ver-zebra-b td
+{
+	padding: 8px 15px;
+	border-right: 1px solid #fff;
+	border-left: 1px solid #fff;
+	color: #669;
+}
+#ver-zebra-b .col-odd
+{
+	background: #f4ffd6;
+}
+#ver-zebra-b .col-even
+{
+	background: #ffffff;
+}
+#ver-zebra-b #vzebra-adventure, #ver-zebra #vzebra-children
+{
+	background: #d0dafd;
+	border-bottom: 1px solid #c8d4fd;
+}
+#ver-zebra-b #vzebra-comedy, #ver-zebra #vzebra-action
+{
+	background: #dce4ff;
+	border-bottom: 1px solid #d6dfff;
+}
+
+#ver-zebra-b tbody tr:hover td
+{
+	background: #e8edff;
+	color: #111111;
+}
+
+#ver-zebra-b td.first-foot 
+{
+    background-color: #ffffff;
+	color: #D79B00;
+	font-style: italic;
+	text-align: left;
+	border: 0;
+	border-top:  1px solid #ffffff;
+}
+
+#ver-zebra-b td.standard-foot 
+{
+    background-color: #ffffff;
+	color: #D79B00;
+	font-style: italic;
+	text-align: left;
+	border: 0;
+	border-top:  1px solid #ffffff;
+}
+
+#ver-zebra-b td.last-foot 
+{
+    background-color: #ffffff;
+	color: #D79B00;
+	font-style: italic;
+	text-align: left;
+	border: 0;
+	border-top:  1px solid #ffffff;
+}
+
+/*********************************/
+#rounded-corner td.heading
+{
+	font-size: 16px;
+    color: #000000;
+    text-align: left;
+    border: 0;
+    background-color: #ffffff;
+}
+
+#rounded-corner
+{
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+	font-size: 12px;
+	margin-left: 5%;
+	margin-right: 5%;
+	width: 90%;
+	text-align: left;
+	border-collapse: collapse;
+}
+#rounded-corner th.first-head
+{
+	background: #86be36 url('GetFile.aspx?File=/Keeper.Garrett.Formatters/Tables/Images/left.png') left -1px no-repeat;
+}
+#rounded-corner th.standard-head
+{
+	background-color: #86be36;
+}
+#rounded-corner th.last-head
+{
+	background: #86be36 url('GetFile.aspx?File=/Keeper.Garrett.Formatters/Tables/Images/right.png') right -1px no-repeat;
+}
+#rounded-corner th
+{
+	padding: 8px;
+	font-weight: normal;
+	font-size: 14px;
+	color: #ffffff;
+	background: #86be36;
+}
+#rounded-corner td
+{
+	padding: 8px;
+	background: #f4ffd6;
+	border-top: 1px solid #fff;
+	color: #669;
+}
+#rounded-corner td.first-foot
+{
+	background: #f4ffd6 url('GetFile.aspx?File=/Keeper.Garrett.Formatters/Tables/Images/botleft.png') left bottom no-repeat;
+	color: #000000;
+	font-style: italic;
+	text-align: left;
+}
+#rounded-corner td.standard-foot
+{
+	background-color: #f4ffd6;
+	color: #000000;
+	font-style: italic;
+	text-align: left;
+}
+#rounded-corner td.last-foot
+{
+	background: #f4ffd6 url('GetFile.aspx?File=/Keeper.Garrett.Formatters/Tables/Images/botright.png') right bottom no-repeat;
+	color: #000000;
+	font-style: italic;
+	text-align: left;
+}
+#rounded-corner tbody tr:hover td
+{
+    background: #e8edff;
+	color: #111111;
+/*	background: #d0dafd;*/
+}
+
+/*********************************/
+
+#background-image td.heading
+{
+	font-size: 16px;
+    color: #86be36;
+	background: #ffffff;
+	text-align: left;
+    border: 0;
+}
+
+#background-image
+{
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+	font-size: 12px;
+	margin-left: 5%;
+	margin-right: 5%;
+	width: 90%;
+	text-align: left;
+	border-collapse: collapse;
+	background: url('GetFile.aspx?File=/Keeper.Garrett.Formatters/Tables/Images/blurry.jpg') 330px 59px no-repeat;
+}
+#background-image th
+{
+	padding: 12px;
+	font-weight: normal;
+	font-size: 14px;
+	color: #000000;
+	background-color: transparent;
+}
+#background-image td
+{
+	padding: 9px 12px;
+	color: #669;
+	border-top: 1px solid #fff;
+}
+#background-image tfoot td
+{
+	font-size: 11px;
+}
+#background-image tbody td
+{
+	background: url('GetFile.aspx?File=/Keeper.Garrett.Formatters/Tables/Images/back.png');
+}
+* html #background-image tbody td
+{
+	/* 
+	   ----------------------------
+		PUT THIS ON IE6 ONLY STYLE 
+		AS THE RULE INVALIDATES
+		YOUR STYLESHEET
+	   ----------------------------
+	*/
+	filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='GetFile.aspx?File=/Keeper.Garrett.Formatters/Tables/Images/back.png',sizingMethod='crop');
+	background: none;
+}	
+#background-image tbody tr:hover td
+{
+	color: #000000;
+	background: none;
+}
+#background-image td.first-foot
+{
+	color: #000000;
+	font-style: italic;
+	text-align: left;
+}
+#background-image td.standard-foot
+{
+	color: #000000;
+	font-style: italic;
+	text-align: left;
+}
+#background-image td.last-foot
+{
+	color: #000000;
+	font-style: italic;
+	text-align: left;
+}
+/*********************************/
+
+#gradient-style td.heading
+{
+	font-size: 16px;
+    color: #86be36;
+    text-align: left;
+    border: 0;
+    background-image:none;
+    background-color: #ffffff;
+}
+
+#gradient-style
+{
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+	font-size: 12px;
+	margin-left: 5%;
+	margin-right: 5%;
+	width: 90%;
+	text-align: left;
+	border-collapse: collapse;
+}
+#gradient-style th
+{
+	font-size: 13px;
+	font-weight: normal;
+	padding: 8px;
+	background: #b9c9fe url('GetFile.aspx?File=/Keeper.Garrett.Formatters/Tables/Images/gradhead.png') repeat-x;
+	border-top: 2px solid #d3ddff;
+	border-bottom: 1px solid #fff;
+	color: #000000;
+}
+#gradient-style td
+{
+	padding: 8px; 
+	border-bottom: 1px solid #fff;
+	color: #669;
+	border-top: 1px solid #fff;
+	background: #e8edff url('GetFile.aspx?File=/Keeper.Garrett.Formatters/Tables/Images/gradback.png') repeat-x;
+}
+#gradient-style tfoot tr td
+{
+	background: #e8edff;
+	font-size: 12px;
+	color: #99c;
+}
+#gradient-style tbody tr:hover td
+{
+	background: #d0dafd url('GetFile.aspx?File=/Keeper.Garrett.Formatters/Tables/Images/gradhover.png') repeat-x;
+	color: #000000;
+}
+
+/*********************************/

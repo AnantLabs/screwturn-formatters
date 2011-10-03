@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D71FF96F-DD41-489E-81C3-0A6A12544C60}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Keeper.Garrett.ScrewTurn.MessageFormatter</RootNamespace>
+    <AssemblyName>Keeper.Garrett.ScrewTurn.MessageFormatter</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ScrewTurn.Wiki.PluginFramework">
+      <HintPath>..\Common\ScrewTurn 3.0.2.509\ScrewTurn.Wiki.PluginFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\core\FormatterBase.cs">
+      <Link>Shared\FormatterBase.cs</Link>
+    </Compile>
+    <Compile Include="..\core\NoCoverage.cs">
+      <Link>Shared\NoCoverage.cs</Link>
+    </Compile>
+    <Compile Include="..\core\Page.cs">
+      <Link>Shared\Page.cs</Link>
+    </Compile>
+    <Compile Include="..\utility\ArgumentParser.cs">
+      <Link>Shared\ArgumentParser.cs</Link>
+    </Compile>
+    <Compile Include="..\Utility\FilePersister.cs">
+      <Link>Shared\FilePersister.cs</Link>
+    </Compile>
+    <Compile Include="MessageFormatter.cs" />
+    <Compile Include="Help.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\MessageStyle.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Images\Medium\add_blue.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\add_green.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\add_grey.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\add_lightblue.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\add_red.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\add_yellow.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\delete_blue.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\delete_green.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\delete_grey.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\delete_lightblue.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\delete_red.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\delete_yellow.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\empty_blue.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\empty_green.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\empty_grey.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\empty_lightblue.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\empty_red.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\empty_yellow.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\error_blue.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\error_green.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\error_grey.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\error_lightblue.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\error_red.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\error_yellow.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\exclamation_blue.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\exclamation_green.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\exclamation_grey.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\exclamation_lightblue.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\exclamation_red.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\exclamation_yellow.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\information_blue.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\information_green.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\information_grey.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\information_lightblue.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\information_red.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\information_yellow.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\left_blue.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\left_green.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\left_grey.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\left_lightblue.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\left_red.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\left_yellow.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\question_blue.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\question_green.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\question_grey.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\question_lightblue.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\question_red.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\question_yellow.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\right_blue.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\right_green.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\right_grey.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\right_lightblue.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\right_red.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\right_yellow.png" />
+    <EmbeddedResource Include="Resources\Images\Medium\warning.png" />
+    <EmbeddedResource Include="Resources\Images\Large\add_blue.png" />
+    <EmbeddedResource Include="Resources\Images\Large\add_green.png" />
+    <EmbeddedResource Include="Resources\Images\Large\add_grey.png" />
+    <EmbeddedResource Include="Resources\Images\Large\add_lightblue.png" />
+    <EmbeddedResource Include="Resources\Images\Large\add_red.png" />
+    <EmbeddedResource Include="Resources\Images\Large\add_yellow.png" />
+    <EmbeddedResource Include="Resources\Images\Large\delete_blue.png" />
+    <EmbeddedResource Include="Resources\Images\Large\delete_green.png" />
+    <EmbeddedResource Include="Resources\Images\Large\delete_grey.png" />
+    <EmbeddedResource Include="Resources\Images\Large\delete_lightblue.png" />
+    <EmbeddedResource Include="Resources\Images\Large\delete_red.png" />
+    <EmbeddedResource Include="Resources\Images\Large\delete_yellow.png" />
+    <EmbeddedResource Include="Resources\Images\Large\empty_blue.png" />
+    <EmbeddedResource Include="Resources\Images\Large\empty_green.png" />
+    <EmbeddedResource Include="Resources\Images\Large\empty_grey.png" />
+    <EmbeddedResource Include="Resources\Images\Large\empty_lightblue.png" />
+    <EmbeddedResource Include="Resources\Images\Large\empty_red.png" />
+    <EmbeddedResource Include="Resources\Images\Large\empty_yellow.png" />
+    <EmbeddedResource Include="Resources\Images\Large\error_blue.png" />
+    <EmbeddedResource Include="Resources\Images\Large\error_green.png" />
+    <EmbeddedResource Include="Resources\Images\Large\error_grey.png" />
+    <EmbeddedResource Include="Resources\Images\Large\error_lightblue.png" />
+    <EmbeddedResource Include="Resources\Images\Large\error_red.png" />
+    <EmbeddedResource Include="Resources\Images\Large\error_yellow.png" />
+    <EmbeddedResource Include="Resources\Images\Large\exclamation_blue.png" />
+    <EmbeddedResource Include="Resources\Images\Large\exclamation_green.png" />
+    <EmbeddedResource Include="Resources\Images\Large\exclamation_grey.png" />
+    <EmbeddedResource Include="Resources\Images\Large\exclamation_lightblue.png" />
+    <EmbeddedResource Include="Resources\Images\Large\exclamation_red.png" />
+    <EmbeddedResource Include="Resources\Images\Large\exclamation_yellow.png" />
+    <EmbeddedResource Include="Resources\Images\Large\information_blue.png" />
+    <EmbeddedResource Include="Resources\Images\Large\information_green.png" />
+    <EmbeddedResource Include="Resources\Images\Large\information_grey.png" />
+    <EmbeddedResource Include="Resources\Images\Large\information_lightblue.png" />
+    <EmbeddedResource Include="Resources\Images\Large\information_red.png" />
+    <EmbeddedResource Include="Resources\Images\Large\information_yellow.png" />
+    <EmbeddedResource Include="Resources\Images\Large\left_blue.png" />
+    <EmbeddedResource Include="Resources\Images\Large\left_green.png" />
+    <EmbeddedResource Include="Resources\Images\Large\left_grey.png" />
+    <EmbeddedResource Include="Resources\Images\Large\left_lightblue.png" />
+    <EmbeddedResource Include="Resources\Images\Large\left_red.png" />
+    <EmbeddedResource Include="Resources\Images\Large\left_yellow.png" />
+    <EmbeddedResource Include="Resources\Images\Large\question_blue.png" />
+    <EmbeddedResource Include="Resources\Images\Large\question_green.png" />
+    <EmbeddedResource Include="Resources\Images\Large\question_grey.png" />
+    <EmbeddedResource Include="Resources\Images\Large\question_lightblue.png" />
+    <EmbeddedResource Include="Resources\Images\Large\question_red.png" />
+    <EmbeddedResource Include="Resources\Images\Large\question_yellow.png" />
+    <EmbeddedResource Include="Resources\Images\Large\right_blue.png" />
+    <EmbeddedResource Include="Resources\Images\Large\right_green.png" />
+    <EmbeddedResource Include="Resources\Images\Large\right_grey.png" />
+    <EmbeddedResource Include="Resources\Images\Large\right_lightblue.png" />
+    <EmbeddedResource Include="Resources\Images\Large\right_red.png" />
+    <EmbeddedResource Include="Resources\Images\Large\right_yellow.png" />
+    <EmbeddedResource Include="Resources\Images\Large\warning.png" />
+    <Content Include="Resources\xFonts.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

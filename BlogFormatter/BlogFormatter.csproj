@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1B80E0E9-EBC8-4705-8C66-98D08BCD1095}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Keeper.Garrett.ScrewTurn.BlogFormatter</RootNamespace>
+    <AssemblyName>Keeper.Garrett.ScrewTurn.BlogFormatter</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ScrewTurn.Wiki.Core">
+      <HintPath>..\Common\ScrewTurn 3.0.2.509\ScrewTurn.Wiki.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="ScrewTurn.Wiki.PluginFramework, Version=3.0.2.500, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Common\ScrewTurn 3.0.2.509\ScrewTurn.Wiki.PluginFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Core\FormatterBase.cs">
+      <Link>Shared\FormatterBase.cs</Link>
+    </Compile>
+    <Compile Include="..\Core\NoCoverage.cs">
+      <Link>Shared\NoCoverage.cs</Link>
+    </Compile>
+    <Compile Include="..\Core\Page.cs">
+      <Link>Shared\Page.cs</Link>
+    </Compile>
+    <Compile Include="..\Utility\ArgumentParser.cs">
+      <Link>Shared\ArgumentParser.cs</Link>
+    </Compile>
+    <Compile Include="..\Utility\Avatar.cs">
+      <Link>Shared\Avatar.cs</Link>
+    </Compile>
+    <Compile Include="..\Utility\CategoryTools.cs">
+      <Link>Shared\CategoryTools.cs</Link>
+    </Compile>
+    <Compile Include="..\Utility\FilePersister.cs">
+      <Link>Shared\FilePersister.cs</Link>
+    </Compile>
+    <Compile Include="..\Utility\ReverseDateComparer.cs">
+      <Link>Shared\ReverseDateComparer.cs</Link>
+    </Compile>
+    <Compile Include="BlogFormatter.cs" />
+    <Compile Include="BlogPostInfo.cs" />
+    <Compile Include="Help.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Images\BlogPostBackground.jpg" />
+    <EmbeddedResource Include="Resources\Images\BlogPostComments.gif" />
+    <EmbeddedResource Include="Resources\Images\BlogPostReadMore.gif" />
+    <EmbeddedResource Include="Resources\BlogStyle.css" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
