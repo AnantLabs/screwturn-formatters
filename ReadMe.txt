@@ -23,7 +23,7 @@ Note: The formatters creates files in your default storage provider and creates 
 	  If you modify the the pages and later update the plugin, the page will be replaced, however your changes will be there historically.
 
 	     
-		   
+		        
 Installation
 -------------------------------------------
 All formatters are installed using the Administration interface.
